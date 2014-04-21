@@ -120,7 +120,7 @@ public class GameManager implements Screen, GestureListener{
 		Vector3 pos = new Vector3(x, y, 0.0f);
 		mCamera.unproject(pos);
 		Array<Collidable> objs = new Array<Collidable>();
-		mSceneManager.getCollisionDetector().detectCollision(pos.x, pos.y, objs);
+		mSceneManager.getCollisionDetector().detectCollision(new AxisAlignedBoundingBox(pos.x-0.1f, pos.y-0.1f, pos.x+0.1f, pos.y+0.1f), objs);
 		
 		for (int i = 0; i < objs.size; i++) {
 			((MapObject) objs.get(i)).setVisible(false);
