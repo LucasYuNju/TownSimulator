@@ -8,10 +8,10 @@ import com.townSimulator.utility.GameMath;
 import com.townSimulator.utility.Settings;
 
 public class BuildComsUI extends Group {
-	public 	static 	float							BUTTON_WIDTH  	= Settings.UNIT;
-	public 	static 	float							BUTTON_HEIGHT 	= Settings.UNIT;
-	public 	static 	float							BUTTON_TOP_PAD 	= Settings.UNIT * 0.2f;
-	private static 	float							BUTTONS_H_PAD 	= BUTTON_WIDTH * 0.1f;
+	public 	static 	float							BUTTON_WIDTH  			= Settings.UNIT;
+	public 	static 	float							BUTTON_HEIGHT 			= Settings.UNIT;
+	public 	static 	float							BUTTON_TOP_LABEL_PAD 	= Settings.UNIT * 0.2f;
+	public 	static 	float							BUTTONS_H_PAD 			= BUTTON_WIDTH * 0.1f;
 	private 		Array<BuildComsCategoryButton> 	mBuildButtonsList;
 	private 		BuildComsCategoryButton			mInitButton;
 	
@@ -37,6 +37,9 @@ public class BuildComsUI extends Group {
 		addActor(mInitButton);
 		
 		BuildComsCategoryButton buildHouse = new BuildComsCategoryButton("button_build_house", "House");
+		buildHouse.addBuild("button_build_house", "House0");
+		buildHouse.addBuild("button_build_house", "House2");
+		buildHouse.updateLayout();
 		buildHouse.setVisible(false);
 		mBuildButtonsList.add(buildHouse);
 		
