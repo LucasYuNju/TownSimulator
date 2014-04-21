@@ -1,6 +1,5 @@
 package com.townSimulator.utility;
 
-import com.townSimulator.game.AxisAlignedBoundingBox;
 
 public class GameMath {
 	public static float lerp(float v0, float v1, float x)

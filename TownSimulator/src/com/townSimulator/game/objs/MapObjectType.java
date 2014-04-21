@@ -1,4 +1,4 @@
-package com.townSimulator.game;
+package com.townSimulator.game.objs;
 
 public enum MapObjectType {
 	TREE

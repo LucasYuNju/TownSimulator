@@ -1,10 +1,14 @@
-package com.townSimulator.game;
+package com.townSimulator.game.scene;
 
 
 import java.util.Random;
 
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Rectangle;
+import com.townSimulator.game.objs.MapObject;
+import com.townSimulator.game.objs.MapObjectType;
+import com.townSimulator.game.render.GameDrawableContainer;
+import com.townSimulator.game.render.RenderBatch;
 import com.townSimulator.utility.ResourceManager;
 import com.townSimulator.utility.Settings;
 

@@ -1,4 +1,4 @@
-package com.townSimulator.game;
+package com.townSimulator.game.scene;
 
 
 import com.badlogic.gdx.Gdx;

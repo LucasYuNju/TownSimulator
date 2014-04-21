@@ -1,6 +1,7 @@
-package com.townSimulator.game;
+package com.townSimulator.game.scene;
 
 import com.badlogic.gdx.utils.Array;
+import com.townSimulator.utility.AxisAlignedBoundingBox;
 
 public class CollisionDetector {
 	private AxisAlignedBoundingBox	mWorldAABB;

@@ -1,4 +1,4 @@
-package com.townSimulator.game;
+package com.townSimulator.utility;
 
 public class AxisAlignedBoundingBox {
 	public float minX;

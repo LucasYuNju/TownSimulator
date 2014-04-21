@@ -1,7 +1,8 @@
-package com.townSimulator.game;
+package com.townSimulator.game.render;
 
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.townSimulator.game.objs.GameObjects;
 
 public class GameDrawableObject extends GameObjects implements GameDrawable{
 	private Sprite 	mSprite;

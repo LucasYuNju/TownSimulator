@@ -1,4 +1,4 @@
-package com.townSimulator.game;
+package com.townSimulator.game.render;
 
 import com.badlogic.gdx.math.Rectangle;
 

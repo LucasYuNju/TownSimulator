@@ -10,7 +10,14 @@ import com.badlogic.gdx.input.GestureDetector.GestureListener;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
+import com.townSimulator.game.objs.BuildingType;
+import com.townSimulator.game.objs.MapObject;
+import com.townSimulator.game.render.GameRenderManager;
+import com.townSimulator.game.scene.CameraController;
+import com.townSimulator.game.scene.Collidable;
+import com.townSimulator.game.scene.SceneManager;
 import com.townSimulator.ui.UIManager;
+import com.townSimulator.utility.AxisAlignedBoundingBox;
 import com.townSimulator.utility.Settings;
 
 public class GameManager implements Screen, GestureListener{
@@ -44,7 +51,7 @@ public class GameManager implements Screen, GestureListener{
 		mGestureDetector = new GestureDetector(this);
 	}
 	
-	public void newBuilding(Building building)
+	public void newBuilding(BuildingType building)
 	{
 		
 	}

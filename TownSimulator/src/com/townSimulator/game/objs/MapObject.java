@@ -1,7 +1,10 @@
-package com.townSimulator.game;
+package com.townSimulator.game.objs;
 
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.townSimulator.game.render.GameDrawableObject;
+import com.townSimulator.game.scene.Collidable;
+import com.townSimulator.utility.AxisAlignedBoundingBox;
 import com.townSimulator.utility.ResourceManager;
 
 public class MapObject extends GameDrawableObject implements Collidable{
