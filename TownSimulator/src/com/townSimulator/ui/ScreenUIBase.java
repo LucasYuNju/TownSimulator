@@ -7,6 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.townSimulator.utility.ResourceManager;
+import com.townSimulator.utility.Settings;
 
 public class ScreenUIBase implements InputProcessor{
 	protected final boolean 	SHOW_FPS = true;
@@ -19,7 +20,7 @@ public class ScreenUIBase implements InputProcessor{
 		if( SHOW_FPS )
 		{
 			LabelStyle labelStyle = new LabelStyle();
-			labelStyle.font = ResourceManager.getFont(13);
+			labelStyle.font = ResourceManager.getFont( (int)(Settings.UNIT * 0.25f) );
 			labelStyle.fontColor = Color.YELLOW;
 			mFpsLabel = new Label("FPS", labelStyle);
 			mFpsLabel.setPosition(0, Gdx.graphics.getHeight() - mFpsLabel.getHeight());

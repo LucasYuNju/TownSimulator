@@ -12,12 +12,16 @@ public class BuildComsButton extends BuildComsButtonBase{
 		//mLabelText = labelText;
 		addListener(new InputListener()
 		{
-
 			@Override
 			public boolean touchDown(InputEvent event, float x, float y,
 					int pointer, int button) {
 				event.cancel();
 				return true;
+			}
+
+			@Override
+			public void touchUp(InputEvent event, float x, float y,
+					int pointer, int button) {
 			}
 			
 		});

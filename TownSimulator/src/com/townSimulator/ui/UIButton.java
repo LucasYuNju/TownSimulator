@@ -8,6 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.townSimulator.utility.ResourceManager;
+import com.townSimulator.utility.Settings;
 
 public class UIButton extends Button{
 	private Label 		mTextLabel;
@@ -63,7 +64,7 @@ public class UIButton extends Button{
 	private void initLable() 
 	{
 		LabelStyle labelStyle = new LabelStyle();
-		labelStyle.font = ResourceManager.getFont(13);
+		labelStyle.font = ResourceManager.getFont( (int)(Settings.UNIT * 0.25f) );
 		labelStyle.fontColor = Color.WHITE;
 		mTextLabel = new Label(mText, labelStyle);
 		mTextLabel.setSize(getWidth(), getHeight());

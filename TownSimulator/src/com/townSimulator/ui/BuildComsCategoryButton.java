@@ -13,12 +13,17 @@ public class BuildComsCategoryButton extends BuildComsButtonBase{
 		mButtonsGroup.setVisible(false);
 		addListener(new InputListener()
 		{
-
 			@Override
 			public boolean touchDown(InputEvent event, float x, float y,
 					int pointer, int button) {
-				mButtonsGroup.setVisible(!mButtonsGroup.isVisible());
+				//mButtonsGroup.setVisible(!mButtonsGroup.isVisible());
 				return true;
+			}
+			
+			@Override
+			public void touchUp(InputEvent event, float x, float y,
+					int pointer, int button) {
+				mButtonsGroup.setVisible(!mButtonsGroup.isVisible());
 			}
 			
 		});

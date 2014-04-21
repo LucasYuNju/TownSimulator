@@ -19,9 +19,9 @@ public class BuildComsUI extends Group {
 	{
 		FOLD, UNFLODING, UNFLOD, FOLDING
 	}
-	private State					mCurState;
-	private float					mActionSpeed = 2.0f;
-	private float					mLerpParam = 0.0f;
+	private 		State							mCurState;
+	private 		float							mActionSpeed = 2.0f;
+	private 		float							mLerpParam = 0.0f;
 	
 	public BuildComsUI()
 	{
@@ -59,6 +59,12 @@ public class BuildComsUI extends Group {
 			@Override
 			public boolean touchDown(InputEvent event, float x, float y,
 					int pointer, int button) {
+				return true;
+			}
+
+			@Override
+			public void touchUp(InputEvent event, float x, float y,
+					int pointer, int button) {
 				if(mCurState == State.FOLD)
 				{
 					mCurState = State.UNFLODING;
@@ -68,10 +74,9 @@ public class BuildComsUI extends Group {
 				}
 				else if(mCurState == State.UNFLOD)
 					mCurState = State.FOLDING;
-				return true;
 			}
-			
 		});
+		
 	}
 	
 	@Override
@@ -115,33 +120,8 @@ public class BuildComsUI extends Group {
 			
 			if(mLerpParam == 0.0f)
 				mBuildButtonsList.get(i).setVisible(false);
-			
-			//System.out.println(startPosX + "  "+ finalPosX + "  ");
 		}
 	}
 
-
-//	static class BuildComsButton extends UIButton
-//	{
-//		private static TextureRegionDrawable mButtonUp   = new TextureRegionDrawable(ResourceManager.findTextureRegion("button_up"));
-//		private static TextureRegionDrawable mButtonDown = new TextureRegionDrawable(ResourceManager.findTextureRegion("button_down"));
-//		private TextureRegionDrawable mButtonImg;
-//		private static float ICON_PAD = BUTTON_WIDTH * 0.2f;
-//		
-//		public BuildComsButton(String textureName)
-//		{
-//			super(mButtonUp, mButtonDown, null);
-//			setSize(BUTTON_WIDTH, BUTTON_HEIGHT);
-//			mButtonImg = new TextureRegionDrawable( ResourceManager.findTextureRegion(textureName) );
-//		}
-//		
-//		@Override
-//		public void draw(SpriteBatch batch, float parentAlpha) {
-//			super.draw(batch, parentAlpha);
-//			mButtonImg.draw(batch, 	getX() + ICON_PAD, 				getY() + ICON_PAD,
-//									getWidth() - ICON_PAD * 2.0f, 	getHeight() - ICON_PAD * 2.0f);
-//		}
-//		
-//	}
 	
 }

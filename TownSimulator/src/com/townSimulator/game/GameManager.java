@@ -40,6 +40,11 @@ public class GameManager implements Screen, GestureListener{
 		mGestureDetector = new GestureDetector(this);
 	}
 	
+	public void newBuilding(Building building)
+	{
+		
+	}
+	
 	public InputProcessor getInputProcessor()
 	{
 		return mGestureDetector;
@@ -68,15 +73,6 @@ public class GameManager implements Screen, GestureListener{
 		mRenderMgr.renderBegin();
 		mRenderMgr.addDrawContainer(mMap);
 		mRenderMgr.renderEnd();
-//		mCamera.update();
-//		mSpriteBatch.setProjectionMatrix(mCamera.combined);
-//		mSpriteBatch.begin();
-//		Rectangle scissorRect = new Rectangle(
-//				mCamera.position.x - mCamera.viewportWidth*0.5f,
-//				mCamera.position.y - mCamera.viewportHeight*0.5f,
-//				mCamera.viewportWidth, mCamera.viewportHeight);
-//		mMap.draw(mSpriteBatch, scissorRect);
-//		mSpriteBatch.end();
 	}
 
 	@Override

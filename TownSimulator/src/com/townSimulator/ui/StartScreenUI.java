@@ -43,12 +43,22 @@ public class StartScreenUI extends ScreenUIBase {
 			@Override
 			public boolean touchDown(InputEvent event, float x, float y,
 					int pointer, int button) {
+//				if(mListner != null)
+//				{
+//					mListner.startGame();
+//					return true;
+//				}
+//				return false;
+				return true;
+			}
+			
+			@Override
+			public void touchUp(InputEvent event, float x, float y,
+					int pointer, int button) {
 				if(mListner != null)
 				{
 					mListner.startGame();
-					return true;
 				}
-				return false;
 			}
 			
 		});
@@ -90,64 +100,4 @@ public class StartScreenUI extends ScreenUIBase {
 		mListner = l;
 	}
 	
-//	public void update(float deltaTime)
-//	{
-//		mStage.act(deltaTime);
-//	}
-//	
-//	public void draw()
-//	{
-//		mStage.draw();
-//	}
-//
-//	public InputProcessor getInputProcessor()
-//	{
-//		return this;
-//	}
-//
-//	@Override
-//	public boolean keyDown(int keycode) {
-//		// TODO Auto-generated method stub
-//		return false;
-//	}
-//
-//	@Override
-//	public boolean keyUp(int keycode) {
-//		// TODO Auto-generated method stub
-//		return false;
-//	}
-//
-//	@Override
-//	public boolean keyTyped(char character) {
-//		// TODO Auto-generated method stub
-//		return false;
-//	}
-//
-//	@Override
-//	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-//		return mStage.touchDown(screenX, screenY, pointer, button);
-//	}
-//
-//	@Override
-//	public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-//		return mStage.touchUp(screenX, screenY, pointer, button);
-//	}
-//
-//	@Override
-//	public boolean touchDragged(int screenX, int screenY, int pointer) {
-//		// TODO Auto-generated method stub
-//		return false;
-//	}
-//
-//	@Override
-//	public boolean mouseMoved(int screenX, int screenY) {
-//		// TODO Auto-generated method stub
-//		return false;
-//	}
-//
-//	@Override
-//	public boolean scrolled(int amount) {
-//		// TODO Auto-generated method stub
-//		return false;
-//	}
 }
