@@ -1,14 +1,20 @@
 package com.townSimulator.game.render;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.townSimulator.game.objs.Drawable;
 import com.townSimulator.utility.AxisAlignedBoundingBox;
 
-public class GameRenderManager {
+/**
+ * 
+ * Annotate me!!!
+ *
+ */
+public class Renderer {
 	private OrthographicCamera 		mCamera;
 	private RenderBatch		   		mRenderBatch;
 	private AxisAlignedBoundingBox	mScissorAABB;
 	
-	public GameRenderManager(OrthographicCamera camera)
+	public Renderer(OrthographicCamera camera)
 	{
 		mCamera = camera;
 		mRenderBatch = new RenderBatch();
@@ -46,7 +52,7 @@ public class GameRenderManager {
 		mRenderBatch.doRender();
 	}
 	
-	public void draw(GameDrawable draw)
+	public void draw(Drawable draw)
 	{
 		mRenderBatch.addDrawable(draw);
 	}

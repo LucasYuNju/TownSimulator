@@ -5,22 +5,23 @@ import java.util.Comparator;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.utils.Array;
+import com.townSimulator.game.objs.Drawable;
 
 public class RenderBatch {
 	private Matrix4						mProjMatrix;
 	private SpriteBatch 				mSpriteBatch;
-	private Array<GameDrawable> 		mRenderList;
-	private Comparator<GameDrawable> 	mSortComparator;
+	private Array<Drawable> 		mRenderList;
+	private Comparator<Drawable> 	mSortComparator;
 	
 	public RenderBatch()
 	{
 		mProjMatrix = new Matrix4();
 		mSpriteBatch = new SpriteBatch();
-		mRenderList = new Array<GameDrawable>();
-		mSortComparator = new Comparator<GameDrawable>() {
+		mRenderList = new Array<Drawable>();
+		mSortComparator = new Comparator<Drawable>() {
 
 			@Override
-			public int compare(GameDrawable d0, GameDrawable d1) {
+			public int compare(Drawable d0, Drawable d1) {
 				if(d0.getDepth() == d1.getDepth())
 					return 0;
 				return d0.getDepth() > d1.getDepth() ? -1 : 1;
@@ -33,7 +34,7 @@ public class RenderBatch {
 		mProjMatrix = mat;
 	}
 	
-	public void addDrawable( GameDrawable draw )
+	public void addDrawable( Drawable draw )
 	{
 		mRenderList.add(draw);
 	}

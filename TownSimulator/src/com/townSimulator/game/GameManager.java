@@ -10,9 +10,8 @@ import com.badlogic.gdx.input.GestureDetector.GestureListener;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
-import com.townSimulator.game.objs.BuildingType;
 import com.townSimulator.game.objs.MapObject;
-import com.townSimulator.game.render.GameRenderManager;
+import com.townSimulator.game.render.Renderer;
 import com.townSimulator.game.scene.CameraController;
 import com.townSimulator.game.scene.QuadTreeManageble;
 import com.townSimulator.game.scene.SceneManager;
@@ -25,7 +24,7 @@ public class GameManager implements Screen, GestureListener{
 	private final 	int					MAP_HEIGHT = 512;
 	private 		OrthographicCamera 	mCamera;
 	private 		CameraController 	mCameraController;
-	private 		GameRenderManager	mRenderMgr;
+	private 		Renderer	mRenderMgr;
 	private 		GestureDetector 	mGestureDetector;
 	//private 		Map 				mMap;
 	private 		boolean 			mbGameStart = false;
@@ -39,7 +38,7 @@ public class GameManager implements Screen, GestureListener{
 		
 		mCamera = new OrthographicCamera(w, h);
 		mCameraController = new CameraController( mCamera );
-		mRenderMgr = new GameRenderManager(mCamera);
+		mRenderMgr = new Renderer(mCamera);
 		//mSpriteBatch = new SpriteBatch();
 		
 		//int seed = 100;
@@ -49,11 +48,6 @@ public class GameManager implements Screen, GestureListener{
 		mCamera.position.y = MAP_HEIGHT * Settings.UNIT * 0.5f;
 		
 		mGestureDetector = new GestureDetector(this);
-	}
-	
-	public void newBuilding(BuildingType building)
-	{
-		
 	}
 	
 	public InputProcessor getInputProcessor()

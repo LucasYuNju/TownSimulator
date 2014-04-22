@@ -1,9 +1,9 @@
-package com.townSimulator.game.render;
+package com.townSimulator.game.objs;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 
-public interface GameDrawable {
+public interface Drawable {
 	public void 	drawSelf(SpriteBatch batch);
 	
 	public void 	setVisible(boolean v);

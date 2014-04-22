@@ -16,13 +16,32 @@ public class CameraController {
 	private 		float   			mZoomInitDist = 0.0f;
 	private 		float   			mPrevZoomDist = 0.0f;
 	private 		Vector3 			mZoomOriginW  = new Vector3();
+	private static 	CameraController	instance = null;
 	
 	public CameraController(OrthographicCamera camera)
 	{
+		instance = this;
 		mCamera = camera;
 		mBaseCameraWidth = Gdx.graphics.getWidth();
 		mBaseCameraHeight = Gdx.graphics.getHeight();
 		mCameraScale = 1.0f;
+	}
+	
+	/*
+	 * 不知道应该如何初始化CameraController，所以在instance为null时抛出unchecked exception
+	 */
+	public synchronized static CameraController getInstance() {
+		if(instance == null)
+			throw new NullPointerException();
+		return instance;
+	}
+	
+	public float getX() {
+		return mCamera.position.x;
+	}
+	
+	public float getY() {
+		return mCamera.position.y;
 	}
 	
 	public boolean zoom(float initialDistance, float distance) {

@@ -5,7 +5,14 @@ import java.util.Random;
 
 import com.townSimulator.game.objs.MapObject;
 import com.townSimulator.game.objs.MapObjectType;
+import com.townSimulator.game.objs.MapObjectFactory;
 import com.townSimulator.utility.Settings;
+
+/**
+ * 
+ * Annotate me!!！
+ *
+ */
 
 public class Map{
 	private int 						mWidthInUnits;
@@ -40,7 +47,7 @@ public class Map{
 					if( scale == 0.0f )
 						continue;
 					
-					MapObject obj = ObjectsManager.createMapObj(MapObjectType.TREE);
+					MapObject obj = MapObjectFactory.createMapObj(MapObjectType.TREE);
 					obj.setDrawSize(Settings.UNIT * 1.5f * scale, Settings.UNIT * 2.0f * scale);
 					float originOffsetX = obj.getDrawWidth() * 0.5f;
 					float randX = (rand.nextFloat() - 0.5f) * Settings.UNIT * 0.2f;
