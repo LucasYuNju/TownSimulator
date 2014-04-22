@@ -20,7 +20,7 @@ public class MapObjectFactory {
 			break;
 		case BUILDING:
 			obj = new MapObject(ResourceManager.createSprite("building_house"));
-			obj.setDrawSize(Settings.UNIT, Settings.UNIT);
+			obj.setDrawSize(Settings.UNIT * 2, Settings.UNIT * 2);
 			mMapObjs.add(obj);			
 			break;
 		default:
