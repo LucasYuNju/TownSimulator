@@ -14,7 +14,7 @@ import com.townSimulator.game.objs.BuildingType;
 import com.townSimulator.game.objs.MapObject;
 import com.townSimulator.game.render.GameRenderManager;
 import com.townSimulator.game.scene.CameraController;
-import com.townSimulator.game.scene.Collidable;
+import com.townSimulator.game.scene.QuadTreeManageble;
 import com.townSimulator.game.scene.SceneManager;
 import com.townSimulator.ui.UIManager;
 import com.townSimulator.utility.AxisAlignedBoundingBox;
@@ -83,7 +83,7 @@ public class GameManager implements Screen, GestureListener{
 			return;
 		
 		mRenderMgr.renderBegin();
-		mRenderMgr.addDrawContainer(mSceneManager.getMap());
+		mSceneManager.renderScene(mRenderMgr);
 		mRenderMgr.renderEnd();
 	}
 
@@ -126,8 +126,8 @@ public class GameManager implements Screen, GestureListener{
 	public boolean touchDown(float x, float y, int pointer, int button) {
 		Vector3 pos = new Vector3(x, y, 0.0f);
 		mCamera.unproject(pos);
-		Array<Collidable> objs = new Array<Collidable>();
-		mSceneManager.getCollisionDetector().detectCollision(new AxisAlignedBoundingBox(pos.x-0.1f, pos.y-0.1f, pos.x+0.1f, pos.y+0.1f), objs);
+		Array<QuadTreeManageble> objs = new Array<QuadTreeManageble>();
+		mSceneManager.getCollisionDetector().detectIntersection(new AxisAlignedBoundingBox(pos.x-0.1f, pos.y-0.1f, pos.x+0.1f, pos.y+0.1f), objs);
 		
 		for (int i = 0; i < objs.size; i++) {
 			((MapObject) objs.get(i)).setVisible(false);

@@ -3,16 +3,11 @@ package com.townSimulator.game.scene;
 
 import java.util.Random;
 
-import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.math.Rectangle;
 import com.townSimulator.game.objs.MapObject;
 import com.townSimulator.game.objs.MapObjectType;
-import com.townSimulator.game.render.GameDrawableContainer;
-import com.townSimulator.game.render.RenderBatch;
-import com.townSimulator.utility.ResourceManager;
 import com.townSimulator.utility.Settings;
 
-public class Map implements GameDrawableContainer{
+public class Map{
 	private int 						mWidthInUnits;
 	private int 						mHeightInUnits;
 	private float[][] 					mNoiseMap;
@@ -59,29 +54,7 @@ public class Map implements GameDrawableContainer{
 					float collideMaxY = obj.getDrawY() + collideSize;
 					obj.setCollisionBounds(collideMinX, collideMinY, collideMaxX, collideMaxY);
 					mObjsMap[x][y] = obj;
-					mSceneMgr.addCollidable(obj);
-				}
-			}
-		}
-	}
-	
-
-	@Override
-	public void draw(RenderBatch batch, Rectangle scissorRect) {
-		int l = (int)( scissorRect.x / Settings.UNIT );
-		int r = (int)( (scissorRect.x + scissorRect.width) / Settings.UNIT );
-		int u = mHeightInUnits - (int)( (scissorRect.y + scissorRect.height) / Settings.UNIT ) - 1;
-		int b = mHeightInUnits - (int)( scissorRect.y / Settings.UNIT ) - 1;
-		
-		for (int y = u - 1; y <= b + 1; y++) {
-			for (int x = l - 1; x <= r + 1; x++) {
-				if( x < 0 || x >= mWidthInUnits 
-					|| y < 0 || y >= mHeightInUnits)
-					continue;
-				
-				if(mObjsMap[x][y] != null)
-				{
-					batch.addDrawable(mObjsMap[x][y]);
+					mSceneMgr.addMapObjs(obj);
 				}
 			}
 		}
