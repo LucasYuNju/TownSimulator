@@ -4,7 +4,8 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 
 public class BuildComsCategoryButton extends BuildComsButtonBase{
-	private BuildComsButtonsGroup mButtonsGroup;
+	private 		BuildComsButtonsGroup mButtonsGroup;
+	private static 	BuildComsButtonsGroup mCurVisibleGroup;
 	
 	public BuildComsCategoryButton(String textureName, String labelText) {
 		super(textureName, labelText);
@@ -24,7 +25,17 @@ public class BuildComsCategoryButton extends BuildComsButtonBase{
 			public void touchUp(InputEvent event, float x, float y,
 					int pointer, int button) {
 				mButtonsGroup.updateLayout();
-				mButtonsGroup.setVisible(!mButtonsGroup.isVisible());
+				if(mCurVisibleGroup != null)
+					mCurVisibleGroup.setVisible(false);
+				
+				if(mCurVisibleGroup == mButtonsGroup)
+					mCurVisibleGroup = null;
+				else
+				{
+					mButtonsGroup.setVisible(true);
+					mCurVisibleGroup = mButtonsGroup;
+				}
+				
 			}
 			
 		});
