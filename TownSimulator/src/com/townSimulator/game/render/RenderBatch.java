@@ -21,6 +21,8 @@ public class RenderBatch {
 
 			@Override
 			public int compare(GameDrawable d0, GameDrawable d1) {
+				if(d0.getDepth() == d1.getDepth())
+					return 0;
 				return d0.getDepth() > d1.getDepth() ? -1 : 1;
 			}
 		};

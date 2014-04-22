@@ -38,23 +38,30 @@ button_up
   orig: 16, 16
   offset: 0, 0
   index: -1
-house
+grid
   rotate: false
   xy: 91, 1
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
-person
+house
   rotate: false
   xy: 109, 1
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
-tree
+person
   rotate: false
   xy: 127, 1
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: -1
+tree
+  rotate: false
+  xy: 145, 1
   size: 16, 16
   orig: 16, 16
   offset: 0, 0

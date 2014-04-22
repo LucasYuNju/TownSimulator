@@ -11,7 +11,7 @@ public class GameDrawableObject extends GameObjects implements GameDrawable, Qua
 	protected Sprite 					mSprite;
 	protected AxisAlignedBoundingBox	mDrawAABB;
 	protected float  					mDepth;
-	protected boolean 				mbVisible = true;
+	protected boolean 					mbVisible = true;
 	
 	public GameDrawableObject(Sprite sp)
 	{
@@ -32,6 +32,11 @@ public class GameDrawableObject extends GameObjects implements GameDrawable, Qua
 		mDrawAABB.minY = mSprite.getY();
 		mDrawAABB.maxX = mDrawAABB.minX + mSprite.getWidth();
 		mDrawAABB.maxY = mDrawAABB.minY + mSprite.getHeight();
+	}
+	
+	public Sprite getSprite()
+	{
+		return mSprite;
 	}
 	
 	@Override
