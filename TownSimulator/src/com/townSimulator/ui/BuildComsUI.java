@@ -39,11 +39,14 @@ public class BuildComsUI extends Group {
 		BuildComsCategoryButton buildHouse = new BuildComsCategoryButton("button_build_house", "House");
 		buildHouse.addBuild("button_build_house", "House0");
 		buildHouse.addBuild("button_build_house", "House2");
-		buildHouse.updateLayout();
+		//buildHouse.updateLayout();
 		buildHouse.setVisible(false);
 		mBuildButtonsList.add(buildHouse);
 		
 		BuildComsCategoryButton buildFood = new BuildComsCategoryButton("button_build_food", "Food");
+		buildFood.addBuild("button_build_food", "Food0");
+		buildFood.addBuild("button_build_food", "Food2");
+		//buildFood.updateLayout();
 		buildFood.setVisible(false);
 		mBuildButtonsList.add(buildFood);
 		

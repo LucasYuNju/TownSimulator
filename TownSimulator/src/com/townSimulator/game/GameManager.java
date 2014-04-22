@@ -133,6 +133,8 @@ public class GameManager implements Screen, GestureListener{
 			((MapObject) objs.get(i)).setVisible(false);
 		}
 		
+		//System.out.println("Screen Pos: " + x + " : " + y);
+		
 		return false;
 	}
 

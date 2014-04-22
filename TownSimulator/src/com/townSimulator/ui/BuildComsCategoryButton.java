@@ -23,6 +23,7 @@ public class BuildComsCategoryButton extends BuildComsButtonBase{
 			@Override
 			public void touchUp(InputEvent event, float x, float y,
 					int pointer, int button) {
+				mButtonsGroup.updateLayout();
 				mButtonsGroup.setVisible(!mButtonsGroup.isVisible());
 			}
 			
@@ -35,8 +36,8 @@ public class BuildComsCategoryButton extends BuildComsButtonBase{
 		mButtonsGroup.addBuild(textureName, labelText);
 	}
 	
-	public void updateLayout()
-	{
-		mButtonsGroup.updateLayout();
-	}
+//	public void updateLayout()
+//	{
+//		mButtonsGroup.updateLayout();
+//	}
 }
