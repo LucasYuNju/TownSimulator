@@ -4,8 +4,8 @@ package com.townSimulator.game.scene;
 import java.util.Random;
 
 import com.townSimulator.game.objs.MapObject;
-import com.townSimulator.game.objs.MapObjectType;
 import com.townSimulator.game.objs.MapObjectFactory;
+import com.townSimulator.game.objs.MapObjectType;
 import com.townSimulator.utility.Settings;
 
 /**

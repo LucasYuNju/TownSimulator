@@ -54,7 +54,7 @@ public class BuildComsUI extends Group {
 			addActor(mBuildButtonsList.get(i));
 		}
 		
-		setSize((mBuildButtonsList.size + 1) * BUTTON_WIDTH + mBuildButtonsList.size * BUTTONS_H_PAD, BUTTON_HEIGHT);
+		setSize((mBuildButtonsList.size + 1) * BUTTON_WIDTH + mBuildButtonsList.size * BUTTONS_H_PAD, BUTTON_HEIGHT + BUTTON_TOP_LABEL_PAD);
 		mInitButton.setPosition(getWidth() - mInitButton.getWidth(), 0.0f);
 		
 		mInitButton.addListener(new InputListener()
@@ -82,6 +82,7 @@ public class BuildComsUI extends Group {
 		
 	}
 	
+
 	@Override
 	public void act(float delta) {
 		super.act(delta);

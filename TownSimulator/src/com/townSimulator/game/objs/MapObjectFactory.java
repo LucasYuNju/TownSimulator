@@ -15,7 +15,7 @@ public class MapObjectFactory {
 		MapObject obj = null;
 		switch (objType) {
 		case TREE:
-			obj = new MapObject(ResourceManager.createSprite("tree"));
+			obj = new MapObject(ResourceManager.createSprite("map_tree"));
 			mMapObjs.add(obj);
 			break;
 		case BUILDING:

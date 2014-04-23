@@ -13,12 +13,13 @@ class BuildComsButtonBase extends UIButton
 	protected static 	float 					ICON_PAD 	= BuildComsUI.BUTTON_WIDTH * 0.2f;
 	protected static 	TextureRegionDrawable 	mButtonUp   = new TextureRegionDrawable(ResourceManager.findTextureRegion("button_up"));
 	protected static 	TextureRegionDrawable 	mButtonDown = new TextureRegionDrawable(ResourceManager.findTextureRegion("button_down"));
+	protected static	TextureRegionDrawable	mLabelBackgroud = new TextureRegionDrawable(ResourceManager.findTextureRegion("label_background"));
 	protected 			TextureRegionDrawable 	mButtonImg;
 	protected			Label					mTextLabel	= null;
 	
 	public BuildComsButtonBase(String textureName, String labelText)
 	{
-		super(mButtonUp, mButtonDown, null);
+		super(null, null, null);
 		setSize(BuildComsUI.BUTTON_WIDTH, BuildComsUI.BUTTON_HEIGHT);
 		mButtonImg = new TextureRegionDrawable( ResourceManager.findTextureRegion(textureName) );
 		
@@ -27,7 +28,15 @@ class BuildComsButtonBase extends UIButton
 			LabelStyle labelStyle = new LabelStyle();
 			labelStyle.font = ResourceManager.getFont((int)BuildComsUI.BUTTON_TOP_LABEL_PAD);
 			labelStyle.fontColor = Color.WHITE;
-			mTextLabel = new Label(labelText, labelStyle);
+			mTextLabel = new Label(labelText, labelStyle)
+			{
+				@Override
+				public void draw(SpriteBatch batch, float parentAlpha) {
+					batch.setColor(1.0f, 1.0f, 1.0f, parentAlpha * getColor().a);
+					mLabelBackgroud.draw(batch, mTextLabel.getX(), mTextLabel.getY(), mTextLabel.getWidth(), mTextLabel.getHeight());
+					super.draw(batch, parentAlpha);
+				}
+			};
 			mTextLabel.setAlignment(Align.center);
 			mTextLabel.setPosition( (getWidth() - mTextLabel.getWidth()) * 0.5f, getHeight());
 			addActor(mTextLabel);
@@ -37,9 +46,13 @@ class BuildComsButtonBase extends UIButton
 	
 	@Override
 	public void draw(SpriteBatch batch, float parentAlpha) {
-		super.draw(batch, parentAlpha);
+		batch.setColor(1.0f, 1.0f, 1.0f, parentAlpha * getColor().a);
+		if(!isPressed())
+			mButtonDown.draw(batch, getX(), getY(), getWidth(), getHeight());
+		mButtonUp.draw(batch, getX(), getY(), getWidth(), getHeight());
 		mButtonImg.draw(batch, 	getX() + ICON_PAD, 				getY() + ICON_PAD,
 								getWidth() - ICON_PAD * 2.0f, 	getHeight() - ICON_PAD * 2.0f);
+		super.draw(batch, parentAlpha);
 	}
 	
 }
