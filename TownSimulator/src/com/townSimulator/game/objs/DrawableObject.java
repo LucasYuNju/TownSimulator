@@ -38,6 +38,11 @@ public class DrawableObject implements Drawable, QuadTreeManageble{
 		return mSprite;
 	}
 	
+	public void setSprite(Sprite sprite) {
+		mSprite = sprite;
+		resetAABB();
+	}
+	
 	@Override
 	public void drawSelf(SpriteBatch batch) {
 		if(mbVisible == false)

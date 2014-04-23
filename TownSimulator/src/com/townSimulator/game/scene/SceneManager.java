@@ -45,7 +45,7 @@ public class SceneManager {
 		mMap = new Map(MAP_WIDTH_UNIT, MAP_HEIGHT_UNIT, 100, this);
 	}
 	
-	public void addMapObjs(MapObject obj)
+	public void addMapObjs(DrawableObject obj)
 	{
 		mCollsionDetector.addManageble(obj);
 		mDrawScissor.addManageble(obj);

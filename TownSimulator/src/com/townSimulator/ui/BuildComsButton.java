@@ -2,6 +2,7 @@ package com.townSimulator.ui;
 
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
+import com.townSimulator.game.objs.ManObject;
 import com.townSimulator.game.objs.MapObject;
 import com.townSimulator.game.objs.MapObjectFactory;
 import com.townSimulator.game.objs.MapObjectType;
@@ -32,7 +33,9 @@ public class BuildComsButton extends BuildComsButtonBase{
 				MapObject newBuildingObject = MapObjectFactory.createMapObj(MapObjectType.BUILDING);
 				newBuildingObject.setDrawPosition(
 						CameraController.getInstance().getX(), CameraController.getInstance().getY());
-				SceneManager.getInstance().addMapObjs(newBuildingObject);
+//				SceneManager.getInstance().addMapObjs(newBuildingObject);
+				
+				SceneManager.getInstance().addMapObjs(new ManObject());
 			}
 		});
 	}
