@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.utils.Array;
 import com.townSimulator.utility.Settings;
 
 public class CameraController {
@@ -19,6 +20,13 @@ public class CameraController {
 	private 		Vector3 			mZoomOriginW  = new Vector3();
 	private static 	CameraController	instance = null;
 	private			boolean				mbMovalble = true;
+	private 		Array<CameraListener>		mListeners;
+	
+	public interface CameraListener
+	{
+		public void cameraMoved(float deltaX, float deltaY);
+		public void cameraZoomed(float prevWidth, float prevHeight, float curWidth, float curHeight);
+	}
 	
 	public CameraController(OrthographicCamera camera)
 	{
@@ -29,6 +37,7 @@ public class CameraController {
 		camera.viewportWidth = mBaseCameraWidth;
 		camera.viewportHeight = mBaseCameraHeight;
 		mCameraScale = 1.0f;
+		mListeners = new Array<CameraController.CameraListener>();
 	}
 	
 	/*
@@ -38,6 +47,16 @@ public class CameraController {
 		if(instance == null)
 			throw new NullPointerException();
 		return instance;
+	}
+	
+	public void addListner(CameraListener l)
+	{
+		mListeners.add(l);
+	}
+	
+	public void removeListner(CameraListener l)
+	{
+		mListeners.removeValue(l, false);
 	}
 	
 	public float getX() {
@@ -53,8 +72,15 @@ public class CameraController {
 		mbMovalble = b;
 	}
 	
+	public void worldToScreen(Vector3 posW)
+	{
+		mCamera.project(posW);
+	}
 	
 	public boolean zoom(float initialDistance, float distance) {
+		float prevWidth = mCamera.viewportWidth;
+		float prevHeight = mCamera.viewportHeight;
+		
 		if( mZoomInitDist != initialDistance )
 		{
 			mZoomInitDist = initialDistance;
@@ -83,6 +109,10 @@ public class CameraController {
 		}
 		
 		mPrevZoomDist = distance;
+		
+		for (int i = 0; i < mListeners.size; i++) {
+			mListeners.get(i).cameraZoomed(prevWidth, prevHeight, mCamera.viewportWidth, mCamera.viewportHeight);
+		}
 		return true;
 	}
 	
@@ -98,6 +128,11 @@ public class CameraController {
 				0.0f, SceneManager.MAP_WIDTH_UNIT * Settings.UNIT - mCamera.viewportWidth);
 		float y = MathUtils.clamp(mCamera.position.y + deltaY * mCameraScale,
 				0.0f, SceneManager.MAP_HEIGHT_UNIT * Settings.UNIT - mCamera.viewportHeight);
+		float dx = x - mCamera.position.x;
+		float dy = y - mCamera.position.y;
+		for (int i = 0; i < mListeners.size; i++) {
+			mListeners.get(i).cameraMoved(dx, dy);
+		}
 		mCamera.position.x = x;
 		mCamera.position.y = y;
 	}

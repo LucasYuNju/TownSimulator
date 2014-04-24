@@ -1,9 +1,12 @@
 package com.townSimulator.ui;
 
 import com.badlogic.gdx.Gdx;
+import com.townSimulator.game.logic.BuildHelper;
 
 public class GameScreenUI extends ScreenUIBase{
-	private BuildComsUI	mBuildUI;
+	private BuildComsUI		mBuildComsUI;
+	private BuildAdjustUI	mBuildAjustUI;
+	//private 
 	
 	public GameScreenUI()
 	{
@@ -12,11 +15,18 @@ public class GameScreenUI extends ScreenUIBase{
 	
 	private void initComponents()
 	{
-		mBuildUI = new BuildComsUI();
-		mBuildUI.setPosition( Gdx.graphics.getWidth() - mBuildUI.getWidth(), 0.0f );
+		mBuildComsUI = new BuildComsUI();
+		mBuildComsUI.setPosition( Gdx.graphics.getWidth() - mBuildComsUI.getWidth(), 0.0f );
+		mStage.addActor(mBuildComsUI);
 		
-		mStage.addActor(mBuildUI);
+		mBuildAjustUI = new BuildAdjustUI();
+		mBuildAjustUI.setVisible(false);
+		mStage.addActor(mBuildAjustUI);
 	}
 	
-
+	public void trackBuildProcess()
+	{
+		BuildHelper.getInstance().setBuildAjustUI(mBuildAjustUI);
+	}
+	
 }

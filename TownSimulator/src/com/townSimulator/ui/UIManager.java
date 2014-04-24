@@ -22,6 +22,11 @@ public class UIManager implements Screen, InputProcessor, StartUIListener{
 		mStartUI.setListner(this);
 	}
 	
+	public GameScreenUI getGameUI()
+	{
+		return mGameUI;
+	}
+	
 	public InputProcessor getInputProcessor()
 	{
 		return this;

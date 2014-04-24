@@ -3,7 +3,7 @@ package com.townSimulator.ui;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 
-public class BuildComsCategoryButton extends BuildComsButtonBase{
+public class BuildComsCategoryButton extends BuildButtonBase{
 	private 		BuildComsButtonsGroup mButtonsGroup;
 	private static 	BuildComsButtonsGroup mCurVisibleGroup;
 	

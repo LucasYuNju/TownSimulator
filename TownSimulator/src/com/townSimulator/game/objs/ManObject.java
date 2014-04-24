@@ -7,7 +7,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.townSimulator.game.scene.CameraController;
-import com.townSimulator.utility.AxisAlignedBoundingBox;
 import com.townSimulator.utility.ResourceManager;
 import com.townSimulator.utility.Settings;
 

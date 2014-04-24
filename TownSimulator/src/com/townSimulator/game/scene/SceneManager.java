@@ -203,15 +203,16 @@ public class SceneManager {
 		int b = (int)(scissor.minY / Settings.UNIT);
 		int u = (int)(scissor.maxY / Settings.UNIT);
 		mMallocIndex = 0;
+		float pad = 0.1f;
 		AxisAlignedBoundingBox gridAABB = new AxisAlignedBoundingBox();
-		for (float x = l * Settings.UNIT; x <= (r+1) * Settings.UNIT; x += Settings.UNIT) {
-			for (float y = b * Settings.UNIT; y <= (u+1) * Settings.UNIT; y += Settings.UNIT) {
+		for (float x = l; x <= (r+1); x ++) {
+			for (float y = b; y <= (u+1); y ++) {
 				DrawableObject obj = mallocGrid();
-				obj.setDrawPosition(x, y);
-				gridAABB.minX = x;
-				gridAABB.minY = y;
-				gridAABB.maxX = x + Settings.UNIT;
-				gridAABB.maxY = y + Settings.UNIT;
+				obj.setDrawPosition(x * Settings.UNIT + pad, y * Settings.UNIT + pad);
+				gridAABB.minX = obj.getDrawX();
+				gridAABB.minY = obj.getDrawY();
+				gridAABB.maxX = gridAABB.minX + Settings.UNIT - pad * 2.0f;
+				gridAABB.maxY = gridAABB.minY + Settings.UNIT - pad * 2.0f;
 				obj.setDepth(Float.MAX_VALUE);
 				if(mCollsionDetector.detectIntersection(gridAABB))
 					obj.getSprite().setColor(1.0f, 0.0f, 0.0f, 0.3f);

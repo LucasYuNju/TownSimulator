@@ -7,7 +7,7 @@ import com.townSimulator.game.objs.BuildingType;
 import com.townSimulator.game.objs.ManObject;
 import com.townSimulator.game.scene.SceneManager;
 
-public class BuildComsButton extends BuildComsButtonBase{
+public class BuildComsButton extends BuildButtonBase{
 	//private String mLabelText;
 	
 	public BuildComsButton(String textureName, String labelText) {

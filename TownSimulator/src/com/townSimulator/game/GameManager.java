@@ -15,8 +15,10 @@ import com.townSimulator.game.objs.BuildingType;
 import com.townSimulator.game.objs.ObjectFactory;
 import com.townSimulator.game.render.Renderer;
 import com.townSimulator.game.scene.CameraController;
+import com.townSimulator.game.scene.QuadTreeType;
 import com.townSimulator.game.scene.SceneManager;
 import com.townSimulator.ui.UIManager;
+import com.townSimulator.utility.AxisAlignedBoundingBox;
 import com.townSimulator.utility.Settings;
 
 public class GameManager implements Screen, GestureListener{
@@ -72,23 +74,45 @@ public class GameManager implements Screen, GestureListener{
 	
 	public void startNewBuilding(BuildingType type)
 	{
+		if(BuildHelper.getInstance().isIdle() == false)
+			return;
+		
 		mSceneManager.setDrawGrid(true);
 		
 		Building newBuildingObject = ObjectFactory.createBuilding(BuildingType.WOOD_HOUSE);
 		int gridX = (int) (mCamera.position.x / Settings.UNIT);
 		int gridY = (int) (mCamera.position.y / Settings.UNIT);
+		int gridSerchSize = 0;
+		AxisAlignedBoundingBox buildingCollisionAABB = newBuildingObject.getBoundingBox(QuadTreeType.COLLISION);
+		float buildingWidth = buildingCollisionAABB.maxX - buildingCollisionAABB.minX;
+		float buildingHeight = buildingCollisionAABB.maxY - buildingCollisionAABB.minY;
+		boolean bPosFind = false;
+		float posX = 0.0f;
+		float posY = 0.0f;
+		AxisAlignedBoundingBox aabb = new AxisAlignedBoundingBox();
+		while(!bPosFind)
+		{
+			for (int x = gridX - gridSerchSize; x <= gridX + gridSerchSize && !bPosFind; x++) {
+				for (int y = gridY - gridSerchSize; y <= gridY + gridSerchSize && !bPosFind; y++) {
+					posX = x * Settings.UNIT;
+					posY = y * Settings.UNIT;
+					aabb.minX = posX;
+					aabb.minY = posY;
+					aabb.maxX = aabb.minX + buildingWidth;
+					aabb.maxY = aabb.minY + buildingHeight;
+					if( !SceneManager.getInstance().getCollisionDetector().detectIntersection(aabb) )
+						bPosFind = true;
+				}
+			}
+			gridSerchSize ++;
+			
+		}
 		newBuildingObject.setPositionOriginCollision(
-				gridX * Settings.UNIT, gridY * Settings.UNIT);
+				posX, posY);
 		mSceneManager.addBuilding(newBuildingObject);
 		
 		BuildHelper.getInstance().setBuilding(newBuildingObject);
-//		newBuildingObject.setListener(new BaseObjectListener() {
-//			
-//			@Override
-//			public void objBeTouchDown(BaseObject obj) {
-//				System.out.println("Touch " + obj);
-//			}
-//		});
+		mUIMgr.getGameUI().trackBuildProcess();
 	}
 	
 	public boolean isGameStart()
