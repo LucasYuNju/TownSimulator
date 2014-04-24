@@ -20,7 +20,7 @@ public class GameMain implements ApplicationListener{
 		ResourceManager.loadResource();
 		
 		mUiMgr   = new UIManager();
-		mGameMgr = new GameManager();
+		mGameMgr = GameManager.getInstance();
 		mUiMgr.setGameMgr(mGameMgr);
 		mGameMgr.setUIMgr(mUiMgr);
 		InputMultiplexer inputMulti = new InputMultiplexer();

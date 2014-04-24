@@ -12,12 +12,12 @@ public class QuadTree {
 	{
 		mType = type;
 		mManagedAABB = new AxisAlignedBoundingBox(worldMinX, worldMinY, worldMaxX, worldMaxY);
-		mRoot = new QuadTreeNode(mType, mManagedAABB);
+		mRoot = new QuadTreeNode(mType, mManagedAABB, null);
 	}
 	
 	public boolean addManageble(QuadTreeManageble obj)
 	{
-		return mRoot.addIntersection(obj);
+		return mRoot.addManageble(obj);
 	}
 	
 	public boolean detectIntersection(QuadTreeManageble obj)
@@ -30,6 +30,11 @@ public class QuadTree {
 		return mRoot.detectIntersection(obj, collideObjs);
 	}
 	
+	public boolean detectIntersection(QuadTreeManageble obj, Array<QuadTreeManageble> collideObjs, Array<QuadTreeManageble> excludedObjs)
+	{
+		return mRoot.detectIntersection(obj, collideObjs, excludedObjs);
+	}
+	
 	public boolean detectIntersection(AxisAlignedBoundingBox aabb)
 	{
 		return mRoot.detectIntersection(aabb);
@@ -40,6 +45,11 @@ public class QuadTree {
 		return mRoot.detectIntersection(aabb, collideObjs);
 	}
 	
+	public boolean detectIntersection(AxisAlignedBoundingBox aabb, Array<QuadTreeManageble> collideObjs, Array<QuadTreeManageble> excludedObjs)
+	{
+		return mRoot.detectIntersection(aabb, collideObjs, excludedObjs);
+	}
+	
 	public boolean detectIntersection(float x, float y)
 	{
 		return mRoot.detectIntersection(x, y);
@@ -48,6 +58,11 @@ public class QuadTree {
 	public boolean detectIntersection(float x, float y, Array<QuadTreeManageble> collideObjs)
 	{
 		return mRoot.detectIntersection(x, y, collideObjs);
+	}
+	
+	public boolean detectIntersection(float x, float y, Array<QuadTreeManageble> collideObjs, Array<QuadTreeManageble> excludedObjs)
+	{
+		return mRoot.detectIntersection(x, y, collideObjs, excludedObjs);
 	}
 	
 }

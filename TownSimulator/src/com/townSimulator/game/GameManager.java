@@ -9,14 +9,14 @@ import com.badlogic.gdx.input.GestureDetector;
 import com.badlogic.gdx.input.GestureDetector.GestureListener;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
-import com.badlogic.gdx.utils.Array;
-import com.townSimulator.game.objs.MapObject;
+import com.townSimulator.game.logic.BuildHelper;
+import com.townSimulator.game.objs.Building;
+import com.townSimulator.game.objs.BuildingType;
+import com.townSimulator.game.objs.ObjectFactory;
 import com.townSimulator.game.render.Renderer;
 import com.townSimulator.game.scene.CameraController;
-import com.townSimulator.game.scene.QuadTreeManageble;
 import com.townSimulator.game.scene.SceneManager;
 import com.townSimulator.ui.UIManager;
-import com.townSimulator.utility.AxisAlignedBoundingBox;
 import com.townSimulator.utility.Settings;
 
 public class GameManager implements Screen, GestureListener{
@@ -24,30 +24,34 @@ public class GameManager implements Screen, GestureListener{
 	private final 	int					MAP_HEIGHT = 512;
 	private 		OrthographicCamera 	mCamera;
 	private 		CameraController 	mCameraController;
-	private 		Renderer	mRenderMgr;
-	private 		GestureDetector 	mGestureDetector;
-	//private 		Map 				mMap;
+	private 		Renderer			mRenderer;
+	private 		GestureDetectorEx 	mGestureDetector;
 	private 		boolean 			mbGameStart = false;
 	private 		UIManager			mUIMgr = null;
 	private			SceneManager		mSceneManager;
+	private	static	GameManager			mInstance = null;
 	
-	public GameManager()
+	private GameManager()
 	{
-		float w = Gdx.graphics.getWidth();
-		float h = Gdx.graphics.getHeight();
+		//float w = Gdx.graphics.getWidth();
+		//float h = Gdx.graphics.getHeight();
 		
-		mCamera = new OrthographicCamera(w, h);
+		mCamera = new OrthographicCamera();
 		mCameraController = new CameraController( mCamera );
-		mRenderMgr = new Renderer(mCamera);
-		//mSpriteBatch = new SpriteBatch();
-		
-		//int seed = 100;
-		//mMap = new Map(MAP_WIDTH, MAP_HEIGHT, seed);
+		mRenderer = Renderer.getInstance();
+		mRenderer.setCamera(mCamera);
 		mSceneManager = new SceneManager();
 		mCamera.position.x = MAP_WIDTH  * Settings.UNIT * 0.5f;
 		mCamera.position.y = MAP_HEIGHT * Settings.UNIT * 0.5f;
 		
-		mGestureDetector = new GestureDetector(this);
+		mGestureDetector = new GestureDetectorEx(this);
+	}
+	
+	public static synchronized GameManager getInstance()
+	{
+		if(mInstance == null)
+			mInstance = new GameManager();
+		return mInstance;
 	}
 	
 	public InputProcessor getInputProcessor()
@@ -66,6 +70,27 @@ public class GameManager implements Screen, GestureListener{
 		mSceneManager.initMap();
 	}
 	
+	public void startNewBuilding(BuildingType type)
+	{
+		mSceneManager.setDrawGrid(true);
+		
+		Building newBuildingObject = ObjectFactory.createBuilding(BuildingType.WOOD_HOUSE);
+		int gridX = (int) (mCamera.position.x / Settings.UNIT);
+		int gridY = (int) (mCamera.position.y / Settings.UNIT);
+		newBuildingObject.setPositionOriginCollision(
+				gridX * Settings.UNIT, gridY * Settings.UNIT);
+		mSceneManager.addBuilding(newBuildingObject);
+		
+		BuildHelper.getInstance().setBuilding(newBuildingObject);
+//		newBuildingObject.setListener(new BaseObjectListener() {
+//			
+//			@Override
+//			public void objBeTouchDown(BaseObject obj) {
+//				System.out.println("Touch " + obj);
+//			}
+//		});
+	}
+	
 	public boolean isGameStart()
 	{
 		return mbGameStart;
@@ -76,9 +101,9 @@ public class GameManager implements Screen, GestureListener{
 		if( mbGameStart == false )
 			return;
 		
-		mRenderMgr.renderBegin();
-		mSceneManager.renderScene(mRenderMgr);
-		mRenderMgr.renderEnd();
+		mRenderer.renderBegin();
+		mSceneManager.renderScene(mRenderer);
+		mRenderer.renderEnd();
 	}
 
 	@Override
@@ -113,23 +138,18 @@ public class GameManager implements Screen, GestureListener{
 	@Override
 	public void dispose() {
 		//mSpriteBatch.dispose();
-		mRenderMgr.dispose();
+		mRenderer.dispose();
 	}
 
+	
+	//Gesture Listener
 	@Override
 	public boolean touchDown(float x, float y, int pointer, int button) {
 		Vector3 pos = new Vector3(x, y, 0.0f);
 		mCamera.unproject(pos);
-		Array<QuadTreeManageble> objs = new Array<QuadTreeManageble>();
-		mSceneManager.getCollisionDetector().detectIntersection(new AxisAlignedBoundingBox(pos.x-0.1f, pos.y-0.1f, pos.x+0.1f, pos.y+0.1f), objs);
+		mSceneManager.touchDownWorldSpace(pos.x, pos.y);
 		
-		for (int i = 0; i < objs.size; i++) {
-			((MapObject) objs.get(i)).setVisible(false);
-		}
-		
-		//System.out.println("Screen Pos: " + x + " : " + y);
-		
-		return false;
+		return true;
 	}
 
 	@Override
@@ -153,7 +173,12 @@ public class GameManager implements Screen, GestureListener{
 	@Override
 	public boolean pan(float x, float y, float deltaX, float deltaY) {
 		//System.out.println(deltaX + "  " + deltaY);
-		mCameraController.moveRelScreen(deltaX, deltaY);
+		mCameraController.tryMoveRelScreen(deltaX, deltaY);
+		Vector3 pos = new Vector3(x, y, 0.0f);
+		mCamera.unproject(pos);
+		mSceneManager.touchDraggedWorldSpace(	pos.x, pos.y,
+												deltaX * mCamera.viewportWidth / Gdx.graphics.getWidth(),
+												-deltaY * mCamera.viewportHeight / Gdx.graphics.getHeight());
 		return true;
 	}
 
@@ -172,5 +197,22 @@ public class GameManager implements Screen, GestureListener{
 			Vector2 pointer1, Vector2 pointer2) {
 		return false;
 	}
+	
+	class GestureDetectorEx extends GestureDetector
+	{
+		public GestureDetectorEx(GestureListener listener) {
+			super(listener);
+		}
+
+		@Override
+		public boolean touchUp(float x, float y, int pointer, int button) {
+			Vector3 pos = new Vector3(x, y, 0.0f);
+			mCamera.unproject(pos);
+			mSceneManager.touchUpWorldSpace(pos.x, pos.y);
+			return super.touchUp(x, y, pointer, button);
+		}
+		
+	}
+
 	
 }

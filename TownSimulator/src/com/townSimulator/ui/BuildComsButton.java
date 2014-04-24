@@ -2,11 +2,8 @@ package com.townSimulator.ui;
 
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
-import com.townSimulator.game.objs.MapObject;
-import com.townSimulator.game.objs.MapObjectFactory;
-import com.townSimulator.game.objs.MapObjectType;
-import com.townSimulator.game.scene.CameraController;
-import com.townSimulator.game.scene.SceneManager;
+import com.townSimulator.game.GameManager;
+import com.townSimulator.game.objs.BuildingType;
 
 public class BuildComsButton extends BuildComsButtonBase{
 	//private String mLabelText;
@@ -23,16 +20,19 @@ public class BuildComsButton extends BuildComsButtonBase{
 				event.cancel();
 				return true;
 			}
-
+			
 			@Override
 			public void touchUp(InputEvent event, float x, float y,
 					int pointer, int button) {
-				SceneManager.getInstance().setDrawGrid(true);
-				
-				MapObject newBuildingObject = MapObjectFactory.createMapObj(MapObjectType.BUILDING);
-				newBuildingObject.setDrawPosition(
-						CameraController.getInstance().getX(), CameraController.getInstance().getY());
-				SceneManager.getInstance().addMapObjs(newBuildingObject);
+//				SceneManager.getInstance().setDrawGrid(true);
+//				
+//				Building newBuildingObject = ObjectFactory.createBuilding(BuildingType.WOOD_HOUSE);
+//				int gridX = (int) (CameraController.getInstance().getX() / Settings.UNIT);
+//				int gridY = (int) (CameraController.getInstance().getY() / Settings.UNIT);
+//				newBuildingObject.setPositionOriginCollision(
+//						gridX * Settings.UNIT, gridY * Settings.UNIT);
+//				SceneManager.getInstance().addBuilding(newBuildingObject);
+				GameManager.getInstance().startNewBuilding(BuildingType.WOOD_HOUSE);
 			}
 		});
 	}

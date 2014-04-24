@@ -2,13 +2,17 @@ package com.townSimulator.game.objs;
 
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.utils.Array;
 import com.townSimulator.game.scene.QuadTreeManageble;
+import com.townSimulator.game.scene.QuadTreeNode;
 import com.townSimulator.game.scene.QuadTreeType;
+import com.townSimulator.game.scene.SceneManager;
 import com.townSimulator.utility.AxisAlignedBoundingBox;
 
 public class DrawableObject implements Drawable, QuadTreeManageble{
 	protected Sprite 					mSprite;
 	protected AxisAlignedBoundingBox	mDrawAABB;
+	protected Array<QuadTreeNode>		mDrawQuadNodes;
 	protected float  					mDepth;
 	protected boolean 					mbVisible = true;
 	
@@ -22,15 +26,22 @@ public class DrawableObject implements Drawable, QuadTreeManageble{
 		mSprite = sp;
 		mDepth = depth;
 		mDrawAABB = new AxisAlignedBoundingBox();
-		resetAABB();
+		mDrawQuadNodes = new Array<QuadTreeNode>();
+		resetDrawAABB();
 	}
 	
-	private void resetAABB()
+	private void resetDrawAABB()
 	{
 		mDrawAABB.minX = mSprite.getX();
 		mDrawAABB.minY = mSprite.getY();
 		mDrawAABB.maxX = mDrawAABB.minX + mSprite.getWidth();
 		mDrawAABB.maxY = mDrawAABB.minY + mSprite.getHeight();
+		
+//		for (int i = 0; i < mDrawQuadNodes.size; i++) {
+//			mDrawQuadNodes.get(i).update(this);
+//		}
+		if(mDrawQuadNodes.size > 0)
+			SceneManager.getInstance().updateDrawScissor(this);
 	}
 	
 	public Sprite getSprite()
@@ -61,14 +72,14 @@ public class DrawableObject implements Drawable, QuadTreeManageble{
 	public void setDrawSize(float width, float height)
 	{
 		mSprite.setSize(width, height);
-		resetAABB();
+		resetDrawAABB();
 	}
 	
 	@Override
 	public void setDrawPosition(float x, float y)
 	{
 		mSprite.setPosition(x, y);
-		resetAABB();
+		resetDrawAABB();
 	}
 	
 	@Override
@@ -106,5 +117,33 @@ public class DrawableObject implements Drawable, QuadTreeManageble{
 			return mDrawAABB;
 		
 		return null;
+	}
+
+
+	@Override
+	public void addContainedQuadTreeNode(QuadTreeType type, QuadTreeNode node) {
+		if(type == QuadTreeType.DRAW)
+			mDrawQuadNodes.add(node);
+	}
+
+//	@Override
+//	public void removeContainedQuadTreeNode(QuadTreeType type, QuadTreeNode node) {
+//		if(type == QuadTreeType.DRAW)
+//			mDrawQuadNodes.removeValue(node, false);
+//	}
+
+	@Override
+	public void dettachQuadTree(QuadTreeType type) {
+		Array<QuadTreeNode> nodes = null;
+		if(type == QuadTreeType.DRAW)
+			nodes = mDrawQuadNodes;
+		
+		if(nodes != null)
+		{
+			for (int i = 0; i < nodes.size; i++) {
+				nodes.get(i).removeManageble(this);
+			}
+			nodes.clear();
+		}
 	}
 }
