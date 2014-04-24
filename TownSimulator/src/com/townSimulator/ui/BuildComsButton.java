@@ -24,14 +24,6 @@ public class BuildComsButton extends BuildComsButtonBase{
 			@Override
 			public void touchUp(InputEvent event, float x, float y,
 					int pointer, int button) {
-//				SceneManager.getInstance().setDrawGrid(true);
-//				
-//				Building newBuildingObject = ObjectFactory.createBuilding(BuildingType.WOOD_HOUSE);
-//				int gridX = (int) (CameraController.getInstance().getX() / Settings.UNIT);
-//				int gridY = (int) (CameraController.getInstance().getY() / Settings.UNIT);
-//				newBuildingObject.setPositionOriginCollision(
-//						gridX * Settings.UNIT, gridY * Settings.UNIT);
-//				SceneManager.getInstance().addBuilding(newBuildingObject);
 				GameManager.getInstance().startNewBuilding(BuildingType.WOOD_HOUSE);
 			}
 		});
