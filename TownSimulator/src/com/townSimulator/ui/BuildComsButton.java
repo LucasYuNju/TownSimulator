@@ -2,11 +2,9 @@ package com.townSimulator.ui;
 
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
+import com.townSimulator.game.GameManager;
+import com.townSimulator.game.objs.BuildingType;
 import com.townSimulator.game.objs.ManObject;
-import com.townSimulator.game.objs.MapObject;
-import com.townSimulator.game.objs.MapObjectFactory;
-import com.townSimulator.game.objs.MapObjectType;
-import com.townSimulator.game.scene.CameraController;
 import com.townSimulator.game.scene.SceneManager;
 
 public class BuildComsButton extends BuildComsButtonBase{
@@ -24,18 +22,13 @@ public class BuildComsButton extends BuildComsButtonBase{
 				event.cancel();
 				return true;
 			}
-
+			
 			@Override
 			public void touchUp(InputEvent event, float x, float y,
 					int pointer, int button) {
-				SceneManager.getInstance().setDrawGrid(true);
+				GameManager.getInstance().startNewBuilding(BuildingType.WOOD_HOUSE);
 				
-				MapObject newBuildingObject = MapObjectFactory.createMapObj(MapObjectType.BUILDING);
-				newBuildingObject.setDrawPosition(
-						CameraController.getInstance().getX(), CameraController.getInstance().getY());
-//				SceneManager.getInstance().addMapObjs(newBuildingObject);
-				
-				SceneManager.getInstance().addMapObjs(new ManObject());
+				SceneManager.getInstance().addDrawableObject(new ManObject());
 			}
 		});
 	}

@@ -8,8 +8,8 @@ import com.badlogic.gdx.utils.Array;
 import com.townSimulator.game.objs.Drawable;
 
 public class RenderBatch {
-	private Matrix4						mProjMatrix;
-	private SpriteBatch 				mSpriteBatch;
+	private Matrix4					mProjMatrix;
+	private SpriteBatch 			mSpriteBatch;
 	private Array<Drawable> 		mRenderList;
 	private Comparator<Drawable> 	mSortComparator;
 	

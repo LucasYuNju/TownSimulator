@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
+import com.townSimulator.utility.Settings;
 
 public class CameraController {
 	private final 	float 				ZOOM_SPEED = 0.1f;
@@ -17,13 +18,16 @@ public class CameraController {
 	private 		float   			mPrevZoomDist = 0.0f;
 	private 		Vector3 			mZoomOriginW  = new Vector3();
 	private static 	CameraController	instance = null;
+	private			boolean				mbMovalble = true;
 	
 	public CameraController(OrthographicCamera camera)
 	{
 		instance = this;
 		mCamera = camera;
-		mBaseCameraWidth = Gdx.graphics.getWidth();
-		mBaseCameraHeight = Gdx.graphics.getHeight();
+		mBaseCameraWidth = Gdx.graphics.getWidth() * 2.0f;
+		mBaseCameraHeight = Gdx.graphics.getHeight() * 2.0f;
+		camera.viewportWidth = mBaseCameraWidth;
+		camera.viewportHeight = mBaseCameraHeight;
 		mCameraScale = 1.0f;
 	}
 	
@@ -43,6 +47,12 @@ public class CameraController {
 	public float getY() {
 		return mCamera.position.y;
 	}
+	
+	public void setMovable(boolean b)
+	{
+		mbMovalble = b;
+	}
+	
 	
 	public boolean zoom(float initialDistance, float distance) {
 		if( mZoomInitDist != initialDistance )
@@ -76,8 +86,19 @@ public class CameraController {
 		return true;
 	}
 	
-	public void moveRelScreen( float deltaX, float deltaY )
+	public void tryMoveRelScreen( float deltaX, float deltaY )
 	{
-		mCamera.translate(-deltaX * mCameraScale, deltaY * mCameraScale);
+		if(mbMovalble)
+			moveRelScreen(deltaX, deltaY);
+	}
+	
+	private void moveRelScreen( float deltaX, float deltaY )
+	{
+		float x = MathUtils.clamp(mCamera.position.x - deltaX * mCameraScale,
+				0.0f, SceneManager.MAP_WIDTH_UNIT * Settings.UNIT - mCamera.viewportWidth);
+		float y = MathUtils.clamp(mCamera.position.y + deltaY * mCameraScale,
+				0.0f, SceneManager.MAP_HEIGHT_UNIT * Settings.UNIT - mCamera.viewportHeight);
+		mCamera.position.x = x;
+		mCamera.position.y = y;
 	}
 }

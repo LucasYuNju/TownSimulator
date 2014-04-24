@@ -13,14 +13,32 @@ public class Renderer {
 	private OrthographicCamera 		mCamera;
 	private RenderBatch		   		mRenderBatch;
 	private AxisAlignedBoundingBox	mScissorAABB;
+	private static	Renderer		mInstance;
 	
-	public Renderer(OrthographicCamera camera)
+	public Renderer()
 	{
-		mCamera = camera;
 		mRenderBatch = new RenderBatch();
 		mScissorAABB = new AxisAlignedBoundingBox();
 	}
 	
+	public void setCamera(OrthographicCamera camera)
+	{
+		mCamera = camera;
+	}
+	
+//	public Renderer(OrthographicCamera camera)
+//	{
+//		mCamera = camera;
+//		mRenderBatch = new RenderBatch();
+//		mScissorAABB = new AxisAlignedBoundingBox();
+//	}
+	
+	public static synchronized Renderer getInstance()
+	{
+		if(mInstance == null)
+			mInstance = new Renderer();
+		return mInstance;
+	}
 	
 	public void renderBegin()
 	{
