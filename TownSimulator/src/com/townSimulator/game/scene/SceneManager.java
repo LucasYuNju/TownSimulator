@@ -82,6 +82,12 @@ public class SceneManager {
 		}
 	}
 	
+	public void addDrawableObject(DrawableObject obj) 
+	{
+		attachCollisionDetection(obj);
+		attachDrawScissor(obj);
+	}
+	
 	public void addMapObjs(MapObject obj)
 	{
 //		mCollsionDetector.addManageble(obj);
