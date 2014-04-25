@@ -73,6 +73,7 @@ public class ResourceManager {
 		mFontGenerator.dispose();
 	}
 	
+	@SuppressWarnings("deprecation")
 	public static BitmapFont getFont(int size)
 	{
 		if(mFontsMap.containsKey(size))
