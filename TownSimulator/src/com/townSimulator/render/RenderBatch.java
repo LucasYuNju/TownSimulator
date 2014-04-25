@@ -1,11 +1,11 @@
-package com.townSimulator.game.render;
+package com.townSimulator.render;
 
 import java.util.Comparator;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.utils.Array;
-import com.townSimulator.game.objs.Drawable;
+import com.townSimulator.entity.Drawable;
 
 public class RenderBatch {
 	private Matrix4					mProjMatrix;

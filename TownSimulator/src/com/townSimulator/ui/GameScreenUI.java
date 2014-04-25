@@ -1,7 +1,7 @@
 package com.townSimulator.ui;
 
 import com.badlogic.gdx.Gdx;
-import com.townSimulator.game.logic.BuildHelper;
+import com.townSimulator.broker.BuildBroker;
 
 public class GameScreenUI extends ScreenUIBase{
 	private BuildComsUI		mBuildComsUI;
@@ -26,7 +26,7 @@ public class GameScreenUI extends ScreenUIBase{
 	
 	public void trackBuildProcess()
 	{
-		BuildHelper.getInstance().setBuildAjustUI(mBuildAjustUI);
+		BuildBroker.getInstance().setBuildAjustUI(mBuildAjustUI);
 	}
 
 	@Override

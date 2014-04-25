@@ -1,7 +1,7 @@
-package com.townSimulator.game.render;
+package com.townSimulator.render;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.townSimulator.game.objs.Drawable;
+import com.townSimulator.entity.Drawable;
 import com.townSimulator.utility.AxisAlignedBoundingBox;
 
 /**

@@ -1,4 +1,4 @@
-package com.townSimulator.game.objs;
+package com.townSimulator.entity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -6,11 +6,11 @@ import java.util.List;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.townSimulator.game.scene.CameraController;
+import com.townSimulator.scene.CameraController;
 import com.townSimulator.utility.ResourceManager;
 import com.townSimulator.utility.Settings;
 
-public class ManObject extends BaseObject{
+public class Man extends Entity{
 	private List<Sprite> sprites =  new ArrayList<Sprite>();
 	private static final float SPRITE_TIME_INTERVAL = 1 / 3f;
 	private static final float MOVE_TIME_INTERVAL = 1 / 10f;
@@ -18,7 +18,7 @@ public class ManObject extends BaseObject{
 	private float timeCurrentSpriteLasts = 0;
 	private float timeStandStill = 0;
 	
-	public ManObject() {
+	public Man() {
 		super(ResourceManager.createSprite("pixar_man_1"));
 		sprites.add(ResourceManager.createSprite("pixar_man_1"));
 		sprites.add(ResourceManager.createSprite("pixar_man_2"));

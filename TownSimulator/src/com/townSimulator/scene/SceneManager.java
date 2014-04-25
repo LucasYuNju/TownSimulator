@@ -1,13 +1,13 @@
-package com.townSimulator.game.scene;
+package com.townSimulator.scene;
 
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.utils.Array;
-import com.townSimulator.game.objs.BaseObject;
-import com.townSimulator.game.objs.Building;
-import com.townSimulator.game.objs.Drawable;
-import com.townSimulator.game.objs.DrawableObject;
-import com.townSimulator.game.objs.MapObject;
-import com.townSimulator.game.render.Renderer;
+import com.townSimulator.entity.Entity;
+import com.townSimulator.entity.Building;
+import com.townSimulator.entity.Drawable;
+import com.townSimulator.entity.DrawableEntity;
+import com.townSimulator.entity.MapEntity;
+import com.townSimulator.render.Renderer;
 import com.townSimulator.utility.AxisAlignedBoundingBox;
 import com.townSimulator.utility.ResourceManager;
 import com.townSimulator.utility.Settings;
@@ -24,18 +24,18 @@ public class SceneManager {
 	private 				QuadTree					mCollsionDetector;
 	private					QuadTree					mDrawScissor;
 	private static			boolean 					mbDrawGrid = false;
-	private					Array<DrawableObject> 		mGridIdleList;
+	private					Array<DrawableEntity> 		mGridIdleList;
 	private					int							mMallocIndex = 0;
 	private	static			SceneManager				instance = null;
-	private					Array<BaseObject> 			mEventsListeningObjs;
+	private					Array<Entity> 			mEventsListeningObjs;
 	
 	public SceneManager()
 	{
 		instance = this;
 		mCollsionDetector = new QuadTree(QuadTreeType.COLLISION, 0.0f, 0.0f, MAP_WIDTH_UNIT * Settings.UNIT, MAP_HEIGHT_UNIT * Settings.UNIT);
 		mDrawScissor = new QuadTree(QuadTreeType.DRAW, 0.0f, 0.0f, MAP_WIDTH_UNIT * Settings.UNIT, MAP_HEIGHT_UNIT * Settings.UNIT);
-		mGridIdleList = new Array<DrawableObject>();
-		mEventsListeningObjs = new Array<BaseObject>();
+		mGridIdleList = new Array<DrawableEntity>();
+		mEventsListeningObjs = new Array<Entity>();
 	}
 	
 	public synchronized static SceneManager getInstance() {
@@ -58,9 +58,9 @@ public class SceneManager {
 		if(mCollsionDetector.detectIntersection(x, y, objs))
 		{
 			for (int i = 0; i < objs.size; i++) {
-				if(objs.get(i) instanceof BaseObject)
+				if(objs.get(i) instanceof Entity)
 				{
-					BaseObject obj = (BaseObject)objs.get(i);
+					Entity obj = (Entity)objs.get(i);
 					if(obj.detectTouchDown())
 						mEventsListeningObjs.add(obj);
 				}
@@ -82,13 +82,13 @@ public class SceneManager {
 		}
 	}
 	
-	public void addDrawableObject(DrawableObject obj) 
+	public void addDrawableObject(DrawableEntity obj) 
 	{
 		attachCollisionDetection(obj);
 		attachDrawScissor(obj);
 	}
 	
-	public void addMapObjs(MapObject obj)
+	public void addMapObjs(MapEntity obj)
 	{
 //		mCollsionDetector.addManageble(obj);
 //		mDrawScissor.addManageble(obj);
@@ -96,7 +96,7 @@ public class SceneManager {
 		attachDrawScissor(obj);
 	}
 	
-	public void removeMapObjs(MapObject obj)
+	public void removeMapObjs(MapEntity obj)
 	{
 		obj.dettachQuadTree(QuadTreeType.COLLISION);
 		obj.dettachQuadTree(QuadTreeType.DRAW);
@@ -184,13 +184,13 @@ public class SceneManager {
 		mbDrawGrid = bDrawGrid;
 	}
 	
-	public DrawableObject mallocGrid()
+	public DrawableEntity mallocGrid()
 	{
 		if(mMallocIndex >= mGridIdleList.size)
 		{
 			Sprite gridSp = ResourceManager.createSprite("grid");
 			gridSp.setSize(Settings.UNIT, Settings.UNIT);
-			mGridIdleList.add( new DrawableObject(gridSp, -1.0f) );
+			mGridIdleList.add( new DrawableEntity(gridSp, -1.0f) );
 		}
 		
 		return mGridIdleList.get(mMallocIndex++);
@@ -207,7 +207,7 @@ public class SceneManager {
 		AxisAlignedBoundingBox gridAABB = new AxisAlignedBoundingBox();
 		for (float x = l; x <= (r+1); x ++) {
 			for (float y = b; y <= (u+1); y ++) {
-				DrawableObject obj = mallocGrid();
+				DrawableEntity obj = mallocGrid();
 				obj.setDrawPosition(x * Settings.UNIT + pad, y * Settings.UNIT + pad);
 				gridAABB.minX = obj.getDrawX();
 				gridAABB.minY = obj.getDrawY();

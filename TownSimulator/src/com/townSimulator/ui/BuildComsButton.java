@@ -2,10 +2,10 @@ package com.townSimulator.ui;
 
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
-import com.townSimulator.game.GameManager;
-import com.townSimulator.game.objs.BuildingType;
-import com.townSimulator.game.objs.ManObject;
-import com.townSimulator.game.scene.SceneManager;
+import com.townSimulator.GameManager;
+import com.townSimulator.entity.BuildingType;
+import com.townSimulator.entity.Man;
+import com.townSimulator.scene.SceneManager;
 
 public class BuildComsButton extends BuildButtonBase{
 	//private String mLabelText;
@@ -28,7 +28,7 @@ public class BuildComsButton extends BuildButtonBase{
 					int pointer, int button) {
 				GameManager.getInstance().startNewBuilding(BuildingType.WOOD_HOUSE);
 				
-				SceneManager.getInstance().addDrawableObject(new ManObject());
+				SceneManager.getInstance().addDrawableObject(new Man());
 			}
 		});
 	}

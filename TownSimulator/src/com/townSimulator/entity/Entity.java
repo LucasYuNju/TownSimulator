@@ -1,25 +1,25 @@
-package com.townSimulator.game.objs;
+package com.townSimulator.entity;
 
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.utils.Array;
-import com.townSimulator.game.scene.QuadTreeNode;
-import com.townSimulator.game.scene.QuadTreeType;
-import com.townSimulator.game.scene.SceneManager;
+import com.townSimulator.scene.QuadTreeNode;
+import com.townSimulator.scene.QuadTreeType;
+import com.townSimulator.scene.SceneManager;
 import com.townSimulator.utility.AxisAlignedBoundingBox;
 
-public class BaseObject extends DrawableObject {
+public class Entity extends DrawableEntity {
 	protected AxisAlignedBoundingBox 	mCollisionAABB;
 	protected Array<QuadTreeNode>				mCollisionQuadNodes;
-	protected BaseObjectListener		mListener;
+	protected EntityListener		mListener;
 	
-	public BaseObject(Sprite sp) {
+	public Entity(Sprite sp) {
 		super(sp);
 		
 		mCollisionAABB = new AxisAlignedBoundingBox();
 		mCollisionQuadNodes = new Array<QuadTreeNode>();
 	}
 	
-	public void setListener(BaseObjectListener baseObjectListener)
+	public void setListener(EntityListener baseObjectListener)
 	{
 		mListener = baseObjectListener;
 	}

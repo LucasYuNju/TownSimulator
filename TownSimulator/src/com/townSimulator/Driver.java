@@ -5,12 +5,11 @@ import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.GL20;
-import com.townSimulator.game.GameManager;
 import com.townSimulator.ui.UIManager;
 import com.townSimulator.utility.ResourceManager;
 import com.townSimulator.utility.Settings;
 
-public class GameMain implements ApplicationListener{
+public class Driver implements ApplicationListener{
 	private GameManager mGameMgr;
 	private UIManager   mUiMgr;
 	

@@ -1,4 +1,4 @@
-package com.townSimulator.game.objs;
+package com.townSimulator.entity;
 
 public enum BuildingType {
 	WOOD_HOUSE

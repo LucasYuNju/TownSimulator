@@ -1,11 +1,11 @@
-package com.townSimulator.game.objs;
+package com.townSimulator.entity;
 
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.townSimulator.utility.AxisAlignedBoundingBox;
 
-public class MapObject extends BaseObject{
+public class MapEntity extends Entity{
 	
-	public MapObject(Sprite sp) {
+	public MapEntity(Sprite sp) {
 		super(sp);
 		
 		mCollisionAABB = new AxisAlignedBoundingBox();

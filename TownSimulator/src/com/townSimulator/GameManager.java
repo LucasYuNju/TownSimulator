@@ -1,4 +1,4 @@
-package com.townSimulator.game;
+package com.townSimulator;
 
 
 import com.badlogic.gdx.Gdx;
@@ -9,14 +9,14 @@ import com.badlogic.gdx.input.GestureDetector;
 import com.badlogic.gdx.input.GestureDetector.GestureListener;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
-import com.townSimulator.game.logic.BuildHelper;
-import com.townSimulator.game.objs.Building;
-import com.townSimulator.game.objs.BuildingType;
-import com.townSimulator.game.objs.ObjectFactory;
-import com.townSimulator.game.render.Renderer;
-import com.townSimulator.game.scene.CameraController;
-import com.townSimulator.game.scene.QuadTreeType;
-import com.townSimulator.game.scene.SceneManager;
+import com.townSimulator.broker.BuildBroker;
+import com.townSimulator.entity.Building;
+import com.townSimulator.entity.BuildingType;
+import com.townSimulator.entity.EntityFactory;
+import com.townSimulator.render.Renderer;
+import com.townSimulator.scene.CameraController;
+import com.townSimulator.scene.QuadTreeType;
+import com.townSimulator.scene.SceneManager;
 import com.townSimulator.ui.UIManager;
 import com.townSimulator.utility.AxisAlignedBoundingBox;
 import com.townSimulator.utility.ResourceManager;
@@ -75,12 +75,12 @@ public class GameManager implements Screen, GestureListener{
 	
 	public void startNewBuilding(BuildingType type)
 	{
-		if(BuildHelper.getInstance().isIdle() == false)
+		if(BuildBroker.getInstance().isIdle() == false)
 			return;
 		
 		mSceneManager.setDrawGrid(true);
 		
-		Building newBuildingObject = ObjectFactory.createBuilding(BuildingType.WOOD_HOUSE);
+		Building newBuildingObject = EntityFactory.createBuilding(BuildingType.WOOD_HOUSE);
 		int gridX = (int) (mCamera.position.x / Settings.UNIT);
 		int gridY = (int) (mCamera.position.y / Settings.UNIT);
 		int gridSerchSize = 0;
@@ -112,7 +112,7 @@ public class GameManager implements Screen, GestureListener{
 				posX, posY);
 		mSceneManager.addBuilding(newBuildingObject);
 		
-		BuildHelper.getInstance().setBuilding(newBuildingObject);
+		BuildBroker.getInstance().setBuilding(newBuildingObject);
 		mUIMgr.getGameUI().trackBuildProcess();
 	}
 	

@@ -1,9 +1,9 @@
-package com.townSimulator.game.objs;
+package com.townSimulator.entity;
 
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
-public class Building extends BaseObject{
+public class Building extends Entity{
 	//private Sprite boundingSp;
 	
 	public Building(Sprite sp) {

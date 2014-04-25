@@ -1,27 +1,27 @@
-package com.townSimulator.game.objs;
+package com.townSimulator.entity;
 
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Array;
-import com.townSimulator.game.scene.QuadTreeManageble;
-import com.townSimulator.game.scene.QuadTreeNode;
-import com.townSimulator.game.scene.QuadTreeType;
-import com.townSimulator.game.scene.SceneManager;
+import com.townSimulator.scene.QuadTreeManageble;
+import com.townSimulator.scene.QuadTreeNode;
+import com.townSimulator.scene.QuadTreeType;
+import com.townSimulator.scene.SceneManager;
 import com.townSimulator.utility.AxisAlignedBoundingBox;
 
-public class DrawableObject implements Drawable, QuadTreeManageble{
+public class DrawableEntity implements Drawable, QuadTreeManageble{
 	protected Sprite 					mSprite;
 	protected AxisAlignedBoundingBox	mDrawAABB;
 	protected Array<QuadTreeNode>		mDrawQuadNodes;
 	protected float  					mDepth;
 	protected boolean 					mbVisible = true;
 	
-	public DrawableObject(Sprite sp)
+	public DrawableEntity(Sprite sp)
 	{
 		this(sp, 0.0f);
 	}
 	
-	public DrawableObject(Sprite sp, float depth)
+	public DrawableEntity(Sprite sp, float depth)
 	{
 		mSprite = sp;
 		mDepth = depth;

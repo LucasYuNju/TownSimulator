@@ -1,32 +1,32 @@
-package com.townSimulator.game.logic;
+package com.townSimulator.broker;
 
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
-import com.townSimulator.game.objs.BaseObject;
-import com.townSimulator.game.objs.BaseObjectListener;
-import com.townSimulator.game.objs.Building;
-import com.townSimulator.game.scene.CameraController;
-import com.townSimulator.game.scene.CameraController.CameraListener;
-import com.townSimulator.game.scene.QuadTreeManageble;
-import com.townSimulator.game.scene.QuadTreeType;
-import com.townSimulator.game.scene.SceneManager;
+import com.townSimulator.entity.Entity;
+import com.townSimulator.entity.EntityListener;
+import com.townSimulator.entity.Building;
+import com.townSimulator.scene.CameraController;
+import com.townSimulator.scene.CameraController.CameraListener;
+import com.townSimulator.scene.QuadTreeManageble;
+import com.townSimulator.scene.QuadTreeType;
+import com.townSimulator.scene.SceneManager;
 import com.townSimulator.ui.BuildAdjustUI;
 import com.townSimulator.ui.BuildAdjustUI.BuildAjustUIListener;
 import com.townSimulator.utility.AxisAlignedBoundingBox;
 import com.townSimulator.utility.Settings;
 
-public class BuildHelper implements BaseObjectListener, CameraListener{
-	private static 	BuildHelper mInstance;
+public class BuildBroker implements EntityListener, CameraListener{
+	private static 	BuildBroker mInstance;
 	private 		Building	mCurBuilding;
 	private 		boolean		mbBuildingMovable = false;
 	private			float		mMoveDeltaX = 0.0f;
 	private			float		mMoveDeltaY = 0.0f;
 	private			BuildAdjustUI mBuildUI;
 	
-	public static synchronized BuildHelper getInstance()
+	public static synchronized BuildBroker getInstance()
 	{
 		if(mInstance == null)
-			mInstance = new BuildHelper();
+			mInstance = new BuildBroker();
 		return mInstance;
 	}
 	
@@ -59,7 +59,7 @@ public class BuildHelper implements BaseObjectListener, CameraListener{
 				mBuildUI.setListener(null);
 				mBuildUI.setVisible(false);
 				mBuildUI = null;
-				CameraController.getInstance().removeListner(BuildHelper.this);
+				CameraController.getInstance().removeListner(BuildBroker.this);
 			}
 			
 			@Override
@@ -71,7 +71,7 @@ public class BuildHelper implements BaseObjectListener, CameraListener{
 				mBuildUI.setListener(null);
 				mBuildUI.setVisible(false);
 				mBuildUI = null;
-				CameraController.getInstance().removeListner(BuildHelper.this);
+				CameraController.getInstance().removeListner(BuildBroker.this);
 			}
 		});
 		updateUIPos();
@@ -91,7 +91,7 @@ public class BuildHelper implements BaseObjectListener, CameraListener{
 	}
 
 	@Override
-	public void objBeTouchDown(BaseObject obj) {
+	public void objBeTouchDown(Entity obj) {
 		//System.out.println("Touch Down");
 		CameraController.getInstance().setMovable(false);
 		mbBuildingMovable = true;
@@ -100,7 +100,7 @@ public class BuildHelper implements BaseObjectListener, CameraListener{
 	}
 
 	@Override
-	public void objBeTouchUp(BaseObject obj) {
+	public void objBeTouchUp(Entity obj) {
 		//System.out.println("Touch Up");
 		CameraController.getInstance().setMovable(true);
 		mbBuildingMovable = false;
@@ -110,7 +110,7 @@ public class BuildHelper implements BaseObjectListener, CameraListener{
 	}
 
 	@Override
-	public void objBeTouchDragged(BaseObject obj, float x, float y, float deltaX, float deltaY) {
+	public void objBeTouchDragged(Entity obj, float x, float y, float deltaX, float deltaY) {
 		//System.out.println("Touch Dragged " + x + " " + y + " " + deltaX + " " + deltaY);
 		if(mbBuildingMovable)
 		{

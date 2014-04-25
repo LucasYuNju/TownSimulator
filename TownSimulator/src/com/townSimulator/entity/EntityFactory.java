@@ -1,21 +1,21 @@
-package com.townSimulator.game.objs;
+package com.townSimulator.entity;
 
 import com.badlogic.gdx.utils.Array;
 import com.townSimulator.utility.ResourceManager;
 import com.townSimulator.utility.Settings;
 
-public class ObjectFactory {
+public class EntityFactory {
 	/*
 	 * 没用
 	 */
-	private static Array<DrawableObject> mMapObjs = new Array<DrawableObject>();
+	private static Array<DrawableEntity> mMapObjs = new Array<DrawableEntity>();
 	
-	public static MapObject createMapObj(MapObjectType objType)
+	public static MapEntity createMapObj(MapEntityType objType)
 	{
-		MapObject obj = null;
+		MapEntity obj = null;
 		switch (objType) {
 		case TREE:
-			obj = new MapObject(ResourceManager.createSprite("map_tree"));
+			obj = new MapEntity(ResourceManager.createSprite("map_tree"));
 			mMapObjs.add(obj);
 			break;
 //		case BUILDING:

@@ -1,11 +1,11 @@
-package com.townSimulator.game.scene;
+package com.townSimulator.scene;
 
 
 import java.util.Random;
 
-import com.townSimulator.game.objs.MapObject;
-import com.townSimulator.game.objs.MapObjectType;
-import com.townSimulator.game.objs.ObjectFactory;
+import com.townSimulator.entity.MapEntity;
+import com.townSimulator.entity.MapEntityType;
+import com.townSimulator.entity.EntityFactory;
 import com.townSimulator.utility.Settings;
 
 /**
@@ -18,7 +18,7 @@ public class Map{
 	private int 						mWidthInUnits;
 	private int 						mHeightInUnits;
 	private float[][] 					mNoiseMap;
-	private MapObject[][] 				mObjsMap;
+	private MapEntity[][] 				mObjsMap;
 	private float[] 					mTreeScaleMap = { 1.0f, 0.8f, 0.6f, 0.0f, 0.0f, 0.0f };
 	private SceneManager				mSceneMgr;
 	
@@ -34,7 +34,7 @@ public class Map{
 	private void init(int seed)
 	{
 		mNoiseMap = new float[mHeightInUnits][mWidthInUnits];
-		mObjsMap  = new MapObject[mHeightInUnits][mWidthInUnits];
+		mObjsMap  = new MapEntity[mHeightInUnits][mWidthInUnits];
 		SimplexNoise noiseGenerator = new SimplexNoise(128, 0.5, seed);
 		Random rand = new Random();
 		for (int y = 0; y < mHeightInUnits; y++) {
@@ -47,7 +47,7 @@ public class Map{
 					if( scale == 0.0f )
 						continue;
 					
-					MapObject obj = ObjectFactory.createMapObj(MapObjectType.TREE);
+					MapEntity obj = EntityFactory.createMapObj(MapEntityType.TREE);
 					obj.setDrawSize(Settings.UNIT * 1.5f * scale, Settings.UNIT * 2.0f * scale);
 					float originOffsetX = obj.getDrawWidth() * 0.5f;
 					float randX = (rand.nextFloat() - 0.5f) * Settings.UNIT * 0.2f;

@@ -3,7 +3,7 @@ package com.townSimulator.ui;
 
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
-import com.townSimulator.game.GameManager;
+import com.townSimulator.GameManager;
 import com.townSimulator.ui.StartScreenUI.StartUIListener;
 
 public class UIManager implements Screen, InputProcessor, StartUIListener{

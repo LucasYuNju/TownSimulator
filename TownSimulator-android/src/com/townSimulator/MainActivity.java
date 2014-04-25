@@ -2,9 +2,9 @@ package com.townSimulator;
 
 import android.os.Bundle;
 
+import com.townSimulator.Driver;
 import com.badlogic.gdx.backends.android.AndroidApplication;
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
-import com.townSimulator.GameMain;
 
 public class MainActivity extends AndroidApplication {
     @Override
@@ -14,6 +14,6 @@ public class MainActivity extends AndroidApplication {
         AndroidApplicationConfiguration cfg = new AndroidApplicationConfiguration();
         cfg.useGLSurfaceView20API18 = false;
         
-        initialize(new GameMain(), cfg);
+        initialize(new Driver(), cfg);
     }
 }
