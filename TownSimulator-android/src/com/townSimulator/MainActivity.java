@@ -2,7 +2,7 @@ package com.townSimulator;
 
 import android.os.Bundle;
 
-import com.townSimulator.Driver;
+import com.TownSimulator.Driver;
 import com.badlogic.gdx.backends.android.AndroidApplication;
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
 
