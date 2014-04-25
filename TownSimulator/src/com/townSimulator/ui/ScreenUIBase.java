@@ -2,21 +2,23 @@ package com.townSimulator.ui;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
+import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.townSimulator.utility.ResourceManager;
 import com.townSimulator.utility.Settings;
 
-public class ScreenUIBase implements InputProcessor{
+public class ScreenUIBase implements InputProcessor, Screen{
 	protected final boolean 	SHOW_FPS = true;
 	protected 		Stage 		mStage;
 	protected 		Label 		mFpsLabel;
 	
 	public ScreenUIBase()
 	{
-		mStage = new Stage(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), true);
+		mStage = new Stage(new ScreenViewport());
 		if( SHOW_FPS )
 		{
 			LabelStyle labelStyle = new LabelStyle();
@@ -45,6 +47,12 @@ public class ScreenUIBase implements InputProcessor{
 	public void dispose()
 	{
 		mStage.dispose();
+	}
+	
+	public void resume()
+	{
+		mFpsLabel.getStyle().font = ResourceManager.getFont( (int)(Settings.UNIT * 0.25f) );
+		System.out.println("CCCCCCC");
 	}
 
 	public InputProcessor getInputProcessor()
@@ -96,6 +104,45 @@ public class ScreenUIBase implements InputProcessor{
 	public boolean scrolled(int amount) {
 		// TODO Auto-generated method stub
 		return false;
+	}
+
+	
+	
+	@Override
+	public void render(float delta) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void resize(int width, int height) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void show() {
+//		mStage = new Stage(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), true);
+//		if( SHOW_FPS )
+//		{
+//			LabelStyle labelStyle = new LabelStyle();
+//			labelStyle.font = ResourceManager.getFont( (int)(Settings.UNIT * 0.25f) );
+//			labelStyle.fontColor = Color.YELLOW;
+//			mFpsLabel = new Label("FPS", labelStyle);
+//			mFpsLabel.setPosition(0, Gdx.graphics.getHeight() - mFpsLabel.getHeight());
+//			mStage.addActor(mFpsLabel);
+//		}
+	}
+
+	@Override
+	public void hide() {
+		dispose();
+	}
+
+	@Override
+	public void pause() {
+		// TODO Auto-generated method stub
+		
 	}
 	
 }

@@ -10,7 +10,7 @@ public class GameScreenUI extends ScreenUIBase{
 	
 	public GameScreenUI()
 	{
-		initComponents();
+		//initComponents();
 	}
 	
 	private void initComponents()
@@ -28,5 +28,14 @@ public class GameScreenUI extends ScreenUIBase{
 	{
 		BuildHelper.getInstance().setBuildAjustUI(mBuildAjustUI);
 	}
+
+	@Override
+	public void show() {
+		// TODO Auto-generated method stub
+		super.show();
+		initComponents();
+	}
+	
+	
 	
 }

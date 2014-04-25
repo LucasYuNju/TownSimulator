@@ -4,7 +4,7 @@ package com.townSimulator;
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
-import com.badlogic.gdx.graphics.GL10;
+import com.badlogic.gdx.graphics.GL20;
 import com.townSimulator.game.GameManager;
 import com.townSimulator.ui.UIManager;
 import com.townSimulator.utility.ResourceManager;
@@ -27,18 +27,21 @@ public class GameMain implements ApplicationListener{
 		inputMulti.addProcessor(mUiMgr.getInputProcessor());
 		inputMulti.addProcessor(mGameMgr.getInputProcessor());
 		Gdx.input.setInputProcessor(inputMulti);
+		System.out.println("Create");
+		
 	}
 
 	@Override
 	public void dispose() {
 		mGameMgr.dispose();
 		mUiMgr.dispose();
+		System.out.println("Dispose");
 	}
 
 	@Override
 	public void render() {	
 		Gdx.gl.glClearColor(0, 0, 0, 1);
-		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
+		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
 		float timeDelta = Gdx.graphics.getDeltaTime();
 		mGameMgr.render( timeDelta );
@@ -56,6 +59,8 @@ public class GameMain implements ApplicationListener{
 
 	@Override
 	public void resume() {
+		mGameMgr.resume();
+		mUiMgr.resume();
 	}
 
 }

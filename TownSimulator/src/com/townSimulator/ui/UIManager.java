@@ -73,14 +73,12 @@ public class UIManager implements Screen, InputProcessor, StartUIListener{
 
 	@Override
 	public void show() {
-		// TODO Auto-generated method stub
-		
+		mCurScreenUI.show();
 	}
 
 	@Override
 	public void hide() {
-		// TODO Auto-generated method stub
-		
+		mCurScreenUI.hide();
 	}
 
 	@Override
@@ -91,8 +89,7 @@ public class UIManager implements Screen, InputProcessor, StartUIListener{
 
 	@Override
 	public void resume() {
-		// TODO Auto-generated method stub
-		
+		mStartUI.resume();
 	}
 
 	@Override

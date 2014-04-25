@@ -82,6 +82,14 @@ public class StartScreenUI extends ScreenUIBase {
 		}
 	}
 	
+	
+	
+//	@Override
+//	public void show() {
+//		super.show();
+//		initComponents();
+//	}
+
 	private void updateLayout()
 	{
 		float centerX = Gdx.graphics.getWidth() * 0.5f;

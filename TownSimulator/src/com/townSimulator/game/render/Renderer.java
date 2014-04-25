@@ -19,6 +19,7 @@ public class Renderer {
 	{
 		mRenderBatch = new RenderBatch();
 		mScissorAABB = new AxisAlignedBoundingBox();
+		System.out.println("Renderer Create >>>>>>>>>>>");
 	}
 	
 	public void setCamera(OrthographicCamera camera)
@@ -62,6 +63,7 @@ public class Renderer {
 	public void dispose()
 	{
 		mRenderBatch.dispose();
+		mInstance = null;
 	}
 	
 	public void renderEnd()

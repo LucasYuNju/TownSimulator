@@ -12,7 +12,7 @@ public class MainActivity extends AndroidApplication {
         super.onCreate(savedInstanceState);
         
         AndroidApplicationConfiguration cfg = new AndroidApplicationConfiguration();
-        cfg.useGL20 = false;
+        cfg.useGLSurfaceView20API18 = false;
         
         initialize(new GameMain(), cfg);
     }

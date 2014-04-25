@@ -1,7 +1,7 @@
 package com.townSimulator.ui;
 
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.Align;
@@ -30,12 +30,21 @@ class BuildButtonBase extends UIButton
 			labelStyle.fontColor = Color.WHITE;
 			mTextLabel = new Label(labelText, labelStyle)
 			{
+//				@Override
+//				public void draw(SpriteBatch batch, float parentAlpha) {
+//					batch.setColor(1.0f, 1.0f, 1.0f, parentAlpha * getColor().a);
+//					mLabelBackgroud.draw(batch, mTextLabel.getX(), mTextLabel.getY(), mTextLabel.getWidth(), mTextLabel.getHeight());
+//					super.draw(batch, parentAlpha);
+//				}
+
 				@Override
-				public void draw(SpriteBatch batch, float parentAlpha) {
+				public void draw(Batch batch, float parentAlpha) {
 					batch.setColor(1.0f, 1.0f, 1.0f, parentAlpha * getColor().a);
 					mLabelBackgroud.draw(batch, mTextLabel.getX(), mTextLabel.getY(), mTextLabel.getWidth(), mTextLabel.getHeight());
 					super.draw(batch, parentAlpha);
 				}
+				
+				
 			};
 			mTextLabel.setAlignment(Align.center);
 			mTextLabel.setPosition( (getWidth() - mTextLabel.getWidth()) * 0.5f, getHeight());
@@ -45,7 +54,7 @@ class BuildButtonBase extends UIButton
 	}
 	
 	@Override
-	public void draw(SpriteBatch batch, float parentAlpha) {
+	public void draw(Batch batch, float parentAlpha) {
 		batch.setColor(1.0f, 1.0f, 1.0f, parentAlpha * getColor().a);
 		if(!isPressed())
 			mButtonDown.draw(batch, getX(), getY(), getWidth(), getHeight());

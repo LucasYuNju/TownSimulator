@@ -19,6 +19,7 @@ import com.townSimulator.game.scene.QuadTreeType;
 import com.townSimulator.game.scene.SceneManager;
 import com.townSimulator.ui.UIManager;
 import com.townSimulator.utility.AxisAlignedBoundingBox;
+import com.townSimulator.utility.ResourceManager;
 import com.townSimulator.utility.Settings;
 
 public class GameManager implements Screen, GestureListener{
@@ -156,13 +157,16 @@ public class GameManager implements Screen, GestureListener{
 
 	@Override
 	public void resume() {
-		// TODO Auto-generated method stub
+		ResourceManager.reloadResources();
 	}
 
 	@Override
 	public void dispose() {
 		//mSpriteBatch.dispose();
 		mRenderer.dispose();
+		ResourceManager.dispose();
+		System.out.println("BBBBBBBBBBBBBBB");
+		mInstance = null;
 	}
 
 	
