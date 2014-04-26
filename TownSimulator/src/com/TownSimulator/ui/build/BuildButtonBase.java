@@ -9,6 +9,12 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.Align;
 
+/**
+ * 
+ * Button that has background
+ * better name it BackgroundedButton!!!
+ * 
+ */
 class BuildButtonBase extends UIButton{
 	protected 	TextureRegion 	mIcon;
 	protected	TextureRegion	mLabelBackgroud;

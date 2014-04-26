@@ -10,22 +10,24 @@ import com.TownSimulator.entity.EntityFactory;
 import com.TownSimulator.entity.EntityListener;
 import com.TownSimulator.render.Renderer;
 import com.TownSimulator.ui.UIManager;
-import com.TownSimulator.ui.build.BuildAdjustUI;
-import com.TownSimulator.ui.build.BuildAdjustUI.BuildAjustUIListener;
+import com.TownSimulator.ui.build.BuildingAdjustGroup;
+import com.TownSimulator.ui.build.BuildingAdjustGroup.BuildAjustUIListener;
 import com.TownSimulator.utility.AxisAlignedBoundingBox;
 import com.TownSimulator.utility.Settings;
 import com.TownSimulator.utility.Singleton;
 import com.TownSimulator.utility.quadtree.QuadTreeManageble;
 import com.TownSimulator.utility.quadtree.QuadTreeType;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.Logger;
 
 public class BuildBroker extends Singleton implements EntityListener, CameraListener{
 	private 		Building		mCurBuilding;
 	private 		boolean			mbBuildingMovable = false;
 	private			float			mMoveDeltaX = 0.0f;
 	private			float			mMoveDeltaY = 0.0f;
-	private			BuildAdjustUI 	mBuildUI;
+	private			BuildingAdjustGroup 	mBuildUI;
 	
 	private BuildBroker()
 	{
@@ -87,7 +89,7 @@ public class BuildBroker extends Singleton implements EntityListener, CameraList
 		mCurBuilding.setListener(this);
 	}
 	
-	private void setBuildAjustUI(BuildAdjustUI ui)
+	private void setBuildAjustUI(BuildingAdjustGroup ui)
 	{
 		if(ui == null)
 			return;

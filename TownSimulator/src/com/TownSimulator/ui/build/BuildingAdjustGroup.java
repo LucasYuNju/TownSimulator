@@ -5,13 +5,13 @@ import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 
-public class BuildAdjustUI extends Group{
+public class BuildingAdjustGroup extends Group{
 	private static final 	float 					BUTTON_SIZE = Settings.UNIT * 0.5f;
 	private 				BuildButtonBase 		mConfirmButton;
 	private 				BuildButtonBase			mCancelButton;
 	private 				BuildAjustUIListener 	mListener;
 	
-	public BuildAdjustUI()
+	public BuildingAdjustGroup()
 	{
 		initComponents();
 	}
@@ -20,7 +20,7 @@ public class BuildAdjustUI extends Group{
 	{
 		setSize(BUTTON_SIZE, BUTTON_SIZE * 2.2f);
 		
-		mConfirmButton = new BuildButtonBase("button_confirm", null);
+		mConfirmButton = new BuildButtonBase("button_confirm", "aaaa");
 		mConfirmButton.setSize(BUTTON_SIZE, BUTTON_SIZE);
 		mConfirmButton.setPosition(0.0f, getHeight() - mConfirmButton.getHeight());
 		mConfirmButton.addListener(new InputListener()
