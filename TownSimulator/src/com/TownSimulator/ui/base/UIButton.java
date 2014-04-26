@@ -4,38 +4,44 @@ package com.TownSimulator.ui.base;
 import com.TownSimulator.utility.ResourceManager;
 import com.TownSimulator.utility.Settings;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.Align;
-import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 
 public class UIButton extends Button{
 	private Label 		mTextLabel;
-	private Drawable 	mImgUp;
-	private Drawable 	mImgDown;
+	//private String 		mImgUp;
+	//private String 		mImgDown;
+	private TextureRegion		mImgUp;
+	private TextureRegion		mImgDown;
 	private String 		mText;
 	
-	public UIButton(Drawable imgUp, Drawable imgDown, String text)
+	public UIButton(String imgUp, String imgDown, String text)
 	{
-		super(new ButtonStyle());
-		mImgUp = imgUp;
-		mImgDown = imgDown;
+		//super(new ButtonStyle());
+		//mImgUp = imgUp;
+		//mImgDown = imgDown;
+		mImgUp = ResourceManager.getInstance(ResourceManager.class).findTextureRegion(imgUp);
+		mImgDown = ResourceManager.getInstance(ResourceManager.class).findTextureRegion(imgDown);
 		mText = text;
-		
-		initComponents();
-	}
-	
-	private void initComponents()
-	{
-		ButtonStyle buttonStyle = getStyle();
-		buttonStyle.up = mImgUp;
-		buttonStyle.down = mImgDown;
-		
 		if( mText != null)
 			initLable();
 		
+		//initComponents();
 	}
+	
+//	private void initComponents()
+//	{
+//		//ButtonStyle buttonStyle = getStyle();
+//		//buttonStyle.up = mImgUp;
+//		//buttonStyle.down = mImgDown;
+//		
+//		
+//		
+//	}
 	
 	
 	
@@ -75,7 +81,23 @@ public class UIButton extends Button{
 	public void setText(String text)
 	{
 		mText = text;
+		if(mTextLabel != null)
+			mTextLabel.setText(text);
 	}
 
+	@Override
+	public void draw(Batch batch, float parentAlpha) {
+		//super.draw(batch, parentAlpha);
+		Color c = this.getColor();
+		batch.setColor(c.r, c.g, c.b, c.a * parentAlpha);
+		if(isPressed())
+			batch.draw(mImgDown, getX(), getY(), getWidth(), getHeight());
+		else
+			batch.draw(mImgUp, getX(), getY(), getWidth(), getHeight());
+		
+		drawChildren(batch, c.a * parentAlpha);
+	}
+	
+	
 	
 }

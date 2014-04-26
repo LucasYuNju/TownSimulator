@@ -11,17 +11,20 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 
 class BuildButtonBase extends UIButton
 {
-	protected 	TextureRegionDrawable 	mButtonUp   = new TextureRegionDrawable(ResourceManager.getInstance(ResourceManager.class).findTextureRegion("button_up"));
-	protected 	TextureRegionDrawable 	mButtonDown = new TextureRegionDrawable(ResourceManager.getInstance(ResourceManager.class).findTextureRegion("button_down"));
-	protected	TextureRegionDrawable	mLabelBackgroud = new TextureRegionDrawable(ResourceManager.getInstance(ResourceManager.class).findTextureRegion("label_background"));
+	protected 	TextureRegionDrawable 	mButtonUp;
+	protected 	TextureRegionDrawable 	mButtonDown;
+	protected	TextureRegionDrawable	mLabelBackgroud;
 	protected 	TextureRegionDrawable 	mButtonImg;
 	protected	Label					mTextLabel	= null;
 	
 	public BuildButtonBase(String textureName, String labelText)
 	{
-		super(null, null, null);
+		super("button_up", "button_down", null);
 		setSize(BuildComsUI.BUTTON_WIDTH, BuildComsUI.BUTTON_HEIGHT);
-		mButtonImg = new TextureRegionDrawable( ResourceManager.getInstance(ResourceManager.class).findTextureRegion(textureName) );
+		mButtonImg 		= new TextureRegionDrawable( ResourceManager.getInstance(ResourceManager.class).findTextureRegion(textureName) );
+		//mButtonUp   	= new TextureRegionDrawable(ResourceManager.getInstance(ResourceManager.class).findTextureRegion("button_up"));
+		//mButtonDown 	= new TextureRegionDrawable(ResourceManager.getInstance(ResourceManager.class).findTextureRegion("button_down"));
+		mLabelBackgroud = new TextureRegionDrawable(ResourceManager.getInstance(ResourceManager.class).findTextureRegion("label_background"));
 		
 		if(labelText != null)
 		{
@@ -49,14 +52,17 @@ class BuildButtonBase extends UIButton
 	
 	@Override
 	public void draw(Batch batch, float parentAlpha) {
-		batch.setColor(1.0f, 1.0f, 1.0f, parentAlpha * getColor().a);
-		if(!isPressed())
-			mButtonDown.draw(batch, getX(), getY(), getWidth(), getHeight());
-		mButtonUp.draw(batch, getX(), getY(), getWidth(), getHeight());
+		super.draw(batch, parentAlpha);
+		Color c = getColor();
+		batch.setColor(c.r, c.g, c.b, c.a * parentAlpha);
+		//if(!isPressed())
+		//	mButtonDown.draw(batch, getX(), getY(), getWidth(), getHeight());
+		//mButtonUp.draw(batch, getX(), getY(), getWidth(), getHeight());
 		float iconPad = getWidth() * 0.2f;
 		mButtonImg.draw(batch, 	getX() + iconPad, 				getY() + iconPad,
 								getWidth() - iconPad * 2.0f, 	getHeight() - iconPad * 2.0f);
-		super.draw(batch, parentAlpha);
+		//drawChildren(batch, parentAlpha);
+		//super.draw(batch, parentAlpha);
 	}
 	
 }

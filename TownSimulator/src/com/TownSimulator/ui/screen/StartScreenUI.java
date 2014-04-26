@@ -3,11 +3,9 @@ package com.TownSimulator.ui.screen;
 
 import com.TownSimulator.ui.base.ScreenUIBase;
 import com.TownSimulator.ui.base.UIButton;
-import com.TownSimulator.utility.ResourceManager;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
-import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Array;
 
 public class StartScreenUI extends ScreenUIBase {
@@ -35,10 +33,10 @@ public class StartScreenUI extends ScreenUIBase {
 	{
 		mButtonList = new Array<UIButton>();
 		
-		TextureRegionDrawable imgUp = new TextureRegionDrawable(ResourceManager.getInstance(ResourceManager.class).findTextureRegion("button_up"));
-		TextureRegionDrawable imgDown = new TextureRegionDrawable(ResourceManager.getInstance(ResourceManager.class).findTextureRegion("button_down"));
+		//TextureRegionDrawable imgUp = new TextureRegionDrawable(ResourceManager.getInstance(ResourceManager.class).findTextureRegion("button_up"));
+		//TextureRegionDrawable imgDown = new TextureRegionDrawable(ResourceManager.getInstance(ResourceManager.class).findTextureRegion("button_down"));
 		
-		mStartButton = new UIButton(imgUp, imgDown, "Start");
+		mStartButton = new UIButton("button_up", "button_down", "Start");
 		mStartButton.setSize(mButtonWidth, mButtonHeight );
 		mStartButton.addListener(new InputListener()
 		{
@@ -66,15 +64,15 @@ public class StartScreenUI extends ScreenUIBase {
 		});
 		mButtonList.add(mStartButton);
 		
-		mOptionButton = new UIButton(imgUp, imgDown, "Option");
+		mOptionButton = new UIButton("button_up", "button_down", "Option");
 		mOptionButton.setSize(mButtonWidth, mButtonHeight );	
 		mButtonList.add(mOptionButton);
 		
-		mScoreButton = new UIButton(imgUp, imgDown, "Score");
+		mScoreButton = new UIButton("button_up", "button_down", "Score");
 		mScoreButton.setSize(mButtonWidth, mButtonHeight );	
 		mButtonList.add(mScoreButton);
 		
-		mQuitButton = new UIButton(imgUp, imgDown, "Quit");
+		mQuitButton = new UIButton("button_up", "button_down", "Quit");
 		mQuitButton.setSize(mButtonWidth, mButtonHeight );	
 		mButtonList.add(mQuitButton);
 		
