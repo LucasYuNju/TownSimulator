@@ -12,38 +12,20 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.Align;
 
 public class UIButton extends Button{
-	private Label 		mTextLabel;
-	//private String 		mImgUp;
-	//private String 		mImgDown;
-	private TextureRegion		mImgUp;
-	private TextureRegion		mImgDown;
-	private String 		mText;
+	private Label 			mTextLabel;
+	private TextureRegion	mImgUp;
+	private TextureRegion	mImgDown;
+	private String 			mText;
 	
 	public UIButton(String imgUp, String imgDown, String text)
 	{
-		//super(new ButtonStyle());
-		//mImgUp = imgUp;
-		//mImgDown = imgDown;
 		mImgUp = ResourceManager.getInstance(ResourceManager.class).findTextureRegion(imgUp);
 		mImgDown = ResourceManager.getInstance(ResourceManager.class).findTextureRegion(imgDown);
 		mText = text;
 		if( mText != null)
 			initLable();
 		
-		//initComponents();
 	}
-	
-//	private void initComponents()
-//	{
-//		//ButtonStyle buttonStyle = getStyle();
-//		//buttonStyle.up = mImgUp;
-//		//buttonStyle.down = mImgDown;
-//		
-//		
-//		
-//	}
-	
-	
 	
 	@Override
 	public void setWidth(float width) {
@@ -59,8 +41,6 @@ public class UIButton extends Button{
 			mTextLabel.setHeight(height);
 	}
 	
-	
-
 	@Override
 	public void setSize(float width, float height) {
 		setWidth(width);
@@ -87,7 +67,6 @@ public class UIButton extends Button{
 
 	@Override
 	public void draw(Batch batch, float parentAlpha) {
-		//super.draw(batch, parentAlpha);
 		Color c = this.getColor();
 		batch.setColor(c.r, c.g, c.b, c.a * parentAlpha);
 		if(isPressed())

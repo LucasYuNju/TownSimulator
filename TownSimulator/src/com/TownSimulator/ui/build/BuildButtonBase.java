@@ -4,27 +4,22 @@ import com.TownSimulator.ui.base.UIButton;
 import com.TownSimulator.utility.ResourceManager;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.Align;
-import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 
-class BuildButtonBase extends UIButton
-{
-	protected 	TextureRegionDrawable 	mButtonUp;
-	protected 	TextureRegionDrawable 	mButtonDown;
-	protected	TextureRegionDrawable	mLabelBackgroud;
-	protected 	TextureRegionDrawable 	mButtonImg;
-	protected	Label					mTextLabel	= null;
+class BuildButtonBase extends UIButton{
+	protected 	TextureRegion 	mIcon;
+	protected	TextureRegion	mLabelBackgroud;
+	protected	Label			mTextLabel	= null;
 	
 	public BuildButtonBase(String textureName, String labelText)
 	{
 		super("button_up", "button_down", null);
 		setSize(BuildComsUI.BUTTON_WIDTH, BuildComsUI.BUTTON_HEIGHT);
-		mButtonImg 		= new TextureRegionDrawable( ResourceManager.getInstance(ResourceManager.class).findTextureRegion(textureName) );
-		//mButtonUp   	= new TextureRegionDrawable(ResourceManager.getInstance(ResourceManager.class).findTextureRegion("button_up"));
-		//mButtonDown 	= new TextureRegionDrawable(ResourceManager.getInstance(ResourceManager.class).findTextureRegion("button_down"));
-		mLabelBackgroud = new TextureRegionDrawable(ResourceManager.getInstance(ResourceManager.class).findTextureRegion("label_background"));
+		mIcon 		= ResourceManager.getInstance(ResourceManager.class).findTextureRegion(textureName);
+		mLabelBackgroud = ResourceManager.getInstance(ResourceManager.class).findTextureRegion("background");
 		
 		if(labelText != null)
 		{
@@ -36,8 +31,9 @@ class BuildButtonBase extends UIButton
 
 				@Override
 				public void draw(Batch batch, float parentAlpha) {
-					batch.setColor(1.0f, 1.0f, 1.0f, parentAlpha * getColor().a);
-					mLabelBackgroud.draw(batch, mTextLabel.getX(), mTextLabel.getY(), mTextLabel.getWidth(), mTextLabel.getHeight());
+					Color c = getColor();
+					batch.setColor(c.r, c.g, c.b, c.a * parentAlpha);
+					batch.draw(mLabelBackgroud, mTextLabel.getX(), mTextLabel.getY(), mTextLabel.getWidth(), mTextLabel.getHeight());
 					super.draw(batch, parentAlpha);
 				}
 				
@@ -55,14 +51,11 @@ class BuildButtonBase extends UIButton
 		super.draw(batch, parentAlpha);
 		Color c = getColor();
 		batch.setColor(c.r, c.g, c.b, c.a * parentAlpha);
-		//if(!isPressed())
-		//	mButtonDown.draw(batch, getX(), getY(), getWidth(), getHeight());
-		//mButtonUp.draw(batch, getX(), getY(), getWidth(), getHeight());
 		float iconPad = getWidth() * 0.2f;
-		mButtonImg.draw(batch, 	getX() + iconPad, 				getY() + iconPad,
+		batch.draw(mIcon,	getX() + iconPad, 				getY() + iconPad,
 								getWidth() - iconPad * 2.0f, 	getHeight() - iconPad * 2.0f);
-		//drawChildren(batch, parentAlpha);
-		//super.draw(batch, parentAlpha);
+//		mButtonImg.draw(batch, 	getX() + iconPad, 				getY() + iconPad,
+//								getWidth() - iconPad * 2.0f, 	getHeight() - iconPad * 2.0f);
 	}
 	
 }
