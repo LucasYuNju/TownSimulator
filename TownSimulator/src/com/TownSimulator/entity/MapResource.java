@@ -2,9 +2,9 @@ package com.TownSimulator.entity;
 
 import com.badlogic.gdx.graphics.g2d.Sprite;
 
-public class Building extends Entity{
+public class MapResource extends Entity{
 	
-	public Building(Sprite sp) {
+	public MapResource(Sprite sp) {
 		super(sp);
 	}
 	

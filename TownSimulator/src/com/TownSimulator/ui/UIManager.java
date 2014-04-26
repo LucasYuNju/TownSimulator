@@ -1,25 +1,69 @@
 package com.TownSimulator.ui;
 
 
-import com.TownSimulator.GameManager;
-import com.TownSimulator.ui.StartScreenUI.StartUIListener;
-import com.badlogic.gdx.InputProcessor;
-import com.badlogic.gdx.Screen;
+import com.TownSimulator.driver.Driver;
+import com.TownSimulator.driver.DriverListenerBaseImpl;
+import com.TownSimulator.io.InputMgr;
+import com.TownSimulator.io.InputMgrListenerBaseImpl;
+import com.TownSimulator.map.Map;
+import com.TownSimulator.render.Renderer;
+import com.TownSimulator.ui.base.ScreenUIBase;
+import com.TownSimulator.ui.screen.GameScreenUI;
+import com.TownSimulator.ui.screen.StartScreenUI;
+import com.TownSimulator.ui.screen.StartScreenUI.StartUIListener;
+import com.TownSimulator.utility.Singleton;
 
-public class UIManager implements Screen, InputProcessor, StartUIListener{
+public class UIManager extends Singleton implements StartUIListener{
 	private StartScreenUI 	mStartUI;
 	private GameScreenUI	mGameUI;
 	private ScreenUIBase	mCurScreenUI;
-	private InputProcessor 	mCurInputProcessor;
-	private GameManager		mGameMgr = null;
 	
-	public UIManager()
+	private UIManager()
 	{
 		mStartUI = new StartScreenUI();
 		mGameUI = new GameScreenUI();
 		mCurScreenUI = mStartUI;
-		mCurInputProcessor = mStartUI.getInputProcessor();
 		mStartUI.setListner(this);
+		
+		Driver.getInstance(Driver.class).addListener(new DriverListenerBaseImpl()
+		{
+
+			@Override
+			public void update(float deltaTime) {
+				mCurScreenUI.update(deltaTime);
+			}
+
+			@Override
+			public void dispose() {
+				mStartUI.dispose();
+				mGameUI.dispose();
+				mInstaceMap.clear();
+			}
+			
+		});
+		
+		InputMgr.getInstance(InputMgr.class).addListener(new InputMgrListenerBaseImpl()
+		{
+
+			@Override
+			public boolean touchDown(float screenX, float screenY, int pointer,
+					int button) {
+				return mCurScreenUI.touchDown(screenX, screenY, pointer, button);
+			}
+
+			@Override
+			public boolean touchUp(float screenX, float screenY, int pointer,
+					int button) {
+				return mCurScreenUI.touchUp(screenX, screenY, pointer, button);
+			}
+
+			@Override
+			public void touchDragged(float screenX, float screenY,
+					float deltaX, float deltaY, int pointer) {
+				mCurScreenUI.touchDragged(screenX, screenY, deltaX, deltaY, pointer);
+			}
+			
+		});
 	}
 	
 	public GameScreenUI getGameUI()
@@ -27,116 +71,22 @@ public class UIManager implements Screen, InputProcessor, StartUIListener{
 		return mGameUI;
 	}
 	
-	public InputProcessor getInputProcessor()
+	public StartScreenUI getStartUI()
 	{
-		return this;
+		return mStartUI;
 	}
-	
-	public void setGameMgr(GameManager mgr)
+
+	@Override
+	public void startGame() 
 	{
-		mGameMgr = mgr;
-	}
-	
-	@Override
-	public void startGame() {
-		if( mGameMgr != null )
-		{
-			mGameMgr.startGame();
-			mCurScreenUI = mGameUI;
-			mCurInputProcessor = mGameUI.getInputProcessor();
-		}
+		mCurScreenUI = mGameUI;
+		Map.getInstance(Map.class).init(100);
+		Renderer.getInstance(Renderer.class).setRenderScene(true);
 	}
 
-	@Override
-	public void render(float delta) {
-//		Label fpsLabel = (Label) stage.getRoot().findActor("fps_label");
-//		fpsLabel.setText("FPS " + Gdx.graphics.getFramesPerSecond());
-//		//fpsLabel.setX(Gdx.graphics.getWidth() - fpsLabel.getTextBounds().width);
-//		
-//		stage.act(delta);
-//		stage.draw();
-//		if (!mGameMgr.isGameStart()) {
-//			mStartUI.update(delta);
-//			mStartUI.draw();
-//		}
-		if( mCurScreenUI != null)
-		{
-			mCurScreenUI.update(delta);
-			mCurScreenUI.draw();
-		}
+	public void render()
+	{
+		mCurScreenUI.render();
 	}
-
-	@Override
-	public void resize(int width, int height) {
-		//stage.setViewport(width, height, true);
-	}
-
-	@Override
-	public void show() {
-		mCurScreenUI.show();
-	}
-
-	@Override
-	public void hide() {
-		mCurScreenUI.hide();
-	}
-
-	@Override
-	public void pause() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void resume() {
-		mStartUI.resume();
-	}
-
-	@Override
-	public void dispose() {
-		mStartUI.dispose();
-		mGameUI.dispose();
-	}
-
-	@Override
-	public boolean keyDown(int keycode) {
-		return false;
-	}
-
-	@Override
-	public boolean keyUp(int keycode) {
-		return false;
-	}
-
-	@Override
-	public boolean keyTyped(char character) {
-		return false;
-	}
-
-	@Override
-	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-		return mCurInputProcessor.touchDown(screenX, screenY, pointer, button);
-	}
-
-	@Override
-	public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-		return mCurInputProcessor.touchUp(screenX, screenY, pointer, button);
-	}
-
-	@Override
-	public boolean touchDragged(int screenX, int screenY, int pointer) {
-		return mCurInputProcessor.touchDragged(screenX, screenY, pointer);
-	}
-
-	@Override
-	public boolean mouseMoved(int screenX, int screenY) {
-		return false;
-	}
-
-	@Override
-	public boolean scrolled(int amount) {
-		return false;
-	}
-
 
 }

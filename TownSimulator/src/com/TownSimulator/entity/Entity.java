@@ -1,22 +1,141 @@
 package com.TownSimulator.entity;
 
-import com.TownSimulator.scene.QuadTreeNode;
-import com.TownSimulator.scene.QuadTreeType;
-import com.TownSimulator.scene.SceneManager;
+import com.TownSimulator.collision.CollisionDetector;
+import com.TownSimulator.render.Renderer;
 import com.TownSimulator.utility.AxisAlignedBoundingBox;
+import com.TownSimulator.utility.quadtree.QuadTreeManageble;
+import com.TownSimulator.utility.quadtree.QuadTreeNode;
+import com.TownSimulator.utility.quadtree.QuadTreeType;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Array;
 
-public class Entity extends DrawableEntity {
-	protected AxisAlignedBoundingBox 	mCollisionAABB;
-	protected Array<QuadTreeNode>				mCollisionQuadNodes;
-	protected EntityListener		mListener;
+public class Entity implements Drawable, QuadTreeManageble{
+	protected Sprite 					mSprite;
+	protected float						mPosXWorld;
+	protected float						mPosYWorld;
+	protected AxisAlignedBoundingBox	mDrawAABBLocal;
+	protected AxisAlignedBoundingBox	mDrawAABBWorld;
+	protected Array<QuadTreeNode>		mDrawQuadNodes;
+	protected float  					mDepth;
+	protected boolean 					mbVisible = true;
+	protected AxisAlignedBoundingBox 	mCollisionAABBLocal;
+	protected AxisAlignedBoundingBox	mCollisionAABBWorld;
+	protected Array<QuadTreeNode>		mCollisionQuadNodes;
+	protected EntityListener			mListener;
 	
-	public Entity(Sprite sp) {
-		super(sp);
-		
-		mCollisionAABB = new AxisAlignedBoundingBox();
+	public Entity(Sprite sp) 
+	{
+		this(sp, 0.0f);
+	}
+	
+	public Entity(Sprite sp, float depth)
+	{
+		mDepth = depth;
+		mDrawAABBLocal = new AxisAlignedBoundingBox();
+		mDrawAABBWorld = new AxisAlignedBoundingBox();
+		mDrawQuadNodes = new Array<QuadTreeNode>();
+		mCollisionAABBLocal = new AxisAlignedBoundingBox();
+		mCollisionAABBWorld = new AxisAlignedBoundingBox();
 		mCollisionQuadNodes = new Array<QuadTreeNode>();
+		
+		setSprite(sp);
+	}
+	
+	public AxisAlignedBoundingBox getDrawAABBLocal()
+	{
+		return mDrawAABBLocal;
+	}
+	
+	public AxisAlignedBoundingBox getCollisionAABBLocal()
+	{
+		return mCollisionAABBLocal;
+	}
+	
+	public Sprite getSprite()
+	{
+		return mSprite;
+	}
+	
+	public void setSprite(Sprite sprite) {
+		mSprite = sprite;
+		resetSpriteBounds();
+	}
+	
+	public void setPositionWorld(float x, float y)
+	{
+		mPosXWorld = x;
+		mPosYWorld = y;
+		
+		resetSpriteBounds();
+		resetDrawAABBWorld();
+		resetCollisionAABBWorld();
+	}
+	
+	public float getPositionXWorld()
+	{
+		return mPosXWorld;
+	}
+	
+	public float getPositionYWorld()
+	{
+		return mPosYWorld;
+	}
+	
+	private void resetSpriteBounds()
+	{
+		mSprite.setBounds(	mPosXWorld + mDrawAABBLocal.minX, mPosYWorld + mDrawAABBLocal.minY,
+							mDrawAABBLocal.getWidth(), mDrawAABBLocal.getHeight());
+	}
+	
+	private void resetDrawAABBWorld()
+	{
+		mDrawAABBWorld.minX = mDrawAABBLocal.minX + mPosXWorld;
+		mDrawAABBWorld.minY = mDrawAABBLocal.minY + mPosYWorld;
+		mDrawAABBWorld.maxX = mDrawAABBLocal.maxX + mPosXWorld;
+		mDrawAABBWorld.maxY = mDrawAABBLocal.maxY + mPosYWorld;
+		
+		if(mDrawQuadNodes.size > 0)
+			Renderer.getInstance(Renderer.class).updateDrawScissor(this);
+	}
+	
+	private void resetCollisionAABBWorld()
+	{
+		mCollisionAABBWorld.minX = mCollisionAABBLocal.minX + mPosXWorld;
+		mCollisionAABBWorld.minY = mCollisionAABBLocal.minY + mPosYWorld;
+		mCollisionAABBWorld.maxX = mCollisionAABBLocal.maxX + mPosXWorld;
+		mCollisionAABBWorld.maxY = mCollisionAABBLocal.maxY + mPosYWorld;
+		
+		if(mCollisionQuadNodes.size > 0)
+			CollisionDetector.getInstance(CollisionDetector.class).updateCollisionDetector(this);
+	}
+	
+	@Override
+	public void drawSelf(SpriteBatch batch) {
+		if(mbVisible == false)
+			return;
+		
+		mSprite.draw(batch);
+	}
+
+	@Override
+	public float getDepth() {
+		return mDepth;
+	}
+	
+	
+	public void setDepth(float depth)
+	{
+		mDepth = depth;
+	}
+	
+	public void setVisible(boolean v) {
+		mbVisible = v;
+	}
+	
+	public boolean isVisible()
+	{
+		return mbVisible;
 	}
 	
 	public void setListener(EntityListener baseObjectListener)
@@ -45,108 +164,38 @@ public class Entity extends DrawableEntity {
 			mListener.objBeTouchDragged(this, x, y, deltaX, deltaY);
 	}
 	
-	/**
-	 * Set the collision bounds relative to the world.
-	 * @param minX
-	 * @param minY
-	 * @param maxX
-	 * @param maxY
-	 */
-	public void setCollisionBounds(float minX, float minY, float maxX, float maxY)
+	public void setCollisionAABBLocal(float minX, float minY, float maxX, float maxY)
 	{
-		mCollisionAABB.minX = minX;
-		mCollisionAABB.minY = minY;
-		mCollisionAABB.maxX = maxX;
-		mCollisionAABB.maxY = maxY;
+		mCollisionAABBLocal.minX = minX;
+		mCollisionAABBLocal.minY = minY;
+		mCollisionAABBLocal.maxX = maxX;
+		mCollisionAABBLocal.maxY = maxY;
 		
-		if(mCollisionQuadNodes.size > 0)
-			SceneManager.getInstance().updateCollisionDetector(this);
+		resetCollisionAABBWorld();
 	}
 	
-	/**
-	 * Set the collision bounds relative to the draw position.
-	 * @param minX
-	 * @param minY
-	 * @param maxX
-	 * @param maxY
-	 */
-	public void setRelativeCollisionBounds(float minX, float minY, float maxX, float maxY)
+	public void setDrawAABBLocal(float minX, float minY, float maxX, float maxY)
 	{
-		setCollisionBounds(minX + mDrawAABB.minX, minY + mDrawAABB.minY, maxX + mDrawAABB.minX, maxY + mDrawAABB.minY);
+		mDrawAABBLocal.minX = minX;
+		mDrawAABBLocal.minY = minY;
+		mDrawAABBLocal.maxX = maxX;
+		mDrawAABBLocal.maxY = maxY;
+		
+		resetDrawAABBWorld();
 	}
 	
-	/**
-	 * Set the collision bounds which's
-	 *  centerX = (drawX + drawWidth*0.5f)
-	 *  centerY = (drawY)
-	 *  xEntend = drawWidth * widthScale * 0.5f
-	 *  yEntend = xEntend
-	 * @param widthScale
-	 */
-	public void setCollisionBoundsWithWidthScale(float widthScale)
-	{
-		float centerX = (mDrawAABB.minX + mDrawAABB.maxX) * 0.5f;
-		float centerY = mDrawAABB.minY;
-		float extend = widthScale * (mDrawAABB.maxX - mDrawAABB.minX) * 0.5f;
-		setCollisionBounds(centerX - extend, centerY - extend, centerX + extend, centerY + extend);
-	}
 	
 	public void translate(float deltaX, float deltaY)
 	{
-		setDrawPosition(mDrawAABB.minX + deltaX, mDrawAABB.minY + deltaY);
-		
-		mCollisionAABB.minX += deltaX;
-		mCollisionAABB.maxX += deltaX;
-		mCollisionAABB.minY += deltaY;
-		mCollisionAABB.maxY += deltaY;
-		
-//		for (int i = 0; i < mCollisionQuadNodes.size; i++) {
-//			mCollisionQuadNodes.get(i).update(this);
-//		}
-//		dettachQuadTree(QuadTreeType.COLLISION);
-//		SceneManager.getInstance().attachCollisionDetection(this);
-		if(mCollisionQuadNodes.size > 0)
-			SceneManager.getInstance().updateCollisionDetector(this);
-	}
-	
-	/**
-	 * Set the position of this object, it will update draw bounds position and collision bounds position.
-	 * the x and y is the origin position of the draw bounds.
-	 * @param x world position drawX
-	 * @param y world position drawY
-	 */
-	public void setPositionOriginDraw(float x, float y)
-	{
-		float deltaX = x - mDrawAABB.minX;
-		float deltaY = y - mDrawAABB.minY;
-		translate(deltaX, deltaY);
-	}
-	
-	/**
-	 * Set the position of this object, it will update draw bounds position and collision bounds position.
-	 * the x and y is the origin position of the collision bounds.
-	 * @param x world position collisionX
-	 * @param y world position collisionY
-	 */
-	public void setPositionOriginCollision(float x, float y)
-	{
-		float deltaX = x - mCollisionAABB.minX;
-		float deltaY = y - mCollisionAABB.minY;
-		translate(deltaX, deltaY);
+		setPositionWorld(mPosXWorld + deltaX, mPosYWorld + deltaY);//(mDrawAABBLocal.minX + deltaX, mDrawAABBLocal.minY + deltaY);
 	}
 
 	@Override
-	public void setDrawPosition(float x, float y) {
-		super.setDrawPosition(x, y);
-		setDepth(y);
-	}
-
-	@Override
-	public AxisAlignedBoundingBox getBoundingBox(QuadTreeType type) {
+	public AxisAlignedBoundingBox getAABBWorld(QuadTreeType type) {
 		if(type == QuadTreeType.DRAW)
-			return mDrawAABB;
+			return mDrawAABBWorld;
 		else if(type == QuadTreeType.COLLISION)
-			return mCollisionAABB;
+			return mCollisionAABBWorld;
 		
 		return null;
 	}
@@ -158,14 +207,6 @@ public class Entity extends DrawableEntity {
 		else if(type == QuadTreeType.COLLISION)
 			mCollisionQuadNodes.add(node);
 	}
-
-//	@Override
-//	public void removeContainedQuadTreeNode(QuadTreeType type, QuadTreeNode node) {
-//		if(type == QuadTreeType.DRAW )
-//			mDrawQuadNodes.removeValue(node, false);
-//		else if(type == QuadTreeType.COLLISION)
-//			mCollisionQuadNodes.removeValue(node, false);
-//	}
 
 	@Override
 	public void dettachQuadTree(QuadTreeType type) {
@@ -183,12 +224,4 @@ public class Entity extends DrawableEntity {
 			nodes.clear();
 		}
 	}
-	
-
-	
-//	public interface BaseObjectListener
-//	{
-//		public void objBeTouced(BaseObject obj);
-//	}
-
 }

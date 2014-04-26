@@ -1,88 +1,147 @@
 package com.TownSimulator.render;
 
+import com.TownSimulator.camera.CameraController;
+import com.TownSimulator.collision.CollisionDetector;
+import com.TownSimulator.driver.Driver;
+import com.TownSimulator.driver.DriverListenerBaseImpl;
 import com.TownSimulator.entity.Drawable;
+import com.TownSimulator.entity.Entity;
+import com.TownSimulator.map.Map;
 import com.TownSimulator.utility.AxisAlignedBoundingBox;
-import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.TownSimulator.utility.ResourceManager;
+import com.TownSimulator.utility.Settings;
+import com.TownSimulator.utility.Singleton;
+import com.TownSimulator.utility.quadtree.QuadTree;
+import com.TownSimulator.utility.quadtree.QuadTreeManageble;
+import com.TownSimulator.utility.quadtree.QuadTreeType;
+import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.utils.Array;
 
-/**
- * 
- * Annotate me!!!
- *
- */
-public class Renderer {
-	private OrthographicCamera 		mCamera;
+public class Renderer extends Singleton{
 	private RenderBatch		   		mRenderBatch;
-	private AxisAlignedBoundingBox	mScissorAABB;
-	private static	Renderer		mInstance;
+	private	QuadTree				mDrawScissor;
+	private	Array<Entity> 			mGridIdleList;
+	private boolean 				mbDrawGrid = false;
+	private	int						mMallocIndex = 0;
+	private boolean					mbRenderScene = false;
 	
-	public Renderer()
+	private Renderer()
 	{
 		mRenderBatch = new RenderBatch();
-		mScissorAABB = new AxisAlignedBoundingBox();
-		System.out.println("Renderer Create >>>>>>>>>>>");
+		mDrawScissor = new QuadTree(QuadTreeType.DRAW, 0.0f, 0.0f, Map.MAP_WIDTH * Settings.UNIT, Map.MAP_HEIGHT * Settings.UNIT);
+		mGridIdleList = new Array<Entity>();
+		
+		Driver.getInstance(Driver.class).addListener(new DriverListenerBaseImpl()
+		{
+
+			@Override
+			public void dispose() {
+				mRenderBatch.dispose();
+				mInstaceMap.clear();
+			}
+			
+		});
 	}
 	
-	public void setCamera(OrthographicCamera camera)
+	public boolean attachDrawScissor(QuadTreeManageble obj)
 	{
-		mCamera = camera;
+		return mDrawScissor.addManageble(obj);
 	}
 	
-//	public Renderer(OrthographicCamera camera)
-//	{
-//		mCamera = camera;
-//		mRenderBatch = new RenderBatch();
-//		mScissorAABB = new AxisAlignedBoundingBox();
-//	}
-	
-	public static synchronized Renderer getInstance()
+	public void dettachDrawScissor(QuadTreeManageble obj)
 	{
-		if(mInstance == null)
-			mInstance = new Renderer();
-		return mInstance;
+		obj.dettachQuadTree(QuadTreeType.DRAW);
 	}
 	
-	public void renderBegin()
+	public void updateDrawScissor(QuadTreeManageble obj)
 	{
-		mCamera.update();
-		updateScissor();
+		dettachDrawScissor(obj);
+		attachDrawScissor(obj);
 	}
 	
-	private void updateScissor()
+	public void setRenderScene(boolean value)
 	{
-		mScissorAABB.minX = mCamera.position.x - mCamera.viewportWidth 	* 0.5f;
-		mScissorAABB.minY = mCamera.position.y - mCamera.viewportHeight * 0.5f;
-		mScissorAABB.maxX = mCamera.position.x + mCamera.viewportWidth 	* 0.5f;
-		mScissorAABB.maxY = mCamera.position.y + mCamera.viewportHeight * 0.5f;
+		mbRenderScene = value;
 	}
 	
-	public AxisAlignedBoundingBox getScissor()
+	private void renderBegin()
 	{
-		return mScissorAABB;
+		CameraController.getInstance(CameraController.class).updateCamera();
 	}
 	
-	public void dispose()
+	private void renderEnd()
 	{
-		mRenderBatch.dispose();
-		mInstance = null;
-	}
-	
-	public void renderEnd()
-	{
-		mRenderBatch.setProjectionMatrix(mCamera.combined);
+		
+		mRenderBatch.setProjectionMatrix(CameraController.getInstance(CameraController.class).getCameraCombined());
 		mRenderBatch.doRender();
+	}
+	
+	public void render()
+	{
+		renderBegin();
+		if(mbRenderScene)
+			renderScene();
+		renderEnd();
+	}
+	
+	private void renderScene()
+	{
+		Array<QuadTreeManageble> renderList = new Array<QuadTreeManageble>();
+		mDrawScissor.detectIntersection(CameraController.getInstance(CameraController.class).getCameraViewAABB(), renderList);
+		for (int i = 0; i < renderList.size; i++) {
+			draw((Drawable) renderList.get(i));
+		}
+		
+		if(mbDrawGrid)
+			renderGrid();
+	}
+	
+	public void setDrawGrid(boolean bDrawGrid)
+	{
+		mbDrawGrid = bDrawGrid;
+	}
+	
+	public Entity mallocGrid()
+	{
+		if(mMallocIndex >= mGridIdleList.size)
+		{
+			Sprite gridSp = ResourceManager.getInstance(ResourceManager.class).createSprite("grid");
+			Entity entity = new Entity(gridSp, -1.0f);
+			entity.setDrawAABBLocal(0.1f, 0.1f, Settings.UNIT - 0.2f, Settings.UNIT - 0.2f);
+			mGridIdleList.add( entity );
+			
+		}
+		
+		return mGridIdleList.get(mMallocIndex++);
+	}
+	
+	private void renderGrid()
+	{
+		AxisAlignedBoundingBox scissor = CameraController.getInstance(CameraController.class).getCameraViewAABB();
+		int l = (int)(scissor.minX / Settings.UNIT);
+		int r = (int)(scissor.maxX / Settings.UNIT);
+		int b = (int)(scissor.minY / Settings.UNIT);
+		int u = (int)(scissor.maxY / Settings.UNIT);
+		mMallocIndex = 0;
+		float pad = 0.1f;
+		AxisAlignedBoundingBox gridAABB;
+		for (float x = l; x <= (r+1); x ++) {
+			for (float y = b; y <= (u+1); y ++) {
+				Entity obj = mallocGrid();
+				obj.setPositionWorld(x * Settings.UNIT + pad, y * Settings.UNIT + pad);
+				gridAABB = obj.getAABBWorld(QuadTreeType.DRAW);
+				obj.setDepth(Float.MAX_VALUE);
+				if(CollisionDetector.getInstance(CollisionDetector.class).detect(gridAABB))
+					obj.getSprite().setColor(1.0f, 0.0f, 0.0f, 0.3f);
+				else
+					obj.getSprite().setColor(0.0f, 0.0f, 1.0f, 0.3f);
+				draw(obj);
+			}
+		}
 	}
 	
 	public void draw(Drawable draw)
 	{
 		mRenderBatch.addDrawable(draw);
 	}
-	
-//	public void addDrawContainer(GameDrawableContainer drawContainer)
-//	{
-//		Rectangle scissorRect = new Rectangle(
-//				mCamera.position.x - mCamera.viewportWidth*0.5f,
-//				mCamera.position.y - mCamera.viewportHeight*0.5f,
-//				mCamera.viewportWidth, mCamera.viewportHeight);
-//		drawContainer.draw(mRenderBatch, scissorRect);
-//	}
 }

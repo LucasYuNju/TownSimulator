@@ -2,27 +2,17 @@ package com.TownSimulator.entity;
 
 import com.TownSimulator.utility.ResourceManager;
 import com.TownSimulator.utility.Settings;
-import com.badlogic.gdx.utils.Array;
 
 public class EntityFactory {
-	/*
-	 * 没用
-	 */
-	private static Array<DrawableEntity> mMapObjs = new Array<DrawableEntity>();
 	
-	public static MapEntity createMapObj(MapEntityType objType)
+	public static MapResource createMapObj(MapResourceType objType)
 	{
-		MapEntity obj = null;
+		MapResource obj = null;
 		switch (objType) {
 		case TREE:
-			obj = new MapEntity(ResourceManager.createSprite("map_tree"));
-			mMapObjs.add(obj);
+			obj = new MapResource(ResourceManager.getInstance(ResourceManager.class).createSprite("map_tree"));
 			break;
-//		case BUILDING:
-//			obj = new MapObject(ResourceManager.createSprite("building_house"));
-//			obj.setDrawSize(Settings.UNIT * 2, Settings.UNIT * 2);
-//			mMapObjs.add(obj);			
-//			break;
+			
 		default:
 			break;
 		}
@@ -38,7 +28,7 @@ public class EntityFactory {
 		
 		switch (buildingType) {
 		case WOOD_HOUSE:
-			building = new Building(ResourceManager.createSprite("building_wood_house"));
+			building = new Building(ResourceManager.getInstance(ResourceManager.class).createSprite("building_wood_house"));
 			xGridSize = 2;
 			yGridSize = 2;
 			yDrawScale = 1.2f;
@@ -50,9 +40,11 @@ public class EntityFactory {
 		
 		if(building != null)
 		{
-			building.setDrawSize(xGridSize * Settings.UNIT, yGridSize * Settings.UNIT * yDrawScale);
-			building.setRelativeCollisionBounds(0.1f, 								-(yGridSize * Settings.UNIT - 0.2f) * 0.4f,
-												xGridSize * Settings.UNIT - 0.2f, 	 (yGridSize * Settings.UNIT - 0.2f) * 0.6f);
+			building.setDrawAABBLocal(	0.0f, 						yGridSize * Settings.UNIT * 0.4f,
+										xGridSize * Settings.UNIT, 	yGridSize * Settings.UNIT * (0.4f + yDrawScale) );
+			
+			building.setCollisionAABBLocal(	0.1f, 								0.1f, 
+											xGridSize * Settings.UNIT - 0.2f,	yGridSize * Settings.UNIT - 0.2f);
 		}
 		
 		return building;

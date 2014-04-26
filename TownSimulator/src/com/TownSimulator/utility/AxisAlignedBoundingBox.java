@@ -8,6 +8,10 @@ public class AxisAlignedBoundingBox {
 	
 	public AxisAlignedBoundingBox()
 	{
+		minX = 0.0f;
+		minY = 0.0f;
+		maxX = 0.0f;
+		maxY = 0.0f;
 	}
 	
 	public AxisAlignedBoundingBox( float minX, float minY, float maxX, float maxY )
@@ -16,5 +20,15 @@ public class AxisAlignedBoundingBox {
 		this.minY = minY;
 		this.maxX = maxX;
 		this.maxY = maxY;
+	}
+	
+	public float getWidth()
+	{
+		return maxX - minX;
+	}
+	
+	public float getHeight()
+	{
+		return maxY - minY;
 	}
 }
