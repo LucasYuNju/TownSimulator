@@ -1,8 +1,12 @@
 package com.TownSimulator.driver;
 
 
+import java.util.Random;
+
 import com.TownSimulator.camera.CameraController;
 import com.TownSimulator.collision.CollisionDetector;
+import com.TownSimulator.entity.EntityInfoCollector;
+import com.TownSimulator.entity.Man;
 import com.TownSimulator.io.InputMgr;
 import com.TownSimulator.render.Renderer;
 import com.TownSimulator.ui.UIManager;
@@ -19,6 +23,23 @@ public class Driver extends SingletonPublisher<DriverListener> implements Applic
 		
 	}
 	
+	public void init()
+	{
+		Random rand = new Random();
+		int initPepleCnt = 5;
+		float originPosX = CameraController.getInstance(CameraController.class).getX();
+		float originPoxY = CameraController.getInstance(CameraController.class).getY();
+		for (int i = 0; i < initPepleCnt; i++) {
+			float randX = (rand.nextFloat() - 0.5f) * Settings.UNIT * 6;
+			float ranxY = (rand.nextFloat() - 0.5f) * Settings.UNIT * 6;
+			Man man = new Man();
+			man.setPositionWorld(originPosX + randX, originPoxY + ranxY);
+			EntityInfoCollector.getInstance(EntityInfoCollector.class).addMan(man);
+			
+			Renderer.getInstance(Renderer.class).attachDrawScissor(man);
+		}
+	}
+	
 	@Override
 	public void create() {
 		Settings.refreshUnit();
@@ -28,7 +49,6 @@ public class Driver extends SingletonPublisher<DriverListener> implements Applic
 		CameraController.getInstance(CameraController.class);
 		Renderer.getInstance(Renderer.class);
 		CollisionDetector.getInstance(CollisionDetector.class);
-		
 	}
 
 	@Override

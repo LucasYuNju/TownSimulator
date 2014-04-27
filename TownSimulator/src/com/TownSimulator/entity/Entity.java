@@ -84,6 +84,9 @@ public class Entity implements Drawable, QuadTreeManageble{
 	
 	private void resetSpriteBounds()
 	{
+		if(mSprite == null)
+			return;
+		
 		mSprite.setBounds(	mPosXWorld + mDrawAABBLocal.minX, mPosYWorld + mDrawAABBLocal.minY,
 							mDrawAABBLocal.getWidth(), mDrawAABBLocal.getHeight());
 	}
