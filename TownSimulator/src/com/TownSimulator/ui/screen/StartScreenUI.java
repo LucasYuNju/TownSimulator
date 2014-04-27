@@ -2,7 +2,7 @@ package com.TownSimulator.ui.screen;
 
 
 import com.TownSimulator.ui.base.ScreenUIBase;
-import com.TownSimulator.ui.base.UIButton;
+import com.TownSimulator.ui.base.FlipButton;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
@@ -12,11 +12,11 @@ public class StartScreenUI extends ScreenUIBase {
 	private float			mButtonWidth 	= Gdx.graphics.getWidth() / 8.0f;
 	private float			mButtonHeight 	= Gdx.graphics.getHeight() / 10.0f;
 	private float			mVerticalPad 	= mButtonHeight * 0.2f;
-	private Array<UIButton> mButtonList;
-	private UIButton		mStartButton;
-	private UIButton		mOptionButton;
-	private UIButton		mScoreButton;
-	private UIButton		mQuitButton;
+	private Array<FlipButton> mButtonList;
+	private FlipButton		mStartButton;
+	private FlipButton		mOptionButton;
+	private FlipButton		mScoreButton;
+	private FlipButton		mQuitButton;
 	private StartUIListener mListner;
 	
 	public interface StartUIListener
@@ -31,12 +31,12 @@ public class StartScreenUI extends ScreenUIBase {
 	
 	private void initComponents()
 	{
-		mButtonList = new Array<UIButton>();
+		mButtonList = new Array<FlipButton>();
 		
 		//TextureRegionDrawable imgUp = new TextureRegionDrawable(ResourceManager.getInstance(ResourceManager.class).findTextureRegion("button_up"));
 		//TextureRegionDrawable imgDown = new TextureRegionDrawable(ResourceManager.getInstance(ResourceManager.class).findTextureRegion("button_down"));
 		
-		mStartButton = new UIButton("button_up", "button_down", "Start");
+		mStartButton = new FlipButton("button_up", "button_down", "Start");
 		mStartButton.setSize(mButtonWidth, mButtonHeight );
 		mStartButton.addListener(new InputListener()
 		{
@@ -64,15 +64,15 @@ public class StartScreenUI extends ScreenUIBase {
 		});
 		mButtonList.add(mStartButton);
 		
-		mOptionButton = new UIButton("button_up", "button_down", "Option");
+		mOptionButton = new FlipButton("button_up", "button_down", "Option");
 		mOptionButton.setSize(mButtonWidth, mButtonHeight );	
 		mButtonList.add(mOptionButton);
 		
-		mScoreButton = new UIButton("button_up", "button_down", "Score");
+		mScoreButton = new FlipButton("button_up", "button_down", "Score");
 		mScoreButton.setSize(mButtonWidth, mButtonHeight );	
 		mButtonList.add(mScoreButton);
 		
-		mQuitButton = new UIButton("button_up", "button_down", "Quit");
+		mQuitButton = new FlipButton("button_up", "button_down", "Quit");
 		mQuitButton.setSize(mButtonWidth, mButtonHeight );	
 		mButtonList.add(mQuitButton);
 		

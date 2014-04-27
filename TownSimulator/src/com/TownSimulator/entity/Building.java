@@ -11,12 +11,10 @@ public class Building extends Entity{
 	}
 	
 	@Override
-	public boolean detectTouchDown()
-	{
+	public boolean detectTouchDown() {
 		super.detectTouchDown();
 		BuildingInfoWindow infoWindow = 
 				UIManager.getInstance(UIManager.class).getGameUI().getBuildingInfoWindow();
-		infoWindow.setPosition(100, 100);
 		infoWindow.setVisible(true);
 		return true;
 	}
