@@ -1,8 +1,8 @@
 package com.TownSimulator.ui.screen;
 
 import com.TownSimulator.ui.base.ScreenUIBase;
-import com.TownSimulator.ui.build.BuildingAdjustGroup;
 import com.TownSimulator.ui.build.BuildComsUI;
+import com.TownSimulator.ui.build.BuildingAdjustGroup;
 import com.TownSimulator.ui.build.BuildingInfoWindow;
 import com.badlogic.gdx.Gdx;
 

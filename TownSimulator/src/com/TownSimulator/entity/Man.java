@@ -1,63 +1,112 @@
 package com.TownSimulator.entity;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
 
-import com.TownSimulator.camera.CameraController;
+import com.TownSimulator.driver.Driver;
+import com.TownSimulator.driver.DriverListenerBaseImpl;
+import com.TownSimulator.mantask.RandMove;
+import com.TownSimulator.mantask.Task;
+import com.TownSimulator.ui.Animation;
 import com.TownSimulator.utility.ResourceManager;
 import com.TownSimulator.utility.Settings;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Vector2;
 
 public class Man extends Entity{
-	private List<Sprite> sprites =  new ArrayList<Sprite>();
-	private static final float SPRITE_TIME_INTERVAL = 1 / 3f;
-	private static final float MOVE_TIME_INTERVAL = 1 / 10f;
-	private static final int MOVE_DISTANCE = -2;
-	private float timeCurrentSpriteLasts = 0;
-	private float timeStandStill = 0;
+	private static final 	float 						MOVE_SPEED = 20.0f;
+	private 				HashMap<State, Animation> 	mAnimesMap;
+	private 				Vector2						mMoveDir;
+	private 				Vector2						mDestination;
+	private					float						mMoveTime;
+	private 				State						mCurState;
+	private 				Task						mTask;
+	
+	public enum State
+	{
+		MAN_MOVE, MAN_STADING
+	}
 	
 	public Man() {
 		super(ResourceManager.getInstance(ResourceManager.class).createSprite("pixar_man_1"));
-		sprites.add(ResourceManager.getInstance(ResourceManager.class).createSprite("pixar_man_1"));
-		sprites.add(ResourceManager.getInstance(ResourceManager.class).createSprite("pixar_man_2"));
-//		for(Sprite sprite : sprites) {
-//			sprite.setSize(Settings.UNIT, Settings.UNIT);
-//		}
-		setPositionWorld(CameraController.getInstance(CameraController.class).getX() + Settings.UNIT * 3, CameraController.getInstance(CameraController.class).getY() + Settings.UNIT * 3);
 		setDrawAABBLocal(0.0f, 0.0f, Settings.UNIT, Settings.UNIT);
 		setCollisionAABBLocal(0, 0, 0, 0);
+		
+		mAnimesMap = new HashMap<Man.State, Animation>();
+		initAnimes();
+		mMoveDir = new Vector2();
+		mDestination = new Vector2();
+		mCurState = State.MAN_STADING;
+		mTask = new RandMove(this);
+		
+		Driver.getInstance(Driver.class).addListener(new DriverListenerBaseImpl()
+		{
+			@Override
+			public void update(float deltaTime) {
+				if(mTask != null)
+					mTask.update(deltaTime);
+			}
+		});
 	}
 	
-	@Override
-	public void drawSelf(SpriteBatch batch) {
-		move();
-		changeSprite();
-		super.drawSelf(batch);
+	private void initAnimes()
+	{
+		Animation standAnime = new Animation(0.0f);
+		standAnime.addSprite(ResourceManager.getInstance(ResourceManager.class).createSprite("pixar_man_1"));
+		mAnimesMap.put(State.MAN_STADING, standAnime);
+		
+		Animation moveAnime = new Animation(0.2f);
+		moveAnime.addSprite(ResourceManager.getInstance(ResourceManager.class).createSprite("pixar_man_1"));
+		moveAnime.addSprite(ResourceManager.getInstance(ResourceManager.class).createSprite("pixar_man_2"));
+		mAnimesMap.put(State.MAN_MOVE, moveAnime);
 	}
-
-	private void move() {
-		timeStandStill += Gdx.graphics.getDeltaTime();
-		if(timeStandStill > MOVE_TIME_INTERVAL) {
-			timeStandStill = 0;
-			translate(MOVE_DISTANCE, 0.0f);
-			//setDrawPosition(getDrawX() + MOVE_DISTANCE, getDrawY());
+	
+	public void setTask(Task task)
+	{
+		mTask = task;
+	}
+	
+	public void setMoveDestination(float destX, float destY)
+	{
+		mDestination.x = destX;
+		mDestination.y = destY;
+		
+		mMoveDir.x = destX - mPosXWorld;
+		mMoveDir.y = destY - mPosYWorld;
+		float destLen = mMoveDir.len();
+		mMoveTime = destLen / MOVE_SPEED;
+		mMoveDir.scl(1.0f / destLen);
+	}
+	
+	/**
+	 * Man move.
+	 * @param deltaTime
+	 * @return if man moved return true else return false 
+	 */
+	public boolean move(float deltaTime) {
+		if(mMoveTime <= 0)
+			return false;
+		else
+		{
+			translate(deltaTime * mMoveDir.x * MOVE_SPEED, deltaTime * mMoveDir.y * MOVE_SPEED);
+			mMoveTime -= deltaTime;
+			return true;
 		}
 	}
-
-	private void changeSprite() {
-		timeCurrentSpriteLasts += Gdx.graphics.getDeltaTime();
-		if(timeCurrentSpriteLasts > SPRITE_TIME_INTERVAL) {
-			timeCurrentSpriteLasts = 0;
-			float x = mPosXWorld;//getDrawX();
-			float y = mPosYWorld;//getDrawY();
-			int indexOfNextSprite = (sprites.indexOf(getSprite()) + 1) % sprites.size();
-//			int indexOfNextSprite = (sprites.indexOf(getSprite()) == 0) ? 1 : 0;
-			Sprite nextSprite = sprites.get(indexOfNextSprite);
-			nextSprite.setPosition(x, y);
-			setSprite(nextSprite);
-		}
+	
+	public void setState(State state)
+	{
+		mCurState = state;
+	}
+	
+	public State getState()
+	{
+		return mCurState;
+	}
+	
+	public void updateSprite(float deltaTime)
+	{
+		Animation anime = mAnimesMap.get(mCurState);
+		anime.update(deltaTime);
+		setSprite(anime.getCurSprite());
 	}
 
 }

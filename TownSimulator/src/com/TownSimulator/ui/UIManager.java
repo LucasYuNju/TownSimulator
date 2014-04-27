@@ -82,6 +82,7 @@ public class UIManager extends Singleton implements StartUIListener{
 		mCurScreenUI = mGameUI;
 		Map.getInstance(Map.class).init(100);
 		Renderer.getInstance(Renderer.class).setRenderScene(true);
+		Driver.getInstance(Driver.class).init();
 	}
 
 	public void render()
