@@ -1,6 +1,7 @@
 package com.TownSimulator.entity;
 
 import com.TownSimulator.collision.CollisionDetector;
+import com.TownSimulator.render.Drawable;
 import com.TownSimulator.render.Renderer;
 import com.TownSimulator.utility.AxisAlignedBoundingBox;
 import com.TownSimulator.utility.quadtree.QuadTreeManageble;
@@ -23,13 +24,14 @@ public class Entity implements Drawable, QuadTreeManageble{
 	protected AxisAlignedBoundingBox	mCollisionAABBWorld;
 	protected Array<QuadTreeNode>		mCollisionQuadNodes;
 	protected EntityListener			mListener;
+	protected boolean					mUseDrawMinYAsDepth;
 	
 	public Entity(Sprite sp) 
 	{
-		this(sp, 0.0f);
+		this(sp, 0.0f, true);
 	}
 	
-	public Entity(Sprite sp, float depth)
+	public Entity(Sprite sp, float depth, boolean useDrawMinYAsDepth)
 	{
 		mDepth = depth;
 		mDrawAABBLocal = new AxisAlignedBoundingBox();
@@ -38,6 +40,7 @@ public class Entity implements Drawable, QuadTreeManageble{
 		mCollisionAABBLocal = new AxisAlignedBoundingBox();
 		mCollisionAABBWorld = new AxisAlignedBoundingBox();
 		mCollisionQuadNodes = new Array<QuadTreeNode>();
+		mUseDrawMinYAsDepth = useDrawMinYAsDepth;
 		
 		setSprite(sp);
 	}
@@ -123,9 +126,22 @@ public class Entity implements Drawable, QuadTreeManageble{
 
 	@Override
 	public float getDepth() {
-		return mDepth;
+		
+		if(mUseDrawMinYAsDepth)
+			return mDrawAABBWorld.minY;
+		else
+			return mDepth;
 	}
 	
+	public void setUseDrawMinYAsDepth(boolean value)
+	{
+		mUseDrawMinYAsDepth = value;
+	}
+	
+	public boolean isUseDrawMinYAsDepth()
+	{
+		return mUseDrawMinYAsDepth;
+	}
 	
 	public void setDepth(float depth)
 	{

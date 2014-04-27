@@ -1,7 +1,7 @@
 package com.TownSimulator.ui.build;
 
 import com.TownSimulator.broker.BuildBroker;
-import com.TownSimulator.entity.BuildingType;
+import com.TownSimulator.entity.building.BuildingType;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 
@@ -22,7 +22,7 @@ public class BuildComsButton extends BuildButtonBase{
 			@Override
 			public void touchUp(InputEvent event, float x, float y,
 					int pointer, int button) {
-				BuildBroker.getInstance(BuildBroker.class).startNewBuilding(BuildingType.WOOD_HOUSE);
+				BuildBroker.getInstance(BuildBroker.class).startNewBuilding(BuildingType.LOW_COST_HOUSE);
 			}
 		});
 	}

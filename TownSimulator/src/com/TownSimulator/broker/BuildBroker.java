@@ -3,11 +3,15 @@ package com.TownSimulator.broker;
 import com.TownSimulator.camera.CameraController;
 import com.TownSimulator.camera.CameraListener;
 import com.TownSimulator.collision.CollisionDetector;
-import com.TownSimulator.entity.Building;
-import com.TownSimulator.entity.BuildingType;
 import com.TownSimulator.entity.Entity;
 import com.TownSimulator.entity.EntityFactory;
+import com.TownSimulator.entity.EntityInfoCollector;
 import com.TownSimulator.entity.EntityListener;
+import com.TownSimulator.entity.Man;
+import com.TownSimulator.entity.building.Building;
+import com.TownSimulator.entity.building.BuildingType;
+import com.TownSimulator.mantask.ConstructionProject;
+import com.TownSimulator.mantask.RandMove;
 import com.TownSimulator.render.Renderer;
 import com.TownSimulator.ui.UIManager;
 import com.TownSimulator.ui.build.BuildingAdjustGroup;
@@ -39,7 +43,7 @@ public class BuildBroker extends Singleton implements EntityListener, CameraList
 		
 		Renderer.getInstance(Renderer.class).setDrawGrid(true);
 		
-		Building newBuildingObject = EntityFactory.createBuilding(BuildingType.WOOD_HOUSE);
+		Building newBuildingObject = EntityFactory.createBuilding(BuildingType.LOW_COST_HOUSE);
 		int gridX = (int) (CameraController.getInstance(CameraController.class).getX() / Settings.UNIT);
 		int gridY = (int) (CameraController.getInstance(CameraController.class).getY() / Settings.UNIT);
 		int gridSerchSize = 0;
@@ -98,6 +102,18 @@ public class BuildBroker extends Singleton implements EntityListener, CameraList
 			
 			@Override
 			public void confirm() {
+				ConstructionProject proj = new ConstructionProject(mCurBuilding);
+				int cnt = proj.getAvailableBuildJobCnt();
+				for (Man man : EntityInfoCollector.getInstance(EntityInfoCollector.class).getAllPeople()) {
+					if( man.getTask() instanceof RandMove )
+					{
+						if(cnt-- > 0)
+							proj.addMan(man);
+						else
+							break;
+					}
+				}
+				
 				Renderer.getInstance(Renderer.class).setDrawGrid(false);
 				mCurBuilding.setListener(null);
 				mCurBuilding = null;

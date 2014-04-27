@@ -2,7 +2,6 @@ package com.TownSimulator.render;
 
 import java.util.Comparator;
 
-import com.TownSimulator.entity.Drawable;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.utils.Array;
