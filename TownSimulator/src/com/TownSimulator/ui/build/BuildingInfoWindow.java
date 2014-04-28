@@ -20,6 +20,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.Align;
 
 /*
+ * window布局图：
  * 					  margin 		  closeButton
  *   		| header|				| 
  * margin	| icon	| icon	| icon	| margin
@@ -175,7 +176,8 @@ public class BuildingInfoWindow extends Group{
 	}
 	
 	public void setProcess(float process) {
-		this.process = process;
+		if(process > 0 && process <=1)
+			this.process = process;
 	}
 	
 	private void setBuilderUpperLimit(int limit) {

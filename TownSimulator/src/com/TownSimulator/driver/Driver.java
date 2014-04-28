@@ -5,8 +5,14 @@ import java.util.Random;
 
 import com.TownSimulator.camera.CameraController;
 import com.TownSimulator.collision.CollisionDetector;
+import com.TownSimulator.entity.EntityFactory;
 import com.TownSimulator.entity.EntityInfoCollector;
 import com.TownSimulator.entity.Man;
+import com.TownSimulator.entity.ResourceType;
+import com.TownSimulator.entity.building.Building;
+import com.TownSimulator.entity.building.Building.State;
+import com.TownSimulator.entity.building.BuildingType;
+import com.TownSimulator.entity.building.WareHouse;
 import com.TownSimulator.io.InputMgr;
 import com.TownSimulator.render.Renderer;
 import com.TownSimulator.ui.UIManager;
@@ -25,7 +31,7 @@ public class Driver extends SingletonPublisher<DriverListener> implements Applic
 	
 	public void init()
 	{
-		Random rand = new Random();
+		Random rand = new Random(System.currentTimeMillis());
 		int initPepleCnt = 5;
 		float originPosX = CameraController.getInstance(CameraController.class).getX();
 		float originPoxY = CameraController.getInstance(CameraController.class).getY();
@@ -38,6 +44,30 @@ public class Driver extends SingletonPublisher<DriverListener> implements Applic
 			
 			Renderer.getInstance(Renderer.class).attachDrawScissor(man);
 		}
+		
+		WareHouse wareHouse = (WareHouse) EntityFactory.createBuilding(BuildingType.WAREHOUSE);
+		wareHouse.addWareHousrResource(ResourceType.RS_WOOD, 100);
+		wareHouse.addWareHousrResource(ResourceType.RS_STONE, 50);
+		wareHouse.setState(State.BUILDING_FINISHED);
+		wareHouse.setPositionWorld(originPosX - 2 * Settings.UNIT, originPoxY);
+		EntityInfoCollector.getInstance(EntityInfoCollector.class).addBuilding(wareHouse);
+		CollisionDetector.getInstance(CollisionDetector.class).attachCollisionDetection(wareHouse);
+		Renderer.getInstance(Renderer.class).attachDrawScissor(wareHouse);
+		
+		Building lowCostHouse = EntityFactory.createBuilding(BuildingType.LOW_COST_HOUSE);
+//		lowCostHouse.setNeededBuildResource(ResourceType.RS_WOOD, 10);
+//		lowCostHouse.setNeededBuildResource(ResourceType.RS_STONE, 5);
+//		lowCostHouse.setNeededBuildContributes(20);
+		lowCostHouse.setState(Building.State.BUILDING_FINISHED);
+		lowCostHouse.setPositionWorld(originPosX + 2 * Settings.UNIT, originPoxY);
+		EntityInfoCollector.getInstance(EntityInfoCollector.class).addBuilding(lowCostHouse);
+		CollisionDetector.getInstance(CollisionDetector.class).attachCollisionDetection(lowCostHouse);
+		Renderer.getInstance(Renderer.class).attachDrawScissor(lowCostHouse);
+		
+//		ConstructionProject proj = new ConstructionProject(lowCostHouse);
+//		for (Man man : EntityInfoCollector.getInstance(EntityInfoCollector.class).getAllPeople()) {
+//			proj.addMan(man);
+//		}
 	}
 	
 	@Override

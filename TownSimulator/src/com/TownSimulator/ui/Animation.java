@@ -20,6 +20,16 @@ public class Animation {
 		mSprites.add(sp);
 	}
 	
+	public Array<Sprite> getSprites()
+	{
+		return mSprites;
+	}
+	
+	public float getFrameInterval()
+	{
+		return mFrameInterval;
+	}
+	
 	public void update(float deltaTime)
 	{
 		if(mFrameInterval <= 0)

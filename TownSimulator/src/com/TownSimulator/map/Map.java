@@ -46,7 +46,7 @@ public class Map extends Singleton{
 					float randY = (rand.nextFloat() - 0.5f) * Settings.UNIT * 0.2f;
 					obj.setPositionWorld(	Settings.UNIT * x 					  + Settings.UNIT * 0.5f - originOffsetX + randX,
 											Settings.UNIT * (MAP_HEIGHT - y - 1) + Settings.UNIT * 0.5f + randY);
-					obj.setDepth(obj.getPositionYWorld());
+					//obj.setDepth(obj.getPositionYWorld());
 					float collideSize = obj.getDrawAABBLocal().getWidth() * 0.2f;
 					float collideMinX = obj.getDrawAABBLocal().getWidth() * 0.5f - collideSize;
 					float collideMinY = -collideSize;

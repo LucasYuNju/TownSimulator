@@ -4,7 +4,6 @@ import com.TownSimulator.camera.CameraController;
 import com.TownSimulator.collision.CollisionDetector;
 import com.TownSimulator.driver.Driver;
 import com.TownSimulator.driver.DriverListenerBaseImpl;
-import com.TownSimulator.entity.Drawable;
 import com.TownSimulator.entity.Entity;
 import com.TownSimulator.map.Map;
 import com.TownSimulator.utility.AxisAlignedBoundingBox;
@@ -106,7 +105,7 @@ public class Renderer extends Singleton{
 		if(mMallocIndex >= mGridIdleList.size)
 		{
 			Sprite gridSp = ResourceManager.getInstance(ResourceManager.class).createSprite("grid");
-			Entity entity = new Entity(gridSp, -1.0f);
+			Entity entity = new Entity(gridSp, -1.0f, false);
 			entity.setDrawAABBLocal(0.1f, 0.1f, Settings.UNIT - 0.2f, Settings.UNIT - 0.2f);
 			mGridIdleList.add( entity );
 			

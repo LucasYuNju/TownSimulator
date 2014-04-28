@@ -16,7 +16,7 @@ public class RandMove extends Task{
 	public RandMove(Man man) {
 		super(man);
 		
-		mRand = new Random();
+		mRand = new Random(System.currentTimeMillis());
 		randStanding();
 	}
 

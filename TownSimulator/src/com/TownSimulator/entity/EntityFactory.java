@@ -1,5 +1,8 @@
 package com.TownSimulator.entity;
 
+import com.TownSimulator.entity.building.Building;
+import com.TownSimulator.entity.building.BuildingType;
+import com.TownSimulator.entity.building.WareHouse;
 import com.TownSimulator.utility.ResourceManager;
 import com.TownSimulator.utility.Settings;
 
@@ -27,11 +30,23 @@ public class EntityFactory {
 		float yDrawScale = 1.0f;
 		
 		switch (buildingType) {
-		case WOOD_HOUSE:
-			building = new Building(ResourceManager.getInstance(ResourceManager.class).createSprite("building_wood_house"));
+		case LOW_COST_HOUSE:
 			xGridSize = 2;
-			yGridSize = 2;
-			yDrawScale = 1.2f;
+			yGridSize = 1;
+			yDrawScale = 2.2f;
+			building = new Building(ResourceManager.getInstance(ResourceManager.class).createSprite("building_low_cost_house"), buildingType);
+			building.setNeededBuildResource(ResourceType.RS_WOOD, 10);
+			building.setNeededBuildResource(ResourceType.RS_STONE, 5);
+			building.setNeededBuildContributes(20);
+			break;
+		case WAREHOUSE:
+			xGridSize = 2;
+			yGridSize = 1;
+			yDrawScale = 2.2f;
+			building = new WareHouse();
+			building.setNeededBuildResource(ResourceType.RS_WOOD, 20);
+			building.setNeededBuildResource(ResourceType.RS_STONE, 5);
+			building.setNeededBuildContributes(30);
 			break;
 
 		default:

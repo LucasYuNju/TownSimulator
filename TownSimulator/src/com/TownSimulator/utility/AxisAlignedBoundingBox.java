@@ -22,6 +22,16 @@ public class AxisAlignedBoundingBox {
 		this.maxY = maxY;
 	}
 	
+	public float getCenterX()
+	{
+		return (minX + maxX) * 0.5f;
+	}
+	
+	public float getCenterY()
+	{
+		return (minY + maxY) * 0.5f;
+	}
+	
 	public float getWidth()
 	{
 		return maxX - minX;

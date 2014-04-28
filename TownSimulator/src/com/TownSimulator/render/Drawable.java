@@ -1,4 +1,4 @@
-package com.TownSimulator.entity;
+package com.TownSimulator.render;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
