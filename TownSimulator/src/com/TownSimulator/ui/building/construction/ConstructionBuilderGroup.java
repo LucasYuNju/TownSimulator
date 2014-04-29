@@ -45,17 +45,16 @@ public class ConstructionBuilderGroup extends Group{
 			btn.addListener(new EventListener() {
 				@Override
 				public boolean handle(Event event) {
-					FlipButton clickedButton = builderButtons.get(indexOfClickedButton);
-					if(clickedButton.getImgUp() == forbiddenBuilderTexture) {
-						clickedButton.setImgUp(allowedBuilderTexture);
-						numSelected++;
-					}
-					else {
-						clickedButton.setImgUp(forbiddenBuilderTexture);
-						numSelected--;
-					}
-					
-					numSelected = indexOfClickedButton + 1;
+						FlipButton clickedButton = builderButtons.get(indexOfClickedButton);
+						if(clickedButton.getImgUp() == forbiddenBuilderTexture) {
+							clickedButton.setImgUp(allowedBuilderTexture);
+							numSelected = indexOfClickedButton + 1;
+						}
+						else {
+							clickedButton.setImgUp(forbiddenBuilderTexture);
+							numSelected = indexOfClickedButton;
+						}
+
 					window.builderLimitSelected(numSelected);
 					for(int i=0; i<numAllowed; i++) {
 						if(i == indexOfClickedButton)
