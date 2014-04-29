@@ -7,10 +7,13 @@ import com.TownSimulator.ui.base.FlipButton;
 import com.TownSimulator.utility.ResourceManager;
 import com.TownSimulator.utility.Settings;
 import com.TownSimulator.utility.Singleton;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Event;
 import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.Group;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
 
 public class ConstructionBuilderGroup extends Group{
 	private static final float BUILDER_WIDTH = Settings.UNIT * 0.6f;
@@ -42,18 +45,18 @@ public class ConstructionBuilderGroup extends Group{
 			btn.setPosition(BUILDER_WIDTH * i, 0);
 			btn.setSize(BUILDER_WIDTH, BUILDER_WIDTH);
 			final int indexOfClickedButton = i;
-			btn.addListener(new EventListener() {
+			btn.addListener(new InputListener() {
 				@Override
-				public boolean handle(Event event) {
-						FlipButton clickedButton = builderButtons.get(indexOfClickedButton);
-						if(clickedButton.getImgUp() == forbiddenBuilderTexture) {
-							clickedButton.setImgUp(allowedBuilderTexture);
-							numSelected = indexOfClickedButton + 1;
-						}
-						else {
-							clickedButton.setImgUp(forbiddenBuilderTexture);
-							numSelected = indexOfClickedButton;
-						}
+				public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+					FlipButton clickedButton = builderButtons.get(indexOfClickedButton);
+					if(clickedButton.getImgUp() == forbiddenBuilderTexture) {
+						clickedButton.setImgUp(allowedBuilderTexture);
+						numSelected = indexOfClickedButton + 1;
+					}
+					else {
+						clickedButton.setImgUp(forbiddenBuilderTexture);
+						numSelected = indexOfClickedButton;
+					}
 
 					window.builderLimitSelected(numSelected);
 					for(int i=0; i<numAllowed; i++) {
