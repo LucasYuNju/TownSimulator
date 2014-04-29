@@ -81,9 +81,9 @@ public class ConstructExecuteBTN implements ActionNode{
 		
 		if(cnt > 0)
 		{
-			mConstructInfo.proj.getBuilding().incrementConstructionContribute(cnt * BUILD_CONTRIBUTE_SPPED);
+			mConstructInfo.proj.getBuilding().doConstructionWork(cnt * BUILD_CONTRIBUTE_SPPED);
 			Building building = mConstructInfo.proj.getBuilding();
-			System.out.println("Build " + building.getFinishedConstructionContribute() + "/" + building.getUnfinishedConstructionContributes() + building.getFinishedConstructionContribute());
+			System.out.println("Build " + building.getFinishedConstructionWork() + "/" + building.getUnfinishedConstructionWork() + building.getFinishedConstructionWork());
 		}
 		
 		if(mConstructInfo.proj.getBuilding().isConstructionFinished())

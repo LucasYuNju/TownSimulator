@@ -14,11 +14,11 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 
 public class Building extends Entity{
 	protected HashMap<ResourceType, ConstructionResourceInfo>	resouceMap;
-	protected int												neededConstructionContribute;
-	protected int												curConstructionContribute;
+	protected int												constructionWork;
+	protected int												finishedConstructionWork;
+	private	  ConstructProject									constructionProject;
 	protected State												state;
 	protected BuildingType										type;
-	private	  ConstructProject									constructionProject;
 
 	public enum State
 	{
@@ -70,24 +70,24 @@ public class Building extends Entity{
 		return resouceMap.get(type).need;
 	}
 	
-	public void setNeededConstructionContributes(int amount)
+	public void setNeededConstructionWork(int amount)
 	{
-		neededConstructionContribute = amount;
+		constructionWork = amount;
 	}
 	
-	public int getUnfinishedConstructionContributes()
+	public int getUnfinishedConstructionWork()
 	{
-		return neededConstructionContribute - curConstructionContribute;
+		return constructionWork - finishedConstructionWork;
 	}
 
-	public int getFinishedConstructionContribute() 
+	public int getFinishedConstructionWork() 
 	{
-		return curConstructionContribute;
+		return finishedConstructionWork;
 	}
 
-	public void incrementConstructionContribute(int amount)
+	public void doConstructionWork(int amount)
 	{
-		curConstructionContribute = Math.min(neededConstructionContribute, curConstructionContribute + amount);
+		finishedConstructionWork = Math.min(constructionWork, finishedConstructionWork + amount);
 	}
 	
 	public boolean isConstructionResourceSufficient()
@@ -114,11 +114,11 @@ public class Building extends Entity{
 	
 	public boolean isConstructionFinished()
 	{
-		return curConstructionContribute >= neededConstructionContribute;
+		return finishedConstructionWork >= constructionWork;
 	}
 	
 	public float getProcess() {
-		return curConstructionContribute / (float)neededConstructionContribute;
+		return finishedConstructionWork / (float)constructionWork;
 	}
 	
 	@Override
@@ -137,7 +137,7 @@ public class Building extends Entity{
 	
 	public void setState(State state)
 	{
-		state = state;
+		this.state = state;
 	}
 	
 	public State getState()
