@@ -9,16 +9,27 @@ public class InputMgr extends SingletonPublisher<InputMgrListener> implements In
 	private float 					mPrevDraggedX = 0.0f;
 	private float 					mPrevDraggedY = 0.0f;
 	private Array<InputMgrListener>	mActiveListeners;
+	private boolean					mCancelTouchDown = false;
 	
 	private InputMgr() {
 		Gdx.input.setInputProcessor(this);
 		mActiveListeners = new Array<InputMgrListener>();
 	}
 	
+	public void cancelTouchDown()
+	{
+		mCancelTouchDown = true;
+	}
+	
 	@Override
 	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
 		mActiveListeners.clear();
+		mCancelTouchDown = false;
+		
 		for (int i = 0; i < mListeners.size; i++) {
+			if(mCancelTouchDown)
+				break;
+			
 			if( mListeners.get(i).touchDown(screenX, screenY, pointer, button) )
 				mActiveListeners.add(mListeners.get(i));
 		}

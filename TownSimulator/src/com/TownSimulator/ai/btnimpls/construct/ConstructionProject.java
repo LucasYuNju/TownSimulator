@@ -9,8 +9,8 @@ import com.TownSimulator.entity.building.Building;
 import com.badlogic.gdx.utils.Array;
 
 public class ConstructionProject {
-	private int							mMaxBuildJobCnt = 4;
-	private int							mOpenBuildJobCnt = 3;
+	private int							mMaxBuildJobCnt;
+	private int							mOpenBuildJobCnt;
 	private int							mCurWorkingManCnt = 0;
 	private State						mCurStage;
 	private Building					mBuilding;
@@ -29,6 +29,8 @@ public class ConstructionProject {
 	{
 		mCurStage = State.CONSTRUCT_PROJ_TRANSPORT;
 		mBuilding = building;
+		mMaxBuildJobCnt = mBuilding.getMaxAllowdBuilderCnt();
+		mOpenBuildJobCnt = mMaxBuildJobCnt;
 		mBuilding.setConstructionProject(this);
 		mBuildResourceTypeItr = mBuilding.getNeededConstructionResourceTypes().iterator();
 		mWorkers = new Array<Man>();

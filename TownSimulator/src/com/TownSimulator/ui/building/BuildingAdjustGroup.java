@@ -20,7 +20,7 @@ public class BuildingAdjustGroup extends Group{
 	{
 		setSize(BUTTON_SIZE, BUTTON_SIZE * 2.2f);
 		
-		mConfirmButton = new BuildingAdjustButton("button_confirm", "aaaa");
+		mConfirmButton = new BuildingAdjustButton("button_confirm");
 		mConfirmButton.setSize(BUTTON_SIZE, BUTTON_SIZE);
 		mConfirmButton.setPosition(0.0f, getHeight() - mConfirmButton.getHeight());
 		mConfirmButton.addListener(new InputListener()
@@ -42,7 +42,7 @@ public class BuildingAdjustGroup extends Group{
 		});
 		addActor(mConfirmButton);
 		
-		mCancelButton = new BuildingAdjustButton("button_cancel", null);
+		mCancelButton = new BuildingAdjustButton("button_cancel");
 		mCancelButton.setSize(BUTTON_SIZE, BUTTON_SIZE);
 		mCancelButton.setPosition(0.0f, 0.0f);
 		mCancelButton.addListener(new InputListener()

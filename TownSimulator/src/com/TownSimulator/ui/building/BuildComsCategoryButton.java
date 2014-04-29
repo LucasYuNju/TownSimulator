@@ -1,14 +1,16 @@
 package com.TownSimulator.ui.building;
 
+import com.TownSimulator.ui.base.IconLabelButton;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 
-public class BuildComsCategoryButton extends BuildingAdjustButton{
+public class BuildComsCategoryButton extends IconLabelButton{
 	private 		BuildComsButtonsGroup mButtonsGroup;
 	private static 	BuildComsButtonsGroup mCurVisibleGroup;
 	
 	public BuildComsCategoryButton(String textureName, String labelText) {
-		super(textureName, labelText);
+		super(textureName, labelText, (int)BuildComsUI.BUTTON_TOP_LABEL_PAD);
+		setSize(BuildComsUI.BUTTON_WIDTH, BuildComsUI.BUTTON_WIDTH);
 		
 		mButtonsGroup = new BuildComsButtonsGroup();
 		mButtonsGroup.setVisible(false);

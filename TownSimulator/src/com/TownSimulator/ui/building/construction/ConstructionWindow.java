@@ -2,6 +2,8 @@ package com.TownSimulator.ui.building.construction;
 
 import java.util.Map;
 
+import com.TownSimulator.camera.CameraController;
+import com.TownSimulator.camera.CameraListener;
 import com.TownSimulator.entity.ResourceType;
 import com.TownSimulator.ui.base.FlipButton;
 import com.TownSimulator.utility.ResourceManager;
@@ -11,6 +13,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Event;
 import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.Group;
@@ -51,6 +54,9 @@ public class ConstructionWindow extends Group{
 	protected Map<ResourceType, ConstructionResourceInfo> resouceMap;
 	private ConstructionBuilderGroup builderGroup;
 	
+	private float buildingPosXWorld;
+	private float buildingPosYWorld;
+	
 	public ConstructionWindow(Map<ResourceType, ConstructionResourceInfo> resources, int numAllowedBuilder) {
 		background = Singleton.getInstance(ResourceManager.class).findTextureRegion("background");
 		processBar = Singleton.getInstance(ResourceManager.class).findTextureRegion("process_bar");
@@ -77,12 +83,50 @@ public class ConstructionWindow extends Group{
 		addHeader();
 		addCloseButton();
 
-		initTestData();
+		initCameraListener();
+		//initTestData();
 	}
 	
-	private void initTestData() {
-		setBuilderUpperLimit(5);		
-		process = 0.2f;
+	private void initCameraListener()
+	{
+		CameraController.getInstance(CameraController.class).addListener(new CameraListener() {
+			
+			@Override
+			public void cameraZoomed(float prevWidth, float prevHeight, float curWidth,
+					float curHeight) {
+				if(isVisible())
+					updatePosition();
+			}
+			
+			@Override
+			public void cameraMoved(float deltaX, float deltaY) {
+				if(isVisible())
+					updatePosition();
+			}
+		});
+	}
+	
+	@Override
+	public void setVisible(boolean visible) {
+		super.setVisible(visible);
+		if(visible)
+			updatePosition();
+	}
+
+	private void updatePosition()
+	{
+		Vector3 pos = new Vector3(buildingPosXWorld, buildingPosYWorld, 0.0f);
+		CameraController.getInstance(CameraController.class).worldToScreen(pos);
+		System.out.println(pos);
+		float windowX = pos.x - getWidth();
+		float windowY = pos.y - getHeight() * 0.5f;
+		setPosition(windowX, windowY);
+	}
+	
+	public void setBuildingPosWorld(float x, float y)
+	{
+		buildingPosXWorld = x;
+		buildingPosYWorld = y;
 	}
 
 	private void addPairs() {

@@ -6,10 +6,9 @@ import com.TownSimulator.camera.CameraListener;
 import com.TownSimulator.collision.CollisionDetector;
 import com.TownSimulator.entity.Entity;
 import com.TownSimulator.entity.EntityFactory;
-import com.TownSimulator.entity.EntityInfoCollector;
 import com.TownSimulator.entity.EntityListener;
-import com.TownSimulator.entity.Man;
 import com.TownSimulator.entity.building.Building;
+import com.TownSimulator.entity.building.Building.State;
 import com.TownSimulator.entity.building.BuildingType;
 import com.TownSimulator.render.Renderer;
 import com.TownSimulator.ui.UIManager;
@@ -101,17 +100,18 @@ public class BuildBroker extends Singleton implements EntityListener, CameraList
 			
 			@Override
 			public void confirm() {
-				ConstructionProject proj = new ConstructionProject(mCurBuilding);
-				int cnt = proj.getAvailableBuildJobCnt();
-				for (Man man : EntityInfoCollector.getInstance(EntityInfoCollector.class).getAllPeople()) {
-					if( man.getInfo().bIdle )
-					{
-						if(cnt-- > 0)
-							proj.addWorker(man);
-						else
-							break;
-					}
-				}
+				new ConstructionProject(mCurBuilding);
+				mCurBuilding.setState(State.BUILDING_PROCESS);
+//				int cnt = proj.getAvailableBuildJobCnt();
+//				for (Man man : EntityInfoCollector.getInstance(EntityInfoCollector.class).getAllPeople()) {
+//					if( man.getInfo().bIdle )
+//					{
+//						if(cnt-- > 0)
+//							proj.addWorker(man);
+//						else
+//							break;
+//					}
+//				}
 				
 				Renderer.getInstance(Renderer.class).setDrawGrid(false);
 				mCurBuilding.setListener(null);

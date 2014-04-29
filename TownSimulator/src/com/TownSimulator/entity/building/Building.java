@@ -5,8 +5,6 @@ import java.util.Iterator;
 import java.util.Set;
 
 import com.TownSimulator.ai.btnimpls.construct.ConstructionProject;
-import com.TownSimulator.camera.CameraController;
-import com.TownSimulator.camera.CameraListener;
 import com.TownSimulator.entity.Entity;
 import com.TownSimulator.entity.ResourceType;
 import com.TownSimulator.ui.UIManager;
@@ -22,39 +20,36 @@ public class Building extends Entity implements ConstructionWindowListener{
 	private	  ConstructionProject								constructionProject;
 	protected State												state;
 	protected BuildingType										type;
-	private   int 												numAllowedBuilder = 5;
+	private   int 												maxAllowedBuilderCnt = 3;
 	private   ConstructionWindow								constructionWindow;
 	
 	public enum State
 	{
-		BUILDING_PROCESS, BUILDING_FINISHED
+		BUILDING_UNCONFIRMED, BUILDING_PROCESS, BUILDING_FINISHED
 	}
 	
 	public Building(Sprite sp, BuildingType type) {
 		super(sp);
 		this.type = type;
 		
-		state = State.BUILDING_PROCESS;
+		state = State.BUILDING_UNCONFIRMED;
 		resouceMap = new HashMap<ResourceType, ConstructionResourceInfo>();
 
-		constructionWindow = UIManager.getInstance(UIManager.class).getGameUI().createConstructionWindow(resouceMap, numAllowedBuilder);
+		constructionWindow = UIManager.getInstance(UIManager.class).getGameUI().createConstructionWindow(resouceMap, maxAllowedBuilderCnt);
 		constructionWindow.setListener(this);
-		constructionWindow.setPosition(150, 150);
-		
-		
-		CameraController.getInstance(CameraController.class).addListener(new CameraListener() {
-			
-			@Override
-			public void cameraZoomed(float prevWidth, float prevHeight, float curWidth,
-					float curHeight) {
-				
-			}
-			
-			@Override
-			public void cameraMoved(float deltaX, float deltaY) {
-				
-			}
-		});
+//		constructionWindow.setPosition(150, 150);
+		//constructionWindow.setBuildingPosWorld(getPositionXWorld(), getPositionYWorld());
+	}
+	
+	@Override
+	public void setPositionWorld(float x, float y) {
+		super.setPositionWorld(x, y);
+		constructionWindow.setBuildingPosWorld(getPositionXWorld(), getPositionYWorld());
+	}
+
+	public int getMaxAllowdBuilderCnt()
+	{
+		return maxAllowedBuilderCnt;
 	}
 	
 	public BuildingType getType()
@@ -153,10 +148,10 @@ public class Building extends Entity implements ConstructionWindowListener{
 	{
 		super.detectTouchDown();
 		if(state == State.BUILDING_PROCESS) {
-//			constructionWindow.setVisible(true);
+			constructionWindow.setVisible(true);
 		}
 		//for test
-		UIManager.getInstance(UIManager.class).getGameUI().testScrollPane();		
+//		UIManager.getInstance(UIManager.class).getGameUI().testScrollPane();		
 		return true;
 	}
 	
