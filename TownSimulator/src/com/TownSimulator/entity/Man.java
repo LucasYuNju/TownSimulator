@@ -127,6 +127,11 @@ public class Man extends Entity{
 		mMoveDir.scl(1.0f / destLen);
 	}
 	
+	public void stopMove()
+	{
+		mMoveTime = 0.0f;
+	}
+	
 	/**
 	 * Man move.
 	 * @param deltaTime

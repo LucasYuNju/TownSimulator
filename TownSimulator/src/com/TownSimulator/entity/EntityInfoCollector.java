@@ -1,6 +1,6 @@
 package com.TownSimulator.entity;
 
-import com.TownSimulator.ai.btnimpls.construct.ConstructProject;
+import com.TownSimulator.ai.btnimpls.construct.ConstructionProject;
 import com.TownSimulator.entity.building.Building;
 import com.TownSimulator.entity.building.BuildingType;
 import com.TownSimulator.entity.building.WareHouse;
@@ -10,13 +10,13 @@ import com.badlogic.gdx.utils.Array;
 public class EntityInfoCollector extends Singleton{
 	private Array<Man> 		mPeople;
 	private Array<Building>	mBuildings;
-	private Array<ConstructProject> mConstructProjs;
+	private Array<ConstructionProject> mConstructProjs;
 	
 	private EntityInfoCollector()
 	{
 		mPeople = new Array<Man>();
 		mBuildings = new Array<Building>();
-		mConstructProjs = new Array<ConstructProject>();
+		mConstructProjs = new Array<ConstructionProject>();
 	}
 	
 	public void addMan(Man man)
@@ -29,17 +29,17 @@ public class EntityInfoCollector extends Singleton{
 		return mPeople;
 	}
 	
-	public void addConstructProj(ConstructProject proj)
+	public void addConstructProj(ConstructionProject proj)
 	{
 		mConstructProjs.add(proj);
 	}
 	
-	public void removeConstructProj(ConstructProject proj)
+	public void removeConstructProj(ConstructionProject proj)
 	{
 		mConstructProjs.removeValue(proj, false);
 	}
 	
-	public Array<ConstructProject> getAllConstructProjs()
+	public Array<ConstructionProject> getAllConstructProjs()
 	{
 		return mConstructProjs;
 	}

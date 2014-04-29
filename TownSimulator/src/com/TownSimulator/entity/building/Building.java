@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Set;
 
-import com.TownSimulator.ai.btnimpls.construct.ConstructProject;
+import com.TownSimulator.ai.btnimpls.construct.ConstructionProject;
 import com.TownSimulator.camera.CameraController;
 import com.TownSimulator.camera.CameraListener;
 import com.TownSimulator.entity.Entity;
@@ -19,7 +19,7 @@ public class Building extends Entity implements ConstructionWindowListener{
 	protected HashMap<ResourceType, ConstructionResourceInfo>	resouceMap;
 	protected int												constructionWork;
 	protected int												finishedConstructionWork;
-	private	  ConstructProject									constructionProject;
+	private	  ConstructionProject								constructionProject;
 	protected State												state;
 	protected BuildingType										type;
 	private   int 												numAllowedBuilder = 5;
@@ -129,12 +129,12 @@ public class Building extends Entity implements ConstructionWindowListener{
 		return true;
 	}
 	
-	public void setConstructionProject(ConstructProject project)
+	public void setConstructionProject(ConstructionProject project)
 	{
 		constructionProject = project;
 	}
 	
-	public ConstructProject getConstructionProject()
+	public ConstructionProject getConstructionProject()
 	{
 		return constructionProject;
 	}
@@ -182,6 +182,7 @@ public class Building extends Entity implements ConstructionWindowListener{
 
 	@Override
 	public void builderLimitSelected(int limit) {
-		
+		System.out.println(limit);
+		constructionProject.setOpenWorkJobCnt(limit);
 	}
 }
