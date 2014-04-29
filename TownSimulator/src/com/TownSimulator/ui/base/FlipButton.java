@@ -23,12 +23,16 @@ public class FlipButton extends Button{
 	
 	public FlipButton(String imgUp, String imgDown, String text)
 	{
-		mImgUp = ResourceManager.getInstance(ResourceManager.class).findTextureRegion(imgUp);
-		mImgDown = ResourceManager.getInstance(ResourceManager.class).findTextureRegion(imgDown);
+		this(ResourceManager.getInstance(ResourceManager.class).findTextureRegion(imgUp), 
+				ResourceManager.getInstance(ResourceManager.class).findTextureRegion(imgDown), text);
+	}
+	
+	public FlipButton(TextureRegion imgUp, TextureRegion imgDown, String text) {
+		this.mImgUp = imgUp;
+		this.mImgDown = imgDown;
 		mText = text;
 		if( mText != null)
-			initLable();
-		
+			initLable();		
 	}
 	
 	@Override
@@ -83,5 +87,9 @@ public class FlipButton extends Button{
 	
 	public void setImgUp(TextureRegion up) {
 		mImgUp = up;
+	}
+	
+	public TextureRegion getImgUp() {
+		return mImgUp;
 	}
 }

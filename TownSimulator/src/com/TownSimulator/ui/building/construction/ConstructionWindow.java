@@ -41,7 +41,7 @@ public class ConstructionWindow extends Group{
 	//window去掉margin后的宽度和高度，不计MARGIN
 	private float windowWidth;
 	private float windowHeight;
-	private BuildingInfoWindowListener listener;
+	private ConstructionWindowListener listener;
 	
 	//进度条
 	private float process;
@@ -58,7 +58,7 @@ public class ConstructionWindow extends Group{
 		
 		//有严格的初始化顺序
 		//1
-		builderGroup = new ConstructionBuilderGroup(numAllowedBuilder);
+		builderGroup = new ConstructionBuilderGroup(this, numAllowedBuilder);
 		builderGroup.setPosition(MARGIN, MARGIN * 1.4f + PROCESS_BAR_HEIGHT);
 		addActor(builderGroup);
 		
@@ -139,14 +139,8 @@ public class ConstructionWindow extends Group{
 		addActor(label);
 	}
 	
-	int x = 0;
 	@Override
 	public void draw(Batch batch, float parentAlpha) {
-		
-		incrementProcess(1);
-		if(++x % 10 == 0)
-			builderGroup.addBuilder();
-
 		Color c = this.getColor();
 		batch.setColor(c.r, c.g, c.b, c.a * parentAlpha);
 		batch.draw(background, getX(), getY(), getWidth(), getHeight());
@@ -165,16 +159,23 @@ public class ConstructionWindow extends Group{
 			builderGroup.setUpperLimit(limit);
 	}
 	
-	public void incrementProcess(int increment) {
-		process += increment / 100f;
-		process = process > 1 ? 1 : process;
+	public void setProcess(float process) {
+		this.process = process > 1 ? 1 : process;
 	}
 
-	public void setListener(BuildingInfoWindowListener listener) {
+	public void setListener(ConstructionWindowListener listener) {
 		this.listener = listener;
-	}	
-}
-
-interface BuildingInfoWindowListener {
+	}
+		
+	void builderLimitSelected(int selectedLimit) {
+		listener.builderLimitSelected(selectedLimit);
+	}
 	
+	private void constructionCancelled() {
+		listener.constructionCancelled();
+	}
+
+	public void addBuilder() {
+		builderGroup.addBuilder();
+	}	
 }
