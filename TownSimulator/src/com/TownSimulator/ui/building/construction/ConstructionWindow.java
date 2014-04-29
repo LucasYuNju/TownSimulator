@@ -117,7 +117,6 @@ public class ConstructionWindow extends Group{
 	{
 		Vector3 pos = new Vector3(buildingPosXWorld, buildingPosYWorld, 0.0f);
 		CameraController.getInstance(CameraController.class).worldToScreen(pos);
-		System.out.println(pos);
 		float windowX = pos.x - getWidth();
 		float windowY = pos.y - getHeight() * 0.5f;
 		setPosition(windowX, windowY);
