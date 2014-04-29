@@ -92,7 +92,8 @@ public class Building extends Entity implements ConstructionWindowListener{
 	public void doConstructionWork(int amount)
 	{
 		finishedConstructionWork = Math.min(constructionWork, finishedConstructionWork + amount);
-		constructionWindow.setProcess(getProcess());
+		if(constructionWindow != null)
+			constructionWindow.setProcess(getProcess());
 	}
 	
 	public boolean isConstructionResourceSufficient()
@@ -131,12 +132,14 @@ public class Building extends Entity implements ConstructionWindowListener{
 	{
 		super.detectTouchDown();
 //		if(state == State.BUILDING_PROCESS) {
+
 		if(true) {
 			constructionWindow = UIManager.getInstance(UIManager.class).getGameUI().createConstructionWindow(resouceMap, numAllowedBuilder);
 			constructionWindow.setListener(this);
 			constructionWindow.setPosition(150, 150);
 			constructionWindow.setVisible(true);
-		}		
+		}
+
 		//for test
 		UIManager.getInstance(UIManager.class).getGameUI().createTestWindow();		
 		return true;
