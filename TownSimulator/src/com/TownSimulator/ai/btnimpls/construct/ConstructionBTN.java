@@ -8,11 +8,10 @@ import com.TownSimulator.entity.EntityInfoCollector;
 import com.TownSimulator.entity.Man;
 
 public class ConstructionBTN extends SequenceNode{
-	private ConstructionInfo		mConstructInfo;
+	private Man		mMan;
 	
 	public ConstructionBTN(Man man) {
-		mConstructInfo = new ConstructionInfo();
-		mConstructInfo.man = man;
+		this.mMan = man;
 		init();
 	}
 	
@@ -32,17 +31,17 @@ public class ConstructionBTN extends SequenceNode{
 			
 			@Override
 			public ExcuteResult execute(float deltaTime) {
-				if(mConstructInfo.proj == null)
+				if(mMan.getInfo().constructionInfo.proj == null)
 				{
 					ConstructionProject proj = findAvailableProj();
 					if(proj == null)
 						return ExcuteResult.FALSE;
 					else
 					{
-						proj.addWorker(mConstructInfo.man);
-						mConstructInfo.proj = proj;
+						proj.addWorker(mMan);
+						mMan.getInfo().constructionInfo.proj = proj;
+						return ExcuteResult.TRUE;
 					}
-					return ExcuteResult.TRUE;
 				}
 				else
 					return ExcuteResult.TRUE;
@@ -53,16 +52,16 @@ public class ConstructionBTN extends SequenceNode{
 			
 			@Override
 			public ExcuteResult execute(float deltaTime) {
-				if(mConstructInfo.proj == null)
+				if(mMan.getInfo().constructionInfo.bCancel == false)
 				{
-					if(mConstructInfo.transportNeededAmount > 0)
+					if(mMan.getInfo().constructionInfo.proj.remainResourceToTrans() || mMan.getInfo().constructionInfo.transportNeededAmount > 0)
 						return ExcuteResult.TRUE;
 					else
 						return ExcuteResult.FALSE;
 				}
 				else
 				{
-					if(mConstructInfo.proj.remainResourceToTrans() || mConstructInfo.transportNeededAmount > 0)
+					if(mMan.getInfo().constructionInfo.transportNeededAmount > 0)
 						return ExcuteResult.TRUE;
 					else
 						return ExcuteResult.FALSE;
@@ -74,7 +73,7 @@ public class ConstructionBTN extends SequenceNode{
 			
 			@Override
 			public ExcuteResult execute(float deltaTime) {
-				if(mConstructInfo.proj.isFinished())
+				if(mMan.getInfo().constructionInfo.proj.isFinished() || mMan.getInfo().constructionInfo.bCancel)
 					return ExcuteResult.FALSE;
 				else
 					return ExcuteResult.TRUE;
@@ -83,10 +82,10 @@ public class ConstructionBTN extends SequenceNode{
 		
 		this.addNode(constructProj)
 			.addNode( new SelectorNode().addNode( new SequenceNode().addNode(judgeTransport)
-																	.addNode(new ConstructionTransportBTN(mConstructInfo)) 
+																	.addNode(new ConstructionTransportBTN(mMan)) 
 												)
 										.addNode( new SequenceNode().addNode(judgeUnfinish)
-																	.addNode(new ConstructionExecuteBTN(mConstructInfo)) 
+																	.addNode(new ConstructionExecuteBTN(mMan)) 
 												)
 					);
 		
@@ -96,13 +95,12 @@ public class ConstructionBTN extends SequenceNode{
 	
 	private void startProj()
 	{
-		mConstructInfo.proj = mConstructInfo.man.getInfo().constructProj;
-		mConstructInfo.man.getInfo().bIdle = false;
+		mMan.getInfo().bIdle = false;
 	}
 
 	@Override
 	public ExcuteResult execute(float deltaTime) {
-		if(mConstructInfo.proj == null)
+		if(mMan.getInfo().constructionInfo.proj == null)
 			startProj();
 		
 		return super.execute(deltaTime);

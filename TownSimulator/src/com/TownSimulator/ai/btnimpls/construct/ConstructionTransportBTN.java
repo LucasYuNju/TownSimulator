@@ -4,103 +4,117 @@ import com.TownSimulator.ai.behaviortree.ActionNode;
 import com.TownSimulator.ai.behaviortree.ExcuteResult;
 import com.TownSimulator.entity.EntityInfoCollector;
 import com.TownSimulator.entity.EntityInfoCollector.WareHouseFindResult;
+import com.TownSimulator.entity.Man;
 import com.TownSimulator.entity.ManAnimeType;
+import com.TownSimulator.entity.building.Building;
+import com.TownSimulator.entity.building.WareHouse;
 
 public class ConstructionTransportBTN implements ActionNode{
 	public static final int		MAX_TRANSPORT_RS_AMOUNT = 5;
 	private State				mCurState;
-	private ConstructionInfo		mConstructInfo;
+	//private ConstructionInfo		mMan.getInfo().constructionInfo;
+	private Man mMan;
 	
 	public enum State
 	{
 		CONSTRUCT_TRANSPORT_TO_WAREHOUSR, CONSTRUCT_TRANSPORT_TO_BUILDING, CONSTRUCT_TRANSPORT_NO_RESOURCE,
 	}
 	
-	public ConstructionTransportBTN(ConstructionInfo constructInfo) {
-		mConstructInfo = constructInfo;
+	public ConstructionTransportBTN(Man man) {
+		//mMan.getInfo().constructionInfo = constructInfo;
+		mMan = man;
 		mCurState = State.CONSTRUCT_TRANSPORT_TO_WAREHOUSR;
 	}
 	
 	private void fetchResource()
 	{
-		int availableAmount = mConstructInfo.transportWareHouse.getWareHousrResourceAmount(mConstructInfo.transportRSType);
-		int takeAmount = Math.min(availableAmount, mConstructInfo.transportNeededAmount - mConstructInfo.curRSAmount);
-		mConstructInfo.transportWareHouse.addConstructionResource(mConstructInfo.transportRSType, -takeAmount);
-		mConstructInfo.curRSAmount += takeAmount;
+		int availableAmount = mMan.getInfo().constructionInfo.transportWareHouse.getWareHousrResourceAmount(mMan.getInfo().constructionInfo.transportRSType);
+		int takeAmount = Math.min(availableAmount, mMan.getInfo().constructionInfo.transportNeededAmount - mMan.getInfo().constructionInfo.curRSAmount);
+		mMan.getInfo().constructionInfo.transportWareHouse.addConstructionResource(mMan.getInfo().constructionInfo.transportRSType, -takeAmount);
+		mMan.getInfo().constructionInfo.curRSAmount += takeAmount;
 	}
 	
 	private void addResourceToBuilding()
 	{
-		mConstructInfo.proj.getBuilding().addConstructionResource(mConstructInfo.transportRSType, mConstructInfo.curRSAmount);
+		Building building = mMan.getInfo().constructionInfo.transportBuilding;
+		building.addConstructionResource(mMan.getInfo().constructionInfo.transportRSType, mMan.getInfo().constructionInfo.curRSAmount);
 	}
 	
 	private void findWareHouse()
 	{
-		float x = mConstructInfo.proj.getBuilding().getPositionXWorld();
-		float y = mConstructInfo.proj.getBuilding().getPositionYWorld();
+		float x = mMan.getInfo().constructionInfo.proj.getBuilding().getPositionXWorld();
+		float y = mMan.getInfo().constructionInfo.proj.getBuilding().getPositionYWorld();
 		WareHouseFindResult findResult = EntityInfoCollector.getInstance(EntityInfoCollector.class)
-				.findNearestWareHouseWithRs(mConstructInfo.transportRSType, mConstructInfo.transportNeededAmount - mConstructInfo.curRSAmount, x, y);
-		mConstructInfo.transportWareHouse = findResult.wareHouse;
+				.findNearestWareHouseWithRs(mMan.getInfo().constructionInfo.transportRSType, mMan.getInfo().constructionInfo.transportNeededAmount - mMan.getInfo().constructionInfo.curRSAmount, x, y);
+		mMan.getInfo().constructionInfo.transportWareHouse = findResult.wareHouse;
 	}
 
 	@Override
 	public ExcuteResult execute(float deltaTime) {
 		
-		if(mConstructInfo.transportNeededAmount == 0)
+		if(mMan.getInfo().constructionInfo.transportNeededAmount == 0)
 		{
-			mConstructInfo.proj.allocateTransport(mConstructInfo);
+			mMan.getInfo().constructionInfo.proj.allocateTransport(mMan.getInfo().constructionInfo);
 			findWareHouse();
-			if(mConstructInfo.transportWareHouse == null)
+			if(mMan.getInfo().constructionInfo.transportWareHouse == null)
 				mCurState = State.CONSTRUCT_TRANSPORT_NO_RESOURCE;
 		}
 		
 		switch (mCurState) {
 		case CONSTRUCT_TRANSPORT_TO_WAREHOUSR:
-			mConstructInfo.man.setMoveDestination(mConstructInfo.transportWareHouse.getPositionXWorld(), mConstructInfo.transportWareHouse.getPositionYWorld());
-			mConstructInfo.man.getInfo().animeType = ManAnimeType.MOVE;
+			WareHouse wareHouse = mMan.getInfo().constructionInfo.transportWareHouse;
+			mMan.setMoveDestination(wareHouse.getPositionXWorld(), wareHouse.getPositionYWorld());
+			mMan.getInfo().animeType = ManAnimeType.MOVE;
 			
-			if( !mConstructInfo.man.move(deltaTime) )
+			if( !mMan.move(deltaTime) )
 			{
 				fetchResource();
-				if(mConstructInfo.curRSAmount < mConstructInfo.transportNeededAmount)
+				if(mMan.getInfo().constructionInfo.curRSAmount < mMan.getInfo().constructionInfo.transportNeededAmount)
 				{
 					findWareHouse();
-					if(mConstructInfo.transportWareHouse == null)
+					if(mMan.getInfo().constructionInfo.transportWareHouse == null)
 					{
 						mCurState = State.CONSTRUCT_TRANSPORT_NO_RESOURCE;
-						mConstructInfo.man.getInfo().animeType = ManAnimeType.STANDING;
+						mMan.getInfo().animeType = ManAnimeType.STANDING;
 					}
-					else
-						mConstructInfo.man.setMoveDestination(mConstructInfo.transportWareHouse.getPositionXWorld(), mConstructInfo.transportWareHouse.getPositionYWorld());
+					//else
+					//	mMan.setMoveDestination(mMan.getInfo().constructionInfo.transportWareHouse.getPositionXWorld(), mMan.getInfo().constructionInfo.transportWareHouse.getPositionYWorld());
 				}
 				else
-				{
 					mCurState = State.CONSTRUCT_TRANSPORT_TO_BUILDING;
-					mConstructInfo.man.getInfo().animeType = ManAnimeType.MOVE;
-					mConstructInfo.man.setMoveDestination(mConstructInfo.proj.getBuilding().getPositionXWorld(), mConstructInfo.proj.getBuilding().getPositionYWorld());
-				}
 			}
 			break;
 			
 		case CONSTRUCT_TRANSPORT_TO_BUILDING:
-			mConstructInfo.man.setMoveDestination(mConstructInfo.proj.getBuilding().getPositionXWorld(), mConstructInfo.proj.getBuilding().getPositionYWorld());
-			mConstructInfo.man.getInfo().animeType = ManAnimeType.MOVE;
+			Building building = mMan.getInfo().constructionInfo.transportBuilding;
+			mMan.setMoveDestination(building.getPositionXWorld(), building.getPositionYWorld());
+			mMan.getInfo().animeType = ManAnimeType.MOVE;
 			
-			if( !mConstructInfo.man.move(deltaTime) )
+			if( !mMan.move(deltaTime) )
 			{
 				//fetchResource();
 				addResourceToBuilding();
-				mConstructInfo.transportWareHouse = null;
-				mConstructInfo.transportRSType = null;
-				mConstructInfo.transportNeededAmount = 0;
-				mConstructInfo.proj.transportFinsihed();
+				mMan.getInfo().constructionInfo.transportBuilding = null;
+				mMan.getInfo().constructionInfo.transportWareHouse = null;
+				mMan.getInfo().constructionInfo.transportRSType = null;
+				mMan.getInfo().constructionInfo.transportNeededAmount = 0;
+				mMan.getInfo().constructionInfo.proj.transportFinsihed();
 				
 				mCurState = State.CONSTRUCT_TRANSPORT_TO_WAREHOUSR;
+				
+				if(mMan.getInfo().constructionInfo.bCancel)
+				{
+					mMan.getInfo().constructionInfo.proj = null;
+					mMan.getInfo().constructionInfo.bCancel = false;
+				}
+				
 				return ExcuteResult.TRUE;
 			}
 			break;
 			
 		case CONSTRUCT_TRANSPORT_NO_RESOURCE:
+			mMan.stopMove();
+			mMan.getInfo().animeType = ManAnimeType.STANDING;
 			break;
 		}
 		

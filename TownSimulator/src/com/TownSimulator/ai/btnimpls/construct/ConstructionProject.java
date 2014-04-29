@@ -40,8 +40,9 @@ public class ConstructionProject {
 	{
 		for (int i = 0; i < cnt; i++) {
 			Man man = mWorkers.pop();
-			man.getInfo().constructProj = null;
+			man.getInfo().constructionInfo.bCancel = true;
 		}
+		mCurWorkingManCnt -= cnt;
 	}
 	
 	public int getMaxWorkerCnt() {
@@ -76,7 +77,7 @@ public class ConstructionProject {
 	public void addWorker(Man man)
 	{
 		mWorkers.add(man);
-		man.getInfo().constructProj = this;
+		man.getInfo().constructionInfo.proj = this;
 		mCurWorkingManCnt ++;
 		mBuilding.addBuilder();
 	}
@@ -117,6 +118,7 @@ public class ConstructionProject {
 		int amount = Math.min(mCurAllocRsRemainNeedAmount, ConstructionTransportBTN.MAX_TRANSPORT_RS_AMOUNT);
 		cons.transportRSType = mCurAllocRsType;
 		cons.transportNeededAmount = amount;
+		cons.transportBuilding = mBuilding;
 		mCurAllocRsRemainNeedAmount -= amount;
 		
 		return true;
