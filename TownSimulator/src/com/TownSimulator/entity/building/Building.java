@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Set;
 
+import com.TownSimulator.ai.btnimpls.construct.ConstructProject;
 import com.TownSimulator.entity.Entity;
 import com.TownSimulator.entity.ResourceType;
 import com.TownSimulator.ui.UIManager;
@@ -13,11 +14,12 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 
 public class Building extends Entity{
 	protected HashMap<ResourceType, ConstructionResourceInfo>	resouceMap;
-	protected int												neededBuildContributes;
-	protected int												curBuildContributes;
-	protected State												curState;
+	protected int												neededConstructionContribute;
+	protected int												curConstructionContribute;
+	protected State												state;
 	protected BuildingType										type;
-	
+	private	  ConstructProject									constructionProject;
+
 	public enum State
 	{
 		BUILDING_PROCESS, BUILDING_FINISHED
@@ -27,7 +29,7 @@ public class Building extends Entity{
 		super(sp);
 		this.type = type;
 		
-		curState = State.BUILDING_PROCESS;
+		state = State.BUILDING_PROCESS;
 		resouceMap = new HashMap<ResourceType, ConstructionResourceInfo>();
 	}
 	
@@ -42,17 +44,7 @@ public class Building extends Entity{
 			resouceMap.get(type).need = need;
 		else
 			resouceMap.put(type, new ConstructionResourceInfo(need));
-	}
-	
-	public void setNeededConstructionContributes(int amount)
-	{
-		neededBuildContributes = amount;
-	}
-	
-	public int getStillNeededConstructionContributes()
-	{
-		return neededBuildContributes - curBuildContributes;
-	}
+	}	
 	
 	public Set<ResourceType> getNeededConstructionResourceTypes()
 	{
@@ -78,9 +70,24 @@ public class Building extends Entity{
 		return resouceMap.get(type).need;
 	}
 	
-	public void incrementConstructionProcess(int amount)
+	public void setNeededConstructionContributes(int amount)
 	{
-		curBuildContributes = Math.min(neededBuildContributes, curBuildContributes + amount);
+		neededConstructionContribute = amount;
+	}
+	
+	public int getUnfinishedConstructionContributes()
+	{
+		return neededConstructionContribute - curConstructionContribute;
+	}
+
+	public int getFinishedConstructionContribute() 
+	{
+		return curConstructionContribute;
+	}
+
+	public void incrementConstructionContribute(int amount)
+	{
+		curConstructionContribute = Math.min(neededConstructionContribute, curConstructionContribute + amount);
 	}
 	
 	public boolean isConstructionResourceSufficient()
@@ -95,9 +102,23 @@ public class Building extends Entity{
 		return true;
 	}
 	
+	public void setConstructionProject(ConstructProject project)
+	{
+		constructionProject = project;
+	}
+	
+	public ConstructProject getConstructionProject()
+	{
+		return constructionProject;
+	}
+	
 	public boolean isConstructionFinished()
 	{
-		return curBuildContributes >= neededBuildContributes;
+		return curConstructionContribute >= neededConstructionContribute;
+	}
+	
+	public float getProcess() {
+		return curConstructionContribute / (float)neededConstructionContribute;
 	}
 	
 	@Override
@@ -116,11 +137,11 @@ public class Building extends Entity{
 	
 	public void setState(State state)
 	{
-		curState = state;
+		state = state;
 	}
 	
 	public State getState()
 	{
-		return curState;
+		return state;
 	}
 }

@@ -1,34 +1,27 @@
 package com.TownSimulator.entity;
 
+import com.TownSimulator.ai.btnimpls.construct.ConstructProject;
 import com.TownSimulator.entity.building.Building;
 import com.TownSimulator.entity.building.BuildingType;
 import com.TownSimulator.entity.building.WareHouse;
-import com.TownSimulator.mantask.RandMove;
-import com.TownSimulator.mantask.Task;
-import com.TownSimulator.utility.SingletonPublisher;
+import com.TownSimulator.utility.Singleton;
 import com.badlogic.gdx.utils.Array;
 
-public class EntityInfoCollector extends SingletonPublisher<EntityInfoCollectorListener>{
+public class EntityInfoCollector extends Singleton{
 	private Array<Man> 		mPeople;
 	private Array<Building>	mBuildings;
+	private Array<ConstructProject> mConstructProjs;
 	
 	private EntityInfoCollector()
 	{
 		mPeople = new Array<Man>();
 		mBuildings = new Array<Building>();
+		mConstructProjs = new Array<ConstructProject>();
 	}
 	
 	public void addMan(Man man)
 	{
 		mPeople.add(man);
-		
-		if (man.getTask() instanceof Task) 
-		{
-			for (int i = 0; i < mListeners.size; i++) 
-			{
-				mListeners.get(i).manIdle(man);
-			}
-		}
 	}
 	
 	public Array<Man> getAllPeople()
@@ -36,15 +29,19 @@ public class EntityInfoCollector extends SingletonPublisher<EntityInfoCollectorL
 		return mPeople;
 	}
 	
-	public void manTaskChanged(Man man)
+	public void addConstructProj(ConstructProject proj)
 	{
-		if (man.getTask() instanceof RandMove) 
-		{
-			for (int i = 0; i < mListeners.size; i++) 
-			{
-				mListeners.get(i).manIdle(man);
-			}
-		}
+		mConstructProjs.add(proj);
+	}
+	
+	public void removeConstructProj(ConstructProject proj)
+	{
+		mConstructProjs.removeValue(proj, false);
+	}
+	
+	public Array<ConstructProject> getAllConstructProjs()
+	{
+		return mConstructProjs;
 	}
 	
 	public void addBuilding(Building building)

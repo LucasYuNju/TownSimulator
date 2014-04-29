@@ -16,7 +16,7 @@ import com.badlogic.gdx.scenes.scene2d.Group;
 public class ConstructionBuilderGroup extends Group{
 	private static final float BUILDER_WIDTH = Settings.UNIT * 0.6f;
 	private TextureRegion forbiddenBuilderTexture;
-	private TextureRegion alloweBuilderTexture;
+	private TextureRegion allowedBuilderTexture;
 	private TextureRegion builderTexture;
 	private int numAllowed;
 	private int numSelected;
@@ -28,7 +28,7 @@ public class ConstructionBuilderGroup extends Group{
 		numSelected = numAllowedBuilder/2;
 		this.numAllowed = numAllowedBuilder;
 		builderTexture = Singleton.getInstance(ResourceManager.class).findTextureRegion("head");
-		alloweBuilderTexture = Singleton.getInstance(ResourceManager.class).findTextureRegion("head_gray");
+		allowedBuilderTexture = Singleton.getInstance(ResourceManager.class).findTextureRegion("head_gray");
 		forbiddenBuilderTexture = Singleton.getInstance(ResourceManager.class).findTextureRegion("head_forbidden");
 		addBuilderButtons();
 		setSize(BUILDER_WIDTH * numAllowed, BUILDER_WIDTH);
@@ -58,20 +58,20 @@ public class ConstructionBuilderGroup extends Group{
 					Gdx.app.log("System.out", numAllowed + ":" + numSelected + ":" + numBuilder);
 					for(int i=0; i<numAllowed; i++) {
 						Gdx.app.log("System.out", i + " iteration setted");
-//						if(i < numSelected) {
-//							if(i < numBuilder) {
-//								builderButtons.get(i).setImgUp(builderTexture);
-//								Gdx.app.log("System.out", "1");
-//							}
-//							else {
-//								builderButtons.get(i).setImgUp(grayBuilderTexture);
-//								Gdx.app.log("System.out", "2");
-//							}
-//						}
-//						else {
-//							builderButtons.get(i).setImgUp(forbiddenBuilderTexture);
-//							Gdx.app.log("System.out", "3");
-//						}
+						if(i < numSelected) {
+							if(i < numBuilder) {
+								builderButtons.get(i).setImgUp(builderTexture);
+								Gdx.app.log("System.out", "1");
+							}
+							else {
+								builderButtons.get(i).setImgUp(allowedBuilderTexture);
+								Gdx.app.log("System.out", "2");
+							}
+						}
+						else {
+							builderButtons.get(i).setImgUp(forbiddenBuilderTexture);
+							Gdx.app.log("System.out", "3");
+						}
 					}
 					return true;
 				}
@@ -81,11 +81,11 @@ public class ConstructionBuilderGroup extends Group{
 	}
 
 	boolean addBuilder() {
-//		if(++numBuilder > numSelected) {
-//			numBuilder = numSelected;
-//			return false;
-//		}
-//		builderButtons.get(numBuilder - 1).setImgUp(builderTexture);
+		if(++numBuilder > numSelected) {
+			numBuilder = numSelected;
+			return false;
+		}
+		builderButtons.get(numBuilder - 1).setImgUp(builderTexture);
 		return true;
 	}
 	
@@ -98,6 +98,6 @@ public class ConstructionBuilderGroup extends Group{
 	}
 	
 	void setUpperLimit(int upperLimit) {
-//		this.numSelected = upperLimit;
+		this.numSelected = upperLimit;
 	}
 }
