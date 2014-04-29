@@ -5,6 +5,8 @@ import java.util.Iterator;
 import java.util.Set;
 
 import com.TownSimulator.ai.btnimpls.construct.ConstructProject;
+import com.TownSimulator.camera.CameraController;
+import com.TownSimulator.camera.CameraListener;
 import com.TownSimulator.entity.Entity;
 import com.TownSimulator.entity.ResourceType;
 import com.TownSimulator.ui.UIManager;
@@ -34,6 +36,25 @@ public class Building extends Entity implements ConstructionWindowListener{
 		
 		state = State.BUILDING_PROCESS;
 		resouceMap = new HashMap<ResourceType, ConstructionResourceInfo>();
+
+		constructionWindow = UIManager.getInstance(UIManager.class).getGameUI().createConstructionWindow(resouceMap, numAllowedBuilder);
+		constructionWindow.setListener(this);
+		constructionWindow.setPosition(150, 150);
+		
+		
+		CameraController.getInstance(CameraController.class).addListener(new CameraListener() {
+			
+			@Override
+			public void cameraZoomed(float prevWidth, float prevHeight, float curWidth,
+					float curHeight) {
+				
+			}
+			
+			@Override
+			public void cameraMoved(float deltaX, float deltaY) {
+				
+			}
+		});
 	}
 	
 	public BuildingType getType()
@@ -131,15 +152,9 @@ public class Building extends Entity implements ConstructionWindowListener{
 	public boolean detectTouchDown()
 	{
 		super.detectTouchDown();
-//		if(state == State.BUILDING_PROCESS) {
-
-		if(true) {
-			constructionWindow = UIManager.getInstance(UIManager.class).getGameUI().createConstructionWindow(resouceMap, numAllowedBuilder);
-			constructionWindow.setListener(this);
-			constructionWindow.setPosition(150, 150);
+		if(state == State.BUILDING_PROCESS) {
 			constructionWindow.setVisible(true);
 		}
-
 		//for test
 		UIManager.getInstance(UIManager.class).getGameUI().createTestWindow();		
 		return true;
