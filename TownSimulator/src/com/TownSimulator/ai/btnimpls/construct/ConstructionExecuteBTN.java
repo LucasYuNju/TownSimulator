@@ -2,19 +2,19 @@ package com.TownSimulator.ai.btnimpls.construct;
 
 import com.TownSimulator.ai.behaviortree.ActionNode;
 import com.TownSimulator.ai.behaviortree.ExcuteResult;
-import com.TownSimulator.ai.btnimpls.construct.ConstructProject.State;
+import com.TownSimulator.ai.btnimpls.construct.ConstructionProject.State;
 import com.TownSimulator.entity.ManAnimeType;
 import com.TownSimulator.entity.building.Building;
 import com.TownSimulator.utility.quadtree.QuadTreeType;
 import com.badlogic.gdx.math.Vector2;
 
-public class ConstructExecuteBTN implements ActionNode{
+public class ConstructionExecuteBTN implements ActionNode{
 	public static final int		BUILD_CONTRIBUTE_SPPED = 5;
 	public static final float	BUILD_CONTRIBUTE_INTERVAL = 2.0f;
-	private ConstructInfo		mConstructInfo;
+	private ConstructionInfo		mConstructInfo;
 	private float				mBuildContribueTimeAccum;
 	
-	public ConstructExecuteBTN(ConstructInfo constructInfo) {
+	public ConstructionExecuteBTN(ConstructionInfo constructInfo) {
 		mConstructInfo = constructInfo; 
 	}
 	

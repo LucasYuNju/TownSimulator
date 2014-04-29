@@ -7,7 +7,7 @@ import com.TownSimulator.entity.Man;
 import com.TownSimulator.entity.ResourceType;
 import com.TownSimulator.entity.building.Building;
 
-public class ConstructProject {
+public class ConstructionProject {
 	private int							mMaxBuildJobCnt = 4;
 	private int							mOpenBuildJobCnt = 3;
 	private int							mCurWorkingManCnt = 0;
@@ -23,7 +23,7 @@ public class ConstructProject {
 		CONSTRUCT_PROJ_TRANSPORT, CONSTRUCT_PROJ_DOBUILD
 	}
 	
-	public ConstructProject(Building building)
+	public ConstructionProject(Building building)
 	{
 		mCurStage = State.CONSTRUCT_PROJ_TRANSPORT;
 		mBuilding = building;
@@ -85,7 +85,7 @@ public class ConstructProject {
 		EntityInfoCollector.getInstance(EntityInfoCollector.class).removeConstructProj(this);
 	}
 	
-	public boolean allocateTransport(ConstructInfo cons)
+	public boolean allocateTransport(ConstructionInfo cons)
 	{
 		if(mCurAllocRsRemainNeedAmount <= 0)
 		{
@@ -98,7 +98,7 @@ public class ConstructProject {
 				return false;
 		}
 
-		int amount = Math.min(mCurAllocRsRemainNeedAmount, ConstructTransportBTN.MAX_TRANSPORT_RS_AMOUNT);
+		int amount = Math.min(mCurAllocRsRemainNeedAmount, ConstructionTransportBTN.MAX_TRANSPORT_RS_AMOUNT);
 		cons.transportRSType = mCurAllocRsType;
 		cons.transportNeededAmount = amount;
 		mCurAllocRsRemainNeedAmount -= amount;

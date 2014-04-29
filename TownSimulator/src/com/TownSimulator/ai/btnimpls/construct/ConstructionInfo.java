@@ -4,8 +4,8 @@ import com.TownSimulator.entity.Man;
 import com.TownSimulator.entity.ResourceType;
 import com.TownSimulator.entity.building.WareHouse;
 
-public class ConstructInfo {
-	public ConstructProject 	proj = null;
+public class ConstructionInfo {
+	public ConstructionProject 	proj = null;
 	public Man 					man = null;
 	public WareHouse			transportWareHouse = null;
 	public ResourceType 		transportRSType = null;

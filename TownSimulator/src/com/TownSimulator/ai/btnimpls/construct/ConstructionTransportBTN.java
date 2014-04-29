@@ -6,17 +6,17 @@ import com.TownSimulator.entity.EntityInfoCollector;
 import com.TownSimulator.entity.EntityInfoCollector.WareHouseFindResult;
 import com.TownSimulator.entity.ManAnimeType;
 
-public class ConstructTransportBTN implements ActionNode{
+public class ConstructionTransportBTN implements ActionNode{
 	public static final int		MAX_TRANSPORT_RS_AMOUNT = 5;
 	private State				mCurState;
-	private ConstructInfo		mConstructInfo;
+	private ConstructionInfo		mConstructInfo;
 	
 	public enum State
 	{
 		CONSTRUCT_TRANSPORT_TO_WAREHOUSR, CONSTRUCT_TRANSPORT_TO_BUILDING, CONSTRUCT_TRANSPORT_NO_RESOURCE,
 	}
 	
-	public ConstructTransportBTN(ConstructInfo constructInfo) {
+	public ConstructionTransportBTN(ConstructionInfo constructInfo) {
 		mConstructInfo = constructInfo;
 		mCurState = State.CONSTRUCT_TRANSPORT_TO_WAREHOUSR;
 	}

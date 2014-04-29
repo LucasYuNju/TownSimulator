@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Set;
 
-import com.TownSimulator.ai.btnimpls.construct.ConstructProject;
+import com.TownSimulator.ai.btnimpls.construct.ConstructionProject;
 import com.TownSimulator.entity.Entity;
 import com.TownSimulator.entity.ResourceType;
 import com.TownSimulator.ui.UIManager;
@@ -16,20 +16,20 @@ public class Building extends Entity{
 	protected HashMap<ResourceType, ConstructionResourceInfo>	resouceMap;
 	protected int												constructionWork;
 	protected int												finishedConstructionWork;
-	private	  ConstructProject									constructionProject;
+	private	  ConstructionProject								constructionProject;
 	protected State												state;
 	protected BuildingType										type;
 
 	public enum State
 	{
-		BUILDING_PROCESS, BUILDING_FINISHED
+		BUILDING_WORK, BUILDING_FINISHED
 	}
 	
 	public Building(Sprite sp, BuildingType type) {
 		super(sp);
 		this.type = type;
 		
-		state = State.BUILDING_PROCESS;
+		state = State.BUILDING_WORK;
 		resouceMap = new HashMap<ResourceType, ConstructionResourceInfo>();
 	}
 	
@@ -102,12 +102,12 @@ public class Building extends Entity{
 		return true;
 	}
 	
-	public void setConstructionProject(ConstructProject project)
+	public void setConstructionProject(ConstructionProject project)
 	{
 		constructionProject = project;
 	}
 	
-	public ConstructProject getConstructionProject()
+	public ConstructionProject getConstructionProject()
 	{
 		return constructionProject;
 	}
