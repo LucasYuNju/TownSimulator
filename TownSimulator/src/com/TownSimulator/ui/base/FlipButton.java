@@ -15,13 +15,13 @@ import com.badlogic.gdx.scenes.scene2d.utils.Align;
  * Customized button that allows to switch image when clicked
  *
  */
-public class UIButton extends Button{
+public class FlipButton extends Button{
 	private Label 			mTextLabel;
 	private TextureRegion	mImgUp;
 	private TextureRegion	mImgDown;
 	private String 			mText;
 	
-	public UIButton(String imgUp, String imgDown, String text)
+	public FlipButton(String imgUp, String imgDown, String text)
 	{
 		mImgUp = ResourceManager.getInstance(ResourceManager.class).findTextureRegion(imgUp);
 		mImgDown = ResourceManager.getInstance(ResourceManager.class).findTextureRegion(imgDown);
@@ -81,6 +81,7 @@ public class UIButton extends Button{
 		drawChildren(batch, c.a * parentAlpha);
 	}
 	
-	
-	
+	public void setImgUp(TextureRegion up) {
+		mImgUp = up;
+	}
 }

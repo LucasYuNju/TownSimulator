@@ -5,7 +5,7 @@ import com.TownSimulator.entity.building.BuildingType;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 
-public class BuildComsButton extends BuildButtonBase{
+public class BuildComsButton extends BuildingAdjustButton{
 	
 	public BuildComsButton(String textureName, String labelText) {
 		super(textureName, labelText);

@@ -1,6 +1,6 @@
 package com.TownSimulator.ui.build;
 
-import com.TownSimulator.ui.base.UIButton;
+import com.TownSimulator.ui.base.FlipButton;
 import com.TownSimulator.utility.ResourceManager;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
@@ -11,16 +11,15 @@ import com.badlogic.gdx.scenes.scene2d.utils.Align;
 
 /**
  * 
- * Button that has background
- * better name it BackgroundedButton!!!
+ * Button that has foreground and changeable background
  * 
  */
-class BuildButtonBase extends UIButton{
+class BuildingAdjustButton extends FlipButton{
 	protected 	TextureRegion 	mIcon;
 	protected	TextureRegion	mLabelBackgroud;
 	protected	Label			mTextLabel	= null;
 	
-	public BuildButtonBase(String textureName, String labelText)
+	public BuildingAdjustButton(String textureName, String labelText)
 	{
 		super("button_up", "button_down", null);
 		setSize(BuildComsUI.BUTTON_WIDTH, BuildComsUI.BUTTON_HEIGHT);
