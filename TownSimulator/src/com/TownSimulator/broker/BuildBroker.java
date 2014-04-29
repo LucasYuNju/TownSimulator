@@ -1,5 +1,6 @@
 package com.TownSimulator.broker;
 
+import com.TownSimulator.ai.btnimpls.construct.ConstructProject;
 import com.TownSimulator.camera.CameraController;
 import com.TownSimulator.camera.CameraListener;
 import com.TownSimulator.collision.CollisionDetector;
@@ -10,8 +11,6 @@ import com.TownSimulator.entity.EntityListener;
 import com.TownSimulator.entity.Man;
 import com.TownSimulator.entity.building.Building;
 import com.TownSimulator.entity.building.BuildingType;
-import com.TownSimulator.mantask.ConstructionProject;
-import com.TownSimulator.mantask.RandMove;
 import com.TownSimulator.render.Renderer;
 import com.TownSimulator.ui.UIManager;
 import com.TownSimulator.ui.build.BuildingAdjustGroup;
@@ -102,10 +101,10 @@ public class BuildBroker extends Singleton implements EntityListener, CameraList
 			
 			@Override
 			public void confirm() {
-				ConstructionProject proj = new ConstructionProject(mCurBuilding);
+				ConstructProject proj = new ConstructProject(mCurBuilding);
 				int cnt = proj.getAvailableBuildJobCnt();
 				for (Man man : EntityInfoCollector.getInstance(EntityInfoCollector.class).getAllPeople()) {
-					if( man.getTask() instanceof RandMove )
+					if( man.getInfo().bIdle )
 					{
 						if(cnt-- > 0)
 							proj.addMan(man);

@@ -4,9 +4,9 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Set;
 
+import com.TownSimulator.ai.btnimpls.construct.ConstructProject;
 import com.TownSimulator.entity.Entity;
 import com.TownSimulator.entity.ResourceType;
-import com.TownSimulator.mantask.ConstructionProject;
 import com.TownSimulator.ui.UIManager;
 import com.TownSimulator.ui.build.BuildingInfoWindow;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -17,7 +17,7 @@ public class Building extends Entity{
 	protected int												mCurBuildContributes;
 	protected State												mCurState;
 	protected BuildingType										mType;
-	private	  ConstructionProject								mConstructionProject;
+	private	  ConstructProject								mConstructionProject;
 	
 	public enum State
 	{
@@ -121,12 +121,12 @@ public class Building extends Entity{
 		return true;
 	}
 	
-	public void setConstructionProject(ConstructionProject project)
+	public void setConstructionProject(ConstructProject project)
 	{
 		mConstructionProject = project;
 	}
 	
-	public ConstructionProject getConstructionProject()
+	public ConstructProject getConstructionProject()
 	{
 		return mConstructionProject;
 	}
