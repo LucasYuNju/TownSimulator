@@ -39,7 +39,7 @@ public class ConstructionBTN extends SequenceNode{
 						return ExcuteResult.FALSE;
 					else
 					{
-						proj.addMan(mConstructInfo.man);
+						proj.addWorker(mConstructInfo.man);
 						mConstructInfo.proj = proj;
 					}
 					return ExcuteResult.TRUE;
@@ -53,10 +53,20 @@ public class ConstructionBTN extends SequenceNode{
 			
 			@Override
 			public ExcuteResult execute(float deltaTime) {
-				if(mConstructInfo.proj.remainResourceToTrans() || mConstructInfo.transportNeededAmount > 0)
-					return ExcuteResult.TRUE;
+				if(mConstructInfo.proj == null)
+				{
+					if(mConstructInfo.transportNeededAmount > 0)
+						return ExcuteResult.TRUE;
+					else
+						return ExcuteResult.FALSE;
+				}
 				else
-					return ExcuteResult.FALSE;
+				{
+					if(mConstructInfo.proj.remainResourceToTrans() || mConstructInfo.transportNeededAmount > 0)
+						return ExcuteResult.TRUE;
+					else
+						return ExcuteResult.FALSE;
+				}
 			}
 		};
 		

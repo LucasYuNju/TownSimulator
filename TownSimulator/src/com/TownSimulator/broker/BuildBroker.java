@@ -107,7 +107,7 @@ public class BuildBroker extends Singleton implements EntityListener, CameraList
 					if( man.getInfo().bIdle )
 					{
 						if(cnt-- > 0)
-							proj.addMan(man);
+							proj.addWorker(man);
 						else
 							break;
 					}

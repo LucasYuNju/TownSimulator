@@ -25,14 +25,14 @@ public class Building extends Entity implements ConstructionWindowListener{
 	
 	public enum State
 	{
-		BUILDING_WORK, BUILDING_FINISHED
+		BUILDING_PROCESS, BUILDING_FINISHED
 	}
 	
 	public Building(Sprite sp, BuildingType type) {
 		super(sp);
 		this.type = type;
 		
-		state = State.BUILDING_WORK;
+		state = State.BUILDING_PROCESS;
 		resouceMap = new HashMap<ResourceType, ConstructionResourceInfo>();
 	}
 	
@@ -164,6 +164,7 @@ public class Building extends Entity implements ConstructionWindowListener{
 
 	@Override
 	public void builderLimitSelected(int limit) {
-		
+		System.out.println(limit);
+		constructionProject.setOpenWorkJobCnt(limit);
 	}
 }

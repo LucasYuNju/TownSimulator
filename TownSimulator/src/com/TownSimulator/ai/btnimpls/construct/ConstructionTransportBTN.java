@@ -88,6 +88,7 @@ public class ConstructionTransportBTN implements ActionNode{
 			
 			if( !mConstructInfo.man.move(deltaTime) )
 			{
+				//fetchResource();
 				addResourceToBuilding();
 				mConstructInfo.transportWareHouse = null;
 				mConstructInfo.transportRSType = null;
