@@ -1,6 +1,5 @@
 package com.TownSimulator.ui.screen;
 
-import java.util.HashMap;
 import java.util.Map;
 
 import com.TownSimulator.entity.ResourceType;
@@ -10,8 +9,6 @@ import com.TownSimulator.ui.building.BuildingAdjustGroup;
 import com.TownSimulator.ui.building.construction.ConstructionResourceInfo;
 import com.TownSimulator.ui.building.construction.ConstructionWindow;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.Window;
 
 public class GameScreenUI extends ScreenUIBase{
 	private BuildComsUI		mBuildComsUI;
@@ -32,8 +29,6 @@ public class GameScreenUI extends ScreenUIBase{
 		mBuildAjustUI = new BuildingAdjustGroup();
 		mBuildAjustUI.setVisible(false);
 		mStage.addActor(mBuildAjustUI);
-		
-		//FIXME! It shouldn't be initialized here
 	}
 	
 	public BuildingAdjustGroup getBuildAjustUI()
@@ -46,10 +41,9 @@ public class GameScreenUI extends ScreenUIBase{
 //		mStage.addActor(window);
 	}
 
-	public ConstructionWindow createConstructionWindow() {
-		Map<ResourceType, ConstructionResourceInfo> resouceMap =
-				new HashMap<ResourceType, ConstructionResourceInfo>();
-		ConstructionWindow constructionWindow = new ConstructionWindow(resouceMap, 5);
+	public ConstructionWindow createConstructionWindow(Map<ResourceType, ConstructionResourceInfo> resouceMap, 
+			int numAllowedBuilder) {
+		ConstructionWindow constructionWindow = new ConstructionWindow(resouceMap, numAllowedBuilder);
 		constructionWindow.setVisible(false);
 		mStage.addActor(constructionWindow);
 		return constructionWindow;

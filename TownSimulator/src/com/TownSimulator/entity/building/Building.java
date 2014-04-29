@@ -10,16 +10,19 @@ import com.TownSimulator.entity.ResourceType;
 import com.TownSimulator.ui.UIManager;
 import com.TownSimulator.ui.building.construction.ConstructionResourceInfo;
 import com.TownSimulator.ui.building.construction.ConstructionWindow;
+import com.TownSimulator.ui.building.construction.ConstructionWindowListener;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 
-public class Building extends Entity{
+public class Building extends Entity implements ConstructionWindowListener{
 	protected HashMap<ResourceType, ConstructionResourceInfo>	resouceMap;
 	protected int												constructionWork;
 	protected int												finishedConstructionWork;
 	private	  ConstructProject									constructionProject;
 	protected State												state;
 	protected BuildingType										type;
-
+	private   int 												numAllowedBuilder = 5;
+	private   ConstructionWindow								constructionWindow;
+	
 	public enum State
 	{
 		BUILDING_PROCESS, BUILDING_FINISHED
@@ -85,9 +88,11 @@ public class Building extends Entity{
 		return finishedConstructionWork;
 	}
 
+	//this method will notify constructionWindow
 	public void doConstructionWork(int amount)
 	{
 		finishedConstructionWork = Math.min(constructionWork, finishedConstructionWork + amount);
+		constructionWindow.setProcess(getProcess());
 	}
 	
 	public boolean isConstructionResourceSufficient()
@@ -125,13 +130,15 @@ public class Building extends Entity{
 	public boolean detectTouchDown()
 	{
 		super.detectTouchDown();
-		ConstructionWindow infoWindow = 
-				UIManager.getInstance(UIManager.class).getGameUI().createConstructionWindow();
-		infoWindow.setPosition(150, 150);
-		infoWindow.setVisible(true);
-		
-		UIManager.getInstance(UIManager.class).getGameUI().createTestWindow();;
-		
+//		if(state == State.BUILDING_PROCESS) {
+		if(true) {
+			constructionWindow = UIManager.getInstance(UIManager.class).getGameUI().createConstructionWindow(resouceMap, numAllowedBuilder);
+			constructionWindow.setListener(this);
+			constructionWindow.setPosition(150, 150);
+			constructionWindow.setVisible(true);
+		}		
+		//for test
+		UIManager.getInstance(UIManager.class).getGameUI().createTestWindow();		
 		return true;
 	}
 	
@@ -143,5 +150,20 @@ public class Building extends Entity{
 	public State getState()
 	{
 		return state;
+	}
+
+	//this method will notify constructionWindow
+	public void addBuilder() {
+		constructionWindow.addBuilder();
+	}
+
+	@Override
+	public void constructionCancelled() {
+		
+	}
+
+	@Override
+	public void builderLimitSelected(int limit) {
+		
 	}
 }
