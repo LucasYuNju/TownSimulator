@@ -1,7 +1,8 @@
-package com.TownSimulator.ui.build;
+package com.TownSimulator.ui.building.construction;
 
-import java.util.LinkedList;
+import java.util.Map;
 
+import com.TownSimulator.entity.ResourceType;
 import com.TownSimulator.ui.base.FlipButton;
 import com.TownSimulator.utility.ResourceManager;
 import com.TownSimulator.utility.Settings;
@@ -15,92 +16,73 @@ import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.List;
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.Align;
 
 /*
  * window布局图：
  * 					  margin 		  closeButton
- *   		| header|				| 
- * margin	| icon	| icon	| icon	| margin
+ *   		| header|				|
+ * margin	|resIcon|resIcon|resIcon| margin
  *  	  	| label	| label	| label	|
  *  		| 		workers			|
  * 			| 		process bar		|
  * 					  margin
  */
-public class BuildingInfoWindow extends Group{
+public class ConstructionWindow extends Group{
 	//LABEL_WIDTH is also ICON_WIDTH
 	private static final float LABEL_WIDTH = Settings.UNIT * 1f;
 	private static final float LABEL_HEIGHT = Settings.UNIT * 0.5f;
 	private static final float MARGIN = Settings.UNIT * 0.25f; 
 	private static final float PROCESS_BAR_HEIGHT = Settings.UNIT * 0.2f;
 	private static final int NUM_PAIR = 3;
-	private static final int MAX_WORKER = 5;
 	
 	private TextureRegion background;
-	//window去掉margin后的宽度
+	//window去掉margin后的宽度和高度，不计MARGIN
 	private float windowWidth;
-	//window去掉margin后的高度
-	private float windowHeight;	
+	private float windowHeight;
 	private BuildingInfoWindowListener listener;
 	
 	//进度条
 	private float process;
 	private TextureRegion processBar;
 	private TextureRegion blackFrame;
+
+	protected Map<ResourceType, ConstructionResourceInfo> resouceMap;
+	private ConstructionBuilderGroup builderGroup;
 	
-	//分派建筑工
-	private TextureRegion grayWorker;
-	private TextureRegion worker;
-	private int upperLimit;
-	private int seletedLimit;
-	private float workerWidth;
-	
-	public BuildingInfoWindow() {
+	public ConstructionWindow(Map<ResourceType, ConstructionResourceInfo> resources, int numAllowedBuilder) {
 		background = Singleton.getInstance(ResourceManager.class).findTextureRegion("background");
 		processBar = Singleton.getInstance(ResourceManager.class).findTextureRegion("process_bar");
 		blackFrame = Singleton.getInstance(ResourceManager.class).findTextureRegion("frame_black");
-		worker = Singleton.getInstance(ResourceManager.class).findTextureRegion("head");
-		grayWorker = Singleton.getInstance(ResourceManager.class).findTextureRegion("head_gray");
-		setBuilderUpperLimit(5);
 		
-		process = 0.5f;
+		//有严格的初始化顺序
+		//1
+		builderGroup = new ConstructionBuilderGroup(numAllowedBuilder);
+		builderGroup.setPosition(MARGIN, MARGIN * 1.4f + PROCESS_BAR_HEIGHT);
+		addActor(builderGroup);
 		
-		windowWidth = LABEL_WIDTH * NUM_PAIR;
+		addPairs();
+		//窗口宽度取pairs宽度和workerGroup宽度最大者
+		//2
+		float pairsWidth = LABEL_WIDTH * NUM_PAIR;
+		float workersWidth = builderGroup.getGroupWidth();
+		windowWidth = pairsWidth > workersWidth ? pairsWidth : workersWidth;
 		windowHeight = LABEL_WIDTH * 2 + LABEL_HEIGHT * 2 + PROCESS_BAR_HEIGHT;
-		workerWidth  = windowWidth / MAX_WORKER;
 		setSize(windowWidth + MARGIN * 2, windowHeight + MARGIN * 2);
 		setPosition( (Gdx.graphics.getWidth() - getWidth())/2, 
 				(Gdx.graphics.getHeight() - getHeight())/2 );
-		addPairs();
-		addCloseButton();
+
+		//3
 		addHeader();
-		addWorkers();
+		addCloseButton();
+
+		initTestData();
 	}
 	
-	private void addWorkers() {
-		final java.util.List<FlipButton> btns = new LinkedList<FlipButton>();
-		for(int i=0; i<upperLimit; i++) {
-			FlipButton btn = new FlipButton("head_gray", "head", null);
-			btns.add(btn);
-			btn.setPosition(MARGIN + workerWidth * i, MARGIN * 1.4f + PROCESS_BAR_HEIGHT);
-			btn.setSize(workerWidth, workerWidth);
-			final int currIndex = i;
-			btn.addListener(new EventListener() {
-				@Override
-				public boolean handle(Event event) {
-					for(int i=0; i<btns.size(); i++) {
-						if(i <= currIndex)
-							btns.get(i).setImgUp(worker);
-						else
-							btns.get(i).setImgUp(grayWorker);
-					}
-					return true;
-				}
-			});
-			addActor(btn);
-		}
+	private void initTestData() {
+		setBuilderUpperLimit(5);		
+		process = 0.2f;
 	}
 
 	private void addPairs() {
@@ -139,7 +121,7 @@ public class BuildingInfoWindow extends Group{
 		closeButton.addListener(new EventListener() {
 			@Override
 			public boolean handle(Event event) {
-				BuildingInfoWindow.this.setVisible(false);
+				ConstructionWindow.this.setVisible(false);
 				return false;
 			}
 		});
@@ -157,8 +139,14 @@ public class BuildingInfoWindow extends Group{
 		addActor(label);
 	}
 	
+	int x = 0;
 	@Override
 	public void draw(Batch batch, float parentAlpha) {
+		
+		incrementProcess(1);
+		if(++x % 10 == 0)
+			builderGroup.addBuilder();
+
 		Color c = this.getColor();
 		batch.setColor(c.r, c.g, c.b, c.a * parentAlpha);
 		batch.draw(background, getX(), getY(), getWidth(), getHeight());
@@ -171,20 +159,20 @@ public class BuildingInfoWindow extends Group{
 		batch.draw(blackFrame, getX() + MARGIN, getY() + MARGIN, windowWidth , 			PROCESS_BAR_HEIGHT);
 	}
 	
-	public void setListener(BuildingInfoWindowListener listener) {
-		this.listener = listener;
-	}
-	
-	public void setProcess(float process) {
-		if(process > 0 && process <=1)
-			this.process = process;
-	}
-	
 	private void setBuilderUpperLimit(int limit) {
 		//最多只能有5个建筑工同时建造一个房子
-		if(limit <= MAX_WORKER)
-			this.upperLimit = limit;
+		if(limit <= builderGroup.getNumAllowedBuilder())
+			builderGroup.setUpperLimit(limit);
 	}
+	
+	public void incrementProcess(int increment) {
+		process += increment / 100f;
+		process = process > 1 ? 1 : process;
+	}
+
+	public void setListener(BuildingInfoWindowListener listener) {
+		this.listener = listener;
+	}	
 }
 
 interface BuildingInfoWindowListener {

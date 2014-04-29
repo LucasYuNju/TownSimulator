@@ -1,4 +1,4 @@
-package com.TownSimulator.ui.build;
+package com.TownSimulator.ui.building;
 
 import com.TownSimulator.utility.GameMath;
 import com.TownSimulator.utility.Settings;

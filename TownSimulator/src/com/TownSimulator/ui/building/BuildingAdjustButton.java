@@ -1,4 +1,4 @@
-package com.TownSimulator.ui.build;
+package com.TownSimulator.ui.building;
 
 import com.TownSimulator.ui.base.FlipButton;
 import com.TownSimulator.utility.ResourceManager;

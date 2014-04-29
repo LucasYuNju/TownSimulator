@@ -35,18 +35,18 @@ public class EntityFactory {
 			yGridSize = 1;
 			yDrawScale = 2.2f;
 			building = new Building(ResourceManager.getInstance(ResourceManager.class).createSprite("building_low_cost_house"), buildingType);
-			building.setNeededBuildResource(ResourceType.RS_WOOD, 10);
-			building.setNeededBuildResource(ResourceType.RS_STONE, 5);
-			building.setNeededBuildContributes(20);
+			building.setNeededConstructionResource(ResourceType.RS_WOOD, 10);
+			building.setNeededConstructionResource(ResourceType.RS_STONE, 5);
+			building.setNeededConstructionContributes(20);
 			break;
 		case WAREHOUSE:
 			xGridSize = 2;
 			yGridSize = 1;
 			yDrawScale = 2.2f;
 			building = new WareHouse();
-			building.setNeededBuildResource(ResourceType.RS_WOOD, 20);
-			building.setNeededBuildResource(ResourceType.RS_STONE, 5);
-			building.setNeededBuildContributes(30);
+			building.setNeededConstructionResource(ResourceType.RS_WOOD, 20);
+			building.setNeededConstructionResource(ResourceType.RS_STONE, 5);
+			building.setNeededConstructionContributes(30);
 			break;
 
 		default:

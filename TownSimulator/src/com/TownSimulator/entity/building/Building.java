@@ -6,155 +6,121 @@ import java.util.Set;
 
 import com.TownSimulator.entity.Entity;
 import com.TownSimulator.entity.ResourceType;
-import com.TownSimulator.mantask.ConstructionProject;
 import com.TownSimulator.ui.UIManager;
-import com.TownSimulator.ui.build.BuildingInfoWindow;
+import com.TownSimulator.ui.building.construction.ConstructionResourceInfo;
+import com.TownSimulator.ui.building.construction.ConstructionWindow;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 
 public class Building extends Entity{
-	protected HashMap<ResourceType, BuildProcessResourceInfo>	mBuildProcessInfoMap;
-	protected int												mNeededBuildContributes;
-	protected int												mCurBuildContributes;
-	protected State												mCurState;
-	protected BuildingType										mType;
-	private	  ConstructionProject								mConstructionProject;
+	protected HashMap<ResourceType, ConstructionResourceInfo>	resouceMap;
+	protected int												neededBuildContributes;
+	protected int												curBuildContributes;
+	protected State												curState;
+	protected BuildingType										type;
 	
 	public enum State
 	{
 		BUILDING_PROCESS, BUILDING_FINISHED
 	}
 	
-	private class BuildProcessResourceInfo
-	{
-		public int need = 0;
-		public int cur = 0;
-		
-		public BuildProcessResourceInfo(int need)
-		{
-			this.need = need;
-		}
-	}
-	
 	public Building(Sprite sp, BuildingType type) {
 		super(sp);
-		mType = type;
+		this.type = type;
 		
-		mCurState = State.BUILDING_PROCESS;
-		mBuildProcessInfoMap = new HashMap<ResourceType, Building.BuildProcessResourceInfo>();
+		curState = State.BUILDING_PROCESS;
+		resouceMap = new HashMap<ResourceType, ConstructionResourceInfo>();
 	}
 	
 	public BuildingType getType()
 	{
-		return mType;
+		return type;
 	}
 	
-	public void setNeededBuildResource(ResourceType type, int need)
+	public void setNeededConstructionResource(ResourceType type, int need)
 	{
-		if(mBuildProcessInfoMap.containsKey(type))
-			mBuildProcessInfoMap.get(type).need = need;
+		if(resouceMap.containsKey(type))
+			resouceMap.get(type).need = need;
 		else
-			mBuildProcessInfoMap.put(type, new BuildProcessResourceInfo(need));
+			resouceMap.put(type, new ConstructionResourceInfo(need));
 	}
 	
-	public void setNeededBuildContributes(int amount)
+	public void setNeededConstructionContributes(int amount)
 	{
-		mNeededBuildContributes = amount;
+		neededBuildContributes = amount;
 	}
 	
-	public int getNeededBuildContributes()
+	public int getStillNeededConstructionContributes()
 	{
-		return mNeededBuildContributes;
+		return neededBuildContributes - curBuildContributes;
 	}
 	
-	public int getCurBuildContributes()
+	public Set<ResourceType> getNeededConstructionResourceTypes()
 	{
-		return mCurBuildContributes;
+		return resouceMap.keySet();
 	}
 	
-	public Set<ResourceType> getNeededBuildResourceTypes()
+	public boolean addConstructionResource(ResourceType type, int amount)
 	{
-		return mBuildProcessInfoMap.keySet();
-	}
-	
-	public boolean addCurBuildResource(ResourceType type, int amount)
-	{
-		if(mBuildProcessInfoMap.containsKey(type))
+		if(resouceMap.containsKey(type))
 		{
-			mBuildProcessInfoMap.get(type).cur += amount;
+			resouceMap.get(type).cur += amount;
 			return true;
 		}
 		else
 			return false;
 	}
 	
-	public int getNeededBuildResouceAmount(ResourceType type)
+	public int getNeededConstructionResouceAmount(ResourceType type)
 	{
-		if( !mBuildProcessInfoMap.containsKey(type) )
+		if( !resouceMap.containsKey(type) )
 			return 0;
 		
-		return mBuildProcessInfoMap.get(type).need;
+		return resouceMap.get(type).need;
 	}
 	
-	public int getCurBuildResourceAmount(ResourceType type)
+	public void incrementConstructionProcess(int amount)
 	{
-		if( !mBuildProcessInfoMap.containsKey(type) )
-			return 0;
-		
-		return mBuildProcessInfoMap.get(type).cur;
+		curBuildContributes = Math.min(neededBuildContributes, curBuildContributes + amount);
 	}
 	
-	public void addCurBuildContributes(int amount)
+	public boolean isConstructionResourceSufficient()
 	{
-		mCurBuildContributes = Math.min(mNeededBuildContributes, mCurBuildContributes + amount);
-	}
-	
-	public boolean isBuildResourceSufficient()
-	{
-		Iterator<ResourceType> itr = mBuildProcessInfoMap.keySet().iterator();
+		Iterator<ResourceType> itr = resouceMap.keySet().iterator();
 		while(itr.hasNext())
 		{
-			BuildProcessResourceInfo info = mBuildProcessInfoMap.get(itr.next());
+			ConstructionResourceInfo info = resouceMap.get(itr.next());
 			if(info.cur < info.need)
 				return false;
 		}
-		
 		return true;
 	}
 	
-	public void setConstructionProject(ConstructionProject project)
+	public boolean isConstructionFinished()
 	{
-		mConstructionProject = project;
+		return curBuildContributes >= neededBuildContributes;
 	}
-	
-	public ConstructionProject getConstructionProject()
-	{
-		return mConstructionProject;
-	}
-	
-	public boolean isBuildFinished()
-	{
-		return mCurBuildContributes >= mNeededBuildContributes;
-	}
-	
 	
 	@Override
 	public boolean detectTouchDown()
 	{
 		super.detectTouchDown();
-		BuildingInfoWindow infoWindow = 
-				UIManager.getInstance(UIManager.class).getGameUI().getBuildingInfoWindow();
-		infoWindow.setPosition(100, 100);
+		ConstructionWindow infoWindow = 
+				UIManager.getInstance(UIManager.class).getGameUI().createConstructionWindow();
+		infoWindow.setPosition(150, 150);
 		infoWindow.setVisible(true);
+		
+		UIManager.getInstance(UIManager.class).getGameUI().createTestWindow();;
+		
 		return true;
 	}
 	
 	public void setState(State state)
 	{
-		mCurState = state;
+		curState = state;
 	}
 	
 	public State getState()
 	{
-		return mCurState;
+		return curState;
 	}
 }

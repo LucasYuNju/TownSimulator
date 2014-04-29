@@ -91,13 +91,13 @@ public class Construction extends Task{
 	{
 		int availableAmount = mTransportWareHouse.getWareHousrResourceAmount(mTransportResourceType);
 		int takeAmount = Math.min(availableAmount, mTransportResourceNeed - mTransportResourceCur);
-		mTransportWareHouse.addCurBuildResource(mTransportResourceType, -takeAmount);
+		mTransportWareHouse.addConstructionResource(mTransportResourceType, -takeAmount);
 		mTransportResourceCur += takeAmount;
 	}
 	
 	private void addResourceToBuilding()
 	{
-		mProject.getBuilding().addCurBuildResource(mTransportResourceType, mTransportResourceCur);
+		mProject.getBuilding().addConstructionResource(mTransportResourceType, mTransportResourceCur);
 	}
 
 	@Override
@@ -171,11 +171,12 @@ public class Construction extends Task{
 			
 			if(cnt > 0)
 			{
-				mProject.getBuilding().addCurBuildContributes(cnt * BUILD_CONTRIBUTE_SPPED);
-				System.out.println("Build " + mProject.getBuilding().getCurBuildContributes() + "/" + mProject.getBuilding().getNeededBuildContributes());
+				mProject.getBuilding().incrementConstructionProcess(cnt * BUILD_CONTRIBUTE_SPPED);
+				//
+//				System.out.println("Build " + mProject.getBuilding().getCurBuildContributes() + "/" + mProject.getBuilding().getNeededConstructionContributes());
 			}
 			
-			if(mProject.getBuilding().isBuildFinished())
+			if(mProject.getBuilding().isConstructionFinished())
 				mProject.finished();
 			break;
 			

@@ -34,12 +34,13 @@ public class ConstructionProject {
 		mConstructions = new Array<Construction>();
 		mCurStage = State.CONSTRUCT_PROJ_TRANSPORT;
 		mBuilding = building;
-		mBuilding.setConstructionProject(this);
-		mBuildResourceTypeItr = mBuilding.getNeededBuildResourceTypes().iterator();
+		//building不需要引用constructionProject，资源或建造进度改变时，通知building即可
+//		mBuilding.setConstructionProject(this);
+		mBuildResourceTypeItr = mBuilding.getNeededConstructionResourceTypes().iterator();
 		if(mBuildResourceTypeItr.hasNext())
 		{
 			mCurAllocRsType = mBuildResourceTypeItr.next();
-			mCurAllocRsRemainNeedAmount = mBuilding.getNeededBuildResouceAmount(mCurAllocRsType);
+			mCurAllocRsRemainNeedAmount = mBuilding.getNeededConstructionResouceAmount(mCurAllocRsType);
 		}
 		mRand = new Random(System.currentTimeMillis());
 		
@@ -108,7 +109,7 @@ public class ConstructionProject {
 		{
 			if( !allocateTransport(cons) )
 			{
-				if(mBuilding.isBuildResourceSufficient())
+				if(mBuilding.isConstructionResourceSufficient())
 				{
 					mCurStage = State.CONSTRUCT_PROJ_DOBUILD;
 					for (int i = 0; i < mConstructions.size; i++) {
@@ -131,7 +132,7 @@ public class ConstructionProject {
 			if(mBuildResourceTypeItr.hasNext())
 			{
 				mCurAllocRsType = mBuildResourceTypeItr.next();
-				mCurAllocRsRemainNeedAmount = mBuilding.getNeededBuildResouceAmount(mCurAllocRsType);
+				mCurAllocRsRemainNeedAmount = mBuilding.getNeededConstructionResouceAmount(mCurAllocRsType);
 			}
 			else
 				return false;

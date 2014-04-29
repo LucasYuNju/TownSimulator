@@ -1,4 +1,4 @@
-package com.TownSimulator.ui.build;
+package com.TownSimulator.ui.building;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;

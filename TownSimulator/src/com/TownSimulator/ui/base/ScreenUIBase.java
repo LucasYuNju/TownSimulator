@@ -13,8 +13,8 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 public class ScreenUIBase implements DriverListener, InputMgrListener{
 	protected final boolean 	SHOW_FPS = true;
-	protected 		Stage 		mStage;
-	protected 		Label 		mFpsLabel;
+	protected Stage		 		mStage;
+	protected Label 			mFpsLabel;
 	
 	public ScreenUIBase()
 	{

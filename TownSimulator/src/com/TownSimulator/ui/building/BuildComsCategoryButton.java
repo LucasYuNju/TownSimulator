@@ -1,4 +1,4 @@
-package com.TownSimulator.ui.build;
+package com.TownSimulator.ui.building;
 
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;

@@ -1,19 +1,25 @@
 package com.TownSimulator.ui.screen;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import com.TownSimulator.entity.ResourceType;
 import com.TownSimulator.ui.base.ScreenUIBase;
-import com.TownSimulator.ui.build.BuildComsUI;
-import com.TownSimulator.ui.build.BuildingAdjustGroup;
-import com.TownSimulator.ui.build.BuildingInfoWindow;
+import com.TownSimulator.ui.building.BuildComsUI;
+import com.TownSimulator.ui.building.BuildingAdjustGroup;
+import com.TownSimulator.ui.building.construction.ConstructionResourceInfo;
+import com.TownSimulator.ui.building.construction.ConstructionWindow;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Window;
 
 public class GameScreenUI extends ScreenUIBase{
 	private BuildComsUI		mBuildComsUI;
 	private BuildingAdjustGroup	mBuildAjustUI;
-	//FIXME!
-	private BuildingInfoWindow buildingInfoWindow;
 	
 	public GameScreenUI()
 	{
+		super();
 		initComponents();
 	}
 	
@@ -27,9 +33,7 @@ public class GameScreenUI extends ScreenUIBase{
 		mBuildAjustUI.setVisible(false);
 		mStage.addActor(mBuildAjustUI);
 		
-		buildingInfoWindow = new BuildingInfoWindow();
-		buildingInfoWindow.setVisible(false);
-		mStage.addActor(buildingInfoWindow);
+		//FIXME! It shouldn't be initialized here
 	}
 	
 	public BuildingAdjustGroup getBuildAjustUI()
@@ -37,7 +41,17 @@ public class GameScreenUI extends ScreenUIBase{
 		return mBuildAjustUI;
 	}
 	
-	public BuildingInfoWindow getBuildingInfoWindow() {
-		return buildingInfoWindow;
+	public void createTestWindow() {
+//		Window window = new Window("test", new Skin());
+//		mStage.addActor(window);
+	}
+
+	public ConstructionWindow createConstructionWindow() {
+		Map<ResourceType, ConstructionResourceInfo> resouceMap =
+				new HashMap<ResourceType, ConstructionResourceInfo>();
+		ConstructionWindow constructionWindow = new ConstructionWindow(resouceMap, 5);
+		constructionWindow.setVisible(false);
+		mStage.addActor(constructionWindow);
+		return constructionWindow;
 	}
 }
