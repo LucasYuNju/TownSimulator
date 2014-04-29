@@ -10,7 +10,10 @@ import com.TownSimulator.ui.building.BuildComsUI;
 import com.TownSimulator.ui.building.BuildingAdjustGroup;
 import com.TownSimulator.ui.building.construction.ConstructionResourceInfo;
 import com.TownSimulator.ui.building.construction.ConstructionWindow;
+import com.TownSimulator.ui.building.view.ViewWindow;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 
 public class GameScreenUI extends ScreenUIBase{
 	private BuildComsUI		mBuildComsUI;
@@ -39,8 +42,12 @@ public class GameScreenUI extends ScreenUIBase{
 		return mBuildAjustUI;
 	}
 	
-	public void createTestWindow() {
-		
+	public void testScrollPane() {
+		Actor content = new ViewWindow();
+		ScrollPane scrollPane = new ScrollPane(content);
+		scrollPane.setSize(content.getWidth(), content.getHeight());
+		scrollPane.setPosition(0, 0);
+		mStage.addActor(scrollPane);
 	}
 
 	public ConstructionWindow createConstructionWindow(Map<ResourceType, ConstructionResourceInfo> resouceMap, 

@@ -33,7 +33,7 @@ public class ConstructionWindow extends Group{
 	//LABEL_WIDTH is also ICON_WIDTH
 	private static final float LABEL_WIDTH = Settings.UNIT * 1f;
 	private static final float LABEL_HEIGHT = Settings.UNIT * 0.5f;
-	private static final float MARGIN = Settings.UNIT * 0.25f; 
+	public  static final float MARGIN = Settings.UNIT * 0.25f; 
 	private static final float PROCESS_BAR_HEIGHT = Settings.UNIT * 0.2f;
 	private static final int NUM_PAIR = 3;
 	
