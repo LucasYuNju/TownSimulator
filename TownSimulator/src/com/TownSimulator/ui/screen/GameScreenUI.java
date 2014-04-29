@@ -11,6 +11,7 @@ import com.TownSimulator.ui.building.BuildingAdjustGroup;
 import com.TownSimulator.ui.building.construction.ConstructionResourceInfo;
 import com.TownSimulator.ui.building.construction.ConstructionWindow;
 import com.TownSimulator.ui.building.view.ViewWindow;
+import com.TownSimulator.utility.Settings;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
@@ -45,8 +46,9 @@ public class GameScreenUI extends ScreenUIBase{
 	public void testScrollPane() {
 		Actor content = new ViewWindow();
 		ScrollPane scrollPane = new ScrollPane(content);
-		scrollPane.setSize(content.getWidth(), content.getHeight());
+		scrollPane.setSize(content.getWidth(), Settings.UNIT * 5);
 		scrollPane.setPosition(0, 0);
+		scrollPane.setScrollingDisabled(true, false);
 		mStage.addActor(scrollPane);
 	}
 
@@ -56,9 +58,13 @@ public class GameScreenUI extends ScreenUIBase{
 		constructionWindow.setVisible(false);
 		mStage.addActor(constructionWindow);
 		windows.add(constructionWindow);
+		return constructionWindow;
+	}
+	
+	public void hideAllWindow() {
 		for(ConstructionWindow window : windows) {
 			window.setVisible(false);
 		}
-		return constructionWindow;
+
 	}
 }

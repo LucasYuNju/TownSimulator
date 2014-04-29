@@ -147,6 +147,7 @@ public class Building extends Entity implements ConstructionWindowListener{
 	public boolean detectTouchDown()
 	{
 		super.detectTouchDown();
+		UIManager.getInstance(UIManager.class).getGameUI().hideAllWindow();
 		if(state == State.BUILDING_PROCESS) {
 			constructionWindow.setVisible(true);
 		}
