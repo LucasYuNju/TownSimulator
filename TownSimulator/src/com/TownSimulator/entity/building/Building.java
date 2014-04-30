@@ -37,9 +37,21 @@ public class Building extends Entity implements ConstructionWindowListener{
 		PosUnconfirmed, UnderConstruction, Constructed
 	}
 	
+	public Building(String textureName, BuildingType type)
+	{
+		super(textureName);
+		this.type = type;
+		init();
+	}
+	
 	public Building(Sprite sp, BuildingType type) {
 		super(sp);
 		this.type = type;
+		init();
+	}
+	
+	private void init()
+	{
 		state = State.PosUnconfirmed;
 		constructionResources = new LinkedList<Resource>();
 		constructionWindow = UIManager.getInstance(UIManager.class).getGameUI().createConstructionWindow(constructionResources, numAllowedBuilder);
@@ -50,6 +62,8 @@ public class Building extends Entity implements ConstructionWindowListener{
 	public void setPositionWorld(float x, float y) {
 		super.setPositionWorld(x, y);
 		constructionWindow.setBuildingPosWorld(getPositionXWorld(), getPositionYWorld());
+		if(viewWindow != null)
+			viewWindow.setBuildingPosWorld(getPositionXWorld(), getPositionXWorld());
 	}
 
 	public int getMaxAllowdBuilderCnt()
@@ -113,8 +127,7 @@ public class Building extends Entity implements ConstructionWindowListener{
 	public void doConstructionWork(int amount)
 	{
 		finishedConstructionWork = Math.min(constructionWork, finishedConstructionWork + amount);
-		if(constructionWindow != null)
-			constructionWindow.setProcess(getProcess());
+		constructionWindow.setProcess(getProcess());
 	}
 	
 	public boolean isConstructionResourceSufficient()
@@ -145,10 +158,16 @@ public class Building extends Entity implements ConstructionWindowListener{
 		return finishedConstructionWork / (float)constructionWork;
 	}
 	
+	
 	@Override
-	public boolean detectTouchDown()
+	public boolean detectTouchDown() {
+		return super.detectTouchDown() || state == state.UnderConstruction || state == State.Constructed;
+	}
+
+	@Override
+	public void detectTouchUp()
 	{
-		super.detectTouchDown();
+		super.detectTouchUp();
 		UIManager.getInstance(UIManager.class).getGameUI().hideAllWindow();
 		if(state == State.UnderConstruction) {
 			constructionWindow.setVisible(true);
@@ -156,10 +175,10 @@ public class Building extends Entity implements ConstructionWindowListener{
 		if(state == State.Constructed) {
 			if(viewWindow == null) {
 				viewWindow = Singleton.getInstance(UIManager.class).getGameUI().createViewWindow(type, getViewData());
+				viewWindow.setBuildingPosWorld(getPositionXWorld(), getPositionYWorld());
 			}
 			viewWindow.setVisible(true);
 		}
-		return true;
 	}
 	
 	//使用ViewWindow的子类需要override此方法

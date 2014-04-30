@@ -10,6 +10,8 @@ import com.TownSimulator.entity.EntityListener;
 import com.TownSimulator.entity.building.Building;
 import com.TownSimulator.entity.building.Building.State;
 import com.TownSimulator.entity.building.BuildingType;
+import com.TownSimulator.entity.building.FarmHouse;
+import com.TownSimulator.entity.building.FarmLand;
 import com.TownSimulator.render.Renderer;
 import com.TownSimulator.ui.UIManager;
 import com.TownSimulator.ui.building.BuildingAdjustGroup;
@@ -22,6 +24,10 @@ import com.TownSimulator.utility.quadtree.QuadTreeType;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
 
+/**
+ *控制建筑从点击建造图标到确认或取消的过程 
+ *
+ */
 public class BuildBroker extends Singleton implements EntityListener, CameraListener{
 	private 		Building		mCurBuilding;
 	private 		boolean			mbBuildingMovable = false;
@@ -41,13 +47,17 @@ public class BuildBroker extends Singleton implements EntityListener, CameraList
 		
 		Renderer.getInstance(Renderer.class).setDrawGrid(true);
 		
-		Building newBuildingObject = EntityFactory.createBuilding(BuildingType.LOW_COST_HOUSE);
+		Building newBuildingObject = EntityFactory.createBuilding(type);
 		int gridX = (int) (CameraController.getInstance(CameraController.class).getX() / Settings.UNIT);
 		int gridY = (int) (CameraController.getInstance(CameraController.class).getY() / Settings.UNIT);
 		int gridSerchSize = 0;
-		AxisAlignedBoundingBox buildingCollisionAABB = newBuildingObject.getAABBWorld(QuadTreeType.COLLISION);
-		float buildingWidth = buildingCollisionAABB.maxX - buildingCollisionAABB.minX;
-		float buildingHeight = buildingCollisionAABB.maxY - buildingCollisionAABB.minY;
+		AxisAlignedBoundingBox buildingCollisionAABB;// = newBuildingObject.getCollisionAABBLocal();
+		if(type == BuildingType.FARM_HOUSE)
+			buildingCollisionAABB = ((FarmHouse)newBuildingObject).resetCollisionAABBLocalWithFarmlands();
+		else
+			buildingCollisionAABB = newBuildingObject.getCollisionAABBLocal();
+		//float buildingWidth = buildingCollisionAABB.maxX - buildingCollisionAABB.minX;
+		//float buildingHeight = buildingCollisionAABB.maxY - buildingCollisionAABB.minY;
 		boolean bPosFind = false;
 		float posX = 0.0f;
 		float posY = 0.0f;
@@ -58,10 +68,10 @@ public class BuildBroker extends Singleton implements EntityListener, CameraList
 				for (int y = gridY - gridSerchSize; y <= gridY + gridSerchSize && !bPosFind; y++) {
 					posX = x * Settings.UNIT;
 					posY = y * Settings.UNIT;
-					aabb.minX = posX;
-					aabb.minY = posY;
-					aabb.maxX = aabb.minX + buildingWidth;
-					aabb.maxY = aabb.minY + buildingHeight;
+					aabb.minX = posX + buildingCollisionAABB.minX;
+					aabb.minY = posY + buildingCollisionAABB.minY;
+					aabb.maxX = posX + buildingCollisionAABB.maxX;
+					aabb.maxY = posY + buildingCollisionAABB.maxY;
 					if( !CollisionDetector.getInstance(CollisionDetector.class).detect(aabb) )
 						bPosFind = true;
 				}
@@ -71,7 +81,15 @@ public class BuildBroker extends Singleton implements EntityListener, CameraList
 		}
 		newBuildingObject.setPositionWorld(posX, posY);
 		Renderer.getInstance(Renderer.class).attachDrawScissor(newBuildingObject);
+		if(type == BuildingType.FARM_HOUSE)
+			for (FarmLand land : ((FarmHouse)newBuildingObject).getFarmLands()) {
+				Renderer.getInstance(Renderer.class).attachDrawScissor(land);
+			}
 		CollisionDetector.getInstance(CollisionDetector.class).attachCollisionDetection(newBuildingObject);
+//		if(type == BuildingType.FARM_HOUSE)
+//			for (FarmLand land : ((FarmHouse)newBuildingObject).getFarmLands()) {
+//				CollisionDetector.getInstance(CollisionDetector.class).attachCollisionDetection(land);
+//			}
 		
 		setBuilding(newBuildingObject);
 		setBuildAjustUI(UIManager.getInstance(UIManager.class).getGameUI().getBuildAjustUI());
@@ -101,17 +119,8 @@ public class BuildBroker extends Singleton implements EntityListener, CameraList
 			@Override
 			public void confirm() {
 				new ConstructionProject(mCurBuilding);
+
 				mCurBuilding.setState(State.UnderConstruction);
-//				int cnt = proj.getAvailableBuildJobCnt();
-//				for (Man man : EntityInfoCollector.getInstance(EntityInfoCollector.class).getAllPeople()) {
-//					if( man.getInfo().bIdle )
-//					{
-//						if(cnt-- > 0)
-//							proj.addWorker(man);
-//						else
-//							break;
-//					}
-//				}
 				
 				Renderer.getInstance(Renderer.class).setDrawGrid(false);
 				mCurBuilding.setListener(null);
@@ -125,8 +134,16 @@ public class BuildBroker extends Singleton implements EntityListener, CameraList
 			@Override
 			public void cancel() {
 				Renderer.getInstance(Renderer.class).setDrawGrid(false);
-				CollisionDetector.getInstance(CollisionDetector.class).dettachCollisionDetection(mCurBuilding);
 				Renderer.getInstance(Renderer.class).dettachDrawScissor(mCurBuilding);
+				if(mCurBuilding.getType() == BuildingType.FARM_HOUSE)
+					for (FarmLand land : ((FarmHouse)mCurBuilding).getFarmLands()) {
+						Renderer.getInstance(Renderer.class).dettachDrawScissor(land);
+					}
+				CollisionDetector.getInstance(CollisionDetector.class).dettachCollisionDetection(mCurBuilding);
+//				if(mCurBuilding.getType() == BuildingType.FARM_HOUSE)
+//					for (FarmLand land : ((FarmHouse)mCurBuilding).getFarmLands()) {
+//						CollisionDetector.getInstance(CollisionDetector.class).dettachCollisionDetection(land);
+//					}
 				mCurBuilding.setListener(null);
 				mCurBuilding = null;
 				mBuildUI.setListener(null);
@@ -190,6 +207,8 @@ public class BuildBroker extends Singleton implements EntityListener, CameraList
 				
 				Array<QuadTreeManageble> excluded = new Array<QuadTreeManageble>();
 				excluded.add(mCurBuilding);
+//				if(mCurBuilding.getType() == BuildingType.FARM_HOUSE)
+//					excluded.addAll( ((FarmHouse)mCurBuilding).getFarmLands() );
 				if( !CollisionDetector.getInstance(CollisionDetector.class).detect(destAABB, null, excluded) )
 				{
 					mCurBuilding.translate(moveDeltaX, moveDeltaY);

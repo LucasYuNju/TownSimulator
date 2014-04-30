@@ -73,7 +73,6 @@ public class GameScreenUI extends ScreenUIBase{
 		ViewWindow content = new ViewWindow(data);
 		ScrollPane scrollPane = new ScrollPane(content);
 		scrollPane.setSize(content.getWidth(), Settings.UNIT * 5);
-		scrollPane.setPosition(0, 0);
 		scrollPane.setScrollingDisabled(true, false);
 		scrollPane.addListener(new InputListener(){
 			@Override

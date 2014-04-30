@@ -1,5 +1,7 @@
 package com.TownSimulator.ui.building.view;
 
+import com.TownSimulator.camera.CameraController;
+import com.TownSimulator.ui.UndockedWindow;
 import com.TownSimulator.ui.building.construction.ConstructionWindow;
 import com.TownSimulator.utility.ResourceManager;
 import com.TownSimulator.utility.Settings;
@@ -7,11 +9,11 @@ import com.TownSimulator.utility.Singleton;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.scenes.scene2d.Group;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 
-public class ViewWindow extends Group{
+public class ViewWindow extends UndockedWindow{
 	private static final float LABEL_WIDTH = Settings.UNIT * 1.5f;
 	private static final float LABEL_HEIGHT = Settings.UNIT * 0.5f;
 	private static final float MARGIN = ConstructionWindow.MARGIN;
@@ -49,6 +51,16 @@ public class ViewWindow extends Group{
 		batch.draw(background, getX(), getY(), getWidth(), getHeight());
 		applyTransform(batch, computeTransform());
 		drawChildren(batch, parentAlpha);
-		resetTransform(batch);	
+		resetTransform(batch);
+	}
+	
+	@Override
+	protected void updatePosition()
+	{
+		Vector3 pos = new Vector3(buildingPosXWorld, buildingPosYWorld, 0.0f);
+		CameraController.getInstance(CameraController.class).worldToScreen(pos);
+		float windowX = pos.x - getWidth();
+		float windowY = pos.y - getHeight() * 0.5f;
+		getParent().setPosition(windowX, windowY);
 	}
 }

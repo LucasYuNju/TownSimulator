@@ -5,6 +5,7 @@ import java.util.List;
 import com.TownSimulator.camera.CameraController;
 import com.TownSimulator.camera.CameraListener;
 import com.TownSimulator.entity.Resource;
+import com.TownSimulator.ui.UndockedWindow;
 import com.TownSimulator.ui.base.FlipButton;
 import com.TownSimulator.utility.ResourceManager;
 import com.TownSimulator.utility.Settings;
@@ -32,7 +33,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.Align;
  * 			| 		process bar		|
  * 					  margin
  */
-public class ConstructionWindow extends Group{
+public class ConstructionWindow extends UndockedWindow{
 	//LABEL_WIDTH is also ICON_WIDTH
 	private static final float LABEL_WIDTH = Settings.UNIT * 1f;
 	private static final float LABEL_HEIGHT = Settings.UNIT * 0.5f;
@@ -54,10 +55,8 @@ public class ConstructionWindow extends Group{
 	protected List<Resource> resourceMap;
 	private ConstructionBuilderGroup builderGroup;
 	
-	private float buildingPosXWorld;
-	private float buildingPosYWorld;
-	
 	public ConstructionWindow(List<Resource> resources, int numAllowedBuilder) {
+		super();
 		background = Singleton.getInstance(ResourceManager.class).findTextureRegion("background");
 		processBar = Singleton.getInstance(ResourceManager.class).findTextureRegion("process_bar");
 		blackFrame = Singleton.getInstance(ResourceManager.class).findTextureRegion("frame_black");
@@ -83,52 +82,9 @@ public class ConstructionWindow extends Group{
 		//3
 		addHeader();
 		addCloseButton();
-
-		initCameraListener();
-		//initTestData();
 	}
 	
-	private void initCameraListener()
-	{
-		CameraController.getInstance(CameraController.class).addListener(new CameraListener() {
-			
-			@Override
-			public void cameraZoomed(float prevWidth, float prevHeight, float curWidth,
-					float curHeight) {
-				if(isVisible())
-					updatePosition();
-			}
-			
-			@Override
-			public void cameraMoved(float deltaX, float deltaY) {
-				if(isVisible())
-					updatePosition();
-			}
-		});
-	}
 	
-	@Override
-	public void setVisible(boolean visible) {
-		super.setVisible(visible);
-		if(visible)
-			updatePosition();
-	}
-
-	private void updatePosition()
-	{
-		Vector3 pos = new Vector3(buildingPosXWorld, buildingPosYWorld, 0.0f);
-		CameraController.getInstance(CameraController.class).worldToScreen(pos);
-		float windowX = pos.x - getWidth();
-		float windowY = pos.y - getHeight() * 0.5f;
-		setPosition(windowX, windowY);
-	}
-	
-	public void setBuildingPosWorld(float x, float y)
-	{
-		buildingPosXWorld = x;
-		buildingPosYWorld = y;
-	}
-
 	private void addPairs() {
 		// initialize icon button and label
 		for (int i = 0; i < NUM_PAIR; i++) {

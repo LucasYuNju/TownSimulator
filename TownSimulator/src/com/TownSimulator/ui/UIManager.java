@@ -46,7 +46,10 @@ public class UIManager extends Singleton implements StartUIListener{
 			@Override
 			public boolean touchDown(float screenX, float screenY, int pointer,
 					int button) {
-				return mCurScreenUI.touchDown(screenX, screenY, pointer, button);
+				boolean bProcessed = mCurScreenUI.touchDown(screenX, screenY, pointer, button);
+				if(bProcessed)
+					InputMgr.getInstance(InputMgr.class).cancelTouchDown();
+				return bProcessed;
 			}
 
 			@Override

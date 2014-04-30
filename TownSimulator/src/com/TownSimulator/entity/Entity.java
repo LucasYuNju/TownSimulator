@@ -4,6 +4,7 @@ import com.TownSimulator.collision.CollisionDetector;
 import com.TownSimulator.render.Drawable;
 import com.TownSimulator.render.Renderer;
 import com.TownSimulator.utility.AxisAlignedBoundingBox;
+import com.TownSimulator.utility.ResourceManager;
 import com.TownSimulator.utility.quadtree.QuadTreeManageble;
 import com.TownSimulator.utility.quadtree.QuadTreeNode;
 import com.TownSimulator.utility.quadtree.QuadTreeType;
@@ -25,6 +26,11 @@ public class Entity implements Drawable, QuadTreeManageble{
 	protected Array<QuadTreeNode>		mCollisionQuadNodes;
 	protected EntityListener			mListener;
 	protected boolean					mUseDrawMinYAsDepth;
+	
+	public Entity(String textureName)
+	{
+		this(ResourceManager.getInstance(ResourceManager.class).createSprite(textureName));
+	}
 	
 	public Entity(Sprite sp) 
 	{
@@ -58,6 +64,11 @@ public class Entity implements Drawable, QuadTreeManageble{
 	public Sprite getSprite()
 	{
 		return mSprite;
+	}
+	
+	public void setTextureName(String textureName)
+	{
+		setSprite(ResourceManager.getInstance(ResourceManager.class).createSprite(textureName));
 	}
 	
 	public void setSprite(Sprite sprite) {

@@ -1,5 +1,6 @@
 package com.TownSimulator.ui.building;
 
+import com.TownSimulator.entity.building.BuildingType;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Group;
@@ -13,9 +14,9 @@ public class BuildComsButtonsGroup extends Group{
 		mButtonsList = new Array<BuildComsButton>();
 	}
 	
-	public void addBuild(String textureName, String labelText)
+	public void addBuild(String textureName, String labelText, BuildingType buildingType)
 	{
-		BuildComsButton button = new BuildComsButton(textureName, labelText);
+		BuildComsButton button = new BuildComsButton(textureName, labelText, buildingType);
 		addActor(button);
 		mButtonsList.add(button);
 	}
