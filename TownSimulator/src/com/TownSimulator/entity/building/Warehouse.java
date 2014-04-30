@@ -3,11 +3,9 @@ package com.TownSimulator.entity.building;
 import java.util.LinkedList;
 import java.util.List;
 
-import com.TownSimulator.camera.CameraController;
 import com.TownSimulator.entity.Resource;
 import com.TownSimulator.entity.ResourceType;
 import com.TownSimulator.utility.ResourceManager;
-import com.badlogic.gdx.math.Vector3;
 
 public class Warehouse extends Building{
 	private List<Resource> storedResources;
