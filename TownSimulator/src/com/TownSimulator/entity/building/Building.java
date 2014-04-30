@@ -28,17 +28,35 @@ public class Building extends Entity implements ConstructionWindowListener{
 		BUILDING_UNCONFIRMED, BUILDING_PROCESS, BUILDING_FINISHED
 	}
 	
+	public Building(String textureName, BuildingType type)
+	{
+		super(textureName);
+		this.type = type;
+		
+		init();
+	}
+	
 	public Building(Sprite sp, BuildingType type) {
 		super(sp);
 		this.type = type;
 		
+		init();
+//		state = State.BUILDING_UNCONFIRMED;
+//		resouceMap = new HashMap<ResourceType, ConstructionResourceInfo>();
+//
+//		constructionWindow = UIManager.getInstance(UIManager.class).getGameUI().createConstructionWindow(resouceMap, maxAllowedBuilderCnt);
+//		constructionWindow.setListener(this);
+//		constructionWindow.setPosition(150, 150);
+		//constructionWindow.setBuildingPosWorld(getPositionXWorld(), getPositionYWorld());
+	}
+	
+	private void init()
+	{
 		state = State.BUILDING_UNCONFIRMED;
 		resouceMap = new HashMap<ResourceType, ConstructionResourceInfo>();
 
 		constructionWindow = UIManager.getInstance(UIManager.class).getGameUI().createConstructionWindow(resouceMap, maxAllowedBuilderCnt);
 		constructionWindow.setListener(this);
-//		constructionWindow.setPosition(150, 150);
-		//constructionWindow.setBuildingPosWorld(getPositionXWorld(), getPositionYWorld());
 	}
 	
 	@Override
@@ -143,17 +161,22 @@ public class Building extends Entity implements ConstructionWindowListener{
 		return finishedConstructionWork / (float)constructionWork;
 	}
 	
+	
 	@Override
-	public boolean detectTouchDown()
+	public boolean detectTouchDown() {
+		return super.detectTouchDown() || state == State.BUILDING_PROCESS || state == State.BUILDING_FINISHED;
+	}
+
+	@Override
+	public void detectTouchUp()
 	{
-		super.detectTouchDown();
+		super.detectTouchUp();
 		UIManager.getInstance(UIManager.class).getGameUI().hideAllWindow();
 		if(state == State.BUILDING_PROCESS) {
 			constructionWindow.setVisible(true);
 		}
 		//for test
 //		UIManager.getInstance(UIManager.class).getGameUI().testScrollPane();		
-		return true;
 	}
 	
 	public void setState(State state)

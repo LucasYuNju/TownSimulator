@@ -54,7 +54,6 @@ public class ScreenUIBase implements DriverListener, InputMgrListener{
 	public void resume()
 	{
 		mFpsLabel.getStyle().font = ResourceManager.getInstance(ResourceManager.class).getFont( (int)(Settings.UNIT * 0.25f) );
-		System.out.println("CCCCCCC");
 	}
 
 	@Override

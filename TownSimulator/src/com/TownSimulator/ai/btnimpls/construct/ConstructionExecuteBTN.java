@@ -56,7 +56,7 @@ public class ConstructionExecuteBTN implements ActionNode{
 	private void finished()
 	{
 		mMan.getInfo().constructionInfo.proj = null;
-		mMan.getInfo().bIdle = true;
+		//mMan.getInfo().bIdle = true;
 	}
 	
 	@Override

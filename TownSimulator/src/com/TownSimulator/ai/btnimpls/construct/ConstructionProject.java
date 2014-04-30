@@ -102,6 +102,11 @@ public class ConstructionProject {
 		mFinished = true;
 		mBuilding.setConstructionProject(null);
 		EntityInfoCollector.getInstance(EntityInfoCollector.class).removeConstructProj(this);
+		
+		for (Man man : mWorkers) {
+			man.getInfo().constructionInfo.proj = null;
+			//man.getInfo().bIdle = true;
+		}
 	}
 	
 	public boolean allocateTransport(ConstructionInfo cons)

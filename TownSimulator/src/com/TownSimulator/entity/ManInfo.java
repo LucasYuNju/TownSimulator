@@ -7,5 +7,5 @@ public class ManInfo {
 	public boolean				animeFlip = false;
 	public ConstructionInfo		constructionInfo = new ConstructionInfo();
 	//public ConstructionProject 	constructProj = null;
-	public boolean				bIdle = true;
+	//public boolean				bIdle = true;
 }
