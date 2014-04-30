@@ -20,6 +20,7 @@ public class WorkingBuilding extends Building{
 		super(textureName, type);
 		this.jobType = jobType;
 		this.maxJobCnt = maxJobCnt;
+		this.openJobCnt = maxJobCnt;
 		workers = new Array<Man>();
 	}
 	
@@ -27,6 +28,7 @@ public class WorkingBuilding extends Building{
 		super(sp, type);
 		this.jobType = jobType;
 		this.maxJobCnt = maxJobCnt;
+		this.openJobCnt = maxJobCnt;
 		workers = new Array<Man>();
 	}
 
@@ -49,6 +51,16 @@ public class WorkingBuilding extends Building{
 	public JobType getJobType() {
 		return jobType;
 	}
-
+	
+	public void addWorker(Man man)
+	{
+		if(curWorkerCnt >= openJobCnt)
+			return;
+		
+		workers.add(man);
+		curWorkerCnt ++;
+		man.getInfo().job = jobType;
+		man.getInfo().workingBuilding = this;
+	}
 
 }

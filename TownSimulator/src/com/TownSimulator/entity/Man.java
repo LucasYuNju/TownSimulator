@@ -93,6 +93,11 @@ public class Man extends Entity{
 		}
 	}
 
+	public void setBehavior(BehaviorTreeNode behavior)
+	{
+		mBehavior = behavior;
+	}
+	
 //	public void addTask(Task task)
 //	{
 //		mTaskController.addTask(task);

@@ -21,7 +21,7 @@ public class World extends Singleton {
 	
 	private World(){
 		calendar=Calendar.getInstance();
-		calendar.set(2014, 3, 30);//设置初始日期
+		calendar.set(2014, 12, 1);//设置初始日期
 		secondPerDay=SecondPerYear/365;
 		secondDuringLastDay=0f;
 		
