@@ -2,18 +2,19 @@ package com.TownSimulator.entity;
 
 import com.TownSimulator.entity.building.Building;
 import com.TownSimulator.entity.building.BuildingType;
+import com.TownSimulator.entity.building.FarmHouse;
 import com.TownSimulator.entity.building.WareHouse;
 import com.TownSimulator.utility.ResourceManager;
 import com.TownSimulator.utility.Settings;
 
 public class EntityFactory {
 	
-	public static MapResource createMapObj(MapResourceType objType)
+	public static MapEntity createMapObj(MapEntityType objType)
 	{
-		MapResource obj = null;
+		MapEntity obj = null;
 		switch (objType) {
 		case TREE:
-			obj = new MapResource(ResourceManager.getInstance(ResourceManager.class).createSprite("map_tree"));
+			obj = new MapEntity(ResourceManager.getInstance(ResourceManager.class).createSprite("map_tree"));
 			break;
 			
 		default:
@@ -44,6 +45,15 @@ public class EntityFactory {
 			yGridSize = 1;
 			yDrawScale = 2.2f;
 			building = new WareHouse();
+			building.setNeededConstructionResource(ResourceType.RS_WOOD, 20);
+			building.setNeededConstructionResource(ResourceType.RS_STONE, 5);
+			building.setNeededConstructionWork(30);
+			break;
+		case FARM_HOUSE:
+			xGridSize = 2;
+			yGridSize = 1;
+			yDrawScale = 2.2f;
+			building = new FarmHouse();
 			building.setNeededConstructionResource(ResourceType.RS_WOOD, 20);
 			building.setNeededConstructionResource(ResourceType.RS_STONE, 5);
 			building.setNeededConstructionWork(30);

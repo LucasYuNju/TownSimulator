@@ -1,5 +1,6 @@
 package com.TownSimulator.ui.building;
 
+import com.TownSimulator.entity.building.BuildingType;
 import com.TownSimulator.utility.GameMath;
 import com.TownSimulator.utility.Settings;
 import com.badlogic.gdx.scenes.scene2d.Group;
@@ -37,15 +38,14 @@ public class BuildComsUI extends Group {
 		addActor(mInitButton);
 		
 		BuildComsCategoryButton buildHouse = new BuildComsCategoryButton("button_build_house", "House");
-		buildHouse.addBuild("button_build_house", "House0");
-		buildHouse.addBuild("button_build_house", "House2");
+		buildHouse.addBuild("button_build_house", "low-cost_house", BuildingType.LOW_COST_HOUSE);
+		buildHouse.addBuild("button_build_house", "warehouse", BuildingType.WAREHOUSE);
 		//buildHouse.updateLayout();
 		buildHouse.setVisible(false);
 		mBuildButtonsList.add(buildHouse);
 		
 		BuildComsCategoryButton buildFood = new BuildComsCategoryButton("button_build_food", "Food");
-		buildFood.addBuild("button_build_food", "Food0");
-		buildFood.addBuild("button_build_food", "Food2");
+		buildFood.addBuild("button_build_food", "farm", BuildingType.FARM_HOUSE);
 		//buildFood.updateLayout();
 		buildFood.setVisible(false);
 		mBuildButtonsList.add(buildFood);

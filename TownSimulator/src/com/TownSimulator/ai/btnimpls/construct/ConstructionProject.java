@@ -32,7 +32,7 @@ public class ConstructionProject {
 		mMaxBuildJobCnt = mBuilding.getMaxAllowdBuilderCnt();
 		mOpenBuildJobCnt = mMaxBuildJobCnt;
 		mBuilding.setConstructionProject(this);
-		mBuildResourceTypeItr = mBuilding.getNeededConstructionResourceTypes().iterator();
+		mBuildResourceTypeItr = mBuilding.getConstructionResourceTypes().iterator();
 		mWorkers = new Array<Man>();
 		
 		EntityInfoCollector.getInstance(EntityInfoCollector.class).addConstructProj(this);
@@ -102,6 +102,11 @@ public class ConstructionProject {
 		mFinished = true;
 		mBuilding.setConstructionProject(null);
 		EntityInfoCollector.getInstance(EntityInfoCollector.class).removeConstructProj(this);
+		
+		for (Man man : mWorkers) {
+			man.getInfo().constructionInfo.proj = null;
+			//man.getInfo().bIdle = true;
+		}
 	}
 	
 	public boolean allocateTransport(ConstructionInfo cons)

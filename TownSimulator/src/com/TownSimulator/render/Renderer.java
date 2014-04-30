@@ -106,7 +106,8 @@ public class Renderer extends Singleton{
 		{
 			Sprite gridSp = ResourceManager.getInstance(ResourceManager.class).createSprite("grid");
 			Entity entity = new Entity(gridSp, -1.0f, false);
-			entity.setDrawAABBLocal(0.1f, 0.1f, Settings.UNIT - 0.2f, Settings.UNIT - 0.2f);
+			entity.setDrawAABBLocal(0.1f, 0.1f, Settings.UNIT - 0.1f, Settings.UNIT - 0.1f);
+			entity.setCollisionAABBLocal(0.1f, 0.1f, Settings.UNIT - 0.1f, Settings.UNIT - 0.1f);
 			mGridIdleList.add( entity );
 			
 		}
@@ -122,15 +123,15 @@ public class Renderer extends Singleton{
 		int b = (int)(scissor.minY / Settings.UNIT);
 		int u = (int)(scissor.maxY / Settings.UNIT);
 		mMallocIndex = 0;
-		float pad = 0.1f;
-		AxisAlignedBoundingBox gridAABB;
+		//float pad = 0.1f;
+		//AxisAlignedBoundingBox gridAABB;
 		for (float x = l; x <= (r+1); x ++) {
 			for (float y = b; y <= (u+1); y ++) {
 				Entity obj = mallocGrid();
-				obj.setPositionWorld(x * Settings.UNIT + pad, y * Settings.UNIT + pad);
-				gridAABB = obj.getAABBWorld(QuadTreeType.DRAW);
+				obj.setPositionWorld(x * Settings.UNIT, y * Settings.UNIT);
+				//gridAABB = obj.getAABBWorld(QuadTreeType.DRAW);
 				obj.setDepth(Float.MAX_VALUE);
-				if(CollisionDetector.getInstance(CollisionDetector.class).detect(gridAABB))
+				if(CollisionDetector.getInstance(CollisionDetector.class).detect(obj.getAABBWorld(QuadTreeType.COLLISION)))
 					obj.getSprite().setColor(1.0f, 0.0f, 0.0f, 0.3f);
 				else
 					obj.getSprite().setColor(0.0f, 0.0f, 1.0f, 0.3f);

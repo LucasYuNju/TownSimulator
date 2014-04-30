@@ -1,5 +1,5 @@
 package com.TownSimulator.entity;
 
-public enum MapResourceType {
+public enum MapEntityType {
 	TREE
 }

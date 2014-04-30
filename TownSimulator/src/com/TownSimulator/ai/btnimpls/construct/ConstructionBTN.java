@@ -93,17 +93,17 @@ public class ConstructionBTN extends SequenceNode{
 	
 	
 	
-	private void startProj()
-	{
-		mMan.getInfo().bIdle = false;
-	}
+//	private void startProj()
+//	{
+//		mMan.getInfo().bIdle = false;
+//	}
 
-	@Override
-	public ExcuteResult execute(float deltaTime) {
-		if(mMan.getInfo().constructionInfo.proj == null)
-			startProj();
-		
-		return super.execute(deltaTime);
-	}
+//	@Override
+//	public ExcuteResult execute(float deltaTime) {
+//		//if(mMan.getInfo().constructionInfo.proj == null)
+//		//	startProj();
+//		
+//		return super.execute(deltaTime);
+//	}
 
 }

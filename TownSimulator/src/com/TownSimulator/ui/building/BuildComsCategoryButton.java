@@ -1,5 +1,6 @@
 package com.TownSimulator.ui.building;
 
+import com.TownSimulator.entity.building.BuildingType;
 import com.TownSimulator.ui.base.IconLabelButton;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
@@ -43,8 +44,8 @@ public class BuildComsCategoryButton extends IconLabelButton{
 		addActor(mButtonsGroup);
 	}	
 	
-	public void addBuild(String textureName, String labelText)
+	public void addBuild(String textureName, String labelText, BuildingType buildingType)
 	{
-		mButtonsGroup.addBuild(textureName, labelText);
+		mButtonsGroup.addBuild(textureName, labelText, buildingType);
 	}
 }
