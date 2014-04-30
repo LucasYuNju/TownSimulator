@@ -5,8 +5,8 @@ import java.util.Random;
 
 import com.TownSimulator.collision.CollisionDetector;
 import com.TownSimulator.entity.EntityFactory;
-import com.TownSimulator.entity.MapResource;
-import com.TownSimulator.entity.MapResourceType;
+import com.TownSimulator.entity.MapEntity;
+import com.TownSimulator.entity.MapEntityType;
 import com.TownSimulator.render.Renderer;
 import com.TownSimulator.utility.Settings;
 import com.TownSimulator.utility.Singleton;
@@ -16,7 +16,7 @@ public class Map extends Singleton{
 	public static final int				MAP_WIDTH = 512;
 	public static final int				MAP_HEIGHT = 512;
 	private float[][] 					mNoiseMap;
-	private MapResource[][] 			mObjsMap;
+	private MapEntity[][] 			mObjsMap;
 	private float[] 					mTreeScaleMap = { 1.0f, 0.8f, 0.6f, 0.0f, 0.0f, 0.0f };
 	
 	private Map()
@@ -26,7 +26,7 @@ public class Map extends Singleton{
 	public void init(int seed)
 	{
 		mNoiseMap = new float[MAP_HEIGHT][MAP_WIDTH];
-		mObjsMap  = new MapResource[MAP_HEIGHT][MAP_WIDTH];
+		mObjsMap  = new MapEntity[MAP_HEIGHT][MAP_WIDTH];
 		SimplexNoise noiseGenerator = new SimplexNoise(128, 0.5, seed);
 		Random rand = new Random();
 		for (int y = 0; y < MAP_HEIGHT; y++) {
@@ -39,7 +39,7 @@ public class Map extends Singleton{
 					if( scale == 0.0f )
 						continue;
 					
-					MapResource obj = EntityFactory.createMapObj(MapResourceType.TREE);
+					MapEntity obj = EntityFactory.createMapObj(MapEntityType.TREE);
 					obj.setDrawAABBLocal(0.0f, 0.0f, Settings.UNIT * 1.5f * scale, Settings.UNIT * 2.0f * scale);
 					float originOffsetX = obj.getDrawAABBLocal().getWidth() * 0.5f;
 					float randX = (rand.nextFloat() - 0.5f) * Settings.UNIT * 0.2f;

@@ -1,9 +1,11 @@
 package com.TownSimulator.ui.building.construction;
 
+import java.util.List;
 import java.util.Map;
 
 import com.TownSimulator.camera.CameraController;
 import com.TownSimulator.camera.CameraListener;
+import com.TownSimulator.entity.Resource;
 import com.TownSimulator.entity.ResourceType;
 import com.TownSimulator.ui.base.FlipButton;
 import com.TownSimulator.utility.ResourceManager;
@@ -51,16 +53,17 @@ public class ConstructionWindow extends Group{
 	private TextureRegion processBar;
 	private TextureRegion blackFrame;
 
-	protected Map<ResourceType, ConstructionResourceInfo> resouceMap;
+	protected List<Resource> resourceMap;
 	private ConstructionBuilderGroup builderGroup;
 	
 	private float buildingPosXWorld;
 	private float buildingPosYWorld;
 	
-	public ConstructionWindow(Map<ResourceType, ConstructionResourceInfo> resources, int numAllowedBuilder) {
+	public ConstructionWindow(List<Resource> resources, int numAllowedBuilder) {
 		background = Singleton.getInstance(ResourceManager.class).findTextureRegion("background");
 		processBar = Singleton.getInstance(ResourceManager.class).findTextureRegion("process_bar");
 		blackFrame = Singleton.getInstance(ResourceManager.class).findTextureRegion("frame_black");
+		resourceMap = resources;
 		
 		//有严格的初始化顺序
 		//1

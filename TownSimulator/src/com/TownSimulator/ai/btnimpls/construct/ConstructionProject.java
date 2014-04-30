@@ -32,7 +32,7 @@ public class ConstructionProject {
 		mMaxBuildJobCnt = mBuilding.getMaxAllowdBuilderCnt();
 		mOpenBuildJobCnt = mMaxBuildJobCnt;
 		mBuilding.setConstructionProject(this);
-		mBuildResourceTypeItr = mBuilding.getNeededConstructionResourceTypes().iterator();
+		mBuildResourceTypeItr = mBuilding.getConstructionResourceTypes().iterator();
 		mWorkers = new Array<Man>();
 		
 		EntityInfoCollector.getInstance(EntityInfoCollector.class).addConstructProj(this);

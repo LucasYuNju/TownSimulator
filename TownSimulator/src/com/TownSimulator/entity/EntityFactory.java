@@ -8,12 +8,12 @@ import com.TownSimulator.utility.Settings;
 
 public class EntityFactory {
 	
-	public static MapResource createMapObj(MapResourceType objType)
+	public static MapEntity createMapObj(MapEntityType objType)
 	{
-		MapResource obj = null;
+		MapEntity obj = null;
 		switch (objType) {
 		case TREE:
-			obj = new MapResource(ResourceManager.getInstance(ResourceManager.class).createSprite("map_tree"));
+			obj = new MapEntity(ResourceManager.getInstance(ResourceManager.class).createSprite("map_tree"));
 			break;
 			
 		default:
