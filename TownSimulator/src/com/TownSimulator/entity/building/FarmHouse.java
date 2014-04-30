@@ -5,17 +5,18 @@ import com.TownSimulator.driver.DriverListenerBaseImpl;
 import com.TownSimulator.entity.JobType;
 import com.TownSimulator.entity.Man;
 import com.TownSimulator.entity.World;
+import com.TownSimulator.entity.World.SeasonType;
 import com.TownSimulator.utility.AxisAlignedBoundingBox;
 import com.TownSimulator.utility.GameMath;
 import com.TownSimulator.utility.Settings;
-import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.Array;
 
 public class FarmHouse extends WorkingBuilding{
 	private static final int MAX_WORKER_CNT = 4;
 	private CropType curCropType;
-	private float sowProcess;
-	private float reapProcess;
+	private int sowedLandCnt;
+	private boolean bReapStart = false; 
+	private int reappedLandCnt;
 	private boolean bSowed;
 	private Array<FarmLand> farmLands;
 	
@@ -48,6 +49,28 @@ public class FarmHouse extends WorkingBuilding{
 		
 	}
 	
+	private void cropGrow(float deltaTime)
+	{
+		float efficiency = 0.0f;
+		for (Man man : workers) {
+			efficiency += man.getInfo().workEfficency;
+		}
+		efficiency /= curWorkerCnt;
+		float timeSpeed = 365.0f / World.SecondPerYear;// day/second
+		float fullNeedDays = GameMath.lerp(12.0f * 30.0f, 6.0f * 30.0f, curWorkerCnt / maxJobCnt);
+		float speed = FarmLand.MAX_CROP_AMOUNT / (fullNeedDays / timeSpeed );
+		for (FarmLand land : farmLands) {
+			land.addCropAmount(speed * efficiency * deltaTime);
+		}
+	}
+	
+	private void cropDie(float deltaTime)
+	{
+		for (FarmLand land : farmLands) {
+			land.cropDie(deltaTime);
+		}
+	}
+	
 	@Override
 	public void setState(State state) {
 		super.setState(state);
@@ -60,16 +83,13 @@ public class FarmHouse extends WorkingBuilding{
 				public void update(float deltaTime) {
 					if(bSowed)
 					{
-						float efficiency = 0.0f;
-						for (Man man : workers) {
-							efficiency += man.getInfo().workEfficency;
-						}
-						efficiency /= curWorkerCnt;
-						float timeSpeed = 365.0f / World.SecondPerYear;// day/second
-						float fullNeedDays = GameMath.lerp(12.0f * 30.0f, 6.0f * 30.0f, curWorkerCnt / maxJobCnt);
-						float speed = FarmLand.MAX_CROP_AMOUNT / (fullNeedDays / timeSpeed );
-						for (FarmLand land : farmLands) {
-							land.addCropAmount(speed * efficiency);
+						if(World.getInstance(World.class).getCurSeason() != SeasonType.Winter)
+							cropGrow(deltaTime);
+						else
+						{
+							if(World.getInstance(World.class).getCurMonth() == 12 
+									|| World.getInstance(World.class).getCurMonth() == 1)
+								cropDie(deltaTime);
 						}
 					}
 				}
@@ -110,26 +130,39 @@ public class FarmHouse extends WorkingBuilding{
 		}
 	}
 	
-	public void addSowProcess(float amount)
+	public void setReapStart(boolean value)
 	{
-		sowProcess += amount;
-		sowProcess = MathUtils.clamp(sowProcess, 0.0f, 100.0f);
+		bReapStart = value;
 	}
 	
-	public float getSowProcess()
+	public boolean isReapStart()
 	{
-		return sowProcess;
+		return bReapStart;
 	}
 	
-	public void addReapProcess(float amount)
+	public void addSowedLand()
 	{
-		reapProcess += amount;
-		reapProcess = MathUtils.clamp(reapProcess, 0.0f, 100.0f);
+		sowedLandCnt = Math.min(sowedLandCnt + 1, farmLands.size);
 	}
 	
-	public float getReapProcess()
+	public int getSowedLandCnt()
 	{
-		return reapProcess;
+		return sowedLandCnt;
+	}
+	
+	public void addReappedLand()
+	{
+		reappedLandCnt = Math.min(reappedLandCnt + 1, farmLands.size);
+	}
+	
+	public void clearReappedLandCnt()
+	{
+		reappedLandCnt = 0;
+	}
+	
+	public int getReappedLandCnt()
+	{
+		return reappedLandCnt;
 	}
 	
 	public void setSowed(boolean value)

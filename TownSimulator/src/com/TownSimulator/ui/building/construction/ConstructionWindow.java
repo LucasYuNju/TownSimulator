@@ -2,8 +2,6 @@ package com.TownSimulator.ui.building.construction;
 
 import java.util.List;
 
-import com.TownSimulator.camera.CameraController;
-import com.TownSimulator.camera.CameraListener;
 import com.TownSimulator.entity.Resource;
 import com.TownSimulator.ui.UndockedWindow;
 import com.TownSimulator.ui.base.FlipButton;
@@ -14,10 +12,8 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Event;
 import com.badlogic.gdx.scenes.scene2d.EventListener;
-import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;

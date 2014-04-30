@@ -1,6 +1,7 @@
 package com.TownSimulator.entity.building;
 
 import com.TownSimulator.entity.Entity;
+import com.TownSimulator.entity.World;
 import com.TownSimulator.utility.Settings;
 import com.badlogic.gdx.math.MathUtils;
 
@@ -8,6 +9,9 @@ public class FarmLand extends Entity{
 	public static final float MAX_CROP_AMOUNT = 2000.0f;
 	//private CropType cropType;
 	private float curCropAmount;
+	private boolean bCropDieStart = false;
+	private float cropDieSpeed = 0.0f;
+	//private float cropStartDieAmount = 0.0f;
 	
 	public FarmLand() {
 		super("farmland_soil");
@@ -34,6 +38,23 @@ public class FarmLand extends Entity{
 	public float getCurCropAmount()
 	{
 		return curCropAmount;
+	}
+	
+	public void cropDie(float deltaTime)
+	{
+		if(bCropDieStart)
+		{
+			if( curCropAmount <= 0 )
+				return;
+			
+			addCropAmount(-deltaTime * cropDieSpeed);
+		}
+		else
+		{
+			bCropDieStart = true;
+			float timeSpeed = 365.0f / World.SecondPerYear;
+			cropDieSpeed = curCropAmount / (30.0f / timeSpeed);
+		}
 	}
 
 }
