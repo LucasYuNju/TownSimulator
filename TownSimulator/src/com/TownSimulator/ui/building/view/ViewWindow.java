@@ -17,6 +17,7 @@ public class ViewWindow extends UndockedWindow{
 	private static final float LABEL_WIDTH = Settings.UNIT * 1.5f;
 	private static final float LABEL_HEIGHT = Settings.UNIT * 0.5f;
 	private static final float MARGIN = ConstructionWindow.MARGIN;
+	private static final int DIAPLAYED_LABEL_PER_PAGE = 8;
 	private TextureRegion background;
 	String[][] data;
 	
@@ -24,7 +25,8 @@ public class ViewWindow extends UndockedWindow{
 		super();
 		this.data = data;
 		background = Singleton.getInstance(ResourceManager.class).findTextureRegion("background");
-		setSize(LABEL_WIDTH * 2 + MARGIN * 2, LABEL_HEIGHT * data.length + MARGIN * 2);
+		int numLabel = data.length > DIAPLAYED_LABEL_PER_PAGE ? data.length : DIAPLAYED_LABEL_PER_PAGE;
+		setSize(LABEL_WIDTH * 2 + MARGIN * 2, LABEL_HEIGHT * numLabel + MARGIN * 2);
 		setPosition(0, 0);
 		addLabels();
 	}
@@ -35,9 +37,10 @@ public class ViewWindow extends UndockedWindow{
 		labelStyle.fontColor = Color.WHITE;
 		for(int i=0; i<data.length; i++) {
 			for(int j=0; j<data[0].length; j++) {
-				Label label = new Label(i + "." + data[i][j], labelStyle);
+				Label label = new Label(data[i][j], labelStyle);
 				label.setSize(LABEL_WIDTH, LABEL_HEIGHT);
-				label.setPosition(LABEL_WIDTH * j + MARGIN, LABEL_HEIGHT * i + MARGIN);
+//				label.setPosition(LABEL_WIDTH * j + MARGIN, LABEL_HEIGHT * i + MARGIN);
+				label.setPosition(LABEL_WIDTH * j + MARGIN, getHeight() - LABEL_HEIGHT * i - LABEL_HEIGHT - MARGIN);
 				addActor(label);
 			}
 		}
