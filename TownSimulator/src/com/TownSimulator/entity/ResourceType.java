@@ -16,7 +16,8 @@ public enum ResourceType {
 		this.resName = resName;
 	}
 	
-	public String getName() {
+	@Override
+	public String toString() {
 		return resName;
 	}
 }

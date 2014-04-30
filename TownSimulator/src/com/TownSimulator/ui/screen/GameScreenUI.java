@@ -4,6 +4,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import com.TownSimulator.entity.Resource;
+import com.TownSimulator.entity.building.BuildingType;
 import com.TownSimulator.io.InputMgr;
 import com.TownSimulator.ui.base.ScreenUIBase;
 import com.TownSimulator.ui.building.BuildComsUI;
@@ -20,7 +21,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 public class GameScreenUI extends ScreenUIBase{
 	private BuildComsUI		mBuildComsUI;
 	private BuildingAdjustGroup	mBuildAjustUI;
-	private List<ConstructionWindow> windows = new LinkedList<ConstructionWindow>();
+	private List<Actor> windows = new LinkedList<Actor>();
 	
 	public GameScreenUI()
 	{
@@ -44,24 +45,6 @@ public class GameScreenUI extends ScreenUIBase{
 		return mBuildAjustUI;
 	}
 	
-	public void testScrollPane() {
-		Actor content = new ViewWindow();
-		ScrollPane scrollPane = new ScrollPane(content);
-		scrollPane.setSize(content.getWidth(), Settings.UNIT * 5);
-		scrollPane.setPosition(0, 0);
-		scrollPane.setScrollingDisabled(true, false);
-		scrollPane.addListener(new InputListener(){
-
-			@Override
-			public boolean touchDown(InputEvent event, float x, float y,
-					int pointer, int button) {
-				InputMgr.getInstance(InputMgr.class).cancelTouchDown();
-				return super.touchDown(event, x, y, pointer, button);
-			}
-		});
-		mStage.addActor(scrollPane);
-	}
-
 	public ConstructionWindow createConstructionWindow(List<Resource> resouces, int numAllowedBuilder) {
 		ConstructionWindow constructionWindow = new ConstructionWindow(resouces, numAllowedBuilder);
 		constructionWindow.setVisible(false);
@@ -70,10 +53,46 @@ public class GameScreenUI extends ScreenUIBase{
 		return constructionWindow;
 	}
 	
+	public ViewWindow createViewWindow(BuildingType type, String[][] data) {
+		ViewWindow window = null;
+		switch (type) {
+		case WAREHOUSE:
+			window = createWarehouseViewWindow(data);
+			break;
+		case LOW_COST_HOUSE:
+			window = createLowCostHouseViewWindow(data);
+			break;
+		default:
+			break;
+		}
+		windows.add(window);
+		return window;
+	}
+	
+	private ViewWindow createWarehouseViewWindow(String[][] data) {
+		ViewWindow content = new ViewWindow(data);
+		ScrollPane scrollPane = new ScrollPane(content);
+		scrollPane.setSize(content.getWidth(), Settings.UNIT * 5);
+		scrollPane.setScrollingDisabled(true, false);
+		scrollPane.addListener(new InputListener(){
+			@Override
+			public boolean touchDown(InputEvent event, float x, float y,
+					int pointer, int button) {
+				InputMgr.getInstance(InputMgr.class).cancelTouchDown();
+				return super.touchDown(event, x, y, pointer, button);
+			}
+		});
+		mStage.addActor(scrollPane);
+		return content;
+	}
+	
+	private ViewWindow createLowCostHouseViewWindow(String[][] data) {
+		return null;
+	}
+	
 	public void hideAllWindow() {
-		for(ConstructionWindow window : windows) {
+		for(Actor window : windows) {
 			window.setVisible(false);
 		}
-
 	}
 }

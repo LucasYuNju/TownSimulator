@@ -1,8 +1,7 @@
 package com.TownSimulator.ui.building.view;
 
-import java.util.HashMap;
-import java.util.Map;
-
+import com.TownSimulator.camera.CameraController;
+import com.TownSimulator.ui.UndockedWindow;
 import com.TownSimulator.ui.building.construction.ConstructionWindow;
 import com.TownSimulator.utility.ResourceManager;
 import com.TownSimulator.utility.Settings;
@@ -10,58 +9,40 @@ import com.TownSimulator.utility.Singleton;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.scenes.scene2d.Group;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 
-public class ViewWindow extends Group{
+public class ViewWindow extends UndockedWindow{
 	private static final float LABEL_WIDTH = Settings.UNIT * 1.5f;
 	private static final float LABEL_HEIGHT = Settings.UNIT * 0.5f;
 	private static final float MARGIN = ConstructionWindow.MARGIN;
+	private static final int DIAPLAYED_LABEL_PER_PAGE = 8;
 	private TextureRegion background;
-	private Map<String, String> dataMap;
+	String[][] data;
 	
-	public ViewWindow() {
+	public ViewWindow(String data[][]) {
 		super();
-		fakeData();
-		setSize(LABEL_WIDTH * 2 + MARGIN * 2, LABEL_HEIGHT * dataMap.size() + MARGIN * 2);
-		setPosition(0, 0);
+		this.data = data;
 		background = Singleton.getInstance(ResourceManager.class).findTextureRegion("background");
-		init();
+		int numLabel = data.length > DIAPLAYED_LABEL_PER_PAGE ? data.length : DIAPLAYED_LABEL_PER_PAGE;
+		setSize(LABEL_WIDTH * 2 + MARGIN * 2, LABEL_HEIGHT * numLabel + MARGIN * 2);
+		setPosition(0, 0);
+		addLabels();
 	}
 	
-	public void fakeData() {
-		dataMap = new HashMap<String, String>();
-		dataMap.put("wood", "1234");
-		dataMap.put("stone", "123");
-		dataMap.put("wheat", "123");
-		dataMap.put("corn", "123");
-		dataMap.put("meat", "123");
-		dataMap.put("fur", "123");
-		dataMap.put("pants", "123");
-		dataMap.put("coats", "123");
-		dataMap.put("laosiji", "123");
-		dataMap.put("kabasiji", "123");
-	}
-	
-	public void init() {
-		int counter=0;
-		for(String key : dataMap.keySet()) {
-			LabelStyle labelStyle = new LabelStyle();
-			labelStyle.font = ResourceManager.getInstance(ResourceManager.class).getFont((int) (Settings.UNIT * 0.3f));
-			labelStyle.fontColor = Color.WHITE;
-
-			Label keyLabel = new Label(++counter + "." + key, labelStyle);
-			keyLabel.setSize(LABEL_WIDTH, LABEL_HEIGHT);
-			keyLabel.setPosition(MARGIN, LABEL_HEIGHT * (counter-1) + MARGIN);
-//			keyLabel.setPosition(MARGIN, getHeight() - LABEL_HEIGHT * counter - MARGIN);
-			addActor(keyLabel);
-			
-			Label valueLabel = new Label(":" + dataMap.get(key), labelStyle);
-			valueLabel.setSize(LABEL_WIDTH, LABEL_HEIGHT);
-			valueLabel.setPosition(MARGIN + LABEL_WIDTH, LABEL_HEIGHT * (counter-1) + MARGIN);
-//			keyLabel.setPosition(MARGIN + LABEL_WIDTH, getHeight() - LABEL_HEIGHT * counter - MARGIN);
-			addActor(valueLabel);
+	public void addLabels() {
+		LabelStyle labelStyle = new LabelStyle();
+		labelStyle.font = ResourceManager.getInstance(ResourceManager.class).getFont((int) (Settings.UNIT * 0.3f));
+		labelStyle.fontColor = Color.WHITE;
+		for(int i=0; i<data.length; i++) {
+			for(int j=0; j<data[0].length; j++) {
+				Label label = new Label(data[i][j], labelStyle);
+				label.setSize(LABEL_WIDTH, LABEL_HEIGHT);
+//				label.setPosition(LABEL_WIDTH * j + MARGIN, LABEL_HEIGHT * i + MARGIN);
+				label.setPosition(LABEL_WIDTH * j + MARGIN, getHeight() - LABEL_HEIGHT * i - LABEL_HEIGHT - MARGIN);
+				addActor(label);
+			}
 		}
 	}
 	
@@ -73,6 +54,16 @@ public class ViewWindow extends Group{
 		batch.draw(background, getX(), getY(), getWidth(), getHeight());
 		applyTransform(batch, computeTransform());
 		drawChildren(batch, parentAlpha);
-		resetTransform(batch);	
+		resetTransform(batch);
+	}
+	
+	@Override
+	protected void updatePosition()
+	{
+		Vector3 pos = new Vector3(buildingPosXWorld, buildingPosYWorld, 0.0f);
+		CameraController.getInstance(CameraController.class).worldToScreen(pos);
+		float windowX = pos.x - getWidth();
+		float windowY = pos.y - getHeight() * 0.5f;
+		getParent().setPosition(windowX, windowY);
 	}
 }

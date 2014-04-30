@@ -15,7 +15,7 @@ import com.TownSimulator.entity.building.Building.State;
 import com.TownSimulator.entity.building.BuildingType;
 import com.TownSimulator.entity.building.FarmHouse;
 import com.TownSimulator.entity.building.FarmLand;
-import com.TownSimulator.entity.building.WareHouse;
+import com.TownSimulator.entity.building.Warehouse;
 import com.TownSimulator.entity.building.WorkingBuilding;
 import com.TownSimulator.io.InputMgr;
 import com.TownSimulator.render.Renderer;
@@ -41,24 +41,24 @@ public class Driver extends SingletonPublisher<DriverListener> implements Applic
 		float originPoxY = CameraController.getInstance(CameraController.class).getY();
 		
 		
-		WareHouse wareHouse = (WareHouse) EntityFactory.createBuilding(BuildingType.WAREHOUSE);
-		wareHouse.addWareHousrResource(ResourceType.RS_WOOD, 100);
-		wareHouse.addWareHousrResource(ResourceType.RS_STONE, 50);
-		wareHouse.setState(State.BUILDING_FINISHED);
+		Warehouse wareHouse = (Warehouse) EntityFactory.createBuilding(BuildingType.WAREHOUSE);
+		wareHouse.addStoredResource(ResourceType.RS_WOOD, 100);
+		wareHouse.addStoredResource(ResourceType.RS_STONE, 50);
+		wareHouse.setState(State.Constructed);
 		wareHouse.setPositionWorld(originPosX - 2 * Settings.UNIT, originPoxY);
 		EntityInfoCollector.getInstance(EntityInfoCollector.class).addBuilding(wareHouse);
 		CollisionDetector.getInstance(CollisionDetector.class).attachCollisionDetection(wareHouse);
 		Renderer.getInstance(Renderer.class).attachDrawScissor(wareHouse);
 		
 		Building lowCostHouse = EntityFactory.createBuilding(BuildingType.LOW_COST_HOUSE);
-		lowCostHouse.setState(Building.State.BUILDING_FINISHED);
+		lowCostHouse.setState(Building.State.Constructed);
 		lowCostHouse.setPositionWorld(originPosX + 2 * Settings.UNIT, originPoxY);
 		EntityInfoCollector.getInstance(EntityInfoCollector.class).addBuilding(lowCostHouse);
 		CollisionDetector.getInstance(CollisionDetector.class).attachCollisionDetection(lowCostHouse);
 		Renderer.getInstance(Renderer.class).attachDrawScissor(lowCostHouse);
 		
 		FarmHouse farmHouse = (FarmHouse)EntityFactory.createBuilding(BuildingType.FARM_HOUSE);
-		farmHouse.setState(Building.State.BUILDING_FINISHED);
+		farmHouse.setState(Building.State.Constructed);
 		farmHouse.setPositionWorld(originPosX, originPoxY - 2 * Settings.UNIT);
 		EntityInfoCollector.getInstance(EntityInfoCollector.class).addBuilding(farmHouse);
 		CollisionDetector.getInstance(CollisionDetector.class).attachCollisionDetection(farmHouse);

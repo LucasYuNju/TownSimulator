@@ -74,7 +74,7 @@ public class FarmHouse extends WorkingBuilding{
 	@Override
 	public void setState(State state) {
 		super.setState(state);
-		if(state == State.BUILDING_FINISHED)
+		if(state == State.Constructed)
 		{
 			Driver.getInstance(Driver.class).addListener(new DriverListenerBaseImpl()
 			{
