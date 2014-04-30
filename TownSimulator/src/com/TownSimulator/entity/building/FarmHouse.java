@@ -4,6 +4,7 @@ import com.TownSimulator.driver.Driver;
 import com.TownSimulator.driver.DriverListenerBaseImpl;
 import com.TownSimulator.entity.JobType;
 import com.TownSimulator.entity.Man;
+import com.TownSimulator.entity.World;
 import com.TownSimulator.utility.AxisAlignedBoundingBox;
 import com.TownSimulator.utility.GameMath;
 import com.TownSimulator.utility.Settings;
@@ -64,7 +65,7 @@ public class FarmHouse extends WorkingBuilding{
 							efficiency += man.getInfo().workEfficency;
 						}
 						efficiency /= curWorkerCnt;
-						float timeSpeed = 365.0f / 10.0f * 60.0f;// day/second
+						float timeSpeed = 365.0f / World.SecondPerYear;// day/second
 						float fullNeedDays = GameMath.lerp(12.0f * 30.0f, 6.0f * 30.0f, curWorkerCnt / maxJobCnt);
 						float speed = FarmLand.MAX_CROP_AMOUNT / (fullNeedDays / timeSpeed );
 						for (FarmLand land : farmLands) {
