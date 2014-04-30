@@ -12,7 +12,7 @@ import com.TownSimulator.entity.ResourceType;
 import com.TownSimulator.entity.building.Building;
 import com.TownSimulator.entity.building.Building.State;
 import com.TownSimulator.entity.building.BuildingType;
-import com.TownSimulator.entity.building.WareHouse;
+import com.TownSimulator.entity.building.Warehouse;
 import com.TownSimulator.io.InputMgr;
 import com.TownSimulator.render.Renderer;
 import com.TownSimulator.ui.UIManager;
@@ -45,10 +45,10 @@ public class Driver extends SingletonPublisher<DriverListener> implements Applic
 			Renderer.getInstance(Renderer.class).attachDrawScissor(man);
 		}
 		
-		WareHouse wareHouse = (WareHouse) EntityFactory.createBuilding(BuildingType.WAREHOUSE);
-		wareHouse.addWareHousrResource(ResourceType.RS_WOOD, 100);
-		wareHouse.addWareHousrResource(ResourceType.RS_STONE, 50);
-		wareHouse.setState(State.BUILDING_FINISHED);
+		Warehouse wareHouse = (Warehouse) EntityFactory.createBuilding(BuildingType.WAREHOUSE);
+		wareHouse.addStoredResource(ResourceType.RS_WOOD, 100);
+		wareHouse.addStoredResource(ResourceType.RS_STONE, 50);
+		wareHouse.setState(State.Constructed);
 		wareHouse.setPositionWorld(originPosX - 2 * Settings.UNIT, originPoxY);
 		EntityInfoCollector.getInstance(EntityInfoCollector.class).addBuilding(wareHouse);
 		CollisionDetector.getInstance(CollisionDetector.class).attachCollisionDetection(wareHouse);
@@ -58,7 +58,7 @@ public class Driver extends SingletonPublisher<DriverListener> implements Applic
 //		lowCostHouse.setNeededBuildResource(ResourceType.RS_WOOD, 10);
 //		lowCostHouse.setNeededBuildResource(ResourceType.RS_STONE, 5);
 //		lowCostHouse.setNeededBuildContributes(20);
-		lowCostHouse.setState(Building.State.BUILDING_FINISHED);
+		lowCostHouse.setState(Building.State.Constructed);
 		lowCostHouse.setPositionWorld(originPosX + 2 * Settings.UNIT, originPoxY);
 		EntityInfoCollector.getInstance(EntityInfoCollector.class).addBuilding(lowCostHouse);
 		CollisionDetector.getInstance(CollisionDetector.class).attachCollisionDetection(lowCostHouse);

@@ -12,10 +12,17 @@ import com.TownSimulator.entity.ResourceType;
 import com.TownSimulator.ui.UIManager;
 import com.TownSimulator.ui.building.construction.ConstructionWindow;
 import com.TownSimulator.ui.building.construction.ConstructionWindowListener;
+import com.TownSimulator.ui.building.view.ViewWindow;
+import com.TownSimulator.utility.Singleton;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 
+/**
+ * 
+ * 	子类需要override getViewData()方法，以创建ViewWindow
+ *
+ */
 public class Building extends Entity implements ConstructionWindowListener{
-	protected List<Resource>			resources;
+	protected List<Resource>			constructionResources;
 	protected int						constructionWork;
 	protected int						finishedConstructionWork;
 	private	  ConstructionProject		constructionProject;
@@ -23,18 +30,19 @@ public class Building extends Entity implements ConstructionWindowListener{
 	protected BuildingType				type;
 	private   int 						numAllowedBuilder = 3;
 	private   ConstructionWindow		constructionWindow;
+	private   ViewWindow				viewWindow;
 	
 	public enum State
 	{
-		BUILDING_UNCONFIRMED, BUILDING_PROCESS, BUILDING_FINISHED
+		PosUnconfirmed, UnderConstruction, Constructed
 	}
 	
 	public Building(Sprite sp, BuildingType type) {
 		super(sp);
 		this.type = type;
-		state = State.BUILDING_UNCONFIRMED;
-		resources = new LinkedList<Resource>();
-		constructionWindow = UIManager.getInstance(UIManager.class).getGameUI().createConstructionWindow(resources, numAllowedBuilder);
+		state = State.PosUnconfirmed;
+		constructionResources = new LinkedList<Resource>();
+		constructionWindow = UIManager.getInstance(UIManager.class).getGameUI().createConstructionWindow(constructionResources, numAllowedBuilder);
 		constructionWindow.setListener(this);
 	}
 	
@@ -56,24 +64,24 @@ public class Building extends Entity implements ConstructionWindowListener{
 	
 	public void setNeededConstructionResource(ResourceType type, int need)
 	{
-		if(resources.contains(new Resource(type))) 
-			resources.get(resources.indexOf(new Resource(type))).setNeededAmount(need);
+		if(constructionResources.contains(new Resource(type))) 
+			constructionResources.get(constructionResources.indexOf(new Resource(type))).setNeededAmount(need);
 		else
-			resources.add(new Resource(type, 0, need));
+			constructionResources.add(new Resource(type, 0, need));
 	}	
 	
 	public Set<ResourceType> getConstructionResourceTypes()
 	{
 		Set<ResourceType> types = new HashSet<ResourceType>();
-		for(Resource res : resources) 
+		for(Resource res : constructionResources) 
 			types.add(res.getType());
 		return types;
 	}
 	
 	public boolean addConstructionResource(ResourceType type, int amount)
 	{
-		if(resources.contains(new Resource(type))) {
-			resources.get(resources.indexOf(new Resource(type))).addAmount(amount);;
+		if(constructionResources.contains(new Resource(type))) {
+			constructionResources.get(constructionResources.indexOf(new Resource(type))).addAmount(amount);;
 			return true;
 		}
 		return false;
@@ -81,8 +89,8 @@ public class Building extends Entity implements ConstructionWindowListener{
 	
 	public int getNeededConstructionResouceAmount(ResourceType type)
 	{
-		if(resources.contains(new Resource(type)))
-			return resources.get(resources.indexOf(new Resource(type))).getAmount();
+		if(constructionResources.contains(new Resource(type)))
+			return constructionResources.get(constructionResources.indexOf(new Resource(type))).getAmount();
 		return -1;
 	}
 	
@@ -111,7 +119,7 @@ public class Building extends Entity implements ConstructionWindowListener{
 	
 	public boolean isConstructionResourceSufficient()
 	{
-		for(Resource res : resources) {
+		for(Resource res : constructionResources) {
 			if(!res.isSufficient())
 				return false;
 		}
@@ -142,12 +150,21 @@ public class Building extends Entity implements ConstructionWindowListener{
 	{
 		super.detectTouchDown();
 		UIManager.getInstance(UIManager.class).getGameUI().hideAllWindow();
-		if(state == State.BUILDING_PROCESS) {
+		if(state == State.UnderConstruction) {
 			constructionWindow.setVisible(true);
 		}
-		//for test
-//		UIManager.getInstance(UIManager.class).getGameUI().testScrollPane();		
+		if(state == State.Constructed) {
+			if(viewWindow == null) {
+				viewWindow = Singleton.getInstance(UIManager.class).getGameUI().createViewWindow(type, getViewData());
+			}
+			viewWindow.setVisible(true);
+		}
 		return true;
+	}
+	
+	//使用ViewWindow的子类需要override此方法
+	protected String[][] getViewData() {
+		return null;
 	}
 	
 	public void setState(State state)

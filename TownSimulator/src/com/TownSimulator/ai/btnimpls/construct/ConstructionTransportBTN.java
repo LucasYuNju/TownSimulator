@@ -7,7 +7,7 @@ import com.TownSimulator.entity.EntityInfoCollector.WareHouseFindResult;
 import com.TownSimulator.entity.Man;
 import com.TownSimulator.entity.ManAnimeType;
 import com.TownSimulator.entity.building.Building;
-import com.TownSimulator.entity.building.WareHouse;
+import com.TownSimulator.entity.building.Warehouse;
 
 public class ConstructionTransportBTN implements ActionNode{
 	public static final int		MAX_TRANSPORT_RS_AMOUNT = 5;
@@ -28,7 +28,7 @@ public class ConstructionTransportBTN implements ActionNode{
 	
 	private void fetchResource()
 	{
-		int availableAmount = mMan.getInfo().constructionInfo.transportWareHouse.getWareHousrResourceAmount(mMan.getInfo().constructionInfo.transportRSType);
+		int availableAmount = mMan.getInfo().constructionInfo.transportWareHouse.getStoredResourceAmount(mMan.getInfo().constructionInfo.transportRSType);
 		int takeAmount = Math.min(availableAmount, mMan.getInfo().constructionInfo.transportNeededAmount - mMan.getInfo().constructionInfo.curRSAmount);
 		mMan.getInfo().constructionInfo.transportWareHouse.addConstructionResource(mMan.getInfo().constructionInfo.transportRSType, -takeAmount);
 		mMan.getInfo().constructionInfo.curRSAmount += takeAmount;
@@ -62,7 +62,7 @@ public class ConstructionTransportBTN implements ActionNode{
 		
 		switch (mCurState) {
 		case CONSTRUCT_TRANSPORT_TO_WAREHOUSR:
-			WareHouse wareHouse = mMan.getInfo().constructionInfo.transportWareHouse;
+			Warehouse wareHouse = mMan.getInfo().constructionInfo.transportWareHouse;
 			mMan.setMoveDestination(wareHouse.getPositionXWorld(), wareHouse.getPositionYWorld());
 			mMan.getInfo().animeType = ManAnimeType.MOVE;
 			

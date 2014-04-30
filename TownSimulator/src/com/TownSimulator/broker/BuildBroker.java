@@ -101,7 +101,7 @@ public class BuildBroker extends Singleton implements EntityListener, CameraList
 			@Override
 			public void confirm() {
 				new ConstructionProject(mCurBuilding);
-				mCurBuilding.setState(State.BUILDING_PROCESS);
+				mCurBuilding.setState(State.UnderConstruction);
 //				int cnt = proj.getAvailableBuildJobCnt();
 //				for (Man man : EntityInfoCollector.getInstance(EntityInfoCollector.class).getAllPeople()) {
 //					if( man.getInfo().bIdle )

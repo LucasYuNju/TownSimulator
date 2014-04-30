@@ -1,5 +1,10 @@
 package com.TownSimulator.entity;
 
+/**
+ * 重写了equals(Object object)和toString()方法，以简化collection操作
+ * 为了判断collection是否包含某个类型的Resource，可以写成collection.contains(new Resource(desiredType))
+ * 
+ */
 public class Resource {
 	private ResourceType type;
 	private int amount;

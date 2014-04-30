@@ -3,7 +3,7 @@ package com.TownSimulator.entity;
 import com.TownSimulator.ai.btnimpls.construct.ConstructionProject;
 import com.TownSimulator.entity.building.Building;
 import com.TownSimulator.entity.building.BuildingType;
-import com.TownSimulator.entity.building.WareHouse;
+import com.TownSimulator.entity.building.Warehouse;
 import com.TownSimulator.utility.Singleton;
 import com.badlogic.gdx.utils.Array;
 
@@ -56,7 +56,7 @@ public class EntityInfoCollector extends Singleton{
 	
 	public class WareHouseFindResult
 	{
-		public WareHouse wareHouse;
+		public Warehouse wareHouse;
 		public int amount;
 	}
 	
@@ -64,14 +64,14 @@ public class EntityInfoCollector extends Singleton{
 	{
 		WareHouseFindResult result = new WareHouseFindResult();
 		Array<Building> allBuildings = EntityInfoCollector.getInstance(EntityInfoCollector.class).getAllBuildings();
-		Array<WareHouse> wareHouseWithRs = new Array<WareHouse>();
+		Array<Warehouse> wareHouseWithRs = new Array<Warehouse>();
 		double dstMin = -1.0f;
 		for (int i = 0; i < allBuildings.size; i++) {
 			Building building = allBuildings.get(i);
 			if(building.getType() == BuildingType.WAREHOUSE)
 			{
-				WareHouse wareHouse = (WareHouse) building;
-				if(wareHouse.getWareHousrResourceAmount(type) >= amount)
+				Warehouse wareHouse = (Warehouse) building;
+				if(wareHouse.getStoredResourceAmount(type) >= amount)
 				{
 					double dst = 	Math.pow(wareHouse.getPositionXWorld() - x, 2)
 								+	Math.pow(wareHouse.getPositionYWorld() - y, 2);
@@ -82,7 +82,7 @@ public class EntityInfoCollector extends Singleton{
 						result.amount = amount;
 					}
 				}
-				else if(wareHouse.getWareHousrResourceAmount(type) > 0)
+				else if(wareHouse.getStoredResourceAmount(type) > 0)
 					wareHouseWithRs.add(wareHouse);
 			}
 		}
@@ -91,7 +91,7 @@ public class EntityInfoCollector extends Singleton{
 		if(result.wareHouse == null)
 		{
 			for (int i = 0; i < wareHouseWithRs.size; i++) {
-				WareHouse wareHouse = wareHouseWithRs.get(i);
+				Warehouse wareHouse = wareHouseWithRs.get(i);
 				double dst = 	Math.pow(wareHouse.getPositionXWorld() - x, 2)
 							+	Math.pow(wareHouse.getPositionYWorld() - y, 2);
 				
@@ -99,7 +99,7 @@ public class EntityInfoCollector extends Singleton{
 				{
 					dstMin = dst;
 					result.wareHouse = wareHouse;
-					result.amount = wareHouse.getWareHousrResourceAmount(type);;
+					result.amount = wareHouse.getStoredResourceAmount(type);;
 				}
 			}
 		}
