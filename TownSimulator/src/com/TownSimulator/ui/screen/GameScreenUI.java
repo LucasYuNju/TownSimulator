@@ -3,8 +3,6 @@ package com.TownSimulator.ui.screen;
 import java.util.LinkedList;
 import java.util.List;
 
-import javax.swing.InputMap;
-
 import com.TownSimulator.entity.Resource;
 import com.TownSimulator.io.InputMgr;
 import com.TownSimulator.ui.base.ScreenUIBase;

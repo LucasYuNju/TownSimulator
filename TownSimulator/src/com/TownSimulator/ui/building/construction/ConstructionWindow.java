@@ -1,12 +1,10 @@
 package com.TownSimulator.ui.building.construction;
 
 import java.util.List;
-import java.util.Map;
 
 import com.TownSimulator.camera.CameraController;
 import com.TownSimulator.camera.CameraListener;
 import com.TownSimulator.entity.Resource;
-import com.TownSimulator.entity.ResourceType;
 import com.TownSimulator.ui.base.FlipButton;
 import com.TownSimulator.utility.ResourceManager;
 import com.TownSimulator.utility.Settings;

@@ -21,11 +21,7 @@ public class Man extends Entity{
 	private 				Vector2						mMoveDir;
 	private 				Vector2						mDestination;
 	private					float						mMoveTime;
-	//private 				State						mCurState;
-	//private 				Task						mTask;
 	private					DriverListener				mDriverListener;
-	//private					boolean						mbSpriteXFlipped;
-	//private					TaskController				mTaskController;
 	private					ManInfo						mInfo;
 	private					BehaviorTreeNode			mBehavior;
 	
