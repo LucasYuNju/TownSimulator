@@ -1,27 +1,28 @@
 package com.TownSimulator.entity.building;
 
-import java.util.HashMap;
-import java.util.Iterator;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Set;
 
 import com.TownSimulator.ai.btnimpls.construct.ConstructionProject;
 import com.TownSimulator.entity.Entity;
+import com.TownSimulator.entity.Resource;
 import com.TownSimulator.entity.ResourceType;
 import com.TownSimulator.ui.UIManager;
-import com.TownSimulator.ui.building.construction.ConstructionResourceInfo;
 import com.TownSimulator.ui.building.construction.ConstructionWindow;
 import com.TownSimulator.ui.building.construction.ConstructionWindowListener;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 
 public class Building extends Entity implements ConstructionWindowListener{
-	protected HashMap<ResourceType, ConstructionResourceInfo>	resouceMap;
-	protected int												constructionWork;
-	protected int												finishedConstructionWork;
-	private	  ConstructionProject								constructionProject;
-	protected State												state;
-	protected BuildingType										type;
-	private   int 												maxAllowedBuilderCnt = 3;
-	private   ConstructionWindow								constructionWindow;
+	protected List<Resource>			resources;
+	protected int						constructionWork;
+	protected int						finishedConstructionWork;
+	private	  ConstructionProject		constructionProject;
+	protected State						state;
+	protected BuildingType				type;
+	private   int 						numAllowedBuilder = 3;
+	private   ConstructionWindow		constructionWindow;
 	
 	public enum State
 	{
@@ -39,23 +40,15 @@ public class Building extends Entity implements ConstructionWindowListener{
 	public Building(Sprite sp, BuildingType type) {
 		super(sp);
 		this.type = type;
-		
+
 		init();
-//		state = State.BUILDING_UNCONFIRMED;
-//		resouceMap = new HashMap<ResourceType, ConstructionResourceInfo>();
-//
-//		constructionWindow = UIManager.getInstance(UIManager.class).getGameUI().createConstructionWindow(resouceMap, maxAllowedBuilderCnt);
-//		constructionWindow.setListener(this);
-//		constructionWindow.setPosition(150, 150);
-		//constructionWindow.setBuildingPosWorld(getPositionXWorld(), getPositionYWorld());
 	}
 	
 	private void init()
 	{
 		state = State.BUILDING_UNCONFIRMED;
-		resouceMap = new HashMap<ResourceType, ConstructionResourceInfo>();
-
-		constructionWindow = UIManager.getInstance(UIManager.class).getGameUI().createConstructionWindow(resouceMap, maxAllowedBuilderCnt);
+		resources = new LinkedList<Resource>();
+		constructionWindow = UIManager.getInstance(UIManager.class).getGameUI().createConstructionWindow(resources, numAllowedBuilder);
 		constructionWindow.setListener(this);
 	}
 	
@@ -67,7 +60,7 @@ public class Building extends Entity implements ConstructionWindowListener{
 
 	public int getMaxAllowdBuilderCnt()
 	{
-		return maxAllowedBuilderCnt;
+		return numAllowedBuilder;
 	}
 	
 	public BuildingType getType()
@@ -77,34 +70,34 @@ public class Building extends Entity implements ConstructionWindowListener{
 	
 	public void setNeededConstructionResource(ResourceType type, int need)
 	{
-		if(resouceMap.containsKey(type))
-			resouceMap.get(type).need = need;
+		if(resources.contains(new Resource(type))) 
+			resources.get(resources.indexOf(new Resource(type))).setNeededAmount(need);
 		else
-			resouceMap.put(type, new ConstructionResourceInfo(need));
+			resources.add(new Resource(type, 0, need));
 	}	
 	
-	public Set<ResourceType> getNeededConstructionResourceTypes()
+	public Set<ResourceType> getConstructionResourceTypes()
 	{
-		return resouceMap.keySet();
+		Set<ResourceType> types = new HashSet<ResourceType>();
+		for(Resource res : resources) 
+			types.add(res.getType());
+		return types;
 	}
 	
 	public boolean addConstructionResource(ResourceType type, int amount)
 	{
-		if(resouceMap.containsKey(type))
-		{
-			resouceMap.get(type).cur += amount;
+		if(resources.contains(new Resource(type))) {
+			resources.get(resources.indexOf(new Resource(type))).addAmount(amount);;
 			return true;
 		}
-		else
-			return false;
+		return false;
 	}
 	
 	public int getNeededConstructionResouceAmount(ResourceType type)
 	{
-		if( !resouceMap.containsKey(type) )
-			return 0;
-		
-		return resouceMap.get(type).need;
+		if(resources.contains(new Resource(type)))
+			return resources.get(resources.indexOf(new Resource(type))).getAmount();
+		return -1;
 	}
 	
 	public void setNeededConstructionWork(int amount)
@@ -132,11 +125,8 @@ public class Building extends Entity implements ConstructionWindowListener{
 	
 	public boolean isConstructionResourceSufficient()
 	{
-		Iterator<ResourceType> itr = resouceMap.keySet().iterator();
-		while(itr.hasNext())
-		{
-			ConstructionResourceInfo info = resouceMap.get(itr.next());
-			if(info.cur < info.need)
+		for(Resource res : resources) {
+			if(!res.isSufficient())
 				return false;
 		}
 		return true;
