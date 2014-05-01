@@ -122,7 +122,7 @@ public class FarmHouse extends WorkingBuilding{
 		updateFarmLandsPos();
 	}
 
-	public CropType getCurCropTyep()
+	public CropType getCurCropType()
 	{
 		return curCropType;
 	}
@@ -153,6 +153,10 @@ public class FarmHouse extends WorkingBuilding{
 	public int getSowedLandCnt()
 	{
 		return sowedLandCnt;
+	}
+	
+	public void clearSowedLandCnt(){
+		sowedLandCnt=0;
 	}
 	
 	public void addReappedLand()

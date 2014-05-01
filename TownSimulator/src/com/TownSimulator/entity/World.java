@@ -40,7 +40,10 @@ public class World extends Singleton {
 			
 		});
 	}
-	
+	/**
+	 * 获取年份
+	 * @return
+	 */
 	public int getCurYear(){
 		return calendar.get(Calendar.YEAR);
 	}
@@ -73,7 +76,7 @@ public class World extends Singleton {
 				if(startSeasonMonth[i-1]<=CurMonth&&CurMonth<startSeasonMonth[i])
 				{
 					season=i;
-					break;
+				    break;
 				}
 			}else{
 				season=4;

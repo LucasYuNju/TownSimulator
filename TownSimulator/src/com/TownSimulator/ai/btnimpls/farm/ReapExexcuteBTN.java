@@ -75,9 +75,9 @@ public class ReapExexcuteBTN implements ActionNode{
 			land.addCropAmount(-reappedAmount);
 			land.updateView();
 			
-			warehouse.addStoredResource(farmHouse.getCurCropTyep().getResourceType(), (int)reappedAmount);
+			warehouse.addStoredResource(farmHouse.getCurCropType().getResourceType(), (int)reappedAmount);
 			ResourceInfoCollector.getInstance(ResourceInfoCollector.class)
-			.addResourceAmount(farmHouse.getCurCropTyep().getResourceType(), (int)reappedAmount);
+			.addResourceAmount(farmHouse.getCurCropType().getResourceType(), (int)reappedAmount);
 			
 			if( farmHouse.getReappedLandCnt() >= farmHouse.getFarmLands().size )
 				reapFinish();
