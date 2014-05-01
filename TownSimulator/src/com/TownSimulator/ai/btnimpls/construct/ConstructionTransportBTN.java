@@ -6,6 +6,7 @@ import com.TownSimulator.entity.EntityInfoCollector;
 import com.TownSimulator.entity.EntityInfoCollector.WareHouseFindResult;
 import com.TownSimulator.entity.Man;
 import com.TownSimulator.entity.ManAnimeType;
+import com.TownSimulator.entity.ResourceInfoCollector;
 import com.TownSimulator.entity.building.Building;
 import com.TownSimulator.entity.building.Warehouse;
 
@@ -32,6 +33,9 @@ public class ConstructionTransportBTN implements ActionNode{
 		int takeAmount = Math.min(availableAmount, mMan.getInfo().constructionInfo.transportNeededAmount - mMan.getInfo().constructionInfo.curRSAmount);
 		mMan.getInfo().constructionInfo.transportWareHouse.addConstructionResource(mMan.getInfo().constructionInfo.transportRSType, -takeAmount);
 		mMan.getInfo().constructionInfo.curRSAmount += takeAmount;
+		
+		ResourceInfoCollector.getInstance(ResourceInfoCollector.class)
+		.addResourceAmount(mMan.getInfo().constructionInfo.transportRSType, -takeAmount);
 	}
 	
 	private void addResourceToBuilding()
@@ -42,11 +46,12 @@ public class ConstructionTransportBTN implements ActionNode{
 	
 	private void findWareHouse()
 	{
-		float x = mMan.getInfo().constructionInfo.proj.getBuilding().getPositionXWorld();
-		float y = mMan.getInfo().constructionInfo.proj.getBuilding().getPositionYWorld();
+		ConstructionInfo constructInfo = mMan.getInfo().constructionInfo;
+		float x = constructInfo.proj.getBuilding().getPositionXWorld();
+		float y = constructInfo.proj.getBuilding().getPositionYWorld();
 		WareHouseFindResult findResult = EntityInfoCollector.getInstance(EntityInfoCollector.class)
-				.findNearestWareHouseWithRs(mMan.getInfo().constructionInfo.transportRSType, mMan.getInfo().constructionInfo.transportNeededAmount - mMan.getInfo().constructionInfo.curRSAmount, x, y);
-		mMan.getInfo().constructionInfo.transportWareHouse = findResult.wareHouse;
+				.findNearestWareHouseWithRs(constructInfo.transportRSType, constructInfo.transportNeededAmount - constructInfo.curRSAmount, x, y);
+		constructInfo.transportWareHouse = findResult.wareHouse;
 	}
 
 	@Override

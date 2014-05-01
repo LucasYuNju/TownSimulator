@@ -59,9 +59,18 @@ public class Resource {
 	
 	@Override
 	public boolean equals(Object obj) {
-		Resource resource = (Resource)obj;
-		if(resource.getType() == getType())
-			return true;
+		if(obj instanceof Resource)
+		{
+			Resource resource = (Resource)obj;
+			if(resource.getType() == getType())
+				return true;
+		}
+		else if(obj instanceof ResourceType)
+		{
+			if(getType() == (ResourceType)obj)
+				return true;
+		}
+		
 		return false;
 	}
 }

@@ -67,11 +67,13 @@ public class ResourceManager extends Singleton{
 	{
 		while( !mAssetsManager.update() );
 
-		System.out.println("AAAAAAAAA");
 	}
 	
 	public Sprite createSprite(String textureName)
 	{
+		if( textureName == null)
+			return null;
+		
 		if(!mTexturesMap.containsKey(textureName))
 			loadTexture(textureName);
 			

@@ -129,7 +129,7 @@ public class Entity implements Drawable, QuadTreeManageble{
 	
 	@Override
 	public void drawSelf(SpriteBatch batch) {
-		if(mbVisible == false)
+		if(mbVisible == false || mSprite == null)
 			return;
 		
 		mSprite.draw(batch);

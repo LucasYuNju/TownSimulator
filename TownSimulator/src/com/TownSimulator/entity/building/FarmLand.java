@@ -2,6 +2,7 @@ package com.TownSimulator.entity.building;
 
 import com.TownSimulator.entity.Entity;
 import com.TownSimulator.entity.World;
+import com.TownSimulator.utility.GameMath;
 import com.TownSimulator.utility.Settings;
 import com.badlogic.gdx.math.MathUtils;
 
@@ -26,7 +27,8 @@ public class FarmLand extends Entity{
 	public void setCropType(CropType type)
 	{
 		//cropType = type;
-		setTextureName(CropType.Wheat.getTextureName());
+		setTextureName(type.getTextureName());
+		updateView();
 	}
 	
 	public void addCropAmount(float amount)
@@ -44,17 +46,30 @@ public class FarmLand extends Entity{
 	{
 		if(bCropDieStart)
 		{
-			if( curCropAmount <= 0 )
-				return;
-			
 			addCropAmount(-deltaTime * cropDieSpeed);
+			if( curCropAmount <= 0 )
+			{
+				bCropDieStart = false;
+				cropDieSpeed = 0.0f;
+			}
+			
 		}
 		else
 		{
+			if( curCropAmount <=0 )
+				return;
+			
 			bCropDieStart = true;
 			float timeSpeed = 365.0f / World.SecondPerYear;
 			cropDieSpeed = curCropAmount / (30.0f / timeSpeed);
 		}
+	}
+	
+	public void updateView()
+	{
+		float size = GameMath.lerp(0.0f, 1.0f, curCropAmount / MAX_CROP_AMOUNT);
+		mSprite.setSize(size * mDrawAABBLocal.getWidth(), size * mDrawAABBLocal.getHeight());
+		mSprite.setPosition(mDrawAABBWorld.getCenterX() - mSprite.getWidth() * 0.5f, mDrawAABBWorld.minY);
 	}
 
 }
