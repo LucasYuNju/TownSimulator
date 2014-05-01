@@ -11,7 +11,6 @@ import com.TownSimulator.ui.building.BuildComsUI;
 import com.TownSimulator.ui.building.BuildingAdjustGroup;
 import com.TownSimulator.ui.building.construction.ConstructionWindow;
 import com.TownSimulator.ui.building.view.ViewWindow;
-import com.TownSimulator.utility.Settings;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -45,8 +44,8 @@ public class GameScreenUI extends ScreenUIBase{
 		return mBuildAjustUI;
 	}
 	
-	public ConstructionWindow createConstructionWindow(List<Resource> resouces, int numAllowedBuilder) {
-		ConstructionWindow constructionWindow = new ConstructionWindow(resouces, numAllowedBuilder);
+	public ConstructionWindow createConstructionWindow(BuildingType buildingType, List<Resource> resouces, int numAllowedBuilder) {
+		ConstructionWindow constructionWindow = new ConstructionWindow(buildingType, resouces, numAllowedBuilder);
 		constructionWindow.setVisible(false);
 		mStage.addActor(constructionWindow);
 		windows.add(constructionWindow);
@@ -57,10 +56,10 @@ public class GameScreenUI extends ScreenUIBase{
 		ViewWindow window = null;
 		switch (type) {
 		case WAREHOUSE:
-			window = createWarehouseViewWindow(data);
+			window = createCommonViewWindow(type, data);
 			break;
 		case LOW_COST_HOUSE:
-			window = createLowCostHouseViewWindow(data);
+			window = createCommonViewWindow(type, data);
 			break;
 		default:
 			break;
@@ -69,10 +68,10 @@ public class GameScreenUI extends ScreenUIBase{
 		return window;
 	}
 	
-	private ViewWindow createWarehouseViewWindow(String[][] data) {
-		ViewWindow content = new ViewWindow(data);
+	private ViewWindow createCommonViewWindow(BuildingType buildingType, String[][] data) {
+		ViewWindow content = new ViewWindow(buildingType, data);
 		ScrollPane scrollPane = new ScrollPane(content);
-		scrollPane.setSize(content.getWidth(), Settings.UNIT * 5);
+		scrollPane.setSize(content.getWidth(), content.getHeight());
 		scrollPane.setScrollingDisabled(true, false);
 		scrollPane.addListener(new InputListener(){
 			@Override
@@ -84,10 +83,6 @@ public class GameScreenUI extends ScreenUIBase{
 		});
 		mStage.addActor(scrollPane);
 		return content;
-	}
-	
-	private ViewWindow createLowCostHouseViewWindow(String[][] data) {
-		return null;
 	}
 	
 	public void hideAllWindow() {

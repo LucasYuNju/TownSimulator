@@ -54,7 +54,7 @@ public class Building extends Entity implements ConstructionWindowListener{
 	{
 		state = State.PosUnconfirmed;
 		constructionResources = new LinkedList<Resource>();
-		constructionWindow = UIManager.getInstance(UIManager.class).getGameUI().createConstructionWindow(constructionResources, numAllowedBuilder);
+		constructionWindow = UIManager.getInstance(UIManager.class).getGameUI().createConstructionWindow(type, constructionResources, numAllowedBuilder);
 		constructionWindow.setListener(this);
 	}
 	
@@ -82,6 +82,7 @@ public class Building extends Entity implements ConstructionWindowListener{
 			constructionResources.get(constructionResources.indexOf(new Resource(type))).setNeededAmount(need);
 		else
 			constructionResources.add(new Resource(type, 0, need));
+		constructionWindow.refreshResouceLabel();
 	}	
 	
 	public Set<ResourceType> getConstructionResourceTypes()
@@ -95,7 +96,8 @@ public class Building extends Entity implements ConstructionWindowListener{
 	public boolean addConstructionResource(ResourceType type, int amount)
 	{
 		if(constructionResources.contains(new Resource(type))) {
-			constructionResources.get(constructionResources.indexOf(new Resource(type))).addAmount(amount);;
+			constructionResources.get(constructionResources.indexOf(new Resource(type))).addAmount(amount);
+			constructionWindow.refreshResouceLabel();
 			return true;
 		}
 		return false;
@@ -161,7 +163,7 @@ public class Building extends Entity implements ConstructionWindowListener{
 	
 	@Override
 	public boolean detectTouchDown() {
-		return super.detectTouchDown() || state == state.UnderConstruction || state == State.Constructed;
+		return super.detectTouchDown() || state == State.UnderConstruction || state == State.Constructed;
 	}
 
 	@Override

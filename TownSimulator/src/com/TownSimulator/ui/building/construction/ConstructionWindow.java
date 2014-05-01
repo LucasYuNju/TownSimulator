@@ -1,8 +1,10 @@
 package com.TownSimulator.ui.building.construction;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.TownSimulator.entity.Resource;
+import com.TownSimulator.entity.building.BuildingType;
 import com.TownSimulator.ui.UndockedWindow;
 import com.TownSimulator.ui.base.FlipButton;
 import com.TownSimulator.utility.ResourceManager;
@@ -19,7 +21,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.Align;
 
-/*
+/**
  * window布局图：
  * 					  margin 		  closeButton
  *   		| header|				|
@@ -31,9 +33,6 @@ import com.badlogic.gdx.scenes.scene2d.utils.Align;
  */
 public class ConstructionWindow extends UndockedWindow{
 	//LABEL_WIDTH is also ICON_WIDTH
-	private static final float LABEL_WIDTH = Settings.UNIT * 1f;
-	private static final float LABEL_HEIGHT = Settings.UNIT * 0.5f;
-	public  static final float MARGIN = Settings.UNIT * 0.25f; 
 	private static final float PROCESS_BAR_HEIGHT = Settings.UNIT * 0.2f;
 	private static final int NUM_PAIR = 3;
 	
@@ -48,24 +47,24 @@ public class ConstructionWindow extends UndockedWindow{
 	private TextureRegion processBar;
 	private TextureRegion blackFrame;
 
-	protected List<Resource> resourceMap;
+	private List<Resource> resources;
+	private List<Label> resourceLabels;
 	private ConstructionBuilderGroup builderGroup;
 	
-	public ConstructionWindow(List<Resource> resources, int numAllowedBuilder) {
-		super();
+	public ConstructionWindow(BuildingType buildingType, List<Resource> resources, int numAllowedBuilder) {
+		super(buildingType);
 		background = Singleton.getInstance(ResourceManager.class).findTextureRegion("background");
 		processBar = Singleton.getInstance(ResourceManager.class).findTextureRegion("process_bar");
 		blackFrame = Singleton.getInstance(ResourceManager.class).findTextureRegion("frame_black");
-		resourceMap = resources;
+		this.resources = resources;
 		
-		//有严格的初始化顺序
+		//初始化顺序matters
 		//1
 		builderGroup = new ConstructionBuilderGroup(this, numAllowedBuilder);
 		builderGroup.setPosition(MARGIN, MARGIN * 1.4f + PROCESS_BAR_HEIGHT);
 		addActor(builderGroup);
-		
 		addPairs();
-		//窗口宽度取pairs宽度和workerGroup宽度最大者
+		
 		//2
 		float pairsWidth = LABEL_WIDTH * NUM_PAIR;
 		float workersWidth = builderGroup.getGroupWidth();
@@ -83,6 +82,7 @@ public class ConstructionWindow extends UndockedWindow{
 	
 	private void addPairs() {
 		// initialize icon button and label
+		resourceLabels = new ArrayList<Label>();
 		for (int i = 0; i < NUM_PAIR; i++) {
 			Button btn;
 			if(i == 0)
@@ -102,39 +102,26 @@ public class ConstructionWindow extends UndockedWindow{
 			LabelStyle labelStyle = new LabelStyle();
 			labelStyle.font = ResourceManager.getInstance(ResourceManager.class).getFont((int) (Settings.UNIT * 0.3f));
 			labelStyle.fontColor = Color.WHITE;
-			Label label = new Label("27/30", labelStyle);
+			Label label = new Label("", labelStyle);
 			label.setSize(LABEL_WIDTH, LABEL_HEIGHT);
 			label.setPosition(LABEL_WIDTH * i + MARGIN, LABEL_WIDTH + PROCESS_BAR_HEIGHT + MARGIN);
 			label.setAlignment(Align.center);
+			resourceLabels.add(label);
 			addActor(label);
 		}
+		refreshResouceLabel();
 	}
 	
-	private void addCloseButton() {
-		Button closeButton = new FlipButton("button_cancel", "button_cancel", null);
-		closeButton.setSize(MARGIN, MARGIN);
-		closeButton.setPosition(getWidth() - closeButton.getWidth(), getHeight() - closeButton.getHeight());
-		closeButton.addListener(new EventListener() {
-			@Override
-			public boolean handle(Event event) {
-				ConstructionWindow.this.setVisible(false);
-				return false;
-			}
-		});
-		addActor(closeButton);
+	public void refreshResouceLabel() {
+		for(int i=0; i<resources.size(); i++) {
+			StringBuilder str = new StringBuilder();
+			str.append(resources.get(i).getAmount());
+			str.append("/");
+			str.append(resources.get(i).getNeededAmount());
+			resourceLabels.get(i).setText(str.toString());
+		}
 	}
-	
-	private void addHeader() {
-		LabelStyle labelStyle = new LabelStyle();
-		labelStyle.font = ResourceManager.getInstance(ResourceManager.class).getFont((int) (Settings.UNIT * 0.3f));
-		labelStyle.fontColor = Color.WHITE;
-		Label label = new Label("house", labelStyle);
-		label.setSize(LABEL_WIDTH, LABEL_HEIGHT);
-		label.setPosition(MARGIN, MARGIN + LABEL_WIDTH * 2 + LABEL_HEIGHT + PROCESS_BAR_HEIGHT);
-		label.setAlignment(Align.center);
-		addActor(label);
-	}
-	
+		
 	@Override
 	public void draw(Batch batch, float parentAlpha) {
 		Color c = this.getColor();

@@ -2,17 +2,66 @@ package com.TownSimulator.ui;
 
 import com.TownSimulator.camera.CameraController;
 import com.TownSimulator.camera.CameraListener;
+import com.TownSimulator.entity.building.BuildingType;
+import com.TownSimulator.ui.base.FlipButton;
+import com.TownSimulator.utility.ResourceManager;
+import com.TownSimulator.utility.Settings;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.scenes.scene2d.Event;
+import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.Group;
+import com.badlogic.gdx.scenes.scene2d.ui.Button;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
+import com.badlogic.gdx.scenes.scene2d.utils.Align;
 
+/**
+ * 
+ * 跟随地图移动
+ * 关闭按钮
+ * Header Label
+ *
+ */
 public class UndockedWindow extends Group{
 	protected float buildingPosXWorld;
 	protected float buildingPosYWorld;
-
-	public UndockedWindow() {
+	protected static final float MARGIN = Settings.UNIT * 0.3f;
+	protected static final float LABEL_WIDTH = Settings.UNIT * 1f;
+	protected static final float LABEL_HEIGHT = Settings.UNIT * 0.4f;
+	protected BuildingType buildingType;
+	
+	public UndockedWindow(BuildingType buildingType) {
 		super();
+		this.buildingType = buildingType;
 		initCameraListener();
 	}
+	
+	protected void addCloseButton() {
+		Button closeButton = new FlipButton("button_cancel", "button_cancel", null);
+		closeButton.setSize(MARGIN, MARGIN);
+		closeButton.setPosition(getWidth() - closeButton.getWidth(), getHeight() - closeButton.getHeight());
+		closeButton.addListener(new EventListener() {
+			@Override
+			public boolean handle(Event event) {
+				UndockedWindow.this.setVisible(false);
+				return false;
+			}
+		});
+		addActor(closeButton);
+	}
+	
+	protected void addHeader() {
+		LabelStyle labelStyle = new LabelStyle();
+		labelStyle.font = ResourceManager.getInstance(ResourceManager.class).getFont((int) (Settings.UNIT * 0.3f));
+		labelStyle.fontColor = Color.WHITE;
+		Label label = new Label(buildingType.toString(), labelStyle);
+		label.setSize(LABEL_WIDTH, LABEL_HEIGHT);
+		label.setPosition(MARGIN, getHeight() - LABEL_HEIGHT);
+		label.setAlignment(Align.center);
+		addActor(label);
+	}
+
 	
 	protected void initCameraListener()
 	{

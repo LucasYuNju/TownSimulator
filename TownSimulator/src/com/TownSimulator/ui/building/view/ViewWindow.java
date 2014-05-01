@@ -1,8 +1,8 @@
 package com.TownSimulator.ui.building.view;
 
 import com.TownSimulator.camera.CameraController;
+import com.TownSimulator.entity.building.BuildingType;
 import com.TownSimulator.ui.UndockedWindow;
-import com.TownSimulator.ui.building.construction.ConstructionWindow;
 import com.TownSimulator.utility.ResourceManager;
 import com.TownSimulator.utility.Settings;
 import com.TownSimulator.utility.Singleton;
@@ -14,21 +14,23 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 
 public class ViewWindow extends UndockedWindow{
-	private static final float LABEL_WIDTH = Settings.UNIT * 1.5f;
-	private static final float LABEL_HEIGHT = Settings.UNIT * 0.5f;
-	private static final float MARGIN = ConstructionWindow.MARGIN;
-	private static final int DIAPLAYED_LABEL_PER_PAGE = 8;
+	private static final int NUM_LABEL_PER_PAGE = 8;
 	private TextureRegion background;
 	String[][] data;
 	
-	public ViewWindow(String data[][]) {
-		super();
+	public ViewWindow(BuildingType buildingType, String data[][]) {
+		super(buildingType);
 		this.data = data;
 		background = Singleton.getInstance(ResourceManager.class).findTextureRegion("background");
-		int numLabel = data.length > DIAPLAYED_LABEL_PER_PAGE ? data.length : DIAPLAYED_LABEL_PER_PAGE;
-		setSize(LABEL_WIDTH * 2 + MARGIN * 2, LABEL_HEIGHT * numLabel + MARGIN * 2);
+		int numLabel = data.length > NUM_LABEL_PER_PAGE ? data.length : NUM_LABEL_PER_PAGE;
+		int numLabelPerRow = 2;
+		if(data.length != 0)
+			numLabelPerRow = data[0].length;
+		setSize(LABEL_WIDTH * numLabelPerRow + MARGIN * 2, LABEL_HEIGHT * numLabel + MARGIN * 2);
 		setPosition(0, 0);
 		addLabels();
+		addCloseButton();
+		addHeader();
 	}
 	
 	public void addLabels() {
@@ -39,13 +41,11 @@ public class ViewWindow extends UndockedWindow{
 			for(int j=0; j<data[0].length; j++) {
 				Label label = new Label(data[i][j], labelStyle);
 				label.setSize(LABEL_WIDTH, LABEL_HEIGHT);
-//				label.setPosition(LABEL_WIDTH * j + MARGIN, LABEL_HEIGHT * i + MARGIN);
 				label.setPosition(LABEL_WIDTH * j + MARGIN, getHeight() - LABEL_HEIGHT * i - LABEL_HEIGHT - MARGIN);
 				addActor(label);
 			}
 		}
 	}
-	
 	
 	@Override
 	public void draw(Batch batch, float parentAlpha) {
