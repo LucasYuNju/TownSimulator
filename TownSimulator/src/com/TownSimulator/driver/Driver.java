@@ -3,10 +3,6 @@ package com.TownSimulator.driver;
 
 import java.util.Random;
 
-import com.TownSimulator.ai.btnimpls.FarmerBTN;
-import com.TownSimulator.ai.btnimpls.farm.FarmBTN;
-import com.TownSimulator.ai.btnimpls.farm.ReapBTN;
-import com.TownSimulator.ai.btnimpls.farm.SowBTN;
 import com.TownSimulator.camera.CameraController;
 import com.TownSimulator.collision.CollisionDetector;
 import com.TownSimulator.entity.EntityFactory;
@@ -17,11 +13,7 @@ import com.TownSimulator.entity.ResourceType;
 import com.TownSimulator.entity.building.Building;
 import com.TownSimulator.entity.building.Building.State;
 import com.TownSimulator.entity.building.BuildingType;
-import com.TownSimulator.entity.building.CropType;
-import com.TownSimulator.entity.building.FarmHouse;
-import com.TownSimulator.entity.building.FarmLand;
 import com.TownSimulator.entity.building.Warehouse;
-import com.TownSimulator.entity.building.WorkingBuilding;
 import com.TownSimulator.io.InputMgr;
 import com.TownSimulator.render.Renderer;
 import com.TownSimulator.ui.UIManager;
@@ -76,6 +68,7 @@ public class Driver extends SingletonPublisher<DriverListener> implements Applic
 //		for (FarmLand land : ((FarmHouse)farmHouse).getFarmLands()) {
 //			Renderer.getInstance(Renderer.class).attachDrawScissor(land);
 //		}
+
 		
 		for (int i = 0; i < initPepleCnt; i++) {
 			float randX = (rand.nextFloat() - 0.5f) * Settings.UNIT * 6;

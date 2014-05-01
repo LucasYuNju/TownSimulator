@@ -7,7 +7,6 @@ import com.TownSimulator.entity.ManAnimeType;
 import com.TownSimulator.entity.building.FarmHouse;
 import com.TownSimulator.entity.building.FarmLand;
 import com.TownSimulator.utility.quadtree.QuadTreeType;
-import com.sun.prism.impl.BaseMesh.FaceMembers;
 
 public class SowExecuteBTN implements ActionNode{
 	private Man man;

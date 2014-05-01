@@ -6,7 +6,6 @@ import com.TownSimulator.entity.EntityInfoCollector;
 import com.TownSimulator.entity.Man;
 import com.TownSimulator.entity.ResourceType;
 import com.TownSimulator.entity.building.Building;
-import com.TownSimulator.entity.building.BuildingType;
 import com.badlogic.gdx.utils.Array;
 
 public class ConstructionProject {

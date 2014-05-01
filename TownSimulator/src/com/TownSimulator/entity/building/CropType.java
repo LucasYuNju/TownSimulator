@@ -3,7 +3,7 @@ package com.TownSimulator.entity.building;
 import com.TownSimulator.entity.ResourceType;
 
 public enum CropType {
-	WHEAT("crop_wheat", ResourceType.RS_WHEAT);
+	Wheat("crop_wheat", ResourceType.RS_WHEAT);
 	
 	private String textureName;
 	private ResourceType rsType; //作物对应的资源

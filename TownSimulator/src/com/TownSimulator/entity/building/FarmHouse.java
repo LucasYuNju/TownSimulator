@@ -26,7 +26,7 @@ public class FarmHouse extends WorkingBuilding{
 	public FarmHouse() {
 		super("building_farm_house", BuildingType.FARM_HOUSE, JobType.FARMER, MAX_WORKER_CNT);
 		
-		setSowCropType(CropType.WHEAT);
+		setSowCropType(CropType.Wheat);
 		initFarmLands();
 	}
 	
@@ -82,6 +82,11 @@ public class FarmHouse extends WorkingBuilding{
 		}
 	}
 	
+	private void updateUI()
+	{
+		
+	}
+	
 	@Override
 	public void setState(State state) {
 		super.setState(state);
@@ -92,6 +97,8 @@ public class FarmHouse extends WorkingBuilding{
 
 				@Override
 				public void update(float deltaTime) {
+					updateUI();
+					
 					if(bSowed)
 					{
 						if(World.getInstance(World.class).getCurSeason() != SeasonType.Winter && bReapStart == false)
@@ -217,4 +224,6 @@ public class FarmHouse extends WorkingBuilding{
 	{
 		return bSowed;
 	}
+	
+	
 }

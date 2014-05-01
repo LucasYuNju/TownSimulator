@@ -4,7 +4,6 @@ package com.TownSimulator.ui;
 import com.TownSimulator.driver.Driver;
 import com.TownSimulator.driver.DriverListenerBaseImpl;
 import com.TownSimulator.entity.World;
-import com.TownSimulator.entity.building.WorkingBuilding;
 import com.TownSimulator.io.InputMgr;
 import com.TownSimulator.io.InputMgrListenerBaseImpl;
 import com.TownSimulator.render.Renderer;

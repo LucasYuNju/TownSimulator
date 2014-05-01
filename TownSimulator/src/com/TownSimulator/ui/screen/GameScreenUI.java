@@ -10,6 +10,7 @@ import com.TownSimulator.ui.base.ScreenUIBase;
 import com.TownSimulator.ui.building.BuildComsUI;
 import com.TownSimulator.ui.building.BuildingAdjustGroup;
 import com.TownSimulator.ui.building.construction.ConstructionWindow;
+import com.TownSimulator.ui.building.view.FarmViewWindow;
 import com.TownSimulator.ui.building.view.ViewWindow;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -61,6 +62,8 @@ public class GameScreenUI extends ScreenUIBase{
 		case LOW_COST_HOUSE:
 			window = createCommonViewWindow(type, data);
 			break;
+		case FARM_HOUSE:
+			window = createFarmViewWindow();
 		default:
 			break;
 		}
@@ -83,6 +86,13 @@ public class GameScreenUI extends ScreenUIBase{
 		});
 		mStage.addActor(scrollPane);
 		return content;
+	}
+	
+	private ViewWindow createFarmViewWindow() {
+		FarmViewWindow window = new FarmViewWindow();
+		mStage.addActor(window);
+		windows.add(window);
+		return window;
 	}
 	
 	public void hideAllWindow() {
