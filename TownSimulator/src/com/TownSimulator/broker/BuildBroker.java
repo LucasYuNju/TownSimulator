@@ -13,6 +13,7 @@ import com.TownSimulator.entity.building.Building.State;
 import com.TownSimulator.entity.building.BuildingType;
 import com.TownSimulator.entity.building.FarmHouse;
 import com.TownSimulator.entity.building.FarmLand;
+import com.TownSimulator.map.Map;
 import com.TownSimulator.render.Renderer;
 import com.TownSimulator.ui.UIManager;
 import com.TownSimulator.ui.building.BuildingAdjustGroup;
@@ -54,7 +55,7 @@ public class BuildBroker extends Singleton implements EntityListener, CameraList
 		int gridSerchSize = 0;
 		AxisAlignedBoundingBox buildingCollisionAABB;// = newBuildingObject.getCollisionAABBLocal();
 		if(type == BuildingType.FARM_HOUSE)
-			buildingCollisionAABB = ((FarmHouse)newBuildingObject).resetCollisionAABBLocalWithFarmlands();
+			buildingCollisionAABB = ((FarmHouse)newBuildingObject).getCollisionAABBLocalWithLands();
 		else
 			buildingCollisionAABB = newBuildingObject.getCollisionAABBLocal();
 		//float buildingWidth = buildingCollisionAABB.maxX - buildingCollisionAABB.minX;
@@ -123,6 +124,14 @@ public class BuildBroker extends Singleton implements EntityListener, CameraList
 
 				mCurBuilding.setState(State.UnderConstruction);
 				EntityInfoCollector.getInstance(EntityInfoCollector.class).addBuilding(mCurBuilding);
+				
+				if(mCurBuilding.getType() == BuildingType.FARM_HOUSE)
+				for (FarmLand land : ((FarmHouse)mCurBuilding).getFarmLands()) {
+					CollisionDetector.getInstance(CollisionDetector.class).attachCollisionDetection(land);
+				}
+				
+				AxisAlignedBoundingBox aabb = mCurBuilding.getAABBWorld(QuadTreeType.COLLISION);
+				Map.getInstance(Map.class).setGroundTexture("map_soil", aabb.minX, aabb.minY, aabb.maxX, aabb.maxY);
 				
 				Renderer.getInstance(Renderer.class).setDrawGrid(false);
 				mCurBuilding.setListener(null);

@@ -10,6 +10,7 @@ import com.TownSimulator.entity.World.SeasonType;
 import com.TownSimulator.utility.AxisAlignedBoundingBox;
 import com.TownSimulator.utility.GameMath;
 import com.TownSimulator.utility.Settings;
+import com.TownSimulator.utility.quadtree.QuadTreeType;
 import com.badlogic.gdx.utils.Array;
 
 public class FarmHouse extends WorkingBuilding{
@@ -22,12 +23,17 @@ public class FarmHouse extends WorkingBuilding{
 	private int reappedLandCnt;
 	private boolean bSowed;
 	private Array<FarmLand> farmLands;
+	private AxisAlignedBoundingBox collisionAABBLocalWithLands;
+	private AxisAlignedBoundingBox collisionAABBWorldWithLands;
 	
 	public FarmHouse() {
 		super("building_farm_house", BuildingType.FARM_HOUSE, JobType.FARMER, MAX_WORKER_CNT);
 		
 		setSowCropType(CropType.Wheat);
 		initFarmLands();
+		
+		collisionAABBLocalWithLands = new AxisAlignedBoundingBox();
+		collisionAABBWorldWithLands = new AxisAlignedBoundingBox();
 	}
 	
 	
@@ -50,12 +56,24 @@ public class FarmHouse extends WorkingBuilding{
 	
 	private void updateFarmLandsPos()
 	{
-		int i = 0;
-		for (float y = mPosYWorld - Settings.UNIT; y >= mPosYWorld - 3 * Settings.UNIT; y -= Settings.UNIT) {
-			for (float x = mPosXWorld; x <= mPosXWorld + 2 * Settings.UNIT; x += Settings.UNIT) {
-				farmLands.get(i).setPositionWorld(x, y);
-				i++;
+		int index = 0;
+		float posY = mPosYWorld - Settings.UNIT;
+		float posX = mPosXWorld;
+//		for (float y = mPosYWorld - Settings.UNIT; y >= mPosYWorld - 3 * Settings.UNIT; y -= Settings.UNIT) {
+//			for (float x = mPosXWorld; x <= mPosXWorld + 2 * Settings.UNIT; x += Settings.UNIT) {
+//				farmLands.get(i).setPositionWorld(x, y);
+//				i++;
+//			}
+//		}
+		
+		for (int i = 0; i < 3; i++) {
+			for (int j = 0; j < 3; j++) {
+				farmLands.get(index).setPositionWorld(posX, posY);
+				posX += Settings.UNIT;
+				index++;
 			}
+			posX = mPosXWorld;
+			posY -= Settings.UNIT;
 		}
 		
 	}
@@ -125,14 +143,56 @@ public class FarmHouse extends WorkingBuilding{
 		return farmLands;
 	}
 	
-	public AxisAlignedBoundingBox resetCollisionAABBLocalWithFarmlands()
-	{
+	
+	
+	@Override
+	public void setCollisionAABBLocal(float minX, float minY, float maxX,
+			float maxY) {
+		super.setCollisionAABBLocal(minX, minY, maxX, maxY);
+		
 		AxisAlignedBoundingBox aabb = super.getCollisionAABBLocal();
-		aabb.minX = Math.min(0.0f, aabb.minX);
-		aabb.minY = aabb.minY - 3 * Settings.UNIT;
-		aabb.maxX = Math.max(aabb.minX + 3 * Settings.UNIT, aabb.maxX);
-		return aabb;
+		collisionAABBLocalWithLands.minX = Math.min(0.1f, aabb.minX);
+		collisionAABBLocalWithLands.minY = aabb.minY - 3 * Settings.UNIT;
+		collisionAABBLocalWithLands.maxX = Math.max(aabb.minX + 3 * Settings.UNIT - 0.2f, aabb.maxX);
+		collisionAABBLocalWithLands.maxY = aabb.maxY;
 	}
+
+	public AxisAlignedBoundingBox getCollisionAABBLocalWithLands()
+	{
+		return collisionAABBLocalWithLands;
+	}
+	
+	
+
+//	public AxisAlignedBoundingBox resetCollisionAABBLocalWithFarmlands()
+//	{
+//		AxisAlignedBoundingBox aabb = super.getCollisionAABBLocal();
+//		aabb.minX = Math.min(0.1f, aabb.minX);
+//		aabb.minY = aabb.minY - 3 * Settings.UNIT;
+//		aabb.maxX = Math.max(aabb.minX + 3 * Settings.UNIT - 0.2f, aabb.maxX);
+//		return aabb;
+//	}
+
+	@Override
+	public AxisAlignedBoundingBox getAABBWorld(QuadTreeType type) {
+		if(type == QuadTreeType.COLLISION)
+		{
+			if(state == State.PosUnconfirmed)
+			{
+				collisionAABBWorldWithLands.minX = collisionAABBLocalWithLands.minX + mPosXWorld;
+				collisionAABBWorldWithLands.minY = collisionAABBLocalWithLands.minY + mPosYWorld;
+				collisionAABBWorldWithLands.maxX = collisionAABBLocalWithLands.maxX + mPosXWorld;
+				collisionAABBWorldWithLands.maxY = collisionAABBLocalWithLands.maxY + mPosYWorld;
+				
+				return collisionAABBWorldWithLands;
+			}
+			else
+				return mCollisionAABBWorld;
+		}
+		
+		return super.getAABBWorld(type);
+	}
+
 
 	@Override
 	public void setPositionWorld(float x, float y) {

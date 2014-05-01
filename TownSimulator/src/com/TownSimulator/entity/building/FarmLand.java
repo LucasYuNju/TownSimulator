@@ -3,7 +3,10 @@ package com.TownSimulator.entity.building;
 import com.TownSimulator.entity.Entity;
 import com.TownSimulator.entity.World;
 import com.TownSimulator.utility.GameMath;
+import com.TownSimulator.utility.ResourceManager;
 import com.TownSimulator.utility.Settings;
+import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 
 public class FarmLand extends Entity{
@@ -12,10 +15,13 @@ public class FarmLand extends Entity{
 	private float curCropAmount;
 	private boolean bCropDieStart = false;
 	private float cropDieSpeed = 0.0f;
+	private Sprite soil;
 	//private float cropStartDieAmount = 0.0f;
 	
 	public FarmLand() {
-		super("farmland_soil");
+		super((Sprite)null);
+		
+		soil = ResourceManager.getInstance(ResourceManager.class).createSprite("farmland_soil");
 		
 		float pad = Settings.UNIT * 0.1f;
 		setDrawAABBLocal(pad, pad, Settings.UNIT - pad, Settings.UNIT - pad);
@@ -31,6 +37,20 @@ public class FarmLand extends Entity{
 		updateView();
 	}
 	
+	
+	
+	@Override
+	public void setPositionWorld(float x, float y) {
+		super.setPositionWorld(x, y);
+		soil.setPosition(x, y);
+	}
+
+	@Override
+	public void drawSelf(SpriteBatch batch) {
+		soil.draw(batch);
+		super.drawSelf(batch);
+	}
+
 	public void addCropAmount(float amount)
 	{
 		curCropAmount += amount;

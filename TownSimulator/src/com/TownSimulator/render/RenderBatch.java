@@ -6,8 +6,6 @@ import java.util.Comparator;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Matrix4;
-import com.badlogic.gdx.utils.Array;
-import com.sun.org.apache.regexp.internal.recompile;
 
 public class RenderBatch {
 	private Matrix4					mProjMatrix;

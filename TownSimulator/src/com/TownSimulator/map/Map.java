@@ -4,7 +4,6 @@ package com.TownSimulator.map;
 import java.util.Random;
 
 import com.TownSimulator.collision.CollisionDetector;
-import com.TownSimulator.entity.Entity;
 import com.TownSimulator.entity.EntityFactory;
 import com.TownSimulator.entity.MapEntity;
 import com.TownSimulator.entity.MapEntityType;
@@ -14,11 +13,11 @@ import com.TownSimulator.utility.Singleton;
 import com.TownSimulator.utility.simplex.SimplexNoise;
 
 public class Map extends Singleton{
-	public static final int				MAP_WIDTH = 512;
-	public static final int				MAP_HEIGHT = 512;
+	public static final int				MAP_WIDTH = 256;
+	public static final int				MAP_HEIGHT = 256;
 	private float[][] 					mNoiseMap;
 	private MapEntity[][] 				mObjsMap;
-	private Entity[][]					mGround;
+	private String[][]					mGroundMap;
 	private float[] 					mTreeScaleMap = { 1.0f, 0.8f, 0.6f, 0.0f, 0.0f, 0.0f };
 	
 	private Map()
@@ -29,7 +28,7 @@ public class Map extends Singleton{
 	{
 		mNoiseMap = new float[MAP_WIDTH][MAP_HEIGHT];
 		mObjsMap  = new MapEntity[MAP_WIDTH][MAP_HEIGHT];
-		mGround = new Entity[MAP_WIDTH][MAP_HEIGHT];
+		mGroundMap = new String[MAP_WIDTH][MAP_HEIGHT];
 		SimplexNoise noiseGenerator = new SimplexNoise(128, 0.5, seed);
 		Random rand = new Random();
 		for (int x = 0; x < MAP_WIDTH; x++) {
@@ -68,12 +67,31 @@ public class Map extends Singleton{
 					textureName = "map_grass";
 				else
 					textureName = "map_soil";
-				Entity ground = new Entity(textureName);
-				ground.setDrawAABBLocal(0.0f, 0.0f, Settings.UNIT, Settings.UNIT);
-				ground.setUseDrawMinYAsDepth(false);
-				ground.setDepth(Float.MAX_VALUE);
-				ground.setPositionWorld(x * Settings.UNIT, y * Settings.UNIT);
-				Renderer.getInstance(Renderer.class).attachDrawScissor(ground);
+				mGroundMap[x][y] = textureName;
+			}
+		}
+	}
+	
+	public String[][] getGroundMap()
+	{
+		return mGroundMap;
+	}
+	
+	public void setGroundTexture(String textureName, int x, int y)
+	{
+		mGroundMap[x][y] = textureName;
+	}
+	
+	public void setGroundTexture(String textureName, float minX, float minY, float maxX, float maxY)
+	{
+		int l = (int)(minX / Settings.UNIT);
+		int r = (int)(maxX / Settings.UNIT);
+		int b = (int)(minY / Settings.UNIT);
+		int u = (int)(maxY / Settings.UNIT);
+		
+		for (int x = l; x <= r; x ++) {
+			for (int y = b; y <= u; y ++) {
+				mGroundMap[x][y] = textureName;
 			}
 		}
 	}

@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
+import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 
 public class ViewWindow extends UndockedWindow{
 	private static final int NUM_LABEL_PER_PAGE = 8;
@@ -44,7 +45,16 @@ public class ViewWindow extends UndockedWindow{
 			}
 		}
 	}
+	
+	
 		
+	@Override
+	public void setVisible(boolean visible) {
+		super.setVisible(visible);
+		if(getParent() instanceof ScrollPane)
+			getParent().setVisible(visible);
+	}
+
 	/**
 	 * update parent actor's position.
 	 * The parent actor is implicitly a scrollPane

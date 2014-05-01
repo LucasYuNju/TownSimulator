@@ -5,7 +5,6 @@ import java.util.List;
 
 import com.TownSimulator.entity.Resource;
 import com.TownSimulator.entity.building.BuildingType;
-import com.TownSimulator.io.InputMgr;
 import com.TownSimulator.ui.base.ScreenUIBase;
 import com.TownSimulator.ui.building.BuildComsUI;
 import com.TownSimulator.ui.building.BuildingAdjustGroup;
@@ -80,7 +79,7 @@ public class GameScreenUI extends ScreenUIBase{
 			@Override
 			public boolean touchDown(InputEvent event, float x, float y,
 					int pointer, int button) {
-				InputMgr.getInstance(InputMgr.class).cancelTouchDown();
+				//InputMgr.getInstance(InputMgr.class).cancelTouchDown();
 				return super.touchDown(event, x, y, pointer, button);
 			}
 		});
