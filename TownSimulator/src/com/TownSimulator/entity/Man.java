@@ -8,7 +8,7 @@ import com.TownSimulator.ai.btnimpls.IdleBTN;
 import com.TownSimulator.driver.Driver;
 import com.TownSimulator.driver.DriverListener;
 import com.TownSimulator.driver.DriverListenerBaseImpl;
-import com.TownSimulator.ui.Animation;
+import com.TownSimulator.utility.Animation;
 import com.TownSimulator.utility.ResourceManager;
 import com.TownSimulator.utility.Settings;
 import com.badlogic.gdx.graphics.g2d.Sprite;

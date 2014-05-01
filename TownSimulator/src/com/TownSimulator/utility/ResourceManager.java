@@ -82,6 +82,7 @@ public class ResourceManager extends Singleton{
 	
 	private void loadTexture(String textureName)
 	{
+		System.out.println("Load " + textureName);
 		mAssetsManager.load("data/" + textureName + ".png", Texture.class);
 		mAssetsManager.finishLoading();
 		mTexturesMap.put(textureName, mAssetsManager.get("data/" + textureName + ".png", Texture.class));

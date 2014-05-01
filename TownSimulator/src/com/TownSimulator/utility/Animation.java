@@ -1,4 +1,4 @@
-package com.TownSimulator.ui;
+package com.TownSimulator.utility;
 
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.utils.Array;

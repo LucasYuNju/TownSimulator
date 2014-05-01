@@ -5,7 +5,7 @@ import com.TownSimulator.utility.GameMath;
 import com.badlogic.gdx.utils.Array;
 
 public class QuadTreeNode {
-	private static final 	int 						LEAF_OBJ_CNT = 10;
+	private static final 	int 						LEAF_OBJ_CNT = 100;
 	private 				AxisAlignedBoundingBox 		mAABB;
 	private 				QuadTreeNode[]				mChildren;
 	private					Array<QuadTreeManageble>	mObjs;

@@ -6,6 +6,7 @@ import com.TownSimulator.driver.DriverListenerBaseImpl;
 import com.TownSimulator.entity.World;
 import com.TownSimulator.io.InputMgr;
 import com.TownSimulator.io.InputMgrListenerBaseImpl;
+import com.TownSimulator.map.Map;
 import com.TownSimulator.render.Renderer;
 import com.TownSimulator.ui.base.ScreenUIBase;
 import com.TownSimulator.ui.screen.GameScreenUI;
@@ -82,7 +83,7 @@ public class UIManager extends Singleton implements StartUIListener{
 	public void startGame() 
 	{
 		mCurScreenUI = mGameUI;
-		//Map.getInstance(Map.class).init(100);
+		Map.getInstance(Map.class).init(100);
 		Renderer.getInstance(Renderer.class).setRenderScene(true);
 		Driver.getInstance(Driver.class).init();
 		World.getInstance(World.class).init();

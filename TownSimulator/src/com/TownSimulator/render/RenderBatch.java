@@ -1,22 +1,27 @@
 package com.TownSimulator.render;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.utils.Array;
+import com.sun.org.apache.regexp.internal.recompile;
 
 public class RenderBatch {
 	private Matrix4					mProjMatrix;
 	private SpriteBatch 			mSpriteBatch;
-	private Array<Drawable> 		mRenderList;
+	private ArrayList<Drawable> 		mRenderList;
 	private Comparator<Drawable> 	mSortComparator;
+	private int drawCnt = 0;
 	
 	public RenderBatch()
 	{
 		mProjMatrix = new Matrix4();
 		mSpriteBatch = new SpriteBatch();
-		mRenderList = new Array<Drawable>();
+		mSpriteBatch.maxSpritesInBatch = 100;
+		mRenderList = new ArrayList<Drawable>();
 		mSortComparator = new Comparator<Drawable>() {
 
 			@Override
@@ -35,12 +40,18 @@ public class RenderBatch {
 	
 	public void addDrawable( Drawable draw )
 	{
+//		if(drawCnt < mRenderList.size())
+//			mRenderList.set(drawCnt, draw);
+//		else
+//			mRenderList.add(draw);
+//		drawCnt++;
 		mRenderList.add(draw);
 	}
 	
 	private void sort()
 	{
-		mRenderList.sort(mSortComparator);
+		//mRenderList.sort(mSortComparator);
+		Collections.sort(mRenderList, mSortComparator);
 	}
 	
 	public void doRender()
@@ -48,10 +59,11 @@ public class RenderBatch {
 		sort();
 		mSpriteBatch.setProjectionMatrix(mProjMatrix);
 		mSpriteBatch.begin();
-		for (int i = 0; i < mRenderList.size; i++) {
+		for (int i = 0; i < mRenderList.size(); i++) {
 			mRenderList.get(i).drawSelf(mSpriteBatch);
 		}
 		mSpriteBatch.end();
+		//drawCnt = 0;
 		mRenderList.clear();
 	}
 	
