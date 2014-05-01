@@ -1,7 +1,7 @@
 package com.TownSimulator.ai.btnimpls.construct;
 
 import com.TownSimulator.ai.behaviortree.ActionNode;
-import com.TownSimulator.ai.behaviortree.ExcuteResult;
+import com.TownSimulator.ai.behaviortree.ExecuteResult;
 import com.TownSimulator.ai.btnimpls.construct.ConstructionProject.State;
 import com.TownSimulator.entity.Man;
 import com.TownSimulator.entity.ManAnimeType;
@@ -60,18 +60,20 @@ public class ConstructionExecuteBTN implements ActionNode{
 	}
 	
 	@Override
-	public ExcuteResult execute(float deltaTime) {
+	public ExecuteResult execute(float deltaTime) {
+		//System.out.println("Execute");
+		
 		if(!isAroundBuilding())
 		{
 			moveToBuilding(deltaTime);
-			return ExcuteResult.RUNNING;
+			return ExecuteResult.RUNNING;
 		}
 		
 		if(mMan.getInfo().constructionInfo.proj.getState() == State.CONSTRUCT_PROJ_TRANSPORT)
-			return ExcuteResult.RUNNING;
+			return ExecuteResult.RUNNING;
 		
 		if(mMan.getInfo().constructionInfo.proj.isFinished())
-			return ExcuteResult.TRUE;
+			return ExecuteResult.TRUE;
 		
 		mBuildContribueTimeAccum += deltaTime;
 		int cnt = 0;
@@ -94,7 +96,7 @@ public class ConstructionExecuteBTN implements ActionNode{
 			finished();
 		}
 		
-		return ExcuteResult.RUNNING;
+		return ExecuteResult.RUNNING;
 	}
 
 }

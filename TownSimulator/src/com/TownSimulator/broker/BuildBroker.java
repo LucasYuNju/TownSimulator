@@ -6,6 +6,7 @@ import com.TownSimulator.camera.CameraListener;
 import com.TownSimulator.collision.CollisionDetector;
 import com.TownSimulator.entity.Entity;
 import com.TownSimulator.entity.EntityFactory;
+import com.TownSimulator.entity.EntityInfoCollector;
 import com.TownSimulator.entity.EntityListener;
 import com.TownSimulator.entity.building.Building;
 import com.TownSimulator.entity.building.Building.State;
@@ -121,6 +122,7 @@ public class BuildBroker extends Singleton implements EntityListener, CameraList
 				new ConstructionProject(mCurBuilding);
 
 				mCurBuilding.setState(State.UnderConstruction);
+				EntityInfoCollector.getInstance(EntityInfoCollector.class).addBuilding(mCurBuilding);
 				
 				Renderer.getInstance(Renderer.class).setDrawGrid(false);
 				mCurBuilding.setListener(null);

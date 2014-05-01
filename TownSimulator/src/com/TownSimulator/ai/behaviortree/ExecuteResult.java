@@ -1,5 +1,5 @@
 package com.TownSimulator.ai.behaviortree;
 
-public enum ExcuteResult {
+public enum ExecuteResult {
 	TRUE, FALSE, RUNNING
 }

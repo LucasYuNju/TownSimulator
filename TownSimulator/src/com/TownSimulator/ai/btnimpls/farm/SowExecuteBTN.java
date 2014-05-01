@@ -1,12 +1,13 @@
 package com.TownSimulator.ai.btnimpls.farm;
 
 import com.TownSimulator.ai.behaviortree.ActionNode;
-import com.TownSimulator.ai.behaviortree.ExcuteResult;
+import com.TownSimulator.ai.behaviortree.ExecuteResult;
 import com.TownSimulator.entity.Man;
 import com.TownSimulator.entity.ManAnimeType;
 import com.TownSimulator.entity.building.FarmHouse;
 import com.TownSimulator.entity.building.FarmLand;
 import com.TownSimulator.utility.quadtree.QuadTreeType;
+import com.sun.prism.impl.BaseMesh.FaceMembers;
 
 public class SowExecuteBTN implements ActionNode{
 	private Man man;
@@ -22,6 +23,8 @@ public class SowExecuteBTN implements ActionNode{
 		farmHouse.setSowStart(false);
 		farmHouse.setSowed(true);
 		farmHouse.clearSowedLandCnt();
+		
+		farmHouse.setCurCropType(farmHouse.getSowCropType());
 		
 		timeAccum=0f;
 	}
@@ -41,7 +44,7 @@ public class SowExecuteBTN implements ActionNode{
 	}
 
 	@Override
-	public ExcuteResult execute(float deltaTime) {
+	public ExecuteResult execute(float deltaTime) {
 		FarmHouse farmHouse = (FarmHouse)man.getInfo().workingBuilding;
 		farmHouse.setSowStart(true);
 		FarmLand middleFarmLand = farmHouse.getFarmLands().get(4);
@@ -55,7 +58,7 @@ public class SowExecuteBTN implements ActionNode{
 			doSow(deltaTime);
 		}
 		
-		return ExcuteResult.RUNNING;
+		return ExecuteResult.RUNNING;
 	}
 
 }

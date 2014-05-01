@@ -1,7 +1,7 @@
 package com.TownSimulator.ai.btnimpls.farm;
 
 import com.TownSimulator.ai.behaviortree.ConditionNode;
-import com.TownSimulator.ai.behaviortree.ExcuteResult;
+import com.TownSimulator.ai.behaviortree.ExecuteResult;
 import com.TownSimulator.ai.behaviortree.SelectorNode;
 import com.TownSimulator.ai.behaviortree.SequenceNode;
 import com.TownSimulator.entity.Man;
@@ -22,42 +22,57 @@ public class SowBTN extends SequenceNode{
 		ConditionNode isSowStart=new ConditionNode() {
 			
 			@Override
-			public ExcuteResult execute(float deltaTime) {
+			public ExecuteResult execute(float deltaTime) {
 				// TODO Auto-generated method stub
 				FarmHouse farmHouse=(FarmHouse)man.getInfo().workingBuilding;
 				if(!farmHouse.isSowStart())//未播种
-					return ExcuteResult.TRUE;
-				return ExcuteResult.FALSE;
+					return ExecuteResult.TRUE;
+				return ExecuteResult.FALSE;
 			}
 		};
 		
 		ConditionNode judgeTimeSuitable=new ConditionNode() {
 			
 			@Override
-			public ExcuteResult execute(float deltaTime) {
+			public ExecuteResult execute(float deltaTime) {
 				// TODO Auto-generated method stub
 				if(World.getInstance(World.class).getCurSeason()==SeasonType.Winter)
-					return ExcuteResult.FALSE;
-				return ExcuteResult.TRUE;
+					return ExecuteResult.FALSE;
+				return ExecuteResult.TRUE;
 			}
 		};
 		
 		ConditionNode judgeRoomEnough=new ConditionNode() {
 			
 			@Override
-			public ExcuteResult execute(float deltaTime) {
+			public ExecuteResult execute(float deltaTime) {
 				// TODO Auto-generated method stub
 				FarmHouse farmHouse = ((FarmHouse)man.getInfo().workingBuilding);
 				if(farmHouse.isSowed()){
-					return ExcuteResult.FALSE;
+					return ExecuteResult.FALSE;
 				}
-				return ExcuteResult.TRUE;
+				return ExecuteResult.TRUE;
+			}
+		};
+		
+		ConditionNode judgeCropSelect=new ConditionNode() {
+			
+			@Override
+			public ExecuteResult execute(float deltaTime) {
+				FarmHouse farmHouse = ((FarmHouse)man.getInfo().workingBuilding);
+				if(farmHouse.getSowCropType() == null){
+					return ExecuteResult.FALSE;
+				}
+				return ExecuteResult.TRUE;
 			}
 		};
 		
 		this.addNode(new SelectorNode().addNode(isSowStart)
 				                       .addNode(new SequenceNode().addNode(judgeTimeSuitable)
-				                                                  .addNode(judgeRoomEnough)))
+				                                                  .addNode(judgeRoomEnough)
+				                                                  .addNode(judgeCropSelect)
+				                               )
+				    )
 		    .addNode(new SowExecuteBTN(man));
 		
 	}

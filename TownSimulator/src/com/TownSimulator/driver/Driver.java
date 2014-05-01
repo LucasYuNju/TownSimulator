@@ -41,7 +41,7 @@ public class Driver extends SingletonPublisher<DriverListener> implements Applic
 	public void init()
 	{
 		Random rand = new Random(System.currentTimeMillis());
-		int initPepleCnt = 1;
+		int initPepleCnt = 4;
 		float originPosX = CameraController.getInstance(CameraController.class).getX();
 		float originPoxY = CameraController.getInstance(CameraController.class).getY();
 		
@@ -64,28 +64,26 @@ public class Driver extends SingletonPublisher<DriverListener> implements Applic
 		CollisionDetector.getInstance(CollisionDetector.class).attachCollisionDetection(lowCostHouse);
 		Renderer.getInstance(Renderer.class).attachDrawScissor(lowCostHouse);
 		
-		FarmHouse farmHouse = (FarmHouse)EntityFactory.createBuilding(BuildingType.FARM_HOUSE);
-		farmHouse.setState(Building.State.Constructed);
-		farmHouse.setPositionWorld(originPosX, originPoxY - 2 * Settings.UNIT);
-		EntityInfoCollector.getInstance(EntityInfoCollector.class).addBuilding(farmHouse);
-		CollisionDetector.getInstance(CollisionDetector.class).attachCollisionDetection(farmHouse);
-		Renderer.getInstance(Renderer.class).attachDrawScissor(farmHouse);
-		
-		farmHouse.setCurCropType(CropType.WHEAT);
-		farmHouse.setSowed(false);
-		
-		for (FarmLand land : ((FarmHouse)farmHouse).getFarmLands()) {
-			//land.addCropAmount(1990.0f);
-			Renderer.getInstance(Renderer.class).attachDrawScissor(land);
-		}
+//		FarmHouse farmHouse = (FarmHouse)EntityFactory.createBuilding(BuildingType.FARM_HOUSE);
+//		farmHouse.setState(Building.State.Constructed);
+//		farmHouse.setPositionWorld(originPosX, originPoxY - 2 * Settings.UNIT);
+//		EntityInfoCollector.getInstance(EntityInfoCollector.class).addBuilding(farmHouse);
+//		CollisionDetector.getInstance(CollisionDetector.class).attachCollisionDetection(farmHouse);
+//		Renderer.getInstance(Renderer.class).attachDrawScissor(farmHouse);
+//		
+//		farmHouse.setSowCropType(CropType.WHEAT);
+//		
+//		for (FarmLand land : ((FarmHouse)farmHouse).getFarmLands()) {
+//			Renderer.getInstance(Renderer.class).attachDrawScissor(land);
+//		}
 		
 		for (int i = 0; i < initPepleCnt; i++) {
 			float randX = (rand.nextFloat() - 0.5f) * Settings.UNIT * 6;
 			float ranxY = (rand.nextFloat() - 0.5f) * Settings.UNIT * 6;
 			Man man = new Man();
 			man.setPositionWorld(originPosX + randX, originPoxY + ranxY);
-			man.setBehavior(new FarmerBTN(man));
-			((WorkingBuilding)farmHouse).addWorker(man);
+			//man.setBehavior(new FarmerBTN(man));
+			//((WorkingBuilding)farmHouse).addWorker(man);
 			EntityInfoCollector.getInstance(EntityInfoCollector.class).addMan(man);
 			
 			Renderer.getInstance(Renderer.class).attachDrawScissor(man);

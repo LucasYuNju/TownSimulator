@@ -1,7 +1,7 @@
 package com.TownSimulator.ai.btnimpls.farm;
 
 import com.TownSimulator.ai.behaviortree.ActionNode;
-import com.TownSimulator.ai.behaviortree.ExcuteResult;
+import com.TownSimulator.ai.behaviortree.ExecuteResult;
 import com.TownSimulator.entity.EntityInfoCollector;
 import com.TownSimulator.entity.Man;
 import com.TownSimulator.entity.ManAnimeType;
@@ -86,7 +86,7 @@ public class ReapExexcuteBTN implements ActionNode{
 	}
 	
 	@Override
-	public ExcuteResult execute(float deltaTime) {
+	public ExecuteResult execute(float deltaTime) {
 		FarmHouse farmHouse = (FarmHouse)man.getInfo().workingBuilding;
 		farmHouse.setReapStart(true);
 		FarmLand middleFarmLand = farmHouse.getFarmLands().get(4);
@@ -100,7 +100,7 @@ public class ReapExexcuteBTN implements ActionNode{
 			doReap(deltaTime);
 		}
 		
-		return ExcuteResult.RUNNING;
+		return ExecuteResult.RUNNING;
 	}
 
 }

@@ -5,16 +5,17 @@ import com.TownSimulator.ai.btnimpls.construct.ConstructionBTN;
 import com.TownSimulator.entity.Man;
 
 public class IdleBTN extends SelectorNode{
-	private Man mMan;
+	private Man man;
 	
 	public IdleBTN(Man man) {
-		this.mMan = man;
-		initTree();
+		this.man = man;
+		init();
 	}
 
-	protected void initTree() {
-		this.addNode(new ConstructionBTN(mMan))
-			.addNode(new RandomMoveBTN(mMan));
+	protected void init() {
+		this.addNode(new FindJobBTN(man))
+			.addNode(new ConstructionBTN(man))
+			.addNode(new RandomMoveBTN(man));
 	}
 
 }

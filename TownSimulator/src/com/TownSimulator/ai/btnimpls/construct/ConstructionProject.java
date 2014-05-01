@@ -6,6 +6,7 @@ import com.TownSimulator.entity.EntityInfoCollector;
 import com.TownSimulator.entity.Man;
 import com.TownSimulator.entity.ResourceType;
 import com.TownSimulator.entity.building.Building;
+import com.TownSimulator.entity.building.BuildingType;
 import com.badlogic.gdx.utils.Array;
 
 public class ConstructionProject {
@@ -101,6 +102,7 @@ public class ConstructionProject {
 	{
 		mFinished = true;
 		mBuilding.setConstructionProject(null);
+		mBuilding.setState(Building.State.Constructed);
 		EntityInfoCollector.getInstance(EntityInfoCollector.class).removeConstructProj(this);
 		
 		for (Man man : mWorkers) {

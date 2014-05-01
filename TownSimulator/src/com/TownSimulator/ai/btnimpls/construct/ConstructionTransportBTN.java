@@ -1,7 +1,7 @@
 package com.TownSimulator.ai.btnimpls.construct;
 
 import com.TownSimulator.ai.behaviortree.ActionNode;
-import com.TownSimulator.ai.behaviortree.ExcuteResult;
+import com.TownSimulator.ai.behaviortree.ExecuteResult;
 import com.TownSimulator.entity.EntityInfoCollector;
 import com.TownSimulator.entity.EntityInfoCollector.WareHouseFindResult;
 import com.TownSimulator.entity.Man;
@@ -55,7 +55,8 @@ public class ConstructionTransportBTN implements ActionNode{
 	}
 
 	@Override
-	public ExcuteResult execute(float deltaTime) {
+	public ExecuteResult execute(float deltaTime) {
+		//System.out.println("Transport");
 		
 		if(mMan.getInfo().constructionInfo.transportNeededAmount == 0)
 		{
@@ -113,7 +114,7 @@ public class ConstructionTransportBTN implements ActionNode{
 					mMan.getInfo().constructionInfo.bCancel = false;
 				}
 				
-				return ExcuteResult.TRUE;
+				return ExecuteResult.TRUE;
 			}
 			break;
 			
@@ -123,7 +124,7 @@ public class ConstructionTransportBTN implements ActionNode{
 			break;
 		}
 		
-		return ExcuteResult.RUNNING;
+		return ExecuteResult.RUNNING;
 	}
 	
 	

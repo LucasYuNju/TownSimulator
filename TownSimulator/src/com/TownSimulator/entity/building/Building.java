@@ -106,7 +106,7 @@ public class Building extends Entity implements ConstructionWindowListener{
 	public int getNeededConstructionResouceAmount(ResourceType type)
 	{
 		if(constructionResources.contains(new Resource(type)))
-			return constructionResources.get(constructionResources.indexOf(new Resource(type))).getAmount();
+			return constructionResources.get(constructionResources.indexOf(new Resource(type))).getNeededAmount();
 		return -1;
 	}
 	

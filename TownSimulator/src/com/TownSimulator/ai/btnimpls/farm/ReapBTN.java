@@ -1,7 +1,7 @@
 package com.TownSimulator.ai.btnimpls.farm;
 
 import com.TownSimulator.ai.behaviortree.ConditionNode;
-import com.TownSimulator.ai.behaviortree.ExcuteResult;
+import com.TownSimulator.ai.behaviortree.ExecuteResult;
 import com.TownSimulator.ai.behaviortree.SelectorNode;
 import com.TownSimulator.ai.behaviortree.SequenceNode;
 import com.TownSimulator.entity.Man;
@@ -25,19 +25,19 @@ public class ReapBTN extends SequenceNode{
 		ConditionNode isReapStart = new ConditionNode() {
 			
 			@Override
-			public ExcuteResult execute(float deltaTime) {
+			public ExecuteResult execute(float deltaTime) {
 				FarmHouse farmHouse = ((FarmHouse)man.getInfo().workingBuilding);
 				if(farmHouse.isReapStart())
-					return ExcuteResult.TRUE;
+					return ExecuteResult.TRUE;
 				else
-					return ExcuteResult.FALSE;
+					return ExecuteResult.FALSE;
 			}
 		};
 		
 		ConditionNode judgeLeftCrop = new ConditionNode() {
 			
 			@Override
-			public ExcuteResult execute(float deltaTime) {
+			public ExecuteResult execute(float deltaTime) {
 				FarmHouse farmHouse = ((FarmHouse)man.getInfo().workingBuilding);
 				float remainCropAmount = 0.0f;
 				for (FarmLand land : farmHouse.getFarmLands()) {
@@ -45,34 +45,34 @@ public class ReapBTN extends SequenceNode{
 				}
 				
 				if(remainCropAmount > 0.0f)
-					return ExcuteResult.TRUE;
+					return ExecuteResult.TRUE;
 				else
-					return ExcuteResult.FALSE;
+					return ExecuteResult.FALSE;
 			}
 		};
 		
 		ConditionNode judgeTime = new ConditionNode() {
 			
 			@Override
-			public ExcuteResult execute(float deltaTime) {
+			public ExecuteResult execute(float deltaTime) {
 				if( World.getInstance(World.class).getCurSeason() == SeasonType.Winter )
-					return ExcuteResult.TRUE;
+					return ExecuteResult.TRUE;
 				else
-					return ExcuteResult.FALSE;
+					return ExecuteResult.FALSE;
 			}
 		};
 		
 		ConditionNode isCropFull = new ConditionNode() {
 			
 			@Override
-			public ExcuteResult execute(float deltaTime) {
+			public ExecuteResult execute(float deltaTime) {
 				FarmHouse farmHouse = ((FarmHouse)man.getInfo().workingBuilding);
 				for (FarmLand land : farmHouse.getFarmLands()) {
 					if(land.getCurCropAmount() < FarmLand.MAX_CROP_AMOUNT)
-						return ExcuteResult.FALSE;
+						return ExecuteResult.FALSE;
 				}
 				
-				return ExcuteResult.TRUE;
+				return ExecuteResult.TRUE;
 			}
 		};
 		

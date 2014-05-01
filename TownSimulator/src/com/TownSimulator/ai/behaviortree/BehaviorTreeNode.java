@@ -1,5 +1,5 @@
 package com.TownSimulator.ai.behaviortree;
 
 public interface BehaviorTreeNode {
-	public ExcuteResult execute(float deltaTime);
+	public ExecuteResult execute(float deltaTime);
 }

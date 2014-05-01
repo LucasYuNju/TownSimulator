@@ -1,5 +1,6 @@
 package com.TownSimulator.entity.building;
 
+import com.TownSimulator.ai.btnimpls.FarmerBTN;
 import com.TownSimulator.driver.Driver;
 import com.TownSimulator.driver.DriverListenerBaseImpl;
 import com.TownSimulator.entity.JobType;
@@ -14,6 +15,7 @@ import com.badlogic.gdx.utils.Array;
 public class FarmHouse extends WorkingBuilding{
 	private static final int MAX_WORKER_CNT = 4;
 	private CropType curCropType;
+	private CropType sowCropType;
 	private boolean bSowStart = false;
 	private int sowedLandCnt;
 	private boolean bReapStart = false; 
@@ -24,9 +26,17 @@ public class FarmHouse extends WorkingBuilding{
 	public FarmHouse() {
 		super("building_farm_house", BuildingType.FARM_HOUSE, JobType.FARMER, MAX_WORKER_CNT);
 		
+		setSowCropType(CropType.WHEAT);
 		initFarmLands();
 	}
 	
+	
+	@Override
+	public void addWorker(Man man) {
+		super.addWorker(man);
+		man.setBehavior(new FarmerBTN(man));
+	}
+
 	private void initFarmLands()
 	{
 		farmLands = new Array<FarmLand>();
@@ -134,6 +144,16 @@ public class FarmHouse extends WorkingBuilding{
 		for (FarmLand land : farmLands) {
 			land.setCropType(type);
 		}
+	}
+	
+	public void setSowCropType(CropType type)
+	{
+		sowCropType = type;
+	}
+	
+	public CropType getSowCropType()
+	{
+		return sowCropType;
 	}
 	
 	

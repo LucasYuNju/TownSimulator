@@ -3,7 +3,7 @@ package com.TownSimulator.ai.btnimpls;
 import java.util.Random;
 
 import com.TownSimulator.ai.behaviortree.ActionNode;
-import com.TownSimulator.ai.behaviortree.ExcuteResult;
+import com.TownSimulator.ai.behaviortree.ExecuteResult;
 import com.TownSimulator.entity.Man;
 import com.TownSimulator.entity.ManAnimeType;
 import com.TownSimulator.entity.ManInfo;
@@ -23,9 +23,9 @@ public class RandomMoveBTN implements ActionNode{
 	}
 	
 	@Override
-	public ExcuteResult execute(float deltaTime) {
+	public ExecuteResult execute(float deltaTime) {
 		if( mMan.move(deltaTime) )
-			return ExcuteResult.RUNNING;
+			return ExecuteResult.RUNNING;
 		else
 		{
 			
@@ -49,7 +49,7 @@ public class RandomMoveBTN implements ActionNode{
 			}
 		}
 		
-		return ExcuteResult.RUNNING;
+		return ExecuteResult.RUNNING;
 	}
 
 }

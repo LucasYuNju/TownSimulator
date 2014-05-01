@@ -3,13 +3,13 @@ package com.TownSimulator.ai.behaviortree;
 public class SequenceNode extends CompositeNode{
 
 	@Override
-	public ExcuteResult execute(float deltaTime) {
+	public ExecuteResult execute(float deltaTime) {
 		for (BehaviorTreeNode node : mChildren) {
-			ExcuteResult r = node.execute(deltaTime);
-			if(r != ExcuteResult.TRUE)
+			ExecuteResult r = node.execute(deltaTime);
+			if(r != ExecuteResult.TRUE)
 				return r;
 		}
-		return ExcuteResult.TRUE;
+		return ExecuteResult.TRUE;
 	}
 
 }

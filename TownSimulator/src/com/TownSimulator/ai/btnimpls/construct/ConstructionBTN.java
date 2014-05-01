@@ -1,7 +1,7 @@
 package com.TownSimulator.ai.btnimpls.construct;
 
 import com.TownSimulator.ai.behaviortree.ConditionNode;
-import com.TownSimulator.ai.behaviortree.ExcuteResult;
+import com.TownSimulator.ai.behaviortree.ExecuteResult;
 import com.TownSimulator.ai.behaviortree.SelectorNode;
 import com.TownSimulator.ai.behaviortree.SequenceNode;
 import com.TownSimulator.entity.EntityInfoCollector;
@@ -30,41 +30,41 @@ public class ConstructionBTN extends SequenceNode{
 			}
 			
 			@Override
-			public ExcuteResult execute(float deltaTime) {
+			public ExecuteResult execute(float deltaTime) {
 				if(mMan.getInfo().constructionInfo.proj == null)
 				{
 					ConstructionProject proj = findAvailableProj();
 					if(proj == null)
-						return ExcuteResult.FALSE;
+						return ExecuteResult.FALSE;
 					else
 					{
 						proj.addWorker(mMan);
 						mMan.getInfo().constructionInfo.proj = proj;
-						return ExcuteResult.TRUE;
+						return ExecuteResult.TRUE;
 					}
 				}
 				else
-					return ExcuteResult.TRUE;
+					return ExecuteResult.TRUE;
 			}
 		};
 		
 		ConditionNode judgeTransport = new ConditionNode() {
 			
 			@Override
-			public ExcuteResult execute(float deltaTime) {
+			public ExecuteResult execute(float deltaTime) {
 				if(mMan.getInfo().constructionInfo.bCancel == false)
 				{
 					if(mMan.getInfo().constructionInfo.proj.remainResourceToTrans() || mMan.getInfo().constructionInfo.transportNeededAmount > 0)
-						return ExcuteResult.TRUE;
+						return ExecuteResult.TRUE;
 					else
-						return ExcuteResult.FALSE;
+						return ExecuteResult.FALSE;
 				}
 				else
 				{
 					if(mMan.getInfo().constructionInfo.transportNeededAmount > 0)
-						return ExcuteResult.TRUE;
+						return ExecuteResult.TRUE;
 					else
-						return ExcuteResult.FALSE;
+						return ExecuteResult.FALSE;
 				}
 			}
 		};
@@ -72,11 +72,11 @@ public class ConstructionBTN extends SequenceNode{
 		ConditionNode judgeUnfinish = new ConditionNode() {
 			
 			@Override
-			public ExcuteResult execute(float deltaTime) {
+			public ExecuteResult execute(float deltaTime) {
 				if(mMan.getInfo().constructionInfo.proj.isFinished() || mMan.getInfo().constructionInfo.bCancel)
-					return ExcuteResult.FALSE;
+					return ExecuteResult.FALSE;
 				else
-					return ExcuteResult.TRUE;
+					return ExecuteResult.TRUE;
 			}
 		};
 		

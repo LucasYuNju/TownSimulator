@@ -17,6 +17,6 @@ public abstract class CompositeNode implements BehaviorTreeNode{
 	}
 	
 	@Override
-	abstract public ExcuteResult execute(float deltaTime);
+	abstract public ExecuteResult execute(float deltaTime);
 
 }

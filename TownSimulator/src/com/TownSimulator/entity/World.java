@@ -39,7 +39,7 @@ public class World extends Singleton {
 				if(secondDuringLastDay>secondPerDay){
 					calendar.add(Calendar.DATE, 1);
 					secondDuringLastDay -= secondPerDay;
-					System.out.println(getCurYear()+"/"+getCurMonth()+"/"+getCurDay());
+//					System.out.println(getCurYear()+"/"+getCurMonth()+"/"+getCurDay());
 				}
 			}
 			
