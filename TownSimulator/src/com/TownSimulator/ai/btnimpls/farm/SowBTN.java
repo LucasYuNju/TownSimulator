@@ -25,7 +25,7 @@ public class SowBTN extends SequenceNode{
 			public ExcuteResult execute(float deltaTime) {
 				// TODO Auto-generated method stub
 				FarmHouse farmHouse=(FarmHouse)man.getInfo().workingBuilding;
-				if(!farmHouse.isSowed())//未播种
+				if(!farmHouse.isSowStart())//未播种
 					return ExcuteResult.TRUE;
 				return ExcuteResult.FALSE;
 			}
@@ -48,15 +48,15 @@ public class SowBTN extends SequenceNode{
 			public ExcuteResult execute(float deltaTime) {
 				// TODO Auto-generated method stub
 				FarmHouse farmHouse = ((FarmHouse)man.getInfo().workingBuilding);
-				if(farmHouse.getSowedLandCnt()<farmHouse.getFarmLands().size){
-					return ExcuteResult.TRUE;
+				if(farmHouse.isSowed()){
+					return ExcuteResult.FALSE;
 				}
-				return ExcuteResult.FALSE;
+				return ExcuteResult.TRUE;
 			}
 		};
 		
 		this.addNode(new SelectorNode().addNode(isSowStart)
-				                       .addNode(new SelectorNode().addNode(judgeTimeSuitable)
+				                       .addNode(new SequenceNode().addNode(judgeTimeSuitable)
 				                                                  .addNode(judgeRoomEnough)))
 		    .addNode(new SowExecuteBTN(man));
 		

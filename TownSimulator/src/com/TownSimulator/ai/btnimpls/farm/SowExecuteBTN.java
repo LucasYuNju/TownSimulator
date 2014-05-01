@@ -3,6 +3,7 @@ package com.TownSimulator.ai.btnimpls.farm;
 import com.TownSimulator.ai.behaviortree.ActionNode;
 import com.TownSimulator.ai.behaviortree.ExcuteResult;
 import com.TownSimulator.entity.Man;
+import com.TownSimulator.entity.ManAnimeType;
 import com.TownSimulator.entity.building.FarmHouse;
 import com.TownSimulator.entity.building.FarmLand;
 import com.TownSimulator.utility.quadtree.QuadTreeType;
@@ -18,6 +19,7 @@ public class SowExecuteBTN implements ActionNode{
 	
 	private void sowFinish(){
 		FarmHouse farmHouse=(FarmHouse)man.getInfo().workingBuilding;
+		farmHouse.setSowStart(false);
 		farmHouse.setSowed(true);
 		farmHouse.clearSowedLandCnt();
 		
@@ -40,12 +42,13 @@ public class SowExecuteBTN implements ActionNode{
 
 	@Override
 	public ExcuteResult execute(float deltaTime) {
-		// TODO Auto-generated method stub
 		FarmHouse farmHouse = (FarmHouse)man.getInfo().workingBuilding;
+		farmHouse.setSowStart(true);
 		FarmLand middleFarmLand = farmHouse.getFarmLands().get(4);
 		float destX = middleFarmLand.getAABBWorld(QuadTreeType.COLLISION).getCenterX();
 		float destY = middleFarmLand.getAABBWorld(QuadTreeType.COLLISION).getCenterY();
 		man.setMoveDestination(destX, destY);
+		man.getInfo().animeType = ManAnimeType.MOVE;
 		
 		if( !man.move(deltaTime) )
 		{

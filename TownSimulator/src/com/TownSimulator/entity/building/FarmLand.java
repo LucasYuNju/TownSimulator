@@ -28,6 +28,7 @@ public class FarmLand extends Entity{
 	{
 		//cropType = type;
 		setTextureName(type.getTextureName());
+		updateView();
 	}
 	
 	public void addCropAmount(float amount)
@@ -45,13 +46,19 @@ public class FarmLand extends Entity{
 	{
 		if(bCropDieStart)
 		{
-			if( curCropAmount <= 0 )
-				return;
-			
 			addCropAmount(-deltaTime * cropDieSpeed);
+			if( curCropAmount <= 0 )
+			{
+				bCropDieStart = false;
+				cropDieSpeed = 0.0f;
+			}
+			
 		}
 		else
 		{
+			if( curCropAmount <=0 )
+				return;
+			
 			bCropDieStart = true;
 			float timeSpeed = 365.0f / World.SecondPerYear;
 			cropDieSpeed = curCropAmount / (30.0f / timeSpeed);

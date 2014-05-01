@@ -14,6 +14,7 @@ import com.badlogic.gdx.utils.Array;
 public class FarmHouse extends WorkingBuilding{
 	private static final int MAX_WORKER_CNT = 4;
 	private CropType curCropType;
+	private boolean bSowStart = false;
 	private int sowedLandCnt;
 	private boolean bReapStart = false; 
 	private int reappedLandCnt;
@@ -135,14 +136,15 @@ public class FarmHouse extends WorkingBuilding{
 		}
 	}
 	
-	public void setReapStart(boolean value)
+	
+	public void setSowStart(boolean value)
 	{
-		bReapStart = value;
+		bSowStart = value;
 	}
 	
-	public boolean isReapStart()
+	public boolean isSowStart()
 	{
-		return bReapStart;
+		return bSowStart;
 	}
 	
 	public void addSowedLand()
@@ -157,6 +159,18 @@ public class FarmHouse extends WorkingBuilding{
 	
 	public void clearSowedLandCnt(){
 		sowedLandCnt=0;
+	}
+	
+	
+	
+	public void setReapStart(boolean value)
+	{
+		bReapStart = value;
+	}
+	
+	public boolean isReapStart()
+	{
+		return bReapStart;
 	}
 	
 	public void addReappedLand()

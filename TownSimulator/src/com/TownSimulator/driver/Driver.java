@@ -3,7 +3,10 @@ package com.TownSimulator.driver;
 
 import java.util.Random;
 
+import com.TownSimulator.ai.btnimpls.FarmerBTN;
+import com.TownSimulator.ai.btnimpls.farm.FarmBTN;
 import com.TownSimulator.ai.btnimpls.farm.ReapBTN;
+import com.TownSimulator.ai.btnimpls.farm.SowBTN;
 import com.TownSimulator.camera.CameraController;
 import com.TownSimulator.collision.CollisionDetector;
 import com.TownSimulator.entity.EntityFactory;
@@ -69,10 +72,10 @@ public class Driver extends SingletonPublisher<DriverListener> implements Applic
 		Renderer.getInstance(Renderer.class).attachDrawScissor(farmHouse);
 		
 		farmHouse.setCurCropType(CropType.WHEAT);
-		farmHouse.setSowed(true);
+		farmHouse.setSowed(false);
 		
 		for (FarmLand land : ((FarmHouse)farmHouse).getFarmLands()) {
-			land.addCropAmount(1990.0f);
+			//land.addCropAmount(1990.0f);
 			Renderer.getInstance(Renderer.class).attachDrawScissor(land);
 		}
 		
@@ -81,7 +84,7 @@ public class Driver extends SingletonPublisher<DriverListener> implements Applic
 			float ranxY = (rand.nextFloat() - 0.5f) * Settings.UNIT * 6;
 			Man man = new Man();
 			man.setPositionWorld(originPosX + randX, originPoxY + ranxY);
-			man.setBehavior(new ReapBTN(man));
+			man.setBehavior(new FarmerBTN(man));
 			((WorkingBuilding)farmHouse).addWorker(man);
 			EntityInfoCollector.getInstance(EntityInfoCollector.class).addMan(man);
 			

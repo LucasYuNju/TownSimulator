@@ -8,7 +8,7 @@ import com.TownSimulator.utility.Singleton;
 
 public class World extends Singleton {
 	
-	public static final int SecondPerYear=600; 
+	public static final float SecondPerYear=200;
 	
 	private Calendar calendar;
 	private float secondPerDay;
@@ -20,26 +20,33 @@ public class World extends Singleton {
 	private int[] startSeasonMonth={2,5,8,11};
 	
 	private World(){
+		
+	}
+	
+	public void init()
+	{
 		calendar=Calendar.getInstance();
 		calendar.set(2014, 6, 1);//设置初始日期
-		secondPerDay=SecondPerYear/365;
-		secondDuringLastDay=0f;
+		secondPerDay = SecondPerYear / 365.0f;
+		secondDuringLastDay = 0f;
 		
 		Driver.getInstance(Driver.class).addListener(new DriverListenerBaseImpl(){
 
 			@Override
 			public void update(float deltaTime) {
 				// TODO Auto-generated method stub
-				secondDuringLastDay+=deltaTime;
+				secondDuringLastDay += deltaTime;
 				if(secondDuringLastDay>secondPerDay){
 					calendar.add(Calendar.DATE, 1);
-					secondDuringLastDay-=secondPerDay;
+					secondDuringLastDay -= secondPerDay;
+					System.out.println(getCurYear()+"/"+getCurMonth()+"/"+getCurDay());
 				}
 			}
 			
 			
 		});
 	}
+	
 	/**
 	 * 获取年份
 	 * @return
