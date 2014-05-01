@@ -9,10 +9,12 @@ import com.TownSimulator.collision.CollisionDetector;
 import com.TownSimulator.entity.EntityFactory;
 import com.TownSimulator.entity.EntityInfoCollector;
 import com.TownSimulator.entity.Man;
+import com.TownSimulator.entity.ResourceInfoCollector;
 import com.TownSimulator.entity.ResourceType;
 import com.TownSimulator.entity.building.Building;
 import com.TownSimulator.entity.building.Building.State;
 import com.TownSimulator.entity.building.BuildingType;
+import com.TownSimulator.entity.building.CropType;
 import com.TownSimulator.entity.building.FarmHouse;
 import com.TownSimulator.entity.building.FarmLand;
 import com.TownSimulator.entity.building.Warehouse;
@@ -40,6 +42,8 @@ public class Driver extends SingletonPublisher<DriverListener> implements Applic
 		float originPosX = CameraController.getInstance(CameraController.class).getX();
 		float originPoxY = CameraController.getInstance(CameraController.class).getY();
 		
+		ResourceInfoCollector.getInstance(ResourceInfoCollector.class).addResourceAmount(ResourceType.RS_WOOD, 100);
+		ResourceInfoCollector.getInstance(ResourceInfoCollector.class).addResourceAmount(ResourceType.RS_STONE, 50);
 		
 		Warehouse wareHouse = (Warehouse) EntityFactory.createBuilding(BuildingType.WAREHOUSE);
 		wareHouse.addStoredResource(ResourceType.RS_WOOD, 100);
@@ -64,10 +68,11 @@ public class Driver extends SingletonPublisher<DriverListener> implements Applic
 		CollisionDetector.getInstance(CollisionDetector.class).attachCollisionDetection(farmHouse);
 		Renderer.getInstance(Renderer.class).attachDrawScissor(farmHouse);
 		
+		farmHouse.setCurCropType(CropType.WHEAT);
 		farmHouse.setSowed(true);
 		
 		for (FarmLand land : ((FarmHouse)farmHouse).getFarmLands()) {
-			land.addCropAmount(1500.0f);
+			land.addCropAmount(1990.0f);
 			Renderer.getInstance(Renderer.class).attachDrawScissor(land);
 		}
 		

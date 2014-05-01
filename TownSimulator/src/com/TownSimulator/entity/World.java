@@ -21,7 +21,7 @@ public class World extends Singleton {
 	
 	private World(){
 		calendar=Calendar.getInstance();
-		calendar.set(2014, 12, 1);//设置初始日期
+		calendar.set(2014, 6, 1);//设置初始日期
 		secondPerDay=SecondPerYear/365;
 		secondDuringLastDay=0f;
 		
@@ -71,7 +71,10 @@ public class World extends Singleton {
 		for(int i=1;i<=4;i++){
 			if(i!=4){
 				if(startSeasonMonth[i-1]<=CurMonth&&CurMonth<startSeasonMonth[i])
+				{
 					season=i;
+					break;
+				}
 			}else{
 				season=4;
 			}

@@ -1,21 +1,25 @@
 package com.TownSimulator.entity.building;
 
-public enum CropType {
-	WHEAT;
-	
-	
-	public static String getTextureName(CropType type)
-	{
-		String textureName = null;
-		switch (type) {
-		case WHEAT:
-			textureName = "crop_wheat";
-			break;
+import com.TownSimulator.entity.ResourceType;
 
-		default:
-			break;
-		}
-		
+public enum CropType {
+	WHEAT("crop_wheat", ResourceType.RS_WHEAT);
+	
+	private String textureName;
+	private ResourceType rsType; //作物对应的资源
+	private CropType(String textureName, ResourceType resourceType)
+	{
+		this.textureName = textureName;
+		this.rsType = resourceType;
+	}
+	
+	public String getTextureName()
+	{
 		return textureName;
+	}
+	
+	public ResourceType getResourceType()
+	{
+		return rsType;
 	}
 }

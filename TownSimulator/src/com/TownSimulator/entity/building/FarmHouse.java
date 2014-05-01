@@ -83,13 +83,17 @@ public class FarmHouse extends WorkingBuilding{
 				public void update(float deltaTime) {
 					if(bSowed)
 					{
-						if(World.getInstance(World.class).getCurSeason() != SeasonType.Winter)
+						if(World.getInstance(World.class).getCurSeason() != SeasonType.Winter && bReapStart == false)
 							cropGrow(deltaTime);
 						else
 						{
 							if(World.getInstance(World.class).getCurMonth() == 12 
 									|| World.getInstance(World.class).getCurMonth() == 1)
 								cropDie(deltaTime);
+						}
+						
+						for (FarmLand land : farmLands) {
+							land.updateView();
 						}
 					}
 				}
@@ -125,6 +129,7 @@ public class FarmHouse extends WorkingBuilding{
 	
 	public void setCurCropType(CropType type)
 	{
+		curCropType = type;
 		for (FarmLand land : farmLands) {
 			land.setCropType(type);
 		}
