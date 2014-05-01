@@ -31,7 +31,6 @@ public class SowExecuteBTN implements ActionNode{
 		{
 			timeAccum -= SOW_TIME_PER_LAND;
 			
-			int landIndex = farmHouse.getSowedLandCnt();
 			farmHouse.addSowedLand();
 			
 			if( farmHouse.getSowedLandCnt() >= farmHouse.getFarmLands().size )
