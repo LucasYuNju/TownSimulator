@@ -2,7 +2,7 @@ package com.TownSimulator.ui.building.view;
 
 import com.TownSimulator.camera.CameraController;
 import com.TownSimulator.entity.building.BuildingType;
-import com.TownSimulator.ui.UndockedWindow;
+import com.TownSimulator.ui.building.UndockedWindow;
 import com.TownSimulator.utility.ResourceManager;
 import com.TownSimulator.utility.Settings;
 import com.TownSimulator.utility.Singleton;
@@ -15,22 +15,23 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 
 public class ViewWindow extends UndockedWindow{
 	private static final int NUM_LABEL_PER_PAGE = 8;
-	private TextureRegion background;
 	String[][] data;
 	
 	public ViewWindow(BuildingType buildingType, String data[][]) {
 		super(buildingType);
 		this.data = data;
-		background = Singleton.getInstance(ResourceManager.class).findTextureRegion("background");
-		int numLabel = data.length > NUM_LABEL_PER_PAGE ? data.length : NUM_LABEL_PER_PAGE;
-		int numLabelPerRow = 2;
-		if(data.length != 0)
+		
+		if(buildingType != BuildingType.FARM_HOUSE) {
+			int numLabel = data.length > NUM_LABEL_PER_PAGE ? data.length : NUM_LABEL_PER_PAGE;
+			int numLabelPerRow = 2;
+			if(data.length != 0) 
 			numLabelPerRow = data[0].length;
-		setSize(LABEL_WIDTH * numLabelPerRow + MARGIN * 2, LABEL_HEIGHT * numLabel + MARGIN * 2);
-		setPosition(0, 0);
-		addLabels();
-		addCloseButton();
-		addHeader();
+			setSize(LABEL_WIDTH * numLabelPerRow + MARGIN * 2, LABEL_HEIGHT * numLabel + MARGIN * 2);
+			setPosition(0, 0);
+			addLabels();
+			addCloseButton();
+			addHeader();
+		}
 	}
 	
 	public void addLabels() {
@@ -46,17 +47,11 @@ public class ViewWindow extends UndockedWindow{
 			}
 		}
 	}
-	
-	@Override
-	public void draw(Batch batch, float parentAlpha) {
-		Color c = this.getColor();
-		batch.setColor(c.r, c.g, c.b, c.a * parentAlpha);
-		batch.draw(background, getX(), getY(), getWidth(), getHeight());
-		applyTransform(batch, computeTransform());
-		drawChildren(batch, parentAlpha);
-		resetTransform(batch);
-	}
-	
+		
+	/**
+	 * update parent actor's position.
+	 * The parent actor is implicitly a scrollPane
+	 */
 	@Override
 	protected void updatePosition()
 	{
@@ -65,5 +60,5 @@ public class ViewWindow extends UndockedWindow{
 		float windowX = pos.x - getWidth();
 		float windowY = pos.y - getHeight() * 0.5f;
 		getParent().setPosition(windowX, windowY);
-	}
+	}	
 }

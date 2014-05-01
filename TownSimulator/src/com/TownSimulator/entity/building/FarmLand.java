@@ -26,7 +26,7 @@ public class FarmLand extends Entity{
 	public void setCropType(CropType type)
 	{
 		//cropType = type;
-		setTextureName(CropType.getTextureName(type));
+		setTextureName(CropType.Wheat.getTextureName());
 	}
 	
 	public void addCropAmount(float amount)

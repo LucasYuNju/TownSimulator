@@ -4,6 +4,8 @@ import java.util.LinkedList;
 import java.util.List;
 
 import com.TownSimulator.ui.base.FlipButton;
+import com.TownSimulator.ui.building.UndockedWindow;
+import com.TownSimulator.ui.building.view.ViewWindow;
 import com.TownSimulator.utility.ResourceManager;
 import com.TownSimulator.utility.Settings;
 import com.TownSimulator.utility.Singleton;
@@ -12,8 +14,9 @@ import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 
-public class ConstructionBuilderGroup extends Group{
-	private static final float BUILDER_WIDTH = Settings.UNIT * 0.6f;
+public class WorkerGroup extends Group{
+	public static final float WORKER_WIDTH = Settings.UNIT * 0.6f;
+	public static final float WORKER_HEIGHT = Settings.UNIT * 0.6f;
 	private TextureRegion forbiddenBuilderTexture;
 	private TextureRegion allowedBuilderTexture;
 	private TextureRegion builderTexture;
@@ -21,9 +24,9 @@ public class ConstructionBuilderGroup extends Group{
 	private int numSelected;
 	private int numBuilder;
 	private List<FlipButton> builderButtons = new LinkedList<FlipButton>();
-	private ConstructionWindow window;
+	private UndockedWindow window;
 
-	public ConstructionBuilderGroup(ConstructionWindow window, int numAllowedBuilder) {
+	public WorkerGroup(UndockedWindow window, int numAllowedBuilder) {
 		this.window = window;
 		this.numAllowed = numAllowedBuilder;
 		numSelected = numAllowedBuilder;
@@ -31,7 +34,7 @@ public class ConstructionBuilderGroup extends Group{
 		allowedBuilderTexture = Singleton.getInstance(ResourceManager.class).findTextureRegion("head_gray");
 		forbiddenBuilderTexture = Singleton.getInstance(ResourceManager.class).findTextureRegion("head_forbidden");
 		addBuilderButtons();
-		setSize(BUILDER_WIDTH * numAllowed, BUILDER_WIDTH);
+		setSize(WORKER_WIDTH * numAllowed, WORKER_WIDTH);
 	}
 	
 	void addBuilderButtons() {
@@ -39,8 +42,8 @@ public class ConstructionBuilderGroup extends Group{
 			FlipButton btn;
 			btn = new FlipButton(allowedBuilderTexture, allowedBuilderTexture, null);
 			builderButtons.add(btn);
-			btn.setPosition(BUILDER_WIDTH * i, 0);
-			btn.setSize(BUILDER_WIDTH, BUILDER_WIDTH);
+			btn.setPosition(WORKER_WIDTH * i, 0);
+			btn.setSize(WORKER_WIDTH, WORKER_WIDTH);
 			final int indexOfClickedButton = i;
 			btn.addListener(new InputListener() {
 				@Override
@@ -88,7 +91,7 @@ public class ConstructionBuilderGroup extends Group{
 	}
 	
 	int getGroupWidth() {
-		return (int) (numAllowed * BUILDER_WIDTH);
+		return (int) (numAllowed * WORKER_WIDTH);
 	}
 	
 	int getNumAllowedBuilder() {

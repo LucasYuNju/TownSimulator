@@ -14,6 +14,7 @@ import com.badlogic.gdx.utils.Array;
 public class FarmHouse extends WorkingBuilding{
 	private static final int MAX_WORKER_CNT = 4;
 	private CropType curCropType;
+	private CropType nextCropType;
 	private int sowedLandCnt;
 	private boolean bReapStart = false; 
 	private int reappedLandCnt;
@@ -174,4 +175,10 @@ public class FarmHouse extends WorkingBuilding{
 	{
 		return bSowed;
 	}
+	
+	public void setNextCropType(CropType cropType) {
+		nextCropType = cropType;
+	}
+	
+	
 }

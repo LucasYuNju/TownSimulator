@@ -1,4 +1,4 @@
-package com.TownSimulator.ui;
+package com.TownSimulator.ui.building;
 
 import com.TownSimulator.camera.CameraController;
 import com.TownSimulator.camera.CameraListener;
@@ -6,7 +6,10 @@ import com.TownSimulator.entity.building.BuildingType;
 import com.TownSimulator.ui.base.FlipButton;
 import com.TownSimulator.utility.ResourceManager;
 import com.TownSimulator.utility.Settings;
+import com.TownSimulator.utility.Singleton;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Event;
 import com.badlogic.gdx.scenes.scene2d.EventListener;
@@ -30,9 +33,11 @@ public class UndockedWindow extends Group{
 	protected static final float LABEL_WIDTH = Settings.UNIT * 1f;
 	protected static final float LABEL_HEIGHT = Settings.UNIT * 0.4f;
 	protected BuildingType buildingType;
+	protected TextureRegion background;
 	
 	public UndockedWindow(BuildingType buildingType) {
 		super();
+		background = Singleton.getInstance(ResourceManager.class).findTextureRegion("background");
 		this.buildingType = buildingType;
 		initCameraListener();
 	}
@@ -102,5 +107,22 @@ public class UndockedWindow extends Group{
 		buildingPosXWorld = x;
 		buildingPosYWorld = y;
 	}
+	
+	/**
+	 * window绘制背景色
+	 */
+	@Override
+	public void draw(Batch batch, float parentAlpha) {
+		Color c = this.getColor();
+		batch.setColor(c.r, c.g, c.b, c.a * parentAlpha);
+		batch.draw(background, getX(), getY(), getWidth(), getHeight());
+		applyTransform(batch, computeTransform());
+		drawChildren(batch, parentAlpha);
+		resetTransform(batch);
+	}
 
+	//for worker group
+	public void builderLimitSelected(int selectedLimit) {
+		
+	}
 }
