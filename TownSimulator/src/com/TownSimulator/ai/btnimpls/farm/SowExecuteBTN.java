@@ -7,50 +7,41 @@ import com.TownSimulator.entity.building.FarmHouse;
 import com.TownSimulator.entity.building.FarmLand;
 import com.TownSimulator.utility.quadtree.QuadTreeType;
 
-public class ReapExexcuteBTN implements ActionNode{
+public class SowExecuteBTN implements ActionNode{
 	private Man man;
-	private static final float REAP_TIME_PER_LAND = 2.0f;
+	private static final float SOW_TIME_PER_LAND = 2.0f;
 	private float timeAccum = 0.0f;
 	
-	public ReapExexcuteBTN(Man man)
-	{
-		this.man = man;
+	public SowExecuteBTN(Man man){
+		this.man=man;
 	}
 	
-	private void reapFinish()
-	{
-		FarmHouse farmHouse = (FarmHouse)man.getInfo().workingBuilding;
-		farmHouse.setReapStart(false);
-		farmHouse.setSowed(false);
-		farmHouse.clearReappedLandCnt();
+	private void sowFinish(){
+		FarmHouse farmHouse=(FarmHouse)man.getInfo().workingBuilding;
+		farmHouse.setSowed(true);
+		farmHouse.clearSowedLandCnt();
 		
-		timeAccum = 0.0f;
+		timeAccum=0f;
 	}
 	
-	private void doReap(float deltaTime)
-	{
+	private void doSow(float deltaTime){
 		FarmHouse farmHouse = (FarmHouse)man.getInfo().workingBuilding;
 		timeAccum += deltaTime;
-		while(timeAccum >= REAP_TIME_PER_LAND)
+		while(timeAccum >= SOW_TIME_PER_LAND)
 		{
-			timeAccum -= REAP_TIME_PER_LAND;
+			timeAccum -= SOW_TIME_PER_LAND;
 			
-			int landIndex = farmHouse.getReappedLandCnt();
-			farmHouse.addReappedLand();
+			int landIndex = farmHouse.getSowedLandCnt();
+			farmHouse.addSowedLand();
 			
-			FarmLand land = farmHouse.getFarmLands().get(landIndex);
-			float reappedAmount = land.getCurCropAmount();
-			System.out.println(reappedAmount);
-			land.addCropAmount(-reappedAmount);
-			
-			if( farmHouse.getReappedLandCnt() >= farmHouse.getFarmLands().size )
-				reapFinish();
+			if( farmHouse.getSowedLandCnt() >= farmHouse.getFarmLands().size )
+				sowFinish();
 		}
-		
 	}
-	
+
 	@Override
 	public ExcuteResult execute(float deltaTime) {
+		// TODO Auto-generated method stub
 		FarmHouse farmHouse = (FarmHouse)man.getInfo().workingBuilding;
 		FarmLand middleFarmLand = farmHouse.getFarmLands().get(4);
 		float destX = middleFarmLand.getAABBWorld(QuadTreeType.COLLISION).getCenterX();
@@ -59,7 +50,7 @@ public class ReapExexcuteBTN implements ActionNode{
 		
 		if( !man.move(deltaTime) )
 		{
-			doReap(deltaTime);
+			doSow(deltaTime);
 		}
 		
 		return ExcuteResult.RUNNING;
