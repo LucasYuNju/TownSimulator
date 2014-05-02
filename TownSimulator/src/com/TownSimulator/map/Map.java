@@ -86,6 +86,7 @@ public class Map extends Singleton{
 //						mObjsMap[x][y] = tree;
 						Tree tree = new Tree();
 						tree.setScale(scale);
+						tree.addHealth(Tree.MAX_HELTH * scale);
 						tree.setPositionWorld(	Settings.UNIT * x + Settings.UNIT * 0.5f + randX,
 												Settings.UNIT * y + Settings.UNIT * 0.5f + randY);
 						CollisionDetector.getInstance(CollisionDetector.class).attachCollisionDetection(tree);

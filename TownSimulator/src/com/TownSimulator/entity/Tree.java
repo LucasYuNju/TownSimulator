@@ -15,7 +15,7 @@ public class Tree extends MapEntity{
 	public static final float MAX_WIDTH = Settings.UNIT * 1.5f;
 	public static final float MAX_HEIGHT = Settings.UNIT * 2.0f;
 	public static final float MAX_HELTH = 100.0f;
-	public static final float GROW_TO_MAX_TIME_BASE = World.SecondPerYear * 0.1f;
+	public static final float GROW_TO_MAX_TIME_BASE = World.SecondPerYear * 0.5f;
 	public float growToMaxTime = World.SecondPerYear * 0.5f;
 	private float scale;
 	private float scaleAccum = 0.0f;
@@ -112,7 +112,7 @@ public class Tree extends MapEntity{
 		
 		if(health < MAX_HELTH)
 		{
-			health += MAX_HELTH / growToMaxTime * deltaTime;
+			addHealth( MAX_HELTH / growToMaxTime * deltaTime );
 		}
 		
 		if(growAnimeStart)

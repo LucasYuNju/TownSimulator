@@ -1,5 +1,6 @@
 package com.TownSimulator.entity.building;
 
+import com.TownSimulator.ai.behaviortree.BehaviorTreeNode;
 import com.TownSimulator.ai.btnimpls.idle.IdleBTN;
 import com.TownSimulator.entity.JobType;
 import com.TownSimulator.entity.Man;
@@ -10,7 +11,7 @@ import com.badlogic.gdx.utils.Array;
  *可以有人工作的建筑 
  *
  */
-public class WorkingBuilding extends Building{
+public abstract class WorkingBuilding extends Building{
 	protected int maxJobCnt;
 	protected int openJobCnt;
 	protected int curWorkerCnt;
@@ -67,6 +68,11 @@ public class WorkingBuilding extends Building{
 		return jobType;
 	}
 	
+	abstract protected BehaviorTreeNode createBehavior(Man man);
+	
+	/**
+	 *Override this method to set the man's behavior 
+	 */
 	public void addWorker(Man man)
 	{
 		if(curWorkerCnt >= openJobCnt)
@@ -76,6 +82,7 @@ public class WorkingBuilding extends Building{
 		curWorkerCnt ++;
 		man.getInfo().job = jobType;
 		man.getInfo().workingBuilding = this;
+		man.setBehavior(createBehavior(man));
 	}
 	
 	public void removeWorker(Man man)

@@ -3,7 +3,7 @@ package com.TownSimulator.driver;
 
 import java.util.Random;
 
-import com.TownSimulator.ai.btnimpls.idle.IdleBTN;
+import com.TownSimulator.ai.btnimpls.lumerjack.FellingBTN;
 import com.TownSimulator.camera.CameraController;
 import com.TownSimulator.collision.CollisionDetector;
 import com.TownSimulator.entity.EntityFactory;
@@ -49,7 +49,7 @@ public class Driver extends SingletonPublisher<DriverListener> implements Applic
 		wareHouse.addStoredResource(ResourceType.RS_STONE, 50);
 		wareHouse.addStoredResource(ResourceType.RS_WHEAT, 2000);
 		wareHouse.setState(Building.State.Constructed);
-		wareHouse.setPositionWorld(originPosX - 2 * Settings.UNIT, originPoxY);
+		wareHouse.setPositionWorld(originPosX - 2 * Settings.UNIT, originPoxY - 8 * Settings.UNIT);
 		EntityInfoCollector.getInstance(EntityInfoCollector.class).addBuilding(wareHouse);
 		CollisionDetector.getInstance(CollisionDetector.class).attachCollisionDetection(wareHouse);
 		Renderer.getInstance(Renderer.class).attachDrawScissor(wareHouse);
@@ -71,7 +71,7 @@ public class Driver extends SingletonPublisher<DriverListener> implements Applic
 		
 		FellingHouse fellingHouse = (FellingHouse)EntityFactory.createBuilding(BuildingType.FELLING_HOUSE);
 		fellingHouse.setState(Building.State.Constructed);
-		fellingHouse.setPositionWorld(originPosX, originPoxY - 2 * Settings.UNIT);
+		fellingHouse.setPositionWorld(originPosX, originPoxY - 8 * Settings.UNIT);
 		EntityInfoCollector.getInstance(EntityInfoCollector.class).addBuilding(fellingHouse);
 		CollisionDetector.getInstance(CollisionDetector.class).attachCollisionDetection(fellingHouse);
 		Renderer.getInstance(Renderer.class).attachDrawScissor(fellingHouse);
@@ -88,8 +88,8 @@ public class Driver extends SingletonPublisher<DriverListener> implements Applic
 			float ranxY = (rand.nextFloat() - 0.5f) * Settings.UNIT * 6;
 			Man man = new Man();
 			man.setPositionWorld(originPosX + randX, originPoxY + ranxY);
-			man.setBehavior(new IdleBTN(man));
-			//((WorkingBuilding)farmHouse).addWorker(man);
+			fellingHouse.addWorker(man);
+			man.setBehavior(new FellingBTN(man));
 			EntityInfoCollector.getInstance(EntityInfoCollector.class).addMan(man);
 			
 			Renderer.getInstance(Renderer.class).attachDrawScissor(man);
