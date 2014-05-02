@@ -12,7 +12,6 @@ public class RenderBatch {
 	private SpriteBatch 			mSpriteBatch;
 	private ArrayList<Drawable> 		mRenderList;
 	private Comparator<Drawable> 	mSortComparator;
-	private int drawCnt = 0;
 	
 	public RenderBatch()
 	{
@@ -38,17 +37,11 @@ public class RenderBatch {
 	
 	public void addDrawable( Drawable draw )
 	{
-//		if(drawCnt < mRenderList.size())
-//			mRenderList.set(drawCnt, draw);
-//		else
-//			mRenderList.add(draw);
-//		drawCnt++;
 		mRenderList.add(draw);
 	}
 	
 	private void sort()
 	{
-		//mRenderList.sort(mSortComparator);
 		Collections.sort(mRenderList, mSortComparator);
 	}
 	
@@ -61,7 +54,6 @@ public class RenderBatch {
 			mRenderList.get(i).drawSelf(mSpriteBatch);
 		}
 		mSpriteBatch.end();
-		//drawCnt = 0;
 		mRenderList.clear();
 	}
 	

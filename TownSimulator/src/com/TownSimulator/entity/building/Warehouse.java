@@ -28,6 +28,7 @@ public class Warehouse extends Building{
 			.addResourceAmount(type, amount);
 	}
 	
+
 	public Iterator<Resource> getStoredResource()
 	{
 		return storedResources.iterator();

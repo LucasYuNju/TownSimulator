@@ -7,16 +7,18 @@ import com.TownSimulator.io.InputMgrListenerBaseImpl;
 import com.TownSimulator.map.Map;
 import com.TownSimulator.utility.AxisAlignedBoundingBox;
 import com.TownSimulator.utility.Settings;
-import com.TownSimulator.utility.Singleton;
+import com.TownSimulator.utility.SingletonPublisher;
 import com.TownSimulator.utility.quadtree.QuadTree;
 import com.TownSimulator.utility.quadtree.QuadTreeManageble;
 import com.TownSimulator.utility.quadtree.QuadTreeType;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
 
-public class CollisionDetector extends Singleton{
+public class CollisionDetector extends SingletonPublisher<CollisionDetectorListener>{
 	private QuadTree		mCollsionDetector;
 	private	Array<Entity> 	mEventsListeningObjs;
+	private float touchDownXWorld;
+	private float touchDownYWorld;
 	
 	private CollisionDetector()
 	{
@@ -74,6 +76,9 @@ public class CollisionDetector extends Singleton{
 				}
 			}
 		}
+		
+		touchDownXWorld = x;
+		touchDownYWorld = y;
 	}
 	
 	private void touchUpWorldSpace(float x, float y)
@@ -81,6 +86,24 @@ public class CollisionDetector extends Singleton{
 		for (int i = 0; i < mEventsListeningObjs.size; i++) {
 			mEventsListeningObjs.get(i).detectTouchUp();
 		}
+		
+		if(x == touchDownXWorld && y == touchDownYWorld)
+		{
+			if(mEventsListeningObjs.size == 0)
+			{
+				for (int i = 0; i < mListeners.size; i++) {
+					mListeners.get(i).emptyTapped();
+				}
+			}
+			else
+			{
+				for (int i = 0; i < mEventsListeningObjs.size; i++) {
+					mEventsListeningObjs.get(i).detectTapped();
+				}
+			}
+			
+		}
+			
 	}
 	
 	private void touchDraggedWorldSpace(float x, float y, float deltaX, float deltaY)
