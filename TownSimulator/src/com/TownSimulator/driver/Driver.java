@@ -81,7 +81,20 @@ public class Driver extends SingletonPublisher<DriverListener> implements Applic
 //		for (FarmLand land : ((FarmHouse)farmHouse).getFarmLands()) {
 //			Renderer.getInstance(Renderer.class).attachDrawScissor(land);
 //		}
-
+		
+//		InputMgr.getInstance(InputMgr.class).addListener(new InputMgrListenerBaseImpl()
+//		{
+//
+//			@Override
+//			public boolean touchDown(float screenX, float screenY, int pointer,
+//					int button) {
+//				Vector3 pos = new Vector3(screenX, screenY, 0.0f);
+//				CameraController.getInstance(CameraController.class).screenToWorld(pos);
+//				TipsBillborad.showTips("W", pos.x, pos.y);
+//				return true;
+//			}
+//			
+//		});
 		
 		for (int i = 0; i < initPepleCnt; i++) {
 			float randX = (rand.nextFloat() - 0.5f) * Settings.UNIT * 6;

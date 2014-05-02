@@ -109,4 +109,10 @@ public class ResourceManager extends Singleton{
 		}
 	}
 	
+	@SuppressWarnings("deprecation")
+	public BitmapFont getFontNoManaged(int size)
+	{
+		return mFontGenerator.generateFont(size);
+	}
+	
 }
