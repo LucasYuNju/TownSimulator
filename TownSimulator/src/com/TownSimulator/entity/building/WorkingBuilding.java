@@ -1,5 +1,6 @@
 package com.TownSimulator.entity.building;
 
+import com.TownSimulator.ai.btnimpls.idle.IdleBTN;
 import com.TownSimulator.entity.JobType;
 import com.TownSimulator.entity.Man;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -31,6 +32,17 @@ public class WorkingBuilding extends Building{
 		this.openJobCnt = maxJobCnt;
 		workers = new Array<Man>();
 	}
+	
+	private void fireWorker(int cnt)
+	{
+		for (int i = 0; i < cnt; i++) {
+			Man worker = workers.pop();
+			worker.getInfo().job = null;
+			worker.getInfo().workingBuilding = null;
+			worker.setBehavior(new IdleBTN(worker));
+		}
+		curWorkerCnt -= cnt;
+	}
 
 	public int getMaxJobCnt() {
 		return maxJobCnt;
@@ -41,6 +53,9 @@ public class WorkingBuilding extends Building{
 	}
 
 	public void setOpenJobCnt(int openJobCnt) {
+		if(curWorkerCnt > openJobCnt)
+			fireWorker(curWorkerCnt - openJobCnt);
+		
 		this.openJobCnt = openJobCnt;
 	}
 
@@ -61,6 +76,16 @@ public class WorkingBuilding extends Building{
 		curWorkerCnt ++;
 		man.getInfo().job = jobType;
 		man.getInfo().workingBuilding = this;
+	}
+	
+	public void removeWorker(Man man)
+	{
+		if( workers.removeValue(man, false) )
+		{
+			curWorkerCnt--;
+			man.getInfo().job = null;
+			man.getInfo().workingBuilding = null;
+		}
 	}
 
 }

@@ -1,4 +1,4 @@
-package com.TownSimulator.ai.btnimpls.farm;
+package com.TownSimulator.ai.btnimpls.farmer;
 
 import com.TownSimulator.ai.behaviortree.ConditionNode;
 import com.TownSimulator.ai.behaviortree.ExecuteResult;

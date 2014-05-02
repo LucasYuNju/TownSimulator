@@ -1,5 +1,5 @@
 package com.TownSimulator.entity;
 
 public enum ManAnimeType {
-	STANDING, MOVE
+	STANDING, MOVE, DIE
 }

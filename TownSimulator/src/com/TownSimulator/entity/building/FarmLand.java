@@ -21,13 +21,14 @@ public class FarmLand extends Entity{
 	public FarmLand() {
 		super((Sprite)null);
 		
-		soil = ResourceManager.getInstance(ResourceManager.class).createSprite("farmland_soil");
-		
 		float pad = Settings.UNIT * 0.1f;
 		setDrawAABBLocal(pad, pad, Settings.UNIT - pad, Settings.UNIT - pad);
 		setCollisionAABBLocal(0.0f, 0.0f, Settings.UNIT, Settings.UNIT);
 		setUseDrawMinYAsDepth(false);
 		setDepth(Float.MAX_VALUE - 1.0f);
+		
+		soil = ResourceManager.getInstance(ResourceManager.class).createSprite("farmland_soil");
+		soil.setSize(mDrawAABBLocal.getWidth(), mDrawAABBLocal.getHeight());
 	}
 	
 	public void setCropType(CropType type)
@@ -42,7 +43,7 @@ public class FarmLand extends Entity{
 	@Override
 	public void setPositionWorld(float x, float y) {
 		super.setPositionWorld(x, y);
-		soil.setPosition(x, y);
+		soil.setPosition(mDrawAABBWorld.minX, mDrawAABBWorld.minY);
 	}
 
 	@Override

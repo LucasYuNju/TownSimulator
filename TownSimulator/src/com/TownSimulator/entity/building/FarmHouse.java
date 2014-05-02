@@ -1,6 +1,6 @@
 package com.TownSimulator.entity.building;
 
-import com.TownSimulator.ai.btnimpls.FarmerBTN;
+import com.TownSimulator.ai.btnimpls.farmer.FarmerBTN;
 import com.TownSimulator.driver.Driver;
 import com.TownSimulator.driver.DriverListenerBaseImpl;
 import com.TownSimulator.entity.JobType;

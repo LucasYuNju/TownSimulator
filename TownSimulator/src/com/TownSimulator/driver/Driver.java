@@ -3,6 +3,7 @@ package com.TownSimulator.driver;
 
 import java.util.Random;
 
+import com.TownSimulator.ai.btnimpls.idle.IdleBTN;
 import com.TownSimulator.camera.CameraController;
 import com.TownSimulator.collision.CollisionDetector;
 import com.TownSimulator.entity.EntityFactory;
@@ -11,7 +12,6 @@ import com.TownSimulator.entity.Man;
 import com.TownSimulator.entity.ResourceInfoCollector;
 import com.TownSimulator.entity.ResourceType;
 import com.TownSimulator.entity.building.Building;
-import com.TownSimulator.entity.building.Building.State;
 import com.TownSimulator.entity.building.BuildingType;
 import com.TownSimulator.entity.building.Warehouse;
 import com.TownSimulator.io.InputMgr;
@@ -36,7 +36,7 @@ public class Driver extends SingletonPublisher<DriverListener> implements Applic
 	public void init()
 	{
 		Random rand = new Random(System.currentTimeMillis());
-		int initPepleCnt = 4;
+		int initPepleCnt = 1;
 		float originPosX = CameraController.getInstance(CameraController.class).getX();
 		float originPoxY = CameraController.getInstance(CameraController.class).getY();
 		
@@ -46,11 +46,13 @@ public class Driver extends SingletonPublisher<DriverListener> implements Applic
 		Warehouse wareHouse = (Warehouse) EntityFactory.createBuilding(BuildingType.WAREHOUSE);
 		wareHouse.addStoredResource(ResourceType.RS_WOOD, 100);
 		wareHouse.addStoredResource(ResourceType.RS_STONE, 50);
-		wareHouse.setState(State.Constructed);
+		wareHouse.addStoredResource(ResourceType.RS_WHEAT, 2000);
+		//wareHouse.setState(State.Constructed);
 		wareHouse.setPositionWorld(originPosX - 2 * Settings.UNIT, originPoxY);
 		EntityInfoCollector.getInstance(EntityInfoCollector.class).addBuilding(wareHouse);
 		CollisionDetector.getInstance(CollisionDetector.class).attachCollisionDetection(wareHouse);
 		Renderer.getInstance(Renderer.class).attachDrawScissor(wareHouse);
+		
 		
 		Building lowCostHouse = EntityFactory.createBuilding(BuildingType.LOW_COST_HOUSE);
 		lowCostHouse.setState(Building.State.Constructed);
@@ -85,7 +87,7 @@ public class Driver extends SingletonPublisher<DriverListener> implements Applic
 			float ranxY = (rand.nextFloat() - 0.5f) * Settings.UNIT * 6;
 			Man man = new Man();
 			man.setPositionWorld(originPosX + randX, originPoxY + ranxY);
-			//man.setBehavior(new FarmerBTN(man));
+			man.setBehavior(new IdleBTN(man));
 			//((WorkingBuilding)farmHouse).addWorker(man);
 			EntityInfoCollector.getInstance(EntityInfoCollector.class).addMan(man);
 			
