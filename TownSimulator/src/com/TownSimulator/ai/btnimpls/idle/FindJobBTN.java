@@ -1,4 +1,4 @@
-package com.TownSimulator.ai.btnimpls;
+package com.TownSimulator.ai.btnimpls.idle;
 
 import com.TownSimulator.ai.behaviortree.ActionNode;
 import com.TownSimulator.ai.behaviortree.ExecuteResult;

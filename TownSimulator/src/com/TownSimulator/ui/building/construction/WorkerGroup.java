@@ -21,8 +21,8 @@ public class WorkerGroup extends Group{
 	private TextureRegion builderTexture;
 	private int numAllowed;
 	private int numSelected;
-	private int numBuilder;
-	private List<FlipButton> builderButtons = new LinkedList<FlipButton>();
+	private int numWorker;
+	private List<FlipButton> builderButtons;
 	private UndockedWindow window;
 
 	public WorkerGroup(UndockedWindow window, int numAllowedBuilder) {
@@ -37,6 +37,7 @@ public class WorkerGroup extends Group{
 	}
 	
 	void addBuilderButtons() {
+		builderButtons = new LinkedList<FlipButton>();
 		for(int i=0; i<numAllowed; i++) {
 			FlipButton btn;
 			btn = new FlipButton(allowedBuilderTexture, allowedBuilderTexture, null);
@@ -62,7 +63,7 @@ public class WorkerGroup extends Group{
 						if(i == indexOfClickedButton)
 							continue;
 						if(i < numSelected) {
-							if(i < numBuilder) {
+							if(i < numWorker) {
 								builderButtons.get(i).setImgUp(builderTexture);
 							}
 							else {
@@ -79,13 +80,19 @@ public class WorkerGroup extends Group{
 			addActor(btn);
 		}
 	}
+	
+//	private void test() {
+//		numWorker=1;
+//		numAllowed=2;
+//		refreshUI();
+//	}
 
 	boolean addBuilder() {
-		if(++numBuilder > numSelected) {
-			numBuilder = numSelected;
+		if(++numWorker > numSelected) {
+			numWorker = numSelected;
 			return false;
 		}
-		builderButtons.get(numBuilder - 1).setImgUp(builderTexture);
+		refreshUI();
 		return true;
 	}
 	
@@ -99,5 +106,21 @@ public class WorkerGroup extends Group{
 	
 	void setUpperLimit(int upperLimit) {
 		this.numSelected = upperLimit;
+	}
+	
+	public void refreshUI() {
+		for(int i=0; i<numAllowed; i++) {
+			if(i < numSelected) {
+				if(i < numWorker) {
+					builderButtons.get(i).setImgUp(builderTexture);
+				}
+				else {
+					builderButtons.get(i).setImgUp(allowedBuilderTexture);
+				}
+			}
+			else {
+				builderButtons.get(i).setImgUp(forbiddenBuilderTexture);
+			}
+		}
 	}
 }

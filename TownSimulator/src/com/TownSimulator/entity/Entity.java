@@ -1,6 +1,7 @@
 package com.TownSimulator.entity;
 
 import com.TownSimulator.collision.CollisionDetector;
+import com.TownSimulator.collision.CollisionDetectorListener;
 import com.TownSimulator.render.Drawable;
 import com.TownSimulator.render.Renderer;
 import com.TownSimulator.utility.AxisAlignedBoundingBox;
@@ -8,6 +9,7 @@ import com.TownSimulator.utility.ResourceManager;
 import com.TownSimulator.utility.quadtree.QuadTreeManageble;
 import com.TownSimulator.utility.quadtree.QuadTreeNode;
 import com.TownSimulator.utility.quadtree.QuadTreeType;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Array;
@@ -26,6 +28,20 @@ public class Entity implements Drawable, QuadTreeManageble{
 	protected Array<QuadTreeNode>		mCollisionQuadNodes;
 	protected EntityListener			mListener;
 	protected boolean					mUseDrawMinYAsDepth;
+	
+	protected static Entity selectedEntity = null;
+	protected boolean isSelected = false;
+	static
+	{
+		CollisionDetector.getInstance(CollisionDetector.class).addListener(new CollisionDetectorListener() {
+			
+			@Override
+			public void emptyTapped() {
+				if(selectedEntity != null)
+					selectedEntity.setSelected(false);
+			}
+		});
+	}
 	
 	public Entity(String textureName)
 	{
@@ -49,6 +65,11 @@ public class Entity implements Drawable, QuadTreeManageble{
 		mUseDrawMinYAsDepth = useDrawMinYAsDepth;
 		
 		setSprite(sp);
+	}
+	
+	public void setSelected(boolean value)
+	{
+		isSelected = value;
 	}
 	
 	public AxisAlignedBoundingBox getDrawAABBLocal()
@@ -194,6 +215,14 @@ public class Entity implements Drawable, QuadTreeManageble{
 			mListener.objBeTouchDragged(this, x, y, deltaX, deltaY);
 	}
 	
+	public void detectTapped()
+	{
+		if(mListener != null)
+			mListener.objBeTapped(this);
+		setSelected(true);
+		selectedEntity = this;
+	}
+	
 	public void setCollisionAABBLocal(float minX, float minY, float maxX, float maxY)
 	{
 		mCollisionAABBLocal.minX = minX;
@@ -201,6 +230,7 @@ public class Entity implements Drawable, QuadTreeManageble{
 		mCollisionAABBLocal.maxX = maxX;
 		mCollisionAABBLocal.maxY = maxY;
 		
+		resetSpriteBounds();
 		resetCollisionAABBWorld();
 	}
 	
@@ -211,6 +241,7 @@ public class Entity implements Drawable, QuadTreeManageble{
 		mDrawAABBLocal.maxX = maxX;
 		mDrawAABBLocal.maxY = maxY;
 		
+		resetSpriteBounds();
 		resetDrawAABBWorld();
 	}
 	

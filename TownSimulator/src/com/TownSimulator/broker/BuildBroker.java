@@ -241,5 +241,11 @@ public class BuildBroker extends Singleton implements EntityListener, CameraList
 			float curHeight) {
 		updateUIPos();
 	}
+
+	@Override
+	public void objBeTapped(Entity obj) {
+		// TODO Auto-generated method stub
+		
+	}
 	
 }

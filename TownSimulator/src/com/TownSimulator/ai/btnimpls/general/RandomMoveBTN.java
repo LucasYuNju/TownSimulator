@@ -1,4 +1,4 @@
-package com.TownSimulator.ai.btnimpls;
+package com.TownSimulator.ai.btnimpls.general;
 
 import java.util.Random;
 

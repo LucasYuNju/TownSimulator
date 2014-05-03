@@ -1,7 +1,7 @@
-package com.TownSimulator.ai.btnimpls;
+package com.TownSimulator.ai.btnimpls.farmer;
 
 import com.TownSimulator.ai.behaviortree.SelectorNode;
-import com.TownSimulator.ai.btnimpls.farm.FarmBTN;
+import com.TownSimulator.ai.btnimpls.general.RandomMoveBTN;
 import com.TownSimulator.entity.Man;
 
 public class FarmerBTN extends SelectorNode{

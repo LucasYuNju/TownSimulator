@@ -4,6 +4,7 @@ import java.util.Iterator;
 
 import com.TownSimulator.entity.EntityInfoCollector;
 import com.TownSimulator.entity.Man;
+import com.TownSimulator.entity.Resource;
 import com.TownSimulator.entity.ResourceType;
 import com.TownSimulator.entity.building.Building;
 import com.badlogic.gdx.utils.Array;
@@ -14,9 +15,11 @@ public class ConstructionProject {
 	private int							mCurWorkingManCnt = 0;
 	private State						mCurStage;
 	private Building					mBuilding;
-	private Iterator<ResourceType> 		mBuildResourceTypeItr;
-	private ResourceType				mCurAllocRsType;
-	private int							mCurAllocRsRemainNeedAmount;
+	private Array<Resource>				mBuildResource;
+	//private Iterator<ResourceType> 		mBuildResourceTypeItr;
+	private Resource					mCurAllocRs;
+	//private ResourceType				mCurAllocRsType;
+	//private int							mCurAllocRsRemainNeedAmount;
 	private boolean						mFinished = false;
 	private Array<Man>					mWorkers;
 	
@@ -32,10 +35,20 @@ public class ConstructionProject {
 		mMaxBuildJobCnt = mBuilding.getMaxAllowdBuilderCnt();
 		mOpenBuildJobCnt = mMaxBuildJobCnt;
 		mBuilding.setConstructionProject(this);
-		mBuildResourceTypeItr = mBuilding.getConstructionResourceTypes().iterator();
+		mBuildResource = new Array<Resource>();
 		mWorkers = new Array<Man>();
 		
 		EntityInfoCollector.getInstance(EntityInfoCollector.class).addConstructProj(this);
+		
+		Iterator<ResourceType> itr = mBuilding.getConstructionResourceTypes().iterator();
+		while(itr.hasNext())
+		{
+			ResourceType type = itr.next();
+			int amount = mBuilding.getNeededConstructionResouceAmount(type);
+			mBuildResource.add(new Resource(type, amount));
+		}
+		
+		mCurAllocRs = mBuildResource.pop();
 	}
 	
 	private void fireWorker(int cnt)
@@ -60,6 +73,7 @@ public class ConstructionProject {
 			fireWorker(mCurWorkingManCnt - openBuildJobCnt);
 		
 		this.mOpenBuildJobCnt = openBuildJobCnt;
+		System.out.println(openBuildJobCnt);
 	}
 	
 	public int getOpenWorkJobCnt()
@@ -84,9 +98,25 @@ public class ConstructionProject {
 		mBuilding.addBuilder();
 	}
 	
+	public void removeWorker(Man man)
+	{
+		if(mWorkers.removeValue(man, false))
+		{
+			man.getInfo().constructionInfo.proj = null;
+			if(man.getInfo().constructionInfo.transportNeededAmount > 0)
+			{
+				ResourceType type = man.getInfo().constructionInfo.transportRSType;
+				int amount = man.getInfo().constructionInfo.transportNeededAmount;
+				mBuildResource.add(new Resource(type, amount));
+			}
+		}
+	}
+	
 	public boolean remainResourceToTrans()
 	{
-		if(mCurAllocRsRemainNeedAmount > 0 || mBuildResourceTypeItr.hasNext())
+		//if(mCurAllocRsRemainNeedAmount > 0 || mBuildResourceTypeItr.hasNext())
+		if( (mCurAllocRs != null && mCurAllocRs.getAmount() > 0)
+				|| mBuildResource.size > 0)
 			return true;
 		else
 			return false;
@@ -112,22 +142,42 @@ public class ConstructionProject {
 	
 	public boolean allocateTransport(ConstructionInfo cons)
 	{
-		if(mCurAllocRsRemainNeedAmount <= 0)
+//		if(mCurAllocRsRemainNeedAmount <= 0)
+//		{
+//			if(mBuildResourceTypeItr.hasNext())
+//			{
+//				mCurAllocRsType = mBuildResourceTypeItr.next();
+//				mCurAllocRsRemainNeedAmount = mBuilding.getNeededConstructionResouceAmount(mCurAllocRsType);
+//			}
+//			else
+//				return false;
+//		}
+//
+//		int amount = Math.min(mCurAllocRsRemainNeedAmount, ConstructionTransportBTN.MAX_TRANSPORT_RS_AMOUNT);
+//		cons.transportRSType = mCurAllocRsType;
+//		cons.transportNeededAmount = amount;
+//		cons.transportBuilding = mBuilding;
+//		mCurAllocRsRemainNeedAmount -= amount;
+		
+		if(mCurAllocRs.getAmount() <= 0)
 		{
-			if(mBuildResourceTypeItr.hasNext())
+			if(mBuildResource.size > 0)
 			{
-				mCurAllocRsType = mBuildResourceTypeItr.next();
-				mCurAllocRsRemainNeedAmount = mBuilding.getNeededConstructionResouceAmount(mCurAllocRsType);
+//				mCurAllocRsType = mBuildResourceTypeItr.next();
+//				mCurAllocRsRemainNeedAmount = mBuilding.getNeededConstructionResouceAmount(mCurAllocRsType);
+				mCurAllocRs = mBuildResource.pop();
 			}
 			else
 				return false;
 		}
 
-		int amount = Math.min(mCurAllocRsRemainNeedAmount, ConstructionTransportBTN.MAX_TRANSPORT_RS_AMOUNT);
-		cons.transportRSType = mCurAllocRsType;
+		int amount = Math.min(mCurAllocRs.getAmount(), ConstructionTransportBTN.MAX_TRANSPORT_RS_AMOUNT);
+		cons.transportRSType = mCurAllocRs.getType();
 		cons.transportNeededAmount = amount;
 		cons.transportBuilding = mBuilding;
-		mCurAllocRsRemainNeedAmount -= amount;
+		mCurAllocRs.addAmount(-amount);
+		
+		//mCurAllocRsRemainNeedAmount -= amount;
 		
 		return true;
 	}

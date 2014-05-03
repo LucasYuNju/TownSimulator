@@ -30,7 +30,7 @@ public class Building extends Entity implements ConstructionWindowListener{
 	protected BuildingType				type;
 	private   int 						numAllowedBuilder = 3;
 	private   ConstructionWindow		constructionWindow;
-	private   ViewWindow				viewWindow;
+	protected ViewWindow				viewWindow;
 	
 	public enum State
 	{
@@ -177,15 +177,26 @@ public class Building extends Entity implements ConstructionWindowListener{
 		if(state == State.Constructed) {
 			if(viewWindow == null) {
 				viewWindow = Singleton.getInstance(UIManager.class).getGameUI().createViewWindow(type, getViewData());
-				viewWindow.setBuildingPosWorld(getPositionXWorld(), getPositionYWorld());
+				if(viewWindow != null)
+					viewWindow.setBuildingPosWorld(getPositionXWorld(), getPositionYWorld());
 			}
-			viewWindow.setVisible(true);
+			
+			if(viewWindow != null)
+				viewWindow.setVisible(true);
 		}
 	}
 	
 	//使用ViewWindow的子类需要override此方法
 	protected String[][] getViewData() {
 		return null;
+	}
+	
+	/*
+	 * 将数据更新到viewWindow
+	 */
+	protected void updataViewWindow() {
+		if(viewWindow != null)
+			viewWindow.updateData(getViewData());
 	}
 	
 	public void setState(State state)
@@ -201,6 +212,7 @@ public class Building extends Entity implements ConstructionWindowListener{
 	//this method will notify constructionWindow
 	public void addBuilder() {
 		constructionWindow.addBuilder();
+		//System.out.println("Add Builder");
 	}
 
 	@Override
@@ -210,7 +222,7 @@ public class Building extends Entity implements ConstructionWindowListener{
 
 	@Override
 	public void builderLimitSelected(int limit) {
-		System.out.println(limit);
+		//System.out.println(limit);
 		constructionProject.setOpenWorkJobCnt(limit);
 	}
 }

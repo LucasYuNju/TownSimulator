@@ -8,56 +8,88 @@ import com.TownSimulator.utility.Singleton;
 import com.badlogic.gdx.utils.Array;
 
 public class EntityInfoCollector extends Singleton{
-	private Array<Man> 		mPeople;
-	private Array<Building>	mBuildings;
-	private Array<ConstructionProject> mConstructProjs;
+	private Array<Man> 		manList;
+	private Array<Building>	buildingList;
+	private Array<ConstructionProject> constructProjsList;
 	
 	private EntityInfoCollector()
 	{
-		mPeople = new Array<Man>();
-		mBuildings = new Array<Building>();
-		mConstructProjs = new Array<ConstructionProject>();
+		manList = new Array<Man>();
+		buildingList = new Array<Building>();
+		constructProjsList = new Array<ConstructionProject>();
 	}
 	
 	public void addMan(Man man)
 	{
-		mPeople.add(man);
+		manList.add(man);
 	}
 	
-	public Array<Man> getAllPeople()
+	public void removeMan(Man man)
 	{
-		return mPeople;
+		manList.removeValue(man, false);
+	}
+	
+	public Array<Man> getAllMan()
+	{
+		return manList;
 	}
 	
 	public void addConstructProj(ConstructionProject proj)
 	{
-		mConstructProjs.add(proj);
+		constructProjsList.add(proj);
 	}
 	
 	public void removeConstructProj(ConstructionProject proj)
 	{
-		mConstructProjs.removeValue(proj, false);
+		constructProjsList.removeValue(proj, false);
 	}
 	
 	public Array<ConstructionProject> getAllConstructProjs()
 	{
-		return mConstructProjs;
+		return constructProjsList;
 	}
 	
 	public void addBuilding(Building building)
 	{
-		mBuildings.add(building);
+		buildingList.add(building);
+	}
+	
+	public void removeBuilding(Building building)
+	{
+		buildingList.removeValue(building, false);
 	}
 	
 	public Array<Building> getAllBuildings()
 	{
-		return mBuildings;
+		return buildingList;
 	}
 	
 	public class WareHouseFindResult
 	{
 		public Warehouse wareHouse;
 		public int amount;
+	}
+	
+	public Warehouse findNearestWareHouse(float x, float y)
+	{
+		double dstMin = -1.0f;
+		Warehouse house = null;
+		for (Building building : buildingList) {
+			if(building.getType() == BuildingType.WAREHOUSE)
+			{
+				Warehouse wareHouse = (Warehouse)building;
+				double dst = 	Math.pow(wareHouse.getPositionXWorld() - x, 2)
+							+	Math.pow(wareHouse.getPositionYWorld() - y, 2);
+				
+				if(dstMin == -1.0f || dst < dstMin)
+				{
+					dstMin = dst;
+					house = wareHouse;
+				}
+			}
+		}
+		
+		return house;
 	}
 	
 	public WareHouseFindResult findNearestWareHouseWithRs( ResourceType type, int amount, float x, float y )

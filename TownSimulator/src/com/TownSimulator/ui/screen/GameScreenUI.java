@@ -67,7 +67,8 @@ public class GameScreenUI extends ScreenUIBase{
 		default:
 			break;
 		}
-		windows.add(window);
+		if(window != null)
+			windows.add(window);
 		return window;
 	}
 	

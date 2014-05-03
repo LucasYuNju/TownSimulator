@@ -1,11 +1,10 @@
-package com.TownSimulator.ai.btnimpls.farm;
+package com.TownSimulator.ai.btnimpls.farmer;
 
 import com.TownSimulator.ai.behaviortree.ActionNode;
 import com.TownSimulator.ai.behaviortree.ExecuteResult;
 import com.TownSimulator.entity.EntityInfoCollector;
 import com.TownSimulator.entity.Man;
 import com.TownSimulator.entity.ManAnimeType;
-import com.TownSimulator.entity.ResourceInfoCollector;
 import com.TownSimulator.entity.building.Building;
 import com.TownSimulator.entity.building.BuildingType;
 import com.TownSimulator.entity.building.FarmHouse;
@@ -76,8 +75,6 @@ public class ReapExexcuteBTN implements ActionNode{
 			land.updateView();
 			
 			warehouse.addStoredResource(farmHouse.getCurCropType().getResourceType(), (int)reappedAmount);
-			ResourceInfoCollector.getInstance(ResourceInfoCollector.class)
-			.addResourceAmount(farmHouse.getCurCropType().getResourceType(), (int)reappedAmount);
 			
 			if( farmHouse.getReappedLandCnt() >= farmHouse.getFarmLands().size )
 				reapFinish();
