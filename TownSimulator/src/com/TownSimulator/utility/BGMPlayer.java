@@ -46,6 +46,7 @@ public class BGMPlayer{
 	
 	public void dispose(){
 		if(music!=null){
+			music.stop();
 			music.dispose();
 		}
 	}

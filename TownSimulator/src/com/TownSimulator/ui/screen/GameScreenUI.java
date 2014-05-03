@@ -3,7 +3,9 @@ package com.TownSimulator.ui.screen;
 import java.util.LinkedList;
 import java.util.List;
 
+import com.TownSimulator.entity.EntityInfoCollector;
 import com.TownSimulator.entity.Resource;
+import com.TownSimulator.entity.ResourceInfoCollector;
 import com.TownSimulator.entity.building.BuildingType;
 import com.TownSimulator.ui.StateBar;
 import com.TownSimulator.ui.base.ScreenUIBase;
@@ -12,6 +14,7 @@ import com.TownSimulator.ui.building.BuildingAdjustGroup;
 import com.TownSimulator.ui.building.construction.ConstructionWindow;
 import com.TownSimulator.ui.building.view.FarmViewWindow;
 import com.TownSimulator.ui.building.view.ViewWindow;
+import com.TownSimulator.utility.ResourceManager;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -107,7 +110,17 @@ public class GameScreenUI extends ScreenUIBase{
 		}
 	}
 	
-	public void update(int numPeople, int numFood) {
+	
+	
+	@Override
+	public void update(float deltaTime) {
+		super.update(deltaTime);
+		int numPeople = EntityInfoCollector.getInstance(EntityInfoCollector.class).getAllMan().size;
+		int numFood = ResourceInfoCollector.getInstance(ResourceInfoCollector.class).getFoodAmount();
 		stateBar.update(numPeople, numFood);
 	}
+
+//	public void update(int numPeople, int numFood) {
+//		stateBar.update(numPeople, numFood);
+//	}
 }
