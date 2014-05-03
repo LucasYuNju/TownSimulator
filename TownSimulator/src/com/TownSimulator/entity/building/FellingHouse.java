@@ -73,4 +73,9 @@ public class FellingHouse extends WorkingBuilding{
 	protected BehaviorTreeNode createBehavior(Man man) {
 		return new FellingBTN(man);
 	}
+
+	@Override
+	protected String[][] getViewData() {
+		return null;
+	}
 }

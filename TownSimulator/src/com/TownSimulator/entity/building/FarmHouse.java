@@ -168,17 +168,6 @@ public class FarmHouse extends WorkingBuilding{
 		return collisionAABBLocalWithLands;
 	}
 	
-	
-
-//	public AxisAlignedBoundingBox resetCollisionAABBLocalWithFarmlands()
-//	{
-//		AxisAlignedBoundingBox aabb = super.getCollisionAABBLocal();
-//		aabb.minX = Math.min(0.1f, aabb.minX);
-//		aabb.minY = aabb.minY - 3 * Settings.UNIT;
-//		aabb.maxX = Math.max(aabb.minX + 3 * Settings.UNIT - 0.2f, aabb.maxX);
-//		return aabb;
-//	}
-
 	@Override
 	public AxisAlignedBoundingBox getAABBWorld(QuadTreeType type) {
 		if(type == QuadTreeType.COLLISION)
@@ -292,6 +281,8 @@ public class FarmHouse extends WorkingBuilding{
 	}
 
 
-	
-	
+	@Override
+	protected String[][] getViewData() {
+		return null;
+	}
 }

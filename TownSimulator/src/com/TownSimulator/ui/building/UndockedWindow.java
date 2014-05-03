@@ -21,17 +21,17 @@ import com.badlogic.gdx.scenes.scene2d.utils.Align;
 
 /**
  * 
- * 跟随地图移动
- * 关闭按钮
- * Header Label
+ * 能跟随地图移动
+ * 有关闭按钮
+ * 有建筑名
  *
  */
 public class UndockedWindow extends Group{
 	protected float buildingPosXWorld;
 	protected float buildingPosYWorld;
-	protected static final float MARGIN = Settings.UNIT * 0.3f;
-	protected static final float LABEL_WIDTH = Settings.UNIT * 1f;
-	protected static final float LABEL_HEIGHT = Settings.UNIT * 0.4f;
+	public static final float MARGIN = Settings.UNIT * 0.3f;
+	public static final float LABEL_WIDTH = Settings.UNIT * 1f;
+	public static final float LABEL_HEIGHT = Settings.UNIT * 0.4f;
 	protected BuildingType buildingType;
 	protected TextureRegion background;
 	

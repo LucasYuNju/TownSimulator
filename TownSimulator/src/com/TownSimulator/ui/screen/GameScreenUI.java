@@ -56,10 +56,10 @@ public class GameScreenUI extends ScreenUIBase{
 		ViewWindow window = null;
 		switch (type) {
 		case WAREHOUSE:
-			window = createCommonViewWindow(type, data);
+			window = createScrollViewWindow(type, data);
 			break;
 		case LOW_COST_HOUSE:
-			window = createCommonViewWindow(type, data);
+			window = createScrollViewWindow(type, data);
 			break;
 		case FARM_HOUSE:
 			window = createFarmViewWindow();
@@ -71,7 +71,7 @@ public class GameScreenUI extends ScreenUIBase{
 		return window;
 	}
 	
-	private ViewWindow createCommonViewWindow(BuildingType buildingType, String[][] data) {
+	private ViewWindow createScrollViewWindow(BuildingType buildingType, String[][] data) {
 		ViewWindow content = new ViewWindow(buildingType, data);
 		ScrollPane scrollPane = new ScrollPane(content);
 		scrollPane.setSize(content.getWidth(), content.getHeight());
