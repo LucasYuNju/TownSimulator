@@ -3,6 +3,8 @@ package com.TownSimulator.ui.building.view;
 import com.TownSimulator.camera.CameraController;
 import com.TownSimulator.entity.building.BuildingType;
 import com.TownSimulator.ui.building.ProcessBar;
+import com.TownSimulator.ui.building.SelectBoxListener;
+import com.TownSimulator.ui.building.WorkerGroupListener;
 import com.TownSimulator.ui.building.construction.WorkerGroup;
 import com.TownSimulator.utility.ResourceManager;
 import com.TownSimulator.utility.Settings;
@@ -10,6 +12,8 @@ import com.TownSimulator.utility.Singleton;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.scenes.scene2d.Event;
+import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.List.ListStyle;
@@ -35,6 +39,7 @@ public class FarmViewWindow extends ViewWindow{
 	private WorkerGroup builderGroup;
 	private float width;
 	private float height;
+	private SelectBoxListener selectBoxListener;
 	
 	public FarmViewWindow() {
 		super(BuildingType.FARM_HOUSE);
@@ -96,6 +101,13 @@ public class FarmViewWindow extends ViewWindow{
 		dropDown.setItems("Wheat", "Corn", "Cabbage");
 		dropDown.setSize(LABEL_WIDTH, LABEL_HEIGHT);
 		dropDown.setPosition(getWidth() - MARGIN - LABEL_WIDTH, MARGIN + WorkerGroup.WORKER_HEIGHT + LABEL_WIDTH);
+		dropDown.addListener(new EventListener() {
+			@Override
+			public boolean handle(Event event) {
+				selectBoxListener.selectBoxSelected(dropDown.getSelected());
+				return false;
+			}
+		});
 		
 		addActor(dropDown);
 	}
@@ -111,7 +123,12 @@ public class FarmViewWindow extends ViewWindow{
 	}
 	
 	@Override
-	public void builderLimitSelected(int selectedLimit) {
-		
+	public void setWorkerGroupListener(WorkerGroupListener workerGroupListener) {
+		builderGroup.setListener(workerGroupListener);
+	}
+
+	@Override
+	public void setSelectBoxListener(SelectBoxListener selectBoxListener) {
+		this.selectBoxListener = selectBoxListener;
 	}
 }

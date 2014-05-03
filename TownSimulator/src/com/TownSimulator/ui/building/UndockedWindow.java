@@ -120,9 +120,4 @@ public class UndockedWindow extends Group{
 		drawChildren(batch, parentAlpha);
 		resetTransform(batch);
 	}
-
-	//for worker group
-	public void builderLimitSelected(int selectedLimit) {
-		
-	}
 }

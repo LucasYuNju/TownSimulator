@@ -8,6 +8,7 @@ import com.TownSimulator.entity.building.BuildingType;
 import com.TownSimulator.ui.base.FlipButton;
 import com.TownSimulator.ui.building.ProcessBar;
 import com.TownSimulator.ui.building.UndockedWindow;
+import com.TownSimulator.ui.building.WorkerGroupListener;
 import com.TownSimulator.utility.ResourceManager;
 import com.TownSimulator.utility.Settings;
 import com.TownSimulator.utility.Singleton;
@@ -131,13 +132,12 @@ public class ConstructionWindow extends UndockedWindow{
 		processBar.setProcess(process);
 	}
 
-	public void setListener(ConstructionWindowListener listener) {
+	public void setConstructionListener(ConstructionWindowListener listener) {
 		this.listener = listener;
 	}
 	
-	@Override
-	public void builderLimitSelected(int selectedLimit) {
-		listener.builderLimitSelected(selectedLimit);
+	public void setWorkerGroupListener(WorkerGroupListener workerGroupListener) {
+		builderGroup.setListener(workerGroupListener);
 	}
 	
 	private void constructionCancelled() {

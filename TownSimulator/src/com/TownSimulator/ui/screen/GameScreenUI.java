@@ -69,6 +69,10 @@ public class GameScreenUI extends ScreenUIBase{
 			break;
 		case FARM_HOUSE:
 			window = createFarmViewWindow();
+			break;
+		case FELLING_HOUSE:
+			window = createScrollViewWindow(type, data);
+			break;
 		default:
 			break;
 		}

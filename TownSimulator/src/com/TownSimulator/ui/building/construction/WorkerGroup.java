@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.TownSimulator.ui.base.FlipButton;
 import com.TownSimulator.ui.building.UndockedWindow;
+import com.TownSimulator.ui.building.WorkerGroupListener;
 import com.TownSimulator.utility.ResourceManager;
 import com.TownSimulator.utility.Settings;
 import com.TownSimulator.utility.Singleton;
@@ -24,6 +25,7 @@ public class WorkerGroup extends Group{
 	private int numWorker;
 	private List<FlipButton> builderButtons;
 	private UndockedWindow window;
+	private WorkerGroupListener listener;
 
 	public WorkerGroup(UndockedWindow window, int numAllowedBuilder) {
 		this.window = window;
@@ -32,11 +34,11 @@ public class WorkerGroup extends Group{
 		builderTexture = Singleton.getInstance(ResourceManager.class).findTextureRegion("head");
 		allowedBuilderTexture = Singleton.getInstance(ResourceManager.class).findTextureRegion("head_gray");
 		forbiddenBuilderTexture = Singleton.getInstance(ResourceManager.class).findTextureRegion("head_forbidden");
-		addBuilderButtons();
+		initBuilderButtons();
 		setSize(WORKER_WIDTH * numAllowed, WORKER_WIDTH);
 	}
 	
-	void addBuilderButtons() {
+	void initBuilderButtons() {
 		builderButtons = new LinkedList<FlipButton>();
 		for(int i=0; i<numAllowed; i++) {
 			FlipButton btn;
@@ -60,7 +62,7 @@ public class WorkerGroup extends Group{
 					
 					if(numWorker > numSelected)
 						numWorker = numSelected;
-					window.builderLimitSelected(numSelected);
+					listener.workerLimitSelected(numSelected);
 					for(int i=0; i<numAllowed; i++) {
 						if(i == indexOfClickedButton)
 							continue;
@@ -83,12 +85,6 @@ public class WorkerGroup extends Group{
 		}
 	}
 	
-//	private void test() {
-//		numWorker=1;
-//		numAllowed=2;
-//		refreshUI();
-//	}
-
 	boolean addBuilder() {
 		if(++numWorker > numSelected) {
 			numWorker = numSelected;
@@ -124,5 +120,9 @@ public class WorkerGroup extends Group{
 				builderButtons.get(i).setImgUp(forbiddenBuilderTexture);
 			}
 		}
+	}
+	
+	public void setListener(WorkerGroupListener listener) {
+		this.listener = listener;
 	}
 }

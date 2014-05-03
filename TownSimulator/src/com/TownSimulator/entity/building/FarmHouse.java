@@ -8,13 +8,17 @@ import com.TownSimulator.entity.JobType;
 import com.TownSimulator.entity.Man;
 import com.TownSimulator.entity.World;
 import com.TownSimulator.entity.World.SeasonType;
+import com.TownSimulator.ui.building.SelectBoxListener;
+import com.TownSimulator.ui.building.WorkerGroupListener;
 import com.TownSimulator.utility.AxisAlignedBoundingBox;
 import com.TownSimulator.utility.GameMath;
 import com.TownSimulator.utility.Settings;
 import com.TownSimulator.utility.quadtree.QuadTreeType;
 import com.badlogic.gdx.utils.Array;
 
-public class FarmHouse extends WorkingBuilding{
+public class FarmHouse extends WorkingBuilding
+	implements SelectBoxListener
+{
 	private static final int MAX_WORKER_CNT = 4;
 	private CropType curCropType;
 	private CropType sowCropType;
@@ -29,7 +33,8 @@ public class FarmHouse extends WorkingBuilding{
 	
 	public FarmHouse() {
 		super("building_farm_house", BuildingType.FARM_HOUSE, JobType.FARMER, MAX_WORKER_CNT);
-		
+		viewWindow.setWorkerGroupListener(this);
+		viewWindow.setSelectBoxListener(this);
 		setSowCropType(CropType.Wheat);
 		initFarmLands();
 		
@@ -284,5 +289,22 @@ public class FarmHouse extends WorkingBuilding{
 	@Override
 	protected String[][] getViewData() {
 		return null;
+	}
+	
+	@Override
+	public void workerLimitSelected(int limit) {
+		if(state == State.UnderConstruction)
+			//called by ConstructionWindow's WorkerGroup
+			super.workerLimitSelected(limit);
+		else if(state == State.Constructed) {
+			//called by ViewWindow's WorkerGroup
+			
+		}
+	}
+
+
+	@Override
+	public void selectBoxSelected(String selectedString) {
+		
 	}
 }
