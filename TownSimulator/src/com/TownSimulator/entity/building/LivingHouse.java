@@ -1,5 +1,6 @@
 package com.TownSimulator.entity.building;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.TownSimulator.entity.ManInfo;
@@ -10,6 +11,8 @@ public class LivingHouse extends Building{
 	
 	public LivingHouse(String textureName, BuildingType type) {
 		super(textureName, type);
+		residents = new ArrayList<ManInfo>();
+		capacity = 8;
 	}
 	
 	public boolean addResident(ManInfo newResident) {

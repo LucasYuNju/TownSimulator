@@ -10,11 +10,12 @@ import com.TownSimulator.entity.Entity;
 import com.TownSimulator.entity.Resource;
 import com.TownSimulator.entity.ResourceType;
 import com.TownSimulator.ui.UIManager;
-import com.TownSimulator.ui.building.WorkerGroupListener;
 import com.TownSimulator.ui.building.construction.ConstructionWindow;
 import com.TownSimulator.ui.building.construction.ConstructionWindowListener;
 import com.TownSimulator.ui.building.view.ViewWindow;
+import com.TownSimulator.ui.building.view.WorkerGroupListener;
 import com.TownSimulator.utility.Singleton;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 
 
@@ -176,13 +177,10 @@ public abstract class Building extends Entity
 			constructionWindow.setVisible(true);
 		}
 		if(state == State.Constructed) {
-//			if(viewWindow == null) {
-//				viewWindow = Singleton.getInstance(UIManager.class).getGameUI().createViewWindow(type, getViewData());
-				viewWindow.setBuildingPosWorld(getPositionXWorld(), getPositionYWorld());
-//			}
-			
-//			if(viewWindow != null)
-				viewWindow.setVisible(true);
+			updataViewWindow();
+			viewWindow.setBuildingPosWorld(getPositionXWorld(), getPositionYWorld());
+			viewWindow.setVisible(true);
+			Gdx.app.log("building", "12345");
 		}
 	}
 	

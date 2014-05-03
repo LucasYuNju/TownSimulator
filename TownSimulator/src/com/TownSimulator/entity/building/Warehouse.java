@@ -7,14 +7,14 @@ import java.util.List;
 import com.TownSimulator.entity.Resource;
 import com.TownSimulator.entity.ResourceInfoCollector;
 import com.TownSimulator.entity.ResourceType;
-import com.TownSimulator.ui.building.view.ViewWindow;
 import com.TownSimulator.utility.ResourceManager;
 
-public class Warehouse extends Building{
+public class Warehouse extends Building {
 	private List<Resource> storedResources;
 	
 	public Warehouse() {
 		super(ResourceManager.getInstance(ResourceManager.class).createSprite("building_warehouse"), BuildingType.WAREHOUSE);
+		
 		storedResources = new LinkedList<Resource>();
 	}
 	

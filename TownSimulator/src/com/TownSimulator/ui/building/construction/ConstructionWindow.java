@@ -6,9 +6,10 @@ import java.util.List;
 import com.TownSimulator.entity.Resource;
 import com.TownSimulator.entity.building.BuildingType;
 import com.TownSimulator.ui.base.FlipButton;
-import com.TownSimulator.ui.building.ProcessBar;
-import com.TownSimulator.ui.building.UndockedWindow;
-import com.TownSimulator.ui.building.WorkerGroupListener;
+import com.TownSimulator.ui.building.view.ProcessBar;
+import com.TownSimulator.ui.building.view.UndockedWindow;
+import com.TownSimulator.ui.building.view.WorkerGroup;
+import com.TownSimulator.ui.building.view.WorkerGroupListener;
 import com.TownSimulator.utility.ResourceManager;
 import com.TownSimulator.utility.Settings;
 import com.TownSimulator.utility.Singleton;
@@ -52,7 +53,7 @@ public class ConstructionWindow extends UndockedWindow{
 		this.resources = resources;
 		//初始化顺序matters
 		//1
-		builderGroup = new WorkerGroup(this, numAllowedBuilder);
+		builderGroup = new WorkerGroup(numAllowedBuilder);
 		builderGroup.setPosition(MARGIN, MARGIN * 1.4f + ProcessBar.HEIGHT);
 		addActor(builderGroup);
 		addPairs();
@@ -122,12 +123,6 @@ public class ConstructionWindow extends UndockedWindow{
 		super.draw(batch, parentAlpha);
 	}
 	
-	private void setBuilderUpperLimit(int limit) {
-		//最多只能有5个建筑工同时建造一个房子
-		if(limit <= builderGroup.getNumAllowedBuilder())
-			builderGroup.setUpperLimit(limit);
-	}
-	
 	public void setProcess(float process) {
 		processBar.setProcess(process);
 	}
@@ -140,7 +135,8 @@ public class ConstructionWindow extends UndockedWindow{
 		builderGroup.setListener(workerGroupListener);
 	}
 	
-	private void constructionCancelled() {
+	//modifier should be private
+	public void constructionCancelled() {
 		listener.constructionCancelled();
 	}
 

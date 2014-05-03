@@ -1,6 +1,6 @@
 package com.TownSimulator.ui;
 
-import com.TownSimulator.ui.building.UndockedWindow;
+import com.TownSimulator.ui.building.view.UndockedWindow;
 import com.TownSimulator.utility.ResourceManager;
 import com.TownSimulator.utility.Settings;
 import com.TownSimulator.utility.Singleton;
@@ -21,8 +21,8 @@ import com.badlogic.gdx.scenes.scene2d.utils.Align;
  *
  */
 public class StateBar extends Group{
-	private static final float LABEL_WIDTH = UndockedWindow.LABEL_WIDTH;
-	private static final float LABEL_HEIGHT = UndockedWindow.LABEL_HEIGHT;
+	private static final float LABEL_WIDTH = Settings.LABEL_WIDTH;
+	private static final float LABEL_HEIGHT = Settings.LABEL_HEIGHT;
 	private static final float MARGIN = UndockedWindow.MARGIN * 0.6f;
 	
 	private TextureRegion background;

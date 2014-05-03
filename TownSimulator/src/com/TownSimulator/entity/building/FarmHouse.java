@@ -8,12 +8,12 @@ import com.TownSimulator.entity.JobType;
 import com.TownSimulator.entity.Man;
 import com.TownSimulator.entity.World;
 import com.TownSimulator.entity.World.SeasonType;
-import com.TownSimulator.ui.building.SelectBoxListener;
-import com.TownSimulator.ui.building.WorkerGroupListener;
+import com.TownSimulator.ui.building.view.SelectBoxListener;
 import com.TownSimulator.utility.AxisAlignedBoundingBox;
 import com.TownSimulator.utility.GameMath;
 import com.TownSimulator.utility.Settings;
 import com.TownSimulator.utility.quadtree.QuadTreeType;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.Array;
 
 public class FarmHouse extends WorkingBuilding
@@ -298,13 +298,13 @@ public class FarmHouse extends WorkingBuilding
 			super.workerLimitSelected(limit);
 		else if(state == State.Constructed) {
 			//called by ViewWindow's WorkerGroup
-			
+			Gdx.app.log("FarmHouse", limit + "");			
 		}
 	}
 
 
 	@Override
 	public void selectBoxSelected(String selectedString) {
-		
+		Gdx.app.log("FarmHouse", selectedString);
 	}
 }

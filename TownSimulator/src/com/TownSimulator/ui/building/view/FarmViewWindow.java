@@ -2,10 +2,6 @@ package com.TownSimulator.ui.building.view;
 
 import com.TownSimulator.camera.CameraController;
 import com.TownSimulator.entity.building.BuildingType;
-import com.TownSimulator.ui.building.ProcessBar;
-import com.TownSimulator.ui.building.SelectBoxListener;
-import com.TownSimulator.ui.building.WorkerGroupListener;
-import com.TownSimulator.ui.building.construction.WorkerGroup;
 import com.TownSimulator.utility.ResourceManager;
 import com.TownSimulator.utility.Settings;
 import com.TownSimulator.utility.Singleton;
@@ -50,7 +46,7 @@ public class FarmViewWindow extends ViewWindow{
 		addRowOne();
 		addRowTwo();
 		
-		builderGroup = new WorkerGroup(this, 5);
+		builderGroup = new WorkerGroup(5);
 		builderGroup.setPosition(MARGIN, MARGIN);
 		addActor(builderGroup);
 

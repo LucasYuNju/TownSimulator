@@ -1,11 +1,9 @@
-package com.TownSimulator.ui.building.construction;
+package com.TownSimulator.ui.building.view;
 
 import java.util.LinkedList;
 import java.util.List;
 
 import com.TownSimulator.ui.base.FlipButton;
-import com.TownSimulator.ui.building.UndockedWindow;
-import com.TownSimulator.ui.building.WorkerGroupListener;
 import com.TownSimulator.utility.ResourceManager;
 import com.TownSimulator.utility.Settings;
 import com.TownSimulator.utility.Singleton;
@@ -15,8 +13,8 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 
 public class WorkerGroup extends Group{
-	public static final float WORKER_WIDTH = Settings.UNIT * 0.6f;
-	public static final float WORKER_HEIGHT = Settings.UNIT * 0.6f;
+	public static final float WORKER_WIDTH = Settings.WORKER_WIDTH;
+	public static final float WORKER_HEIGHT = Settings.WORKER_HEIGHT;
 	private TextureRegion forbiddenBuilderTexture;
 	private TextureRegion allowedBuilderTexture;
 	private TextureRegion builderTexture;
@@ -24,11 +22,9 @@ public class WorkerGroup extends Group{
 	private int numSelected;
 	private int numWorker;
 	private List<FlipButton> builderButtons;
-	private UndockedWindow window;
 	private WorkerGroupListener listener;
 
-	public WorkerGroup(UndockedWindow window, int numAllowedBuilder) {
-		this.window = window;
+	public WorkerGroup(int numAllowedBuilder) {
 		this.numAllowed = numAllowedBuilder;
 		numSelected = numAllowedBuilder;
 		builderTexture = Singleton.getInstance(ResourceManager.class).findTextureRegion("head");
@@ -50,6 +46,7 @@ public class WorkerGroup extends Group{
 			btn.addListener(new InputListener() {
 				@Override
 				public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+					
 					FlipButton clickedButton = builderButtons.get(indexOfClickedButton);
 					if(clickedButton.getImgUp() == forbiddenBuilderTexture) {
 						clickedButton.setImgUp(allowedBuilderTexture);
@@ -62,22 +59,23 @@ public class WorkerGroup extends Group{
 					
 					if(numWorker > numSelected)
 						numWorker = numSelected;
-					listener.workerLimitSelected(numSelected);
 					for(int i=0; i<numAllowed; i++) {
 						if(i == indexOfClickedButton)
 							continue;
 						if(i < numSelected) {
-							if(i < numWorker) {
+							if(i < numWorker)
 								builderButtons.get(i).setImgUp(builderTexture);
-							}
-							else {
+							else 
 								builderButtons.get(i).setImgUp(allowedBuilderTexture);
-							}
 						}
 						else {
 							builderButtons.get(i).setImgUp(forbiddenBuilderTexture);
 						}
 					}
+					
+					if(listener != null)
+						listener.workerLimitSelected(numSelected);
+
 					return true;
 				}
 			});
@@ -85,7 +83,7 @@ public class WorkerGroup extends Group{
 		}
 	}
 	
-	boolean addBuilder() {
+	public boolean addBuilder() {
 		if(++numWorker > numSelected) {
 			numWorker = numSelected;
 			return false;
@@ -94,7 +92,7 @@ public class WorkerGroup extends Group{
 		return true;
 	}
 	
-	int getGroupWidth() {
+	public int getGroupWidth() {
 		return (int) (numAllowed * WORKER_WIDTH);
 	}
 	

@@ -13,7 +13,7 @@ public enum ResourceType {
 	private String resName;
 	private boolean isFood;
 	
-	ResourceType(String resNameb, boolean isFood){
+	ResourceType(String resName, boolean isFood){
 		this.resName = resName;
 		this.isFood = isFood;
 	}

@@ -5,9 +5,6 @@ import java.util.List;
 
 import com.TownSimulator.camera.CameraController;
 import com.TownSimulator.entity.building.BuildingType;
-import com.TownSimulator.ui.building.SelectBoxListener;
-import com.TownSimulator.ui.building.UndockedWindow;
-import com.TownSimulator.ui.building.WorkerGroupListener;
 import com.TownSimulator.utility.ResourceManager;
 import com.TownSimulator.utility.Settings;
 import com.badlogic.gdx.graphics.Color;
@@ -27,23 +24,12 @@ public class ViewWindow extends UndockedWindow{
 	 */
 	public ViewWindow(BuildingType buildingType, String data[][]) {
 		super(buildingType);
+		setPosition(0, 0);
+		setSize(LABEL_WIDTH * 2 + MARGIN * 2, LABEL_HEIGHT * NUM_LABEL_PER_PAGE + MARGIN * 2);
 		if(data != null && data.length != 0) {
 			initUI();
 			updateData(data);
 		}
-	}
-	
-	private void initUI() {
-		int numLabel = data.length > NUM_LABEL_PER_PAGE ? data.length : NUM_LABEL_PER_PAGE;
-		int numLabelPerRow = 2;
-		if(data.length != 0) 
-			numLabelPerRow = data[0].length;
-		setSize(LABEL_WIDTH * numLabelPerRow + MARGIN * 2, LABEL_HEIGHT * numLabel + MARGIN * 2);
-		setPosition(0, 0);
-		addLabels();
-		addCloseButton();
-		addHeader();
-
 	}
 	
 	/*
@@ -51,6 +37,17 @@ public class ViewWindow extends UndockedWindow{
 	 */
 	public ViewWindow(BuildingType buildingType) {
 		super(buildingType);		
+	}
+	
+	private void initUI() {
+		int numLabel = data.length > NUM_LABEL_PER_PAGE ? data.length : NUM_LABEL_PER_PAGE;
+		int numLabelPerRow = 2;
+		if(data.length != 0)
+			numLabelPerRow = data[0].length;
+		setSize(LABEL_WIDTH * numLabelPerRow + MARGIN * 2, LABEL_HEIGHT * numLabel + MARGIN * 2);
+		addLabels();
+		addCloseButton();
+		addHeader();
 	}
 	
 	public void addLabels() {
@@ -90,15 +87,21 @@ public class ViewWindow extends UndockedWindow{
 		getParent().setPosition(windowX, windowY);
 	}	
 
-	/*
-	 * 该方法不检查参数的有限性
-	 */
+	
 	public void updateData(String[][] newData) {
-
 		//data为null或者为空，UI没有初始化过
-		if(data == null || data.length == 0 || data.length != newData.length) {
-			data = newData;
-			initUI();
+		if(newData != null && newData.length != 0) {
+			if(data == null || data.length == 0 ) {
+				data = newData;
+				initUI();
+			}
+			else if(data.length != newData.length) {
+				for(Label label : labels) {
+					removeActor(label);
+				}
+				data = newData;
+				initUI();
+			}
 		}
 		data = newData;
 		updateLabels();
