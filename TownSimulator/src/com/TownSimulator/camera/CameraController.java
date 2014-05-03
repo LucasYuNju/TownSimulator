@@ -47,7 +47,7 @@ public class CameraController extends SingletonPublisher<CameraListener>{
 			
 			@Override
 			public boolean zoom(float initialDistance, float distance) {
-				zoom(initialDistance, distance);
+				CameraController.this.zoom(initialDistance, distance);
 				return true;
 			}
 			
