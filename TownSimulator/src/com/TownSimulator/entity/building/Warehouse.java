@@ -7,6 +7,7 @@ import java.util.List;
 import com.TownSimulator.entity.Resource;
 import com.TownSimulator.entity.ResourceInfoCollector;
 import com.TownSimulator.entity.ResourceType;
+import com.TownSimulator.ui.building.view.ViewWindow;
 import com.TownSimulator.utility.ResourceManager;
 
 public class Warehouse extends Building{
@@ -26,6 +27,7 @@ public class Warehouse extends Building{
 		
 		ResourceInfoCollector.getInstance(ResourceInfoCollector.class)
 			.addResourceAmount(type, amount);
+		updataViewWindow();
 	}
 	
 
@@ -40,7 +42,7 @@ public class Warehouse extends Building{
 			return storedResources.get(storedResources.indexOf(new Resource(type))).getAmount();
 		return -1;
 	}
-	
+		
 	@Override
 	public String[][] getViewData() {
 		String[][] data = new String[storedResources.size()][2];
@@ -50,5 +52,4 @@ public class Warehouse extends Building{
 		}
 		return data;
 	}
-	
 }

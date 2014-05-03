@@ -30,7 +30,7 @@ public class Building extends Entity implements ConstructionWindowListener{
 	protected BuildingType				type;
 	private   int 						numAllowedBuilder = 3;
 	private   ConstructionWindow		constructionWindow;
-	private   ViewWindow				viewWindow;
+	protected ViewWindow				viewWindow;
 	
 	public enum State
 	{
@@ -189,6 +189,14 @@ public class Building extends Entity implements ConstructionWindowListener{
 	//使用ViewWindow的子类需要override此方法
 	protected String[][] getViewData() {
 		return null;
+	}
+	
+	/*
+	 * 将数据更新到viewWindow
+	 */
+	protected void updataViewWindow() {
+		if(viewWindow != null)
+			viewWindow.updateData(getViewData());
 	}
 	
 	public void setState(State state)

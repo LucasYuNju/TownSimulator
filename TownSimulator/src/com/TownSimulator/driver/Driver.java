@@ -37,7 +37,7 @@ public class Driver extends SingletonPublisher<DriverListener> implements Applic
 	public void init()
 	{
 		Random rand = new Random(System.currentTimeMillis());
-		int initPepleCnt = 1;
+		int initPepleCnt = 4;
 		float originPosX = CameraController.getInstance(CameraController.class).getX();
 		float originPoxY = CameraController.getInstance(CameraController.class).getY();
 		
@@ -101,8 +101,8 @@ public class Driver extends SingletonPublisher<DriverListener> implements Applic
 			float ranxY = (rand.nextFloat() - 0.5f) * Settings.UNIT * 6;
 			Man man = new Man();
 			man.setPositionWorld(originPosX + randX, originPoxY + ranxY);
-			fellingHouse.addWorker(man);
-			man.setBehavior(new FellingBTN(man));
+			//fellingHouse.addWorker(man);
+			//man.setBehavior(new FellingBTN(man));
 			EntityInfoCollector.getInstance(EntityInfoCollector.class).addMan(man);
 			
 			Renderer.getInstance(Renderer.class).attachDrawScissor(man);
