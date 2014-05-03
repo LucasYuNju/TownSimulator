@@ -16,6 +16,7 @@ public class LivingHouse extends Building{
 		if(capacity > residents.size()) {
 			residents.add(newResident);
 			newResident.home = this;
+			updataViewWindow();
 			return true;
 		}
 		return false;
@@ -23,8 +24,10 @@ public class LivingHouse extends Building{
 	
 	public void removeResident(ManInfo resident)
 	{
-		if( residents.remove(resident) )
+		if(residents.remove(resident)) {
 			resident.home = null;
+			updataViewWindow();
+		}
 	}
 	
 	public boolean hasAvailableRoom()
