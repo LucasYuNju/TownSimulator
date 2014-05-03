@@ -19,23 +19,31 @@ public class ViewWindow extends UndockedWindow{
 	String[][] data;
 	List<Label> labels;
 	
+	/*
+	 * for ViewWindow intended to display data list
+	 */
 	public ViewWindow(BuildingType buildingType, String data[][]) {
 		super(buildingType);
-		if(data.length == 0)
+		if(data == null || data.length == 0)
 			throw new IllegalArgumentException("data length is 0");
 		this.data = data;
 		
-		if(buildingType != BuildingType.FARM_HOUSE) {
-			int numLabel = data.length > NUM_LABEL_PER_PAGE ? data.length : NUM_LABEL_PER_PAGE;
-			int numLabelPerRow = 2;
-			if(data.length != 0) 
+		int numLabel = data.length > NUM_LABEL_PER_PAGE ? data.length : NUM_LABEL_PER_PAGE;
+		int numLabelPerRow = 2;
+		if(data.length != 0) 
 			numLabelPerRow = data[0].length;
-			setSize(LABEL_WIDTH * numLabelPerRow + MARGIN * 2, LABEL_HEIGHT * numLabel + MARGIN * 2);
-			setPosition(0, 0);
-			addLabels();
-			addCloseButton();
-			addHeader();
-		}
+		setSize(LABEL_WIDTH * numLabelPerRow + MARGIN * 2, LABEL_HEIGHT * numLabel + MARGIN * 2);
+		setPosition(0, 0);
+		addLabels();
+		addCloseButton();
+		addHeader();
+	}
+	
+	/*
+	 * for subclasses
+	 */
+	public ViewWindow(BuildingType buildingType) {
+		super(buildingType);		
 	}
 	
 	public void addLabels() {

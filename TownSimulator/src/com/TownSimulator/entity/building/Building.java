@@ -21,7 +21,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
  * 	子类需要override getViewData()方法，以创建ViewWindow
  *
  */
-public class Building extends Entity implements ConstructionWindowListener{
+public abstract class Building extends Entity implements ConstructionWindowListener{
 	protected List<Resource>			constructionResources;
 	protected int						constructionWork;
 	protected int						finishedConstructionWork;
@@ -187,9 +187,7 @@ public class Building extends Entity implements ConstructionWindowListener{
 	}
 	
 	//使用ViewWindow的子类需要override此方法
-	protected String[][] getViewData() {
-		return null;
-	}
+	protected abstract String[][] getViewData();
 	
 	/*
 	 * 将数据更新到viewWindow

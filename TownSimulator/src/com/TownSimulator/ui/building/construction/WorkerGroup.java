@@ -57,7 +57,9 @@ public class WorkerGroup extends Group{
 						clickedButton.setImgUp(forbiddenBuilderTexture);
 						numSelected = indexOfClickedButton;
 					}
-
+					
+					if(numWorker > numSelected)
+						numWorker = numSelected;
 					window.builderLimitSelected(numSelected);
 					for(int i=0; i<numAllowed; i++) {
 						if(i == indexOfClickedButton)

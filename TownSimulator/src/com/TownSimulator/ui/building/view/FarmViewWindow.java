@@ -37,7 +37,7 @@ public class FarmViewWindow extends ViewWindow{
 	private float height;
 	
 	public FarmViewWindow() {
-		super(BuildingType.FARM_HOUSE, null);
+		super(BuildingType.FARM_HOUSE);
 		buttonBackground = Singleton.getInstance(ResourceManager.class).findTextureRegion("background_button");
 		width = ProcessBar.PREFERED_WIDTH + LABEL_WIDTH + MARGIN * 2;
 		height = LABEL_WIDTH * 3 + WorkerGroup.WORKER_HEIGHT + MARGIN * 2;
