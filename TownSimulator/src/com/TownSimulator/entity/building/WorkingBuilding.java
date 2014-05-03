@@ -68,11 +68,12 @@ public abstract class WorkingBuilding extends Building{
 		return jobType;
 	}
 	
-	abstract protected BehaviorTreeNode createBehavior(Man man);
 	
 	/**
 	 *Override this method to set the man's behavior 
 	 */
+	abstract protected BehaviorTreeNode createBehavior(Man man);
+	
 	public void addWorker(Man man)
 	{
 		if(curWorkerCnt >= openJobCnt)
