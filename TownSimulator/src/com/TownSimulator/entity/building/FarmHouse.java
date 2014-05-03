@@ -1,6 +1,7 @@
 package com.TownSimulator.entity.building;
 
-import com.TownSimulator.ai.btnimpls.FarmerBTN;
+import com.TownSimulator.ai.behaviortree.BehaviorTreeNode;
+import com.TownSimulator.ai.btnimpls.farmer.FarmerBTN;
 import com.TownSimulator.driver.Driver;
 import com.TownSimulator.driver.DriverListenerBaseImpl;
 import com.TownSimulator.entity.JobType;
@@ -36,12 +37,17 @@ public class FarmHouse extends WorkingBuilding{
 		collisionAABBWorldWithLands = new AxisAlignedBoundingBox();
 	}
 	
-	
+
 	@Override
-	public void addWorker(Man man) {
-		super.addWorker(man);
-		man.setBehavior(new FarmerBTN(man));
+	protected BehaviorTreeNode createBehavior(Man man) {
+		return new FarmerBTN(man);
 	}
+	
+//	@Override
+//	public void addWorker(Man man) {
+//		super.addWorker(man);
+//		man.setBehavior(new FarmerBTN(man));
+//	}
 
 	private void initFarmLands()
 	{
@@ -284,6 +290,8 @@ public class FarmHouse extends WorkingBuilding{
 	{
 		return bSowed;
 	}
+
+
 	
 	
 }

@@ -4,10 +4,11 @@ import java.util.HashMap;
 import java.util.Iterator;
 
 import com.TownSimulator.ai.behaviortree.BehaviorTreeNode;
-import com.TownSimulator.ai.btnimpls.IdleBTN;
+import com.TownSimulator.ai.btnimpls.idle.IdleBTN;
 import com.TownSimulator.driver.Driver;
 import com.TownSimulator.driver.DriverListener;
 import com.TownSimulator.driver.DriverListenerBaseImpl;
+import com.TownSimulator.render.Renderer;
 import com.TownSimulator.utility.Animation;
 import com.TownSimulator.utility.ResourceManager;
 import com.TownSimulator.utility.Settings;
@@ -38,18 +39,28 @@ public class Man extends Entity{
 		mMoveDir = new Vector2();
 		mDestination = new Vector2();
 		mMoveTime = 0.0f;
-//		mCurState = State.MAN_STADING;
-		//mTaskController = new TaskController(this);
 		mBehavior = new IdleBTN(this);
 		initInfo();
 		initAnimes();
 		
 		mDriverListener = new DriverListenerBaseImpl()
 		{
+			private float dieElapseTime = 5.0f;
+			private float dieAccum = 0.0f;
+			
 			@Override
 			public void update(float deltaTime) {
-				//mTaskController.update(deltaTime);
-				mBehavior.execute(deltaTime);
+				if(mInfo.isDead)
+				{
+					dieAccum += deltaTime;
+					if(dieAccum >= dieElapseTime)
+						Renderer.getInstance(Renderer.class).dettachDrawScissor(Man.this);;
+				}
+				else
+					updateManPoints(deltaTime);
+				
+				if(mBehavior != null)
+					mBehavior.execute(deltaTime);
 				updateSprite(deltaTime);
 			}
 		};
@@ -63,6 +74,8 @@ public class Man extends Entity{
 		//mInfo.animeType = ManAnimeType.STANDING;
 		//mInfo.animeFlip = false;
 	}
+	
+	
 	
 	private void initAnimes()
 	{
@@ -78,6 +91,10 @@ public class Man extends Entity{
 		moveAnime.addSprite(ResourceManager.getInstance(ResourceManager.class).createSprite("pixar_man_2"));
 		mAnimesMap.put(ManAnimeType.MOVE, moveAnime);
 		
+		Animation dieAnime = new Animation(0.0f);
+		dieAnime.addSprite(ResourceManager.getInstance(ResourceManager.class).createSprite("man_dead"));
+		mAnimesMap.put(ManAnimeType.DIE, dieAnime);
+		
 		Iterator<ManAnimeType> itr = mAnimesMap.keySet().iterator();
 		while(itr.hasNext())
 		{
@@ -92,21 +109,38 @@ public class Man extends Entity{
 			mAnimesMapFlipped.put(key, animeFlip);
 		}
 	}
+	
+	private void updateManPoints(float deltaTime)
+	{
+		mInfo.hungerPoints -= ManInfo.HUNGER_DECRE_SPEED * deltaTime;
+		if(mInfo.hungerPoints <= ManInfo.HUNGER_POINTS_MIN)
+			die();
+		
+		//System.out.println(mInfo.hungerPoints);
+	}
+	
+	public void die()
+	{
+		if(mInfo.home != null)
+			mInfo.home.removeResident(mInfo);
+		
+		if(mInfo.workingBuilding != null)
+			mInfo.workingBuilding.removeWorker(this);
+		
+		if(mInfo.constructionInfo.proj != null)
+			mInfo.constructionInfo.proj.removeWorker(this);
+		
+		EntityInfoCollector.getInstance(EntityInfoCollector.class).removeMan(this);
+		
+		setBehavior(null);
+		mInfo.animeType = ManAnimeType.DIE;
+		mInfo.isDead = true;
+	}
 
 	public void setBehavior(BehaviorTreeNode behavior)
 	{
 		mBehavior = behavior;
 	}
-	
-//	public void addTask(Task task)
-//	{
-//		mTaskController.addTask(task);
-//	}
-	
-//	public boolean isIdle()
-//	{
-//		return mTaskController.getTaskList().size() == 1;
-//	}
 	
 	public void setMoveDestination(float destX, float destY)
 	{
@@ -149,27 +183,12 @@ public class Man extends Entity{
 			return true;
 		}
 	}
-	
-//	public void setState(State state)
-//	{
-//		mCurState = state;
-//	}
-	
-//	public State getState()
-//	{
-//		return mCurState;
-//	}
-	
+
 	public ManInfo getInfo()
 	{
 		return mInfo;
 	}
-	
-//	public void setFlip(boolean value)
-//	{
-//		mbSpriteXFlipped = value;
-//	}
-	
+
 	public void updateSprite(float deltaTime)
 	{
 		Animation anime;

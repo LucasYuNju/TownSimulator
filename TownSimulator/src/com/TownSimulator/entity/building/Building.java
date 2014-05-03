@@ -177,9 +177,12 @@ public class Building extends Entity implements ConstructionWindowListener{
 		if(state == State.Constructed) {
 			if(viewWindow == null) {
 				viewWindow = Singleton.getInstance(UIManager.class).getGameUI().createViewWindow(type, getViewData());
-				viewWindow.setBuildingPosWorld(getPositionXWorld(), getPositionYWorld());
+				if(viewWindow != null)
+					viewWindow.setBuildingPosWorld(getPositionXWorld(), getPositionYWorld());
 			}
-			viewWindow.setVisible(true);
+			
+			if(viewWindow != null)
+				viewWindow.setVisible(true);
 		}
 	}
 	
@@ -201,6 +204,7 @@ public class Building extends Entity implements ConstructionWindowListener{
 	//this method will notify constructionWindow
 	public void addBuilder() {
 		constructionWindow.addBuilder();
+		//System.out.println("Add Builder");
 	}
 
 	@Override
@@ -210,7 +214,7 @@ public class Building extends Entity implements ConstructionWindowListener{
 
 	@Override
 	public void builderLimitSelected(int limit) {
-		System.out.println(limit);
+		//System.out.println(limit);
 		constructionProject.setOpenWorkJobCnt(limit);
 	}
 }

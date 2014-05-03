@@ -4,16 +4,24 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.TownSimulator.ai.btnimpls.construct.ConstructionInfo;
+import com.TownSimulator.entity.building.LivingHouse;
 import com.TownSimulator.entity.building.WorkingBuilding;
 
 public class ManInfo {
-	public ManAnimeType animeType = ManAnimeType.STANDING;
-	public boolean animeFlip = false;
+	public ManAnimeType 	animeType = ManAnimeType.STANDING;
+	public boolean 			animeFlip = false;
 	public ConstructionInfo constructionInfo = new ConstructionInfo();
-	public float workEfficency = 1.0f;
-	public JobType job;
-	public WorkingBuilding workingBuilding;
-
+	public float 			workEfficency = 1.0f;
+	public JobType 			job;
+	public WorkingBuilding 	workingBuilding;
+	public LivingHouse 		home;
+	public static final float HUNGER_POINTS_MAX = 300.0f;
+	public static final float HUNGER_POINTS_FIND_FOOD = 100.0f;
+	public static final float HUNGER_POINTS_MIN = 0.0f; // die!
+	public static final float HUNGER_DECRE_SPEED = HUNGER_POINTS_MAX / (World.SecondPerYear * 0.3f); //per second
+	public float			hungerPoints = HUNGER_POINTS_MAX;
+	public boolean			isDead = false;
+	
 	private static final int MAX_AGE = 100;
 	private static final int ADULT_AGE = 10;
 	private static List<String> namePool;

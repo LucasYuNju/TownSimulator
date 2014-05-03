@@ -6,6 +6,7 @@ import com.TownSimulator.utility.Singleton;
 
 public class ResourceInfoCollector extends Singleton{
 	private HashMap<ResourceType, Resource> resourceMap;
+	private int foodAmount = 0;
 	
 	private ResourceInfoCollector()
 	{
@@ -20,6 +21,9 @@ public class ResourceInfoCollector extends Singleton{
 		}
 		
 		resourceMap.get(type).addAmount(amount);
+		
+		if(type.isFood())
+			foodAmount += amount;
 	}
 	
 	public int getResourceAmount(ResourceType type)
@@ -28,6 +32,17 @@ public class ResourceInfoCollector extends Singleton{
 			return resourceMap.get(type).getAmount();
 		else
 			return 0;
+	}
+	
+//	private boolean isFood(ResourceType type)
+//	{
+//		return 		type == ResourceType.RS_CORN
+//				||	type == ResourceType.RS_WHEAT;
+//	}
+	
+	public int getFoodAmount()
+	{
+		return foodAmount;
 	}
 	
 }
