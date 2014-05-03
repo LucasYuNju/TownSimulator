@@ -212,7 +212,7 @@ public class Building extends Entity implements ConstructionWindowListener{
 	//this method will notify constructionWindow
 	public void addBuilder() {
 		constructionWindow.addBuilder();
-		//System.out.println("Add Builder");
+		System.out.println("Add Builder");
 	}
 
 	@Override

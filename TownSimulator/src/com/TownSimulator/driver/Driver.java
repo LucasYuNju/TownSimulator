@@ -37,7 +37,7 @@ public class Driver extends SingletonPublisher<DriverListener> implements Applic
 	public void init()
 	{
 		Random rand = new Random(System.currentTimeMillis());
-		int initPepleCnt = 4;
+		int initPepleCnt = 5;
 		float originPosX = CameraController.getInstance(CameraController.class).getX();
 		float originPoxY = CameraController.getInstance(CameraController.class).getY();
 		
