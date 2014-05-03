@@ -40,8 +40,8 @@ public class BGMPlayer{
 	
 	public void playMusic(String musicName){
 		music=Gdx.audio.newMusic(Gdx.files.internal(musicPathString+musicName));
-		music.play();
 		music.setLooping(true);
+		music.play();		
 	}
 	
 	public void dispose(){
