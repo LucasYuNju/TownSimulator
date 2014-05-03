@@ -115,7 +115,8 @@ public class ConstructionProject {
 	public boolean remainResourceToTrans()
 	{
 		//if(mCurAllocRsRemainNeedAmount > 0 || mBuildResourceTypeItr.hasNext())
-		if(mCurAllocRs != null || mBuildResource.size > 0)
+		if( (mCurAllocRs != null && mCurAllocRs.getAmount() > 0)
+				|| mBuildResource.size > 0)
 			return true;
 		else
 			return false;
@@ -175,6 +176,7 @@ public class ConstructionProject {
 		cons.transportNeededAmount = amount;
 		cons.transportBuilding = mBuilding;
 		mCurAllocRs.addAmount(-amount);
+		
 		//mCurAllocRsRemainNeedAmount -= amount;
 		
 		return true;
