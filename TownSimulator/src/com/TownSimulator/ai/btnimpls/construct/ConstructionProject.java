@@ -47,6 +47,8 @@ public class ConstructionProject {
 			int amount = mBuilding.getNeededConstructionResouceAmount(type);
 			mBuildResource.add(new Resource(type, amount));
 		}
+		
+		mCurAllocRs = mBuildResource.pop();
 	}
 	
 	private void fireWorker(int cnt)
