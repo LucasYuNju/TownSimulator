@@ -8,6 +8,7 @@ import com.TownSimulator.driver.Driver;
 import com.TownSimulator.driver.DriverListenerBaseImpl;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -17,12 +18,14 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 public class ResourceManager extends Singleton{
 	private HashMap<String, Texture>		mTexturesMap;
 	private HashMap<Integer, BitmapFont> 	mFontsMap;
+	private HashMap<String, Sound>          mSoundsMap;
 	private FreeTypeFontGenerator			mFontGenerator;
 	private AssetManager					mAssetsManager;
 	
 	public ResourceManager()
 	{
 		mTexturesMap = new HashMap<String, Texture>();
+		mSoundsMap=new HashMap<String, Sound>();
 		mAssetsManager = new AssetManager();
 		mFontsMap = new HashMap<Integer, BitmapFont>();
 		mFontGenerator = new FreeTypeFontGenerator(Gdx.files.internal("data/visitor1.ttf"));
@@ -34,6 +37,7 @@ public class ResourceManager extends Singleton{
 			public void dispose() {
 				mAssetsManager.clear();
 				mTexturesMap.clear();
+				mSoundsMap.clear();
 				
 				Iterator<Integer> it_font = mFontsMap.keySet().iterator();
 				while(it_font.hasNext())
@@ -58,6 +62,7 @@ public class ResourceManager extends Singleton{
 	public void loadResource()
 	{
 		mTexturesMap = new HashMap<String, Texture>();
+		mSoundsMap=new HashMap<String, Sound>();
 		mAssetsManager = new AssetManager();
 		mFontsMap = new HashMap<Integer, BitmapFont>();
 		mFontGenerator = new FreeTypeFontGenerator(Gdx.files.internal("data/visitor1.ttf"));
@@ -78,6 +83,19 @@ public class ResourceManager extends Singleton{
 			loadTexture(textureName);
 			
 		return new Sprite(mTexturesMap.get(textureName));
+	}
+	
+	private void loadSound(String soundName){
+		mAssetsManager.load("sounds/"+soundName, Sound.class);
+		mAssetsManager.finishLoading();
+		mSoundsMap.put(soundName, mAssetsManager.get("sounds"+soundName, Sound.class));
+	}
+	
+	private void playSound(String soundName){
+		if(!mSoundsMap.containsKey(soundName)){
+			loadSound(soundName);
+		}
+		mAssetsManager.get("sounds/"+soundName,Sound.class).play();
 	}
 	
 	private void loadTexture(String textureName)

@@ -61,7 +61,7 @@ public class ConstructionWindow extends UndockedWindow{
 		float workersWidth = builderGroup.getGroupWidth();
 		windowWidth = pairsWidth > workersWidth ? pairsWidth : workersWidth;
 		windowHeight = LABEL_WIDTH * 2 + LABEL_HEIGHT * 2 + ProcessBar.HEIGHT;
-		setSize(windowWidth + MARGIN * 2, windowHeight + MARGIN * 2);
+		setSize(windowWidth+MARGIN * 2, windowHeight + MARGIN * 2);
 		setPosition( (Gdx.graphics.getWidth() - getWidth())/2, 
 				(Gdx.graphics.getHeight() - getHeight())/2 );
 
