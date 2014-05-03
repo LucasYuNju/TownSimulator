@@ -91,7 +91,7 @@ public class UIManager extends Singleton implements StartUIListener{
 		Renderer.getInstance(Renderer.class).setRenderScene(true);
 		Driver.getInstance(Driver.class).init();
 		World.getInstance(World.class).init();
-		bgmPlayer.changeBgm(MusicType.GameScreen);
+		//bgmPlayer.changeBgm(MusicType.GameScreen);
 	}
 
 	public void render()
