@@ -5,13 +5,13 @@ import java.util.List;
 
 import com.TownSimulator.entity.Resource;
 import com.TownSimulator.entity.building.BuildingType;
+import com.TownSimulator.ui.StateBar;
 import com.TownSimulator.ui.base.ScreenUIBase;
 import com.TownSimulator.ui.building.BuildComsUI;
 import com.TownSimulator.ui.building.BuildingAdjustGroup;
 import com.TownSimulator.ui.building.construction.ConstructionWindow;
 import com.TownSimulator.ui.building.view.FarmViewWindow;
 import com.TownSimulator.ui.building.view.ViewWindow;
-import com.TownSimulator.utility.MusicType;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -22,6 +22,7 @@ public class GameScreenUI extends ScreenUIBase{
 	private BuildComsUI		mBuildComsUI;
 	private BuildingAdjustGroup	mBuildAjustUI;
 	private List<Actor> windows = new LinkedList<Actor>();
+	private StateBar stateBar;
 	
 	public GameScreenUI()
 	{
@@ -38,6 +39,10 @@ public class GameScreenUI extends ScreenUIBase{
 		mBuildAjustUI = new BuildingAdjustGroup();
 		mBuildAjustUI.setVisible(false);
 		mStage.addActor(mBuildAjustUI);
+		
+		stateBar = new StateBar();
+		stateBar.setVisible(true);
+		mStage.addActor(stateBar);
 	}
 	
 	public BuildingAdjustGroup getBuildAjustUI()
@@ -100,5 +105,9 @@ public class GameScreenUI extends ScreenUIBase{
 		for(Actor window : windows) {
 			window.setVisible(false);
 		}
+	}
+	
+	public void update(int numPeople, int numFood) {
+		stateBar.update(numPeople, numFood);
 	}
 }

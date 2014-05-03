@@ -23,7 +23,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.Align;
 public class StateBar extends Group{
 	private static final float LABEL_WIDTH = UndockedWindow.LABEL_WIDTH;
 	private static final float LABEL_HEIGHT = UndockedWindow.LABEL_HEIGHT;
-	private static final float MARGIN = UndockedWindow.MARGIN;
+	private static final float MARGIN = UndockedWindow.MARGIN * 0.6f;
 	
 	private TextureRegion background;
 	private Label numFoodLabel;
@@ -38,40 +38,43 @@ public class StateBar extends Group{
 		update(numPeople, numFood);
 	}
 	
+	public StateBar() {
+		this(0, 0);
+	}
+	
 	private void initLabels() {
 		LabelStyle labelStyle = new LabelStyle();
 		labelStyle.font = ResourceManager.getInstance(ResourceManager.class).getFont((int) (Settings.UNIT * 0.3f));
 		labelStyle.fontColor = Color.WHITE;
 
-		Label peopleLabel = new Label("People", labelStyle);
-		peopleLabel.setSize(LABEL_WIDTH, LABEL_HEIGHT);
-		peopleLabel.setPosition(MARGIN, getHeight() - LABEL_HEIGHT);
-		peopleLabel.setAlignment(Align.center);
-		addActor(peopleLabel);
-		
-		numPeopleLabel = new Label("", labelStyle);
-		numPeopleLabel.setSize(LABEL_WIDTH, LABEL_HEIGHT);
-		numPeopleLabel.setPosition(MARGIN, getHeight() - LABEL_HEIGHT);
-		numPeopleLabel.setAlignment(Align.center);
-		addActor(numPeopleLabel);
-
-		//position
 		Label foodLabel = new Label("Food", labelStyle);
 		foodLabel.setSize(LABEL_WIDTH, LABEL_HEIGHT);
-		foodLabel.setPosition(MARGIN, getHeight() - LABEL_HEIGHT);
+		foodLabel.setPosition(MARGIN, MARGIN);
 		foodLabel.setAlignment(Align.center);
 		addActor(foodLabel);
 		
 		numFoodLabel = new Label("", labelStyle);
 		numFoodLabel.setSize(LABEL_WIDTH, LABEL_HEIGHT);
-		numFoodLabel.setPosition(MARGIN, getHeight() - LABEL_HEIGHT);
+		numFoodLabel.setPosition(MARGIN + LABEL_WIDTH, MARGIN);
 		numFoodLabel.setAlignment(Align.center);
 		addActor(numFoodLabel);
 		
+		Label peopleLabel = new Label("People", labelStyle);
+		peopleLabel.setSize(LABEL_WIDTH, LABEL_HEIGHT);
+		peopleLabel.setPosition(MARGIN, MARGIN + LABEL_HEIGHT);
+		peopleLabel.setAlignment(Align.center);
+		addActor(peopleLabel);
+		
+		numPeopleLabel = new Label("", labelStyle);
+		numPeopleLabel.setSize(LABEL_WIDTH, LABEL_HEIGHT);
+		numPeopleLabel.setPosition(MARGIN + LABEL_WIDTH, MARGIN + LABEL_HEIGHT);
+		numPeopleLabel.setAlignment(Align.center);
+		addActor(numPeopleLabel);
 	}
 	
 	public void update(int numPeople, int numFood) {
-		
+		numPeopleLabel.setText(numPeople + "");
+		numFoodLabel.setText(numFood + "");
 	}
 
 	@Override
