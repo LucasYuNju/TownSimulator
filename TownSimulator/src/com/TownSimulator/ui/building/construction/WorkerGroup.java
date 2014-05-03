@@ -86,6 +86,7 @@ public class WorkerGroup extends Group{
 			return false;
 		}
 		builderButtons.get(numBuilder - 1).setImgUp(builderTexture);
+		refresh();
 		return true;
 	}
 	
@@ -99,5 +100,21 @@ public class WorkerGroup extends Group{
 	
 	void setUpperLimit(int upperLimit) {
 		this.numSelected = upperLimit;
+	}
+	
+	public void refresh() {
+		for(int i=0; i<numAllowed; i++) {
+			if(i < numSelected) {
+				if(i < numBuilder) {
+					builderButtons.get(i).setImgUp(builderTexture);
+				}
+				else {
+					builderButtons.get(i).setImgUp(allowedBuilderTexture);
+				}
+			}
+			else {
+				builderButtons.get(i).setImgUp(forbiddenBuilderTexture);
+			}
+		}
 	}
 }
