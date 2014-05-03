@@ -28,7 +28,7 @@ public class ScreenUIBase implements DriverListener, InputMgrListener{
 			labelStyle.font = ResourceManager.getInstance(ResourceManager.class).getFont( (int)(Settings.UNIT * 0.25f) );
 			labelStyle.fontColor = Color.YELLOW;
 			mFpsLabel = new Label("FPS", labelStyle);
-			mFpsLabel.setPosition(0, Gdx.graphics.getHeight() - mFpsLabel.getHeight());
+			//mFpsLabel.setPosition(Gdx.graphics.getWidth() - mFpsLabel.getWidth(), Gdx.graphics.getHeight() - mFpsLabel.getHeight());
 			mStage.addActor(mFpsLabel);
 		}
 	}
@@ -45,6 +45,7 @@ public class ScreenUIBase implements DriverListener, InputMgrListener{
 		if(SHOW_FPS)
 		{
 			mFpsLabel.setText("FPS " + Gdx.graphics.getFramesPerSecond());
+			mFpsLabel.setPosition(Gdx.graphics.getWidth() - mFpsLabel.getTextBounds().width, Gdx.graphics.getHeight() - mFpsLabel.getHeight());
 		}
 	}
 

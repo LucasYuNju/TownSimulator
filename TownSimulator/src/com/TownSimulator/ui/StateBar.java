@@ -50,25 +50,25 @@ public class StateBar extends Group{
 		Label foodLabel = new Label("Food", labelStyle);
 		foodLabel.setSize(LABEL_WIDTH, LABEL_HEIGHT);
 		foodLabel.setPosition(MARGIN, MARGIN);
-		foodLabel.setAlignment(Align.center);
+		foodLabel.setAlignment(Align.left);
 		addActor(foodLabel);
 		
 		numFoodLabel = new Label("", labelStyle);
 		numFoodLabel.setSize(LABEL_WIDTH, LABEL_HEIGHT);
-		numFoodLabel.setPosition(MARGIN + LABEL_WIDTH, MARGIN);
-		numFoodLabel.setAlignment(Align.center);
+		numFoodLabel.setPosition(MARGIN * 2.0f + LABEL_WIDTH, MARGIN);
+		numFoodLabel.setAlignment(Align.left);
 		addActor(numFoodLabel);
 		
 		Label peopleLabel = new Label("People", labelStyle);
 		peopleLabel.setSize(LABEL_WIDTH, LABEL_HEIGHT);
 		peopleLabel.setPosition(MARGIN, MARGIN + LABEL_HEIGHT);
-		peopleLabel.setAlignment(Align.center);
+		peopleLabel.setAlignment(Align.left);
 		addActor(peopleLabel);
 		
 		numPeopleLabel = new Label("", labelStyle);
 		numPeopleLabel.setSize(LABEL_WIDTH, LABEL_HEIGHT);
-		numPeopleLabel.setPosition(MARGIN + LABEL_WIDTH, MARGIN + LABEL_HEIGHT);
-		numPeopleLabel.setAlignment(Align.center);
+		numPeopleLabel.setPosition(MARGIN * 2.0f + LABEL_WIDTH, MARGIN + LABEL_HEIGHT);
+		numPeopleLabel.setAlignment(Align.left);
 		addActor(numPeopleLabel);
 	}
 	

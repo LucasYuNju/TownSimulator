@@ -185,10 +185,10 @@ public class Renderer extends SingletonPublisher<RendererListener>{
 		
 		
 		AxisAlignedBoundingBox scissor = CameraController.getInstance(CameraController.class).getCameraViewAABB();
-		int l = (int)(scissor.minX / Settings.UNIT);
-		int r = (int)(scissor.maxX / Settings.UNIT);
-		int b = (int)(scissor.minY / Settings.UNIT);
-		int u = (int)(scissor.maxY / Settings.UNIT);
+		int l = Math.max( 0, (int)(scissor.minX / Settings.UNIT) );
+		int r = Math.min( Map.MAP_WIDTH - 1, (int)(scissor.maxX / Settings.UNIT) );
+		int b = Math.max( 0, (int)(scissor.minY / Settings.UNIT) );
+		int u = Math.min( Map.MAP_HEIGHT - 1, (int)(scissor.maxY / Settings.UNIT) );
 		for (int x = l; x <= (r); x ++) {
 			for (int y = b; y <= (u); y ++) {
 				String textureName = Map.getInstance(Map.class).getGroundMap()[x][y];
