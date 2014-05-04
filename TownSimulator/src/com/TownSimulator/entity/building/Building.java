@@ -1,6 +1,5 @@
 package com.TownSimulator.entity.building;
 
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
@@ -14,7 +13,6 @@ import com.TownSimulator.ui.UIManager;
 import com.TownSimulator.ui.building.construction.ConstructionWindow;
 import com.TownSimulator.ui.building.construction.ConstructionWindowListener;
 import com.TownSimulator.ui.building.view.ListenableViewWindow;
-import com.TownSimulator.ui.building.view.ScrollViewWindow;
 import com.TownSimulator.ui.building.view.WorkerGroupListener;
 import com.TownSimulator.utility.Singleton;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -56,12 +54,12 @@ public abstract class Building extends Entity
 		constructionResources = new LinkedList<Resource>();
 		constructionWindow = UIManager.getInstance(UIManager.class).getGameUI().createConstructionWindow(type, constructionResources, numAllowedBuilder);
 		constructionWindow.setVisible(false);
+		constructionWindow.setConstructionListener(this);
 		viewWindow = Singleton.getInstance(UIManager.class).getGameUI().createViewWindow(type);
 		viewWindow.setVisible(false);
-		if(viewWindow == null) {
-			throw new NullPointerException("failed to create view window");
-		}
-		constructionWindow.setConstructionListener(this);
+//		if(viewWindow == null) {
+//			throw new NullPointerException("failed to create view window");
+//		}
 	}
 	
 	@Override
@@ -185,20 +183,10 @@ public abstract class Building extends Entity
 		}
 	}
 	
-	//使用ViewWindow的子类需要override此方法
-	public List<List<String>> getViewData() {
-		return Collections.emptyList();
-	}
-	
-	/*
-	 * 将数据更新到viewWindow
+	/**
+	 * 
 	 */
-	protected void updataViewWindow() {
-		if(viewWindow instanceof ScrollViewWindow) {
-			ScrollViewWindow scrollViewWindow = (ScrollViewWindow) viewWindow;
-			scrollViewWindow.updateData(getViewData());
-		}
-	}
+	abstract protected void updateViewWindow();
 	
 	public void setState(State state)
 	{

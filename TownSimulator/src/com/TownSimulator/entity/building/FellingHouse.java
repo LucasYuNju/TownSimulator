@@ -14,9 +14,10 @@ import com.badlogic.gdx.Gdx;
 
 public class FellingHouse extends WorkableBuilding {
 	public static final int RANGE = 5;
+	public static final int MAX_WORKER_CNT = 2;
 	
 	public FellingHouse() {
-		super("building_felling_house", BuildingType.FELLING_HOUSE, JobType.LUMERJACK, 2);
+		super("building_felling_house", BuildingType.FELLING_HOUSE, JobType.LUMERJACK, MAX_WORKER_CNT);
 		Renderer.getInstance(Renderer.class).addListener(new RendererListener() {
 			@Override
 			public void renderEnded() {
@@ -76,16 +77,16 @@ public class FellingHouse extends WorkableBuilding {
 	/*
 	 * 增删工人都应该通知此方法
 	 */
-	public void updateViewWindow() {
-		WorkableViewWindow workableViewWindow = (WorkableViewWindow) viewWindow;
-		workableViewWindow.addWorker();
-	}
+//	public void updateViewWindow() {
+//		WorkableViewWindow workableViewWindow = (WorkableViewWindow) viewWindow;
+//		workableViewWindow.addWorker();
+//	}
 	
 	/*
 	 * notification from viewWinodow
 	 */
-	@Override
-	public void workerLimitChanged(int limit) {
-		Gdx.app.log("Felling House", "selected limit :" + limit);
-	}
+//	@Override
+//	public void workerLimitChanged(int limit) {
+//		Gdx.app.log("Felling House", "selected limit :" + limit);
+//	}
 }

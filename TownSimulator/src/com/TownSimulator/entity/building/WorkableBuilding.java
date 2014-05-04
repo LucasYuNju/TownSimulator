@@ -4,6 +4,7 @@ import com.TownSimulator.ai.behaviortree.BehaviorTreeNode;
 import com.TownSimulator.ai.btnimpls.idle.IdleBTN;
 import com.TownSimulator.entity.JobType;
 import com.TownSimulator.entity.Man;
+import com.TownSimulator.ui.building.view.WorkableViewWindow;
 import com.TownSimulator.ui.building.view.WorkerGroupListener;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.utils.Array;
@@ -45,6 +46,7 @@ public abstract class WorkableBuilding extends Building
 	
 	private void fireWorker(int cnt)
 	{
+		System.out.println("Fire Worker " + cnt);
 		for (int i = 0; i < cnt; i++) {
 			Man worker = workers.pop();
 			worker.getInfo().job = null;
@@ -93,6 +95,7 @@ public abstract class WorkableBuilding extends Building
 		man.getInfo().job = jobType;
 		man.getInfo().workingBuilding = this;
 		man.setBehavior(createBehavior(man));
+		updateViewWindow();
 	}
 	
 	public void removeWorker(Man man)
@@ -102,6 +105,7 @@ public abstract class WorkableBuilding extends Building
 			curWorkerCnt--;
 			man.getInfo().job = null;
 			man.getInfo().workingBuilding = null;
+			updateViewWindow();
 		}
 	}
 	
@@ -121,9 +125,18 @@ public abstract class WorkableBuilding extends Building
 		}
 	}
 	
+	public void updateViewWindow() {
+		WorkableViewWindow workableViewWindow = (WorkableViewWindow) viewWindow;
+		workableViewWindow.addWorker();
+		System.out.println("Add Worker");
+	}
+	
 	/*
 	 * WorkerGroup变化时，会调用此方法
 	 */
-	protected abstract void workerLimitChanged(int limit);
+	protected void workerLimitChanged(int limit)
+	{
+		setOpenJobCnt(limit);
+	}
 
 }

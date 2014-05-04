@@ -11,6 +11,7 @@ public class IdleBTN extends SelectorNode{
 	
 	public IdleBTN(Man man) {
 		this.man = man;
+		man.stopMove();
 		init();
 	}
 
