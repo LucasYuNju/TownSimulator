@@ -14,8 +14,8 @@ import com.TownSimulator.ui.base.ScreenUIBase;
 import com.TownSimulator.ui.screen.GameScreenUI;
 import com.TownSimulator.ui.screen.StartScreenUI;
 import com.TownSimulator.ui.screen.StartScreenUI.StartUIListener;
-import com.TownSimulator.utility.AudioManager;
 import com.TownSimulator.utility.Singleton;
+import com.TownSimulator.utility.VoicePlayer;
 
 public class UIManager extends Singleton implements StartUIListener{
 	private StartScreenUI 	mStartUI;
@@ -28,6 +28,7 @@ public class UIManager extends Singleton implements StartUIListener{
 		mGameUI = new GameScreenUI();
 		mCurScreenUI = mStartUI;
 		mStartUI.setListner(this);
+		VoicePlayer.playMusic("start.mp3");
 		
 		Driver.getInstance(Driver.class).addListener(new DriverListenerBaseImpl()
 		{
@@ -92,15 +93,8 @@ public class UIManager extends Singleton implements StartUIListener{
 		Renderer.getInstance(Renderer.class).setRenderScene(true);
 		Driver.getInstance(Driver.class).init();
 		World.getInstance(World.class).init();
-
 		
-		try {
-			AudioManager.player.playBGM("game.wav");
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
+		VoicePlayer.playMusic("game.mp3");
 
 	}
 

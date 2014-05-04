@@ -3,7 +3,6 @@ package com.TownSimulator.driver;
 
 import java.util.Random;
 
-import com.TownSimulator.ai.btnimpls.lumerjack.FellingBTN;
 import com.TownSimulator.camera.CameraController;
 import com.TownSimulator.collision.CollisionDetector;
 import com.TownSimulator.entity.EntityFactory;
@@ -16,6 +15,7 @@ import com.TownSimulator.entity.building.BuildingType;
 import com.TownSimulator.entity.building.FellingHouse;
 import com.TownSimulator.entity.building.Warehouse;
 import com.TownSimulator.io.InputMgr;
+import com.TownSimulator.io.InputMgrListenerBaseImpl;
 import com.TownSimulator.map.Map;
 import com.TownSimulator.render.Renderer;
 import com.TownSimulator.ui.UIManager;
@@ -23,11 +23,13 @@ import com.TownSimulator.utility.AxisAlignedBoundingBox;
 import com.TownSimulator.utility.ResourceManager;
 import com.TownSimulator.utility.Settings;
 import com.TownSimulator.utility.SingletonPublisher;
+import com.TownSimulator.utility.TipsBillborad;
+import com.TownSimulator.utility.VoicePlayer;
 import com.TownSimulator.utility.quadtree.QuadTreeType;
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.math.Vector3;
 
 public class Driver extends SingletonPublisher<DriverListener> implements ApplicationListener{
 	private Driver()
@@ -76,6 +78,7 @@ public class Driver extends SingletonPublisher<DriverListener> implements Applic
 		EntityInfoCollector.getInstance(EntityInfoCollector.class).addBuilding(fellingHouse);
 		CollisionDetector.getInstance(CollisionDetector.class).attachCollisionDetection(fellingHouse);
 		Renderer.getInstance(Renderer.class).attachDrawScissor(fellingHouse);
+		
 //		
 //		farmHouse.setSowCropType(CropType.WHEAT);
 //		
@@ -83,19 +86,17 @@ public class Driver extends SingletonPublisher<DriverListener> implements Applic
 //			Renderer.getInstance(Renderer.class).attachDrawScissor(land);
 //		}
 		
-//		InputMgr.getInstance(InputMgr.class).addListener(new InputMgrListenerBaseImpl()
-//		{
-//
-//			@Override
-//			public boolean touchDown(float screenX, float screenY, int pointer,
-//					int button) {
-//				Vector3 pos = new Vector3(screenX, screenY, 0.0f);
-//				CameraController.getInstance(CameraController.class).screenToWorld(pos);
-//				TipsBillborad.showTips("W", pos.x, pos.y);
-//				return true;
-//			}
-//			
-//		});
+		InputMgr.getInstance(InputMgr.class).addListener(new InputMgrListenerBaseImpl()
+		{
+
+			@Override
+			public boolean touchDown(float screenX, float screenY, int pointer,
+					int button) {
+				VoicePlayer.playSound("cave3.wav");
+				return true;
+			}
+			
+		});
 		
 		for (int i = 0; i < initPepleCnt; i++) {
 			float randX = (rand.nextFloat() - 0.5f) * Settings.UNIT * 6;

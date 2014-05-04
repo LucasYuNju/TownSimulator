@@ -86,10 +86,10 @@ public class ResourceManager extends Singleton{
 		return new Sprite(mTexturesMap.get(textureName));
 	}
 	
-	private void loadSound(String soundName){
-		mAssetsManager.load("sounds/"+soundName, Sound.class);
+	public void loadSound(String soundName){
+		mAssetsManager.load(soundName, Sound.class);
 		mAssetsManager.finishLoading();
-		mSoundsMap.put(soundName, mAssetsManager.get("sounds"+soundName, Sound.class));
+		mSoundsMap.put(soundName, mAssetsManager.get(soundName, Sound.class));
 	}
 	
 //	private void playSound(String soundName){
@@ -140,6 +140,10 @@ public class ResourceManager extends Singleton{
 	
 	public AssetManager getAssetManager(){
 		return mAssetsManager;
+	}
+
+	public HashMap<String, Sound> getmSoundsMap() {
+		return mSoundsMap;
 	}
 	
 }
