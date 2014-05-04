@@ -1,4 +1,4 @@
-package com.TownSimulator.ui.building;
+package com.TownSimulator.ui.building.adjust;
 
 import com.TownSimulator.utility.Settings;
 import com.badlogic.gdx.scenes.scene2d.Group;

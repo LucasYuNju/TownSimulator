@@ -1,6 +1,7 @@
-package com.TownSimulator.ui.building;
+package com.TownSimulator.ui.building.adjust;
 
 import com.TownSimulator.ui.base.IconButton;
+import com.TownSimulator.ui.building.selector.BuildComsUI;
 
 /**
  * 
