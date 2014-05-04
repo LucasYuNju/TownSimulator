@@ -1,6 +1,8 @@
 package com.TownSimulator.ui;
 
 
+import java.io.IOException;
+
 import com.TownSimulator.driver.Driver;
 import com.TownSimulator.driver.DriverListenerBaseImpl;
 import com.TownSimulator.entity.World;
@@ -12,15 +14,13 @@ import com.TownSimulator.ui.base.ScreenUIBase;
 import com.TownSimulator.ui.screen.GameScreenUI;
 import com.TownSimulator.ui.screen.StartScreenUI;
 import com.TownSimulator.ui.screen.StartScreenUI.StartUIListener;
-import com.TownSimulator.utility.BGMPlayer;
-import com.TownSimulator.utility.MusicType;
+import com.TownSimulator.utility.AudioManager;
 import com.TownSimulator.utility.Singleton;
 
 public class UIManager extends Singleton implements StartUIListener{
 	private StartScreenUI 	mStartUI;
 	private GameScreenUI	mGameUI;
 	private ScreenUIBase	mCurScreenUI;
-	private BGMPlayer         bgmPlayer;
 	
 	private UIManager()
 	{
@@ -28,7 +28,6 @@ public class UIManager extends Singleton implements StartUIListener{
 		mGameUI = new GameScreenUI();
 		mCurScreenUI = mStartUI;
 		mStartUI.setListner(this);
-		bgmPlayer=new BGMPlayer(MusicType.StartScreen);
 		
 		Driver.getInstance(Driver.class).addListener(new DriverListenerBaseImpl()
 		{
@@ -71,6 +70,8 @@ public class UIManager extends Singleton implements StartUIListener{
 			}
 			
 		});
+		
+		
 	}
 	
 	public GameScreenUI getGameUI()
@@ -91,7 +92,13 @@ public class UIManager extends Singleton implements StartUIListener{
 		Renderer.getInstance(Renderer.class).setRenderScene(true);
 		Driver.getInstance(Driver.class).init();
 		World.getInstance(World.class).init();
-		bgmPlayer.changeBgm(MusicType.GameScreen);
+		
+		try {
+			AudioManager.player.playBGM("game.wav");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	public void render()

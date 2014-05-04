@@ -2,8 +2,6 @@ package com.TownSimulator.ui.base;
 
 import com.TownSimulator.driver.DriverListener;
 import com.TownSimulator.io.InputMgrListener;
-import com.TownSimulator.utility.BGMPlayer;
-import com.TownSimulator.utility.MusicType;
 import com.TownSimulator.utility.ResourceManager;
 import com.TownSimulator.utility.Settings;
 import com.badlogic.gdx.Gdx;
