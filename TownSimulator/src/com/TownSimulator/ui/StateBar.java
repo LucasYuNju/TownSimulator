@@ -1,6 +1,6 @@
 package com.TownSimulator.ui;
 
-import com.TownSimulator.ui.building.UndockedWindow;
+import com.TownSimulator.ui.building.view.UndockedWindow;
 import com.TownSimulator.utility.ResourceManager;
 import com.TownSimulator.utility.Settings;
 import com.TownSimulator.utility.Singleton;
@@ -21,8 +21,8 @@ import com.badlogic.gdx.scenes.scene2d.utils.Align;
  *
  */
 public class StateBar extends Group{
-	private static final float LABEL_WIDTH = UndockedWindow.LABEL_WIDTH;
-	private static final float LABEL_HEIGHT = UndockedWindow.LABEL_HEIGHT;
+	private static final float LABEL_WIDTH = Settings.LABEL_WIDTH;
+	private static final float LABEL_HEIGHT = Settings.LABEL_HEIGHT;
 	private static final float MARGIN = UndockedWindow.MARGIN * 0.6f;
 	
 	private TextureRegion background;
@@ -50,25 +50,25 @@ public class StateBar extends Group{
 		Label foodLabel = new Label("Food", labelStyle);
 		foodLabel.setSize(LABEL_WIDTH, LABEL_HEIGHT);
 		foodLabel.setPosition(MARGIN, MARGIN);
-		foodLabel.setAlignment(Align.center);
+		foodLabel.setAlignment(Align.left);
 		addActor(foodLabel);
 		
 		numFoodLabel = new Label("", labelStyle);
 		numFoodLabel.setSize(LABEL_WIDTH, LABEL_HEIGHT);
-		numFoodLabel.setPosition(MARGIN + LABEL_WIDTH, MARGIN);
-		numFoodLabel.setAlignment(Align.center);
+		numFoodLabel.setPosition(MARGIN * 2.0f + LABEL_WIDTH, MARGIN);
+		numFoodLabel.setAlignment(Align.left);
 		addActor(numFoodLabel);
 		
 		Label peopleLabel = new Label("People", labelStyle);
 		peopleLabel.setSize(LABEL_WIDTH, LABEL_HEIGHT);
 		peopleLabel.setPosition(MARGIN, MARGIN + LABEL_HEIGHT);
-		peopleLabel.setAlignment(Align.center);
+		peopleLabel.setAlignment(Align.left);
 		addActor(peopleLabel);
 		
 		numPeopleLabel = new Label("", labelStyle);
 		numPeopleLabel.setSize(LABEL_WIDTH, LABEL_HEIGHT);
-		numPeopleLabel.setPosition(MARGIN + LABEL_WIDTH, MARGIN + LABEL_HEIGHT);
-		numPeopleLabel.setAlignment(Align.center);
+		numPeopleLabel.setPosition(MARGIN * 2.0f + LABEL_WIDTH, MARGIN + LABEL_HEIGHT);
+		numPeopleLabel.setAlignment(Align.left);
 		addActor(numPeopleLabel);
 	}
 	

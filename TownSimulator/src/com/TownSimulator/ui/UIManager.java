@@ -92,6 +92,7 @@ public class UIManager extends Singleton implements StartUIListener{
 		Renderer.getInstance(Renderer.class).setRenderScene(true);
 		Driver.getInstance(Driver.class).init();
 		World.getInstance(World.class).init();
+
 		
 		try {
 			AudioManager.player.playBGM("game.wav");
@@ -99,6 +100,8 @@ public class UIManager extends Singleton implements StartUIListener{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+
+
 	}
 
 	public void render()

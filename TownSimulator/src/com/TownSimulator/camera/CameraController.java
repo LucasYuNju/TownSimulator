@@ -215,9 +215,9 @@ public class CameraController extends SingletonPublisher<CameraListener>{
 	private void moveRelScreen( float deltaX, float deltaY )
 	{
 		float x = MathUtils.clamp(mCamera.position.x - deltaX * mCameraScale,
-				0.0f, Map.MAP_WIDTH * Settings.UNIT - mCamera.viewportWidth);
+				mCamera.viewportWidth * 0.5f, Map.MAP_WIDTH * Settings.UNIT - mCamera.viewportWidth * 0.5f);
 		float y = MathUtils.clamp(mCamera.position.y + deltaY * mCameraScale,
-				0.0f, Map.MAP_HEIGHT * Settings.UNIT - mCamera.viewportHeight);
+				mCamera.viewportHeight * 0.5f, Map.MAP_HEIGHT * Settings.UNIT - mCamera.viewportHeight * 0.5f);
 		float dx = x - mCamera.position.x;
 		float dy = y - mCamera.position.y;
 		for (int i = 0; i < mListeners.size; i++) {

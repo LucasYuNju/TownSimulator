@@ -1,4 +1,4 @@
-package com.TownSimulator.ui.building;
+package com.TownSimulator.ui.building.view;
 
 import com.TownSimulator.camera.CameraController;
 import com.TownSimulator.camera.CameraListener;
@@ -29,11 +29,13 @@ import com.badlogic.gdx.scenes.scene2d.utils.Align;
 public class UndockedWindow extends Group{
 	protected float buildingPosXWorld;
 	protected float buildingPosYWorld;
-	public static final float MARGIN = Settings.UNIT * 0.3f;
-	public static final float LABEL_WIDTH = Settings.UNIT * 1f;
-	public static final float LABEL_HEIGHT = Settings.UNIT * 0.4f;
+	public static final float MARGIN = Settings.MARGIN;
+	public static final float LABEL_WIDTH = Settings.LABEL_WIDTH;
+	public static final float LABEL_HEIGHT = Settings.LABEL_HEIGHT;
 	protected BuildingType buildingType;
 	protected TextureRegion background;
+	private Button closeButton;
+	private Label headerLabel;
 	
 	public UndockedWindow(BuildingType buildingType) {
 		super();
@@ -43,28 +45,38 @@ public class UndockedWindow extends Group{
 	}
 	
 	protected void addCloseButton() {
-		Button closeButton = new FlipButton("button_cancel", "button_cancel", null);
-		closeButton.setSize(MARGIN, MARGIN);
-		closeButton.setPosition(getWidth() - closeButton.getWidth(), getHeight() - closeButton.getHeight());
-		closeButton.addListener(new EventListener() {
-			@Override
-			public boolean handle(Event event) {
-				UndockedWindow.this.setVisible(false);
-				return false;
-			}
-		});
-		addActor(closeButton);
+		if(closeButton == null) {
+			closeButton = new FlipButton("button_cancel", "button_cancel", null);
+			closeButton.setSize(MARGIN, MARGIN);
+			closeButton.setPosition(getWidth() - closeButton.getWidth(), getHeight() - closeButton.getHeight());
+			closeButton.addListener(new EventListener() {
+				@Override
+				public boolean handle(Event event) {
+					UndockedWindow.this.setVisible(false);
+					return false;
+				}
+			});
+			addActor(closeButton);
+		}
+		else {
+			closeButton.setPosition(getWidth() - closeButton.getWidth(), getHeight() - closeButton.getHeight());
+		}
 	}
 	
 	protected void addHeader() {
+		if(headerLabel == null) {
 		LabelStyle labelStyle = new LabelStyle();
 		labelStyle.font = ResourceManager.getInstance(ResourceManager.class).getFont((int) (Settings.UNIT * 0.3f));
 		labelStyle.fontColor = Color.WHITE;
-		Label label = new Label(buildingType.toString(), labelStyle);
-		label.setSize(LABEL_WIDTH, LABEL_HEIGHT);
-		label.setPosition(MARGIN, getHeight() - LABEL_HEIGHT);
-		label.setAlignment(Align.center);
-		addActor(label);
+		headerLabel = new Label(buildingType.toString(), labelStyle);
+		headerLabel.setSize(LABEL_WIDTH, LABEL_HEIGHT);
+		headerLabel.setPosition(MARGIN, getHeight() - LABEL_HEIGHT);
+		headerLabel.setAlignment(Align.center);
+		addActor(headerLabel);
+		}
+		else {
+			headerLabel.setPosition(MARGIN, getHeight() - LABEL_HEIGHT);
+		}
 	}
 
 	
@@ -119,10 +131,5 @@ public class UndockedWindow extends Group{
 		applyTransform(batch, computeTransform());
 		drawChildren(batch, parentAlpha);
 		resetTransform(batch);
-	}
-
-	//for worker group
-	public void builderLimitSelected(int selectedLimit) {
-		
 	}
 }

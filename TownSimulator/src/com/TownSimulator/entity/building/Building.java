@@ -13,15 +13,14 @@ import com.TownSimulator.ui.UIManager;
 import com.TownSimulator.ui.building.construction.ConstructionWindow;
 import com.TownSimulator.ui.building.construction.ConstructionWindowListener;
 import com.TownSimulator.ui.building.view.ViewWindow;
+import com.TownSimulator.ui.building.view.WorkerGroupListener;
 import com.TownSimulator.utility.Singleton;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 
-/**
- * 
- * 	子类需要override getViewData()方法，以创建ViewWindow
- *
- */
-public abstract class Building extends Entity implements ConstructionWindowListener{
+
+public abstract class Building extends Entity 
+	implements ConstructionWindowListener, WorkerGroupListener{
 	protected List<Resource>			constructionResources;
 	protected int						constructionWork;
 	protected int						finishedConstructionWork;
@@ -55,15 +54,18 @@ public abstract class Building extends Entity implements ConstructionWindowListe
 		state = State.PosUnconfirmed;
 		constructionResources = new LinkedList<Resource>();
 		constructionWindow = UIManager.getInstance(UIManager.class).getGameUI().createConstructionWindow(type, constructionResources, numAllowedBuilder);
-		constructionWindow.setListener(this);
+		viewWindow = Singleton.getInstance(UIManager.class).getGameUI().createViewWindow(type, new String[0][0]);
+		if(viewWindow == null) {
+			throw new NullPointerException("failed to create view window");
+		}
+		constructionWindow.setConstructionListener(this);
 	}
 	
 	@Override
 	public void setPositionWorld(float x, float y) {
 		super.setPositionWorld(x, y);
 		constructionWindow.setBuildingPosWorld(getPositionXWorld(), getPositionYWorld());
-		if(viewWindow != null)
-			viewWindow.setBuildingPosWorld(getPositionXWorld(), getPositionXWorld());
+		viewWindow.setBuildingPosWorld(getPositionXWorld(), getPositionXWorld());
 	}
 
 	public int getMaxAllowdBuilderCnt()
@@ -175,14 +177,10 @@ public abstract class Building extends Entity implements ConstructionWindowListe
 			constructionWindow.setVisible(true);
 		}
 		if(state == State.Constructed) {
-			if(viewWindow == null) {
-				viewWindow = Singleton.getInstance(UIManager.class).getGameUI().createViewWindow(type, getViewData());
-				if(viewWindow != null)
-					viewWindow.setBuildingPosWorld(getPositionXWorld(), getPositionYWorld());
-			}
-			
-			if(viewWindow != null)
-				viewWindow.setVisible(true);
+			updataViewWindow();
+			viewWindow.setBuildingPosWorld(getPositionXWorld(), getPositionYWorld());
+			viewWindow.setVisible(true);
+			Gdx.app.log("building", "12345");
 		}
 	}
 	
@@ -193,7 +191,7 @@ public abstract class Building extends Entity implements ConstructionWindowListe
 	 * 将数据更新到viewWindow
 	 */
 	protected void updataViewWindow() {
-		if(viewWindow != null)
+//		if(viewWindow != null)
 			viewWindow.updateData(getViewData());
 	}
 	
@@ -210,7 +208,6 @@ public abstract class Building extends Entity implements ConstructionWindowListe
 	//this method will notify constructionWindow
 	public void addBuilder() {
 		constructionWindow.addBuilder();
-		//System.out.println("Add Builder");
 	}
 
 	@Override
@@ -219,8 +216,7 @@ public abstract class Building extends Entity implements ConstructionWindowListe
 	}
 
 	@Override
-	public void builderLimitSelected(int limit) {
-		//System.out.println(limit);
+	public void workerLimitSelected(int limit) {
 		constructionProject.setOpenWorkJobCnt(limit);
 	}
 }

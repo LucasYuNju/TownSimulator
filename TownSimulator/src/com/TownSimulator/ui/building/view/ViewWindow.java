@@ -5,7 +5,6 @@ import java.util.List;
 
 import com.TownSimulator.camera.CameraController;
 import com.TownSimulator.entity.building.BuildingType;
-import com.TownSimulator.ui.building.UndockedWindow;
 import com.TownSimulator.utility.ResourceManager;
 import com.TownSimulator.utility.Settings;
 import com.badlogic.gdx.graphics.Color;
@@ -19,24 +18,18 @@ public class ViewWindow extends UndockedWindow{
 	String[][] data;
 	List<Label> labels;
 	
-	/*
-	 * for ViewWindow intended to display data list
+	/**
+	 * @param data 允许为null或者为空，如果这样的话，ViewWindow的UI初始化会推迟到第一次调用updateData()
+	 * 
 	 */
 	public ViewWindow(BuildingType buildingType, String data[][]) {
 		super(buildingType);
-		if(data == null || data.length == 0)
-			throw new IllegalArgumentException("data length is 0");
-		this.data = data;
-		
-		int numLabel = data.length > NUM_LABEL_PER_PAGE ? data.length : NUM_LABEL_PER_PAGE;
-		int numLabelPerRow = 2;
-		if(data.length != 0) 
-			numLabelPerRow = data[0].length;
-		setSize(LABEL_WIDTH * numLabelPerRow + MARGIN * 2, LABEL_HEIGHT * numLabel + MARGIN * 2);
 		setPosition(0, 0);
-		addLabels();
-		addCloseButton();
-		addHeader();
+		setSize(LABEL_WIDTH * 2 + MARGIN * 2, LABEL_HEIGHT * NUM_LABEL_PER_PAGE + MARGIN * 2);
+		if(data != null && data.length != 0) {
+			initUI();
+			updateData(data);
+		}
 	}
 	
 	/*
@@ -44,6 +37,17 @@ public class ViewWindow extends UndockedWindow{
 	 */
 	public ViewWindow(BuildingType buildingType) {
 		super(buildingType);		
+	}
+	
+	private void initUI() {
+		int numLabel = data.length > NUM_LABEL_PER_PAGE ? data.length : NUM_LABEL_PER_PAGE;
+		int numLabelPerRow = 2;
+		if(data.length != 0)
+			numLabelPerRow = data[0].length;
+		setSize(LABEL_WIDTH * numLabelPerRow + MARGIN * 2, LABEL_HEIGHT * numLabel + MARGIN * 2);
+		addLabels();
+		addCloseButton();
+		addHeader();
 	}
 	
 	public void addLabels() {
@@ -82,10 +86,23 @@ public class ViewWindow extends UndockedWindow{
 		float windowY = pos.y - getHeight() * 0.5f;
 		getParent().setPosition(windowX, windowY);
 	}	
-		
+
+	
 	public void updateData(String[][] newData) {
-		if(data.length != newData.length || data[0].length != newData[0].length)
-			throw new IllegalArgumentException("data length does not match to its previous value");
+		//data为null或者为空，UI没有初始化过
+		if(newData != null && newData.length != 0) {
+			if(data == null || data.length == 0 ) {
+				data = newData;
+				initUI();
+			}
+			else if(data.length != newData.length) {
+				for(Label label : labels) {
+					removeActor(label);
+				}
+				data = newData;
+				initUI();
+			}
+		}
 		data = newData;
 		updateLabels();
 	}
@@ -96,5 +113,11 @@ public class ViewWindow extends UndockedWindow{
 				labels.get(i*data[0].length+j).setText(data[i][j]);
 			}
 		}
+	}
+	
+	public void setWorkerGroupListener(WorkerGroupListener workerGroupListener) {
+	}
+	
+	public void setSelectBoxListener(SelectBoxListener selectBoxListener) {
 	}
 }

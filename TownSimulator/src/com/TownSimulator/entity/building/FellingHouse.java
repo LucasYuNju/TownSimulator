@@ -76,6 +76,7 @@ public class FellingHouse extends WorkingBuilding{
 
 	@Override
 	protected String[][] getViewData() {
+		
 		return null;
 	}
 }
