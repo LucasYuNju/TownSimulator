@@ -7,7 +7,7 @@ import com.TownSimulator.entity.building.BuildingType;
  * 	支持WorkerGroupWindow及监听
  *
  */
-public class WorkableViewWindow extends ViewWindow{
+public class WorkableViewWindow extends ListenableViewWindow{
 
 	private WorkerGroup workerGroup;
 	
@@ -22,8 +22,17 @@ public class WorkableViewWindow extends ViewWindow{
 		addCloseButton();
 	}
 	
+	public void addWorker() {
+		workerGroup.addWorker();
+	}
+
 	@Override
 	public void setWorkerGroupListener(WorkerGroupListener workerGroupListener) {
 		workerGroup.setListener(workerGroupListener);
+	}
+
+	@Override
+	public void setSelectBoxListener(SelectBoxListener selectBoxListener) {
+		//do nothing
 	}
 }

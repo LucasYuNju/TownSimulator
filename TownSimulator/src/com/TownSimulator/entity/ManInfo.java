@@ -99,6 +99,14 @@ public class ManInfo {
 			return str;
 		}
 	}
+	
+	public List<String> toStringList() {
+		List<String> list = new ArrayList<String>();
+		list.add(getName());
+		list.add(getGender().toString());
+		list.add(getAge() + "");
+		return list;
+	}
 
 	static {
 		initNamePool();

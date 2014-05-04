@@ -13,7 +13,8 @@ import com.TownSimulator.ui.building.BuildComsUI;
 import com.TownSimulator.ui.building.BuildingAdjustGroup;
 import com.TownSimulator.ui.building.construction.ConstructionWindow;
 import com.TownSimulator.ui.building.view.FarmViewWindow;
-import com.TownSimulator.ui.building.view.ViewWindow;
+import com.TownSimulator.ui.building.view.ListenableViewWindow;
+import com.TownSimulator.ui.building.view.ScrollViewWindow;
 import com.TownSimulator.ui.building.view.WorkableViewWindow;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -51,24 +52,16 @@ public class GameScreenUI extends ScreenUIBase{
 	public BuildingAdjustGroup getBuildAjustUI()
 	{
 		return mBuildAjustUI;
-	}
+	}	
 	
-	public ConstructionWindow createConstructionWindow(BuildingType buildingType, List<Resource> resouces, int numAllowedBuilder) {
-		ConstructionWindow constructionWindow = new ConstructionWindow(buildingType, resouces, numAllowedBuilder);
-		constructionWindow.setVisible(false);
-		mStage.addActor(constructionWindow);
-		windows.add(constructionWindow);
-		return constructionWindow;
-	}
-	
-	public ViewWindow createViewWindow(BuildingType type) {
-		ViewWindow window = null;
+	public ListenableViewWindow createViewWindow(BuildingType type) {
+		ListenableViewWindow window = null;
 		switch (type) {
 		case WAREHOUSE:
-			window = createScrollViewWindow(type, null);
+			window = createScrollViewWindow(type);
 			break;
 		case LOW_COST_HOUSE:
-			window = createScrollViewWindow(type, null);
+			window = createScrollViewWindow(type);
 			break;
 		case FARM_HOUSE:
 			window = createFarmViewWindow();
@@ -84,10 +77,18 @@ public class GameScreenUI extends ScreenUIBase{
 		return window;
 	}
 	
-	private ViewWindow createScrollViewWindow(BuildingType buildingType, String[][] data) {
-		ViewWindow content = new ViewWindow(buildingType, data);
-		ScrollPane scrollPane = new ScrollPane(content);
-		scrollPane.setSize(content.getWidth(), content.getHeight());
+	public ConstructionWindow createConstructionWindow(BuildingType buildingType, List<Resource> resouces, int numAllowedBuilder) {
+		ConstructionWindow constructionWindow = new ConstructionWindow(buildingType, resouces, numAllowedBuilder);
+		constructionWindow.setVisible(false);
+		mStage.addActor(constructionWindow);
+		windows.add(constructionWindow);
+		return constructionWindow;
+	}
+	
+	private ListenableViewWindow createScrollViewWindow(BuildingType buildingType) {
+		ListenableViewWindow window = new ScrollViewWindow(buildingType);
+		//scrollPane不需要设置size，window设置size时会更新scrollPane的size
+		ScrollPane scrollPane = new ScrollPane(window);
 		scrollPane.setScrollingDisabled(true, false);
 		scrollPane.addListener(new InputListener(){
 			@Override
@@ -98,18 +99,18 @@ public class GameScreenUI extends ScreenUIBase{
 			}
 		});
 		mStage.addActor(scrollPane);
-		return content;
+		return window;
 	}
 	
-	private ViewWindow createFarmViewWindow() {
+	private ListenableViewWindow createFarmViewWindow() {
 		FarmViewWindow window = new FarmViewWindow();
 		mStage.addActor(window);
 		windows.add(window);
 		return window;
 	}
 	
-	private ViewWindow createWorkableViewWindow(BuildingType buildingType, int numAllowedWorker) {
-		ViewWindow window = new WorkableViewWindow(buildingType, numAllowedWorker);
+	private ListenableViewWindow createWorkableViewWindow(BuildingType buildingType, int numAllowedWorker) {
+		ListenableViewWindow window = new WorkableViewWindow(buildingType, numAllowedWorker);
 		mStage.addActor(window);
 		windows.add(window);
 		return window;

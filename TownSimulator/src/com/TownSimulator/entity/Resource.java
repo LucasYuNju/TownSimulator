@@ -1,5 +1,8 @@
 package com.TownSimulator.entity;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * 重写了equals(Object object)和toString()方法，以简化collection操作
  * 为了判断collection是否包含某个类型的Resource，可以写成collection.contains(new Resource(desiredType))
@@ -70,7 +73,13 @@ public class Resource {
 			if(getType() == (ResourceType)obj)
 				return true;
 		}
-		
 		return false;
+	}
+	
+	public List<String> toStringList() {
+		List<String> list = new ArrayList<String>();
+		list.add(type.toString());
+		list.add(getAmount() + "");
+		return list;
 	}
 }

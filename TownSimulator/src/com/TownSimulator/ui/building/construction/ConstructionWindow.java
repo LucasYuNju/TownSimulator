@@ -34,7 +34,6 @@ import com.badlogic.gdx.scenes.scene2d.utils.Align;
  * 					  margin
  */
 public class ConstructionWindow extends UndockedWindow{
-	//LABEL_WIDTH is also ICON_WIDTH
 	private static final int NUM_PAIR = 3;
 	
 	//window去掉margin后的宽度和高度
@@ -54,14 +53,14 @@ public class ConstructionWindow extends UndockedWindow{
 		//初始化顺序matters
 		//1
 		builderGroup = new WorkerGroup(numAllowedBuilder);
-		builderGroup.setPosition(MARGIN, MARGIN * 1.4f + ProcessBar.HEIGHT);
+		builderGroup.setPosition(MARGIN, MARGIN + ProcessBar.HEIGHT);
 		addActor(builderGroup);
 		addPairs();
 		
 		//2
 		float pairsWidth = LABEL_WIDTH * NUM_PAIR;
 		windowWidth = pairsWidth > builderGroup.getWidth() ? pairsWidth : builderGroup.getWidth();
-		windowHeight = LABEL_WIDTH * 2 + LABEL_HEIGHT * 2 + ProcessBar.HEIGHT;
+		windowHeight = ProcessBar.HEIGHT + WorkerGroup.HEIGHT + LABEL_HEIGHT + ICON_WIDTH;
 		setSize(windowWidth+MARGIN * 2, windowHeight + MARGIN * 2);
 		setPosition( (Gdx.graphics.getWidth() - getWidth())/2, 
 				(Gdx.graphics.getHeight() - getHeight())/2 );
@@ -85,7 +84,7 @@ public class ConstructionWindow extends UndockedWindow{
 			else 
 				btn = new FlipButton("button_build_house", "button_build", null);
 			btn.setSize(LABEL_WIDTH, LABEL_WIDTH);
-			btn.setPosition(LABEL_WIDTH * i + MARGIN, LABEL_HEIGHT + LABEL_WIDTH + ProcessBar.HEIGHT + MARGIN);
+			btn.setPosition(LABEL_WIDTH * i + MARGIN, MARGIN + ProcessBar.HEIGHT + WorkerGroup.HEIGHT + LABEL_HEIGHT);
 			btn.addListener(new EventListener() {
 				@Override
 				public boolean handle(Event event) {
@@ -99,7 +98,7 @@ public class ConstructionWindow extends UndockedWindow{
 			labelStyle.fontColor = Color.WHITE;
 			Label label = new Label("", labelStyle);
 			label.setSize(LABEL_WIDTH, LABEL_HEIGHT);
-			label.setPosition(LABEL_WIDTH * i + MARGIN, LABEL_WIDTH + ProcessBar.HEIGHT + MARGIN);
+			label.setPosition(LABEL_WIDTH * i + MARGIN, MARGIN + ProcessBar.HEIGHT + WorkerGroup.HEIGHT);
 			label.setAlignment(Align.center);
 			resourceLabels.add(label);
 			addActor(label);
@@ -140,6 +139,6 @@ public class ConstructionWindow extends UndockedWindow{
 	}
 
 	public void addBuilder() {
-		builderGroup.addBuilder();
+		builderGroup.addWorker();
 	}	
 }

@@ -32,6 +32,7 @@ public class UndockedWindow extends Group{
 	public static final float MARGIN = Settings.MARGIN;
 	public static final float LABEL_WIDTH = Settings.LABEL_WIDTH;
 	public static final float LABEL_HEIGHT = Settings.LABEL_HEIGHT;
+	public static final float ICON_WIDTH = Settings.LABEL_WIDTH;
 	protected BuildingType buildingType;
 	protected TextureRegion background;
 	private Button closeButton;
@@ -65,14 +66,14 @@ public class UndockedWindow extends Group{
 	
 	protected void addHeader() {
 		if(headerLabel == null) {
-		LabelStyle labelStyle = new LabelStyle();
-		labelStyle.font = ResourceManager.getInstance(ResourceManager.class).getFont((int) (Settings.UNIT * 0.3f));
-		labelStyle.fontColor = Color.WHITE;
-		headerLabel = new Label(buildingType.toString(), labelStyle);
-		headerLabel.setSize(LABEL_WIDTH, LABEL_HEIGHT);
-		headerLabel.setPosition(MARGIN, getHeight() - LABEL_HEIGHT);
-		headerLabel.setAlignment(Align.center);
-		addActor(headerLabel);
+			LabelStyle labelStyle = new LabelStyle();
+			labelStyle.font = ResourceManager.getInstance(ResourceManager.class).getFont((int) (Settings.UNIT * 0.3f));
+			labelStyle.fontColor = Color.WHITE;
+			headerLabel = new Label(buildingType.toString(), labelStyle);
+			headerLabel.setSize(LABEL_WIDTH, LABEL_HEIGHT);
+			headerLabel.setPosition(MARGIN, getHeight() - LABEL_HEIGHT);
+			headerLabel.setAlignment(Align.left);
+			addActor(headerLabel);
 		}
 		else {
 			headerLabel.setPosition(MARGIN, getHeight() - LABEL_HEIGHT);

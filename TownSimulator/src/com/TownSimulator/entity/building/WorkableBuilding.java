@@ -5,12 +5,11 @@ import com.TownSimulator.ai.btnimpls.idle.IdleBTN;
 import com.TownSimulator.entity.JobType;
 import com.TownSimulator.entity.Man;
 import com.TownSimulator.ui.building.view.WorkerGroupListener;
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.utils.Array;
 
 /**
- *可以有人工作的建筑 
+ * 可以有人工作的建筑 
  *
  */
 public abstract class WorkableBuilding extends Building
@@ -127,8 +126,4 @@ public abstract class WorkableBuilding extends Building
 	 */
 	protected abstract void workerLimitChanged(int limit);
 
-	@Override
-	protected final String[][] getViewData() {
-		return null;
-	}
 }

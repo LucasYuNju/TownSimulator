@@ -3,7 +3,6 @@ package com.TownSimulator.driver;
 
 import java.util.Random;
 
-import com.TownSimulator.ai.btnimpls.lumerjack.FellingBTN;
 import com.TownSimulator.camera.CameraController;
 import com.TownSimulator.collision.CollisionDetector;
 import com.TownSimulator.entity.EntityFactory;
@@ -111,7 +110,6 @@ public class Driver extends SingletonPublisher<DriverListener> implements Applic
 	
 	@Override
 	public void create() {
-		Settings.refreshUnit();
 		ResourceManager.getInstance(ResourceManager.class);
 		InputMgr.getInstance(InputMgr.class);
 		UIManager.getInstance(UIManager.class);

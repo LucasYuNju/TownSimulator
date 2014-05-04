@@ -39,14 +39,11 @@ public class LivingHouse extends Building{
 	}
 	
 	@Override
-	public String[][] getViewData() {
-		//name, gender, age
-		String[][] data = new String[residents.size()][3];
-		for(int i=0; i<residents.size(); i++) {
-			data[i][0] = residents.get(i).getName();
-			data[i][1] = residents.get(i).getGender().toString();
-			data[i][2] = residents.get(i).getAge() + "";
+	public List<List<String>> getViewData() {
+		List<List<String>> list = new ArrayList<List<String>>();
+		for(ManInfo resident : residents) {
+			list.add(resident.toStringList());
 		}
-		return data;
+		return list;
 	}
 }

@@ -1,5 +1,6 @@
 package com.TownSimulator.entity.building;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -44,12 +45,11 @@ public class Warehouse extends Building {
 	}
 		
 	@Override
-	public String[][] getViewData() {
-		String[][] data = new String[storedResources.size()][2];
-		for(int i=0; i<storedResources.size(); i++) {
-			data[i][0] = storedResources.get(i).getType().toString();
-			data[i][1] = storedResources.get(i).getAmount() + "";
+	public List<List<String>> getViewData() {
+		List<List<String>> list = new ArrayList<List<String>>();
+		for(Resource resource : storedResources) {
+			list.add(resource.toStringList());
 		}
-		return data;
+		return list;
 	}
 }
