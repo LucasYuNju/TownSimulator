@@ -95,7 +95,7 @@ public class UIManager extends Singleton implements StartUIListener{
 
 		
 		try {
-			AudioManager.player.playBGM("game.wav");
+			AudioManager.player.playBGM("start.mp3");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

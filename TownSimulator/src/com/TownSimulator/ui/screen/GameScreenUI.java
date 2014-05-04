@@ -7,6 +7,7 @@ import com.TownSimulator.entity.EntityInfoCollector;
 import com.TownSimulator.entity.Resource;
 import com.TownSimulator.entity.ResourceInfoCollector;
 import com.TownSimulator.entity.building.BuildingType;
+import com.TownSimulator.entity.building.FellingHouse;
 import com.TownSimulator.ui.StateBar;
 import com.TownSimulator.ui.base.ScreenUIBase;
 import com.TownSimulator.ui.building.BuildComsUI;
@@ -67,7 +68,7 @@ public class GameScreenUI extends ScreenUIBase{
 			window = createFarmViewWindow();
 			break;
 		case FELLING_HOUSE:
-			window = createWorkableViewWindow(type, 4);
+			window = createWorkableViewWindow(type, FellingHouse.MAX_WORKER_CNT);
 			break;
 		default:
 			break;

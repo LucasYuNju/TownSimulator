@@ -7,6 +7,7 @@ import android.content.res.AssetFileDescriptor;
 import android.content.res.AssetManager;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
+import android.media.MediaPlayer.OnPreparedListener;
 import android.media.SoundPool;
 
 import com.TownSimulator.driver.Driver;
@@ -25,7 +26,7 @@ public class BGMPlayer implements IbgmPlayer{
 	private String soundPathString="sounds/";
 	
 	public BGMPlayer(Context context) throws IOException{
-		context=context;
+		this.context=context;
 		mAssetManager=context.getAssets();
 		initMediaPlayer();
 		initSoundPool();
@@ -35,7 +36,7 @@ public class BGMPlayer implements IbgmPlayer{
 			@Override
 			public void dispose() {
 				// TODO Auto-generated method stub
-				this.dispose();
+				BGMPlayer.this.dispose();
 			}
 			
 		});
@@ -47,20 +48,33 @@ public class BGMPlayer implements IbgmPlayer{
 	
 	public void initMediaPlayer() throws IOException{
 		mPlayer=new MediaPlayer();
-		playBGM("start.mp3");
+		playBGM("game.wav");
 	}
 	
 	public void playBGM(String bgmName) throws IOException{
+//		if(mPlayer.isPlaying())
+//			mPlayer.stop();
+		//mPlayer=new MediaPlayer();
 		mPlayer.reset();
+		//mPlayer.release();
 		AssetFileDescriptor assetFileDescriptor=mAssetManager.openFd(musicPathString+bgmName);
 		mPlayer.setDataSource(assetFileDescriptor.getFileDescriptor(), assetFileDescriptor.getStartOffset(), assetFileDescriptor.getLength()); 
-		mPlayer.prepare();
 		mPlayer.setLooping(true);
+//		mPlayer.setOnPreparedListener(new OnPreparedListener() {
+//			
+//			@Override
+//			public void onPrepared(MediaPlayer mp) {
+//				mPlayer.start();
+//			}
+//		});
+//		mPlayer.prepareAsync();
+		mPlayer.prepare();
 		mPlayer.start();
 	}
 	
 	public void dispose(){
 		if(mPlayer!=null){
+			mPlayer.reset();
 			mPlayer.release();
 		}
 		if(sPool!=null){
