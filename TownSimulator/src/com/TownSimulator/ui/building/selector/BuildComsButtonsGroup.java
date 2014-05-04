@@ -1,4 +1,4 @@
-package com.TownSimulator.ui.building;
+package com.TownSimulator.ui.building.selector;
 
 import com.TownSimulator.entity.building.BuildingType;
 import com.badlogic.gdx.Gdx;

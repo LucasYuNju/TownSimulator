@@ -3,7 +3,7 @@ package com.TownSimulator.entity.building;
 public enum BuildingType {
 	LOW_COST_HOUSE("Low-cost House"), 
 	WAREHOUSE("Warehouse"), 
-	FARM_HOUSE("Farmer"),
+	FARM_HOUSE("Farm"),
 	FELLING_HOUSE("Felling");
 	
 	private String name;

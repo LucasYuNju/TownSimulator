@@ -1,8 +1,6 @@
 package com.TownSimulator.ui;
 
 
-import java.io.IOException;
-
 import com.TownSimulator.driver.Driver;
 import com.TownSimulator.driver.DriverListenerBaseImpl;
 import com.TownSimulator.entity.World;
@@ -95,6 +93,7 @@ public class UIManager extends Singleton implements StartUIListener{
 		World.getInstance(World.class).init();
 		
 		VoicePlayer.playMusic("game.mp3");
+
 
 	}
 

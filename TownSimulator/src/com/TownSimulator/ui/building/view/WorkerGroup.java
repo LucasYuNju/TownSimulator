@@ -14,7 +14,8 @@ import com.badlogic.gdx.scenes.scene2d.InputListener;
 
 public class WorkerGroup extends Group{
 	public static final float WORKER_WIDTH = Settings.WORKER_WIDTH;
-	public static final float WORKER_HEIGHT = Settings.WORKER_HEIGHT;
+	private static final float WORKER_HEIGHT = Settings.WORKER_HEIGHT;
+	public static final float HEIGHT = WORKER_HEIGHT * 1.6f;
 	private TextureRegion forbiddenBuilderTexture;
 	private TextureRegion allowedBuilderTexture;
 	private TextureRegion builderTexture;
@@ -31,7 +32,7 @@ public class WorkerGroup extends Group{
 		allowedBuilderTexture = Singleton.getInstance(ResourceManager.class).findTextureRegion("head_gray");
 		forbiddenBuilderTexture = Singleton.getInstance(ResourceManager.class).findTextureRegion("head_forbidden");
 		initBuilderButtons();
-		setSize(WORKER_WIDTH * numAllowed, WORKER_WIDTH);
+		setSize(WORKER_WIDTH * numAllowed, HEIGHT);
 	}
 	
 	void initBuilderButtons() {
@@ -40,8 +41,8 @@ public class WorkerGroup extends Group{
 			FlipButton btn;
 			btn = new FlipButton(allowedBuilderTexture, allowedBuilderTexture, null);
 			builderButtons.add(btn);
-			btn.setPosition(WORKER_WIDTH * i, 0);
-			btn.setSize(WORKER_WIDTH, WORKER_WIDTH);
+			btn.setPosition(WORKER_WIDTH * i, (HEIGHT - WORKER_HEIGHT) / 2);
+			btn.setSize(WORKER_WIDTH, WORKER_HEIGHT);
 			final int indexOfClickedButton = i;
 			btn.addListener(new InputListener() {
 				@Override
@@ -83,7 +84,7 @@ public class WorkerGroup extends Group{
 		}
 	}
 	
-	public boolean addBuilder() {
+	public boolean addWorker() {
 		if(++numWorker > numSelected) {
 			numWorker = numSelected;
 			return false;
@@ -91,12 +92,8 @@ public class WorkerGroup extends Group{
 		refreshUI();
 		return true;
 	}
-	
-	public int getGroupWidth() {
-		return (int) (numAllowed * WORKER_WIDTH);
-	}
-	
-	int getNumAllowedBuilder() {
+		
+	int getNumAllowedWorker() {
 		return numAllowed;
 	}
 	

@@ -7,14 +7,16 @@ import com.TownSimulator.entity.EntityInfoCollector;
 import com.TownSimulator.entity.Resource;
 import com.TownSimulator.entity.ResourceInfoCollector;
 import com.TownSimulator.entity.building.BuildingType;
+import com.TownSimulator.entity.building.FellingHouse;
 import com.TownSimulator.ui.StateBar;
 import com.TownSimulator.ui.base.ScreenUIBase;
-import com.TownSimulator.ui.building.BuildComsUI;
-import com.TownSimulator.ui.building.BuildingAdjustGroup;
+import com.TownSimulator.ui.building.adjust.BuildingAdjustGroup;
 import com.TownSimulator.ui.building.construction.ConstructionWindow;
+import com.TownSimulator.ui.building.selector.BuildComsUI;
 import com.TownSimulator.ui.building.view.FarmViewWindow;
-import com.TownSimulator.ui.building.view.ViewWindow;
-import com.TownSimulator.utility.ResourceManager;
+import com.TownSimulator.ui.building.view.ListenableViewWindow;
+import com.TownSimulator.ui.building.view.ScrollViewWindow;
+import com.TownSimulator.ui.building.view.WorkableViewWindow;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -51,6 +53,29 @@ public class GameScreenUI extends ScreenUIBase{
 	public BuildingAdjustGroup getBuildAjustUI()
 	{
 		return mBuildAjustUI;
+	}	
+	
+	public ListenableViewWindow createViewWindow(BuildingType type) {
+		ListenableViewWindow window = null;
+		switch (type) {
+		case WAREHOUSE:
+			window = createScrollViewWindow(type);
+			break;
+		case LOW_COST_HOUSE:
+			window = createScrollViewWindow(type);
+			break;
+		case FARM_HOUSE:
+			window = createFarmViewWindow();
+			break;
+		case FELLING_HOUSE:
+			window = createWorkableViewWindow(type, FellingHouse.MAX_WORKER_CNT);
+			break;
+		default:
+			break;
+		}
+		if(window != null)
+			windows.add(window);
+		return window;
 	}
 	
 	public ConstructionWindow createConstructionWindow(BuildingType buildingType, List<Resource> resouces, int numAllowedBuilder) {
@@ -61,33 +86,10 @@ public class GameScreenUI extends ScreenUIBase{
 		return constructionWindow;
 	}
 	
-	public ViewWindow createViewWindow(BuildingType type, String[][] data) {
-		ViewWindow window = null;
-		switch (type) {
-		case WAREHOUSE:
-			window = createScrollViewWindow(type, data);
-			break;
-		case LOW_COST_HOUSE:
-			window = createScrollViewWindow(type, data);
-			break;
-		case FARM_HOUSE:
-			window = createFarmViewWindow();
-			break;
-		case FELLING_HOUSE:
-			window = createScrollViewWindow(type, data);
-			break;
-		default:
-			break;
-		}
-		if(window != null)
-			windows.add(window);
-		return window;
-	}
-	
-	private ViewWindow createScrollViewWindow(BuildingType buildingType, String[][] data) {
-		ViewWindow content = new ViewWindow(buildingType, data);
-		ScrollPane scrollPane = new ScrollPane(content);
-		scrollPane.setSize(content.getWidth(), content.getHeight());
+	private ListenableViewWindow createScrollViewWindow(BuildingType buildingType) {
+		ListenableViewWindow window = new ScrollViewWindow(buildingType);
+		//scrollPane不需要设置size，window设置size时会更新scrollPane的size
+		ScrollPane scrollPane = new ScrollPane(window);
 		scrollPane.setScrollingDisabled(true, false);
 		scrollPane.addListener(new InputListener(){
 			@Override
@@ -98,11 +100,18 @@ public class GameScreenUI extends ScreenUIBase{
 			}
 		});
 		mStage.addActor(scrollPane);
-		return content;
+		return window;
 	}
 	
-	private ViewWindow createFarmViewWindow() {
+	private ListenableViewWindow createFarmViewWindow() {
 		FarmViewWindow window = new FarmViewWindow();
+		mStage.addActor(window);
+		windows.add(window);
+		return window;
+	}
+	
+	private ListenableViewWindow createWorkableViewWindow(BuildingType buildingType, int numAllowedWorker) {
+		ListenableViewWindow window = new WorkableViewWindow(buildingType, numAllowedWorker);
 		mStage.addActor(window);
 		windows.add(window);
 		return window;
@@ -114,8 +123,6 @@ public class GameScreenUI extends ScreenUIBase{
 		}
 	}
 	
-	
-	
 	@Override
 	public void update(float deltaTime) {
 		super.update(deltaTime);
@@ -123,8 +130,4 @@ public class GameScreenUI extends ScreenUIBase{
 		int numFood = ResourceInfoCollector.getInstance(ResourceInfoCollector.class).getFoodAmount();
 		stateBar.update(numPeople, numFood);
 	}
-
-//	public void update(int numPeople, int numFood) {
-//		stateBar.update(numPeople, numFood);
-//	}
 }

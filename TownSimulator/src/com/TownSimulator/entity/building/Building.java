@@ -12,10 +12,9 @@ import com.TownSimulator.entity.ResourceType;
 import com.TownSimulator.ui.UIManager;
 import com.TownSimulator.ui.building.construction.ConstructionWindow;
 import com.TownSimulator.ui.building.construction.ConstructionWindowListener;
-import com.TownSimulator.ui.building.view.ViewWindow;
+import com.TownSimulator.ui.building.view.ListenableViewWindow;
 import com.TownSimulator.ui.building.view.WorkerGroupListener;
 import com.TownSimulator.utility.Singleton;
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 
 
@@ -29,7 +28,7 @@ public abstract class Building extends Entity
 	protected BuildingType				type;
 	private   int 						numAllowedBuilder = 3;
 	private   ConstructionWindow		constructionWindow;
-	protected ViewWindow				viewWindow;
+	protected ListenableViewWindow				viewWindow;
 	
 	public enum State
 	{
@@ -54,11 +53,13 @@ public abstract class Building extends Entity
 		state = State.PosUnconfirmed;
 		constructionResources = new LinkedList<Resource>();
 		constructionWindow = UIManager.getInstance(UIManager.class).getGameUI().createConstructionWindow(type, constructionResources, numAllowedBuilder);
-		viewWindow = Singleton.getInstance(UIManager.class).getGameUI().createViewWindow(type, new String[0][0]);
-		if(viewWindow == null) {
-			throw new NullPointerException("failed to create view window");
-		}
+		constructionWindow.setVisible(false);
 		constructionWindow.setConstructionListener(this);
+		viewWindow = Singleton.getInstance(UIManager.class).getGameUI().createViewWindow(type);
+		viewWindow.setVisible(false);
+//		if(viewWindow == null) {
+//			throw new NullPointerException("failed to create view window");
+//		}
 	}
 	
 	@Override
@@ -177,23 +178,15 @@ public abstract class Building extends Entity
 			constructionWindow.setVisible(true);
 		}
 		if(state == State.Constructed) {
-			updataViewWindow();
 			viewWindow.setBuildingPosWorld(getPositionXWorld(), getPositionYWorld());
 			viewWindow.setVisible(true);
-			Gdx.app.log("building", "12345");
 		}
 	}
 	
-	//使用ViewWindow的子类需要override此方法
-	protected abstract String[][] getViewData();
-	
-	/*
-	 * 将数据更新到viewWindow
+	/**
+	 * 
 	 */
-	protected void updataViewWindow() {
-//		if(viewWindow != null)
-			viewWindow.updateData(getViewData());
-	}
+	abstract protected void updateViewWindow();
 	
 	public void setState(State state)
 	{

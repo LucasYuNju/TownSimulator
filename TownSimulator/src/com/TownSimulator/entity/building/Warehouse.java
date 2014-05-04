@@ -1,5 +1,6 @@
 package com.TownSimulator.entity.building;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -7,6 +8,7 @@ import java.util.List;
 import com.TownSimulator.entity.Resource;
 import com.TownSimulator.entity.ResourceInfoCollector;
 import com.TownSimulator.entity.ResourceType;
+import com.TownSimulator.ui.building.view.ScrollViewWindow;
 import com.TownSimulator.utility.ResourceManager;
 
 public class Warehouse extends Building {
@@ -27,7 +29,7 @@ public class Warehouse extends Building {
 		
 		ResourceInfoCollector.getInstance(ResourceInfoCollector.class)
 			.addResourceAmount(type, amount);
-		updataViewWindow();
+		updateViewWindow();
 	}
 	
 
@@ -43,13 +45,19 @@ public class Warehouse extends Building {
 		return -1;
 	}
 		
-	@Override
-	public String[][] getViewData() {
-		String[][] data = new String[storedResources.size()][2];
-		for(int i=0; i<storedResources.size(); i++) {
-			data[i][0] = storedResources.get(i).getType().toString();
-			data[i][1] = storedResources.get(i).getAmount() + "";
+	
+	public List<List<String>> getViewData() {
+		List<List<String>> list = new ArrayList<List<String>>();
+		for(Resource resource : storedResources) {
+			list.add(resource.toStringList());
 		}
-		return data;
+		return list;
+	}
+	
+	protected void updateViewWindow() {
+		if(viewWindow instanceof ScrollViewWindow) {
+			ScrollViewWindow scrollViewWindow = (ScrollViewWindow) viewWindow;
+			scrollViewWindow.updateData(getViewData());
+		}
 	}
 }

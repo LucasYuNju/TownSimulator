@@ -113,7 +113,6 @@ public class Driver extends SingletonPublisher<DriverListener> implements Applic
 	
 	@Override
 	public void create() {
-		Settings.refreshUnit();
 		ResourceManager.getInstance(ResourceManager.class);
 		InputMgr.getInstance(InputMgr.class);
 		UIManager.getInstance(UIManager.class);

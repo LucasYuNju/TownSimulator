@@ -1,8 +1,8 @@
-package com.TownSimulator.ui.building;
+package com.TownSimulator.ui.building.selector;
 
-import com.TownSimulator.broker.BuildBroker;
 import com.TownSimulator.entity.building.BuildingType;
 import com.TownSimulator.ui.base.IconLabelButton;
+import com.TownSimulator.ui.building.adjust.BuildingAdjustBroker;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 
@@ -26,7 +26,7 @@ public class BuildComsButton extends IconLabelButton{
 			@Override
 			public void touchUp(InputEvent event, float x, float y,
 					int pointer, int button) {
-				BuildBroker.getInstance(BuildBroker.class).startNewBuilding(BuildComsButton.this.buildingType);
+				BuildingAdjustBroker.getInstance(BuildingAdjustBroker.class).startNewBuilding(BuildComsButton.this.buildingType);
 			}
 		});
 	}

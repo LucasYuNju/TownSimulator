@@ -5,7 +5,7 @@ import java.util.List;
 
 import com.TownSimulator.ai.btnimpls.construct.ConstructionInfo;
 import com.TownSimulator.entity.building.LivingHouse;
-import com.TownSimulator.entity.building.WorkingBuilding;
+import com.TownSimulator.entity.building.WorkableBuilding;
 
 public class ManInfo {
 	public ManAnimeType 	animeType = ManAnimeType.STANDING;
@@ -13,7 +13,7 @@ public class ManInfo {
 	public ConstructionInfo constructionInfo = new ConstructionInfo();
 	public float 			workEfficency = 1.0f;
 	public JobType 			job;
-	public WorkingBuilding 	workingBuilding;
+	public WorkableBuilding 	workingBuilding;
 	public LivingHouse 		home;
 	public static final float HUNGER_POINTS_MAX = 300.0f;
 	public static final float HUNGER_POINTS_FIND_FOOD = 100.0f;
@@ -98,6 +98,14 @@ public class ManInfo {
 		public String toString() {
 			return str;
 		}
+	}
+	
+	public List<String> toStringList() {
+		List<String> list = new ArrayList<String>();
+		list.add(getName());
+		list.add(getGender().toString());
+		list.add(getAge() + "");
+		return list;
 	}
 
 	static {

@@ -36,8 +36,8 @@ public class EntityFactory {
 		switch (buildingType) {
 		case LOW_COST_HOUSE:
 			xGridSize = 2;
-			yGridSize = 1;
-			yDrawScale = 2.2f;
+			yGridSize = 2;
+			yDrawScale = 1.0f;
 			building = new LowCostHouse();
 			building.setNeededConstructionResource(ResourceType.RS_WOOD, 10);
 			building.setNeededConstructionResource(ResourceType.RS_STONE, 5);
@@ -45,8 +45,8 @@ public class EntityFactory {
 			break;
 		case WAREHOUSE:
 			xGridSize = 2;
-			yGridSize = 1;
-			yDrawScale = 2.2f;
+			yGridSize = 2;
+			yDrawScale = 1.0f;
 			building = new Warehouse();
 			building.setNeededConstructionResource(ResourceType.RS_WOOD, 20);
 			building.setNeededConstructionResource(ResourceType.RS_STONE, 5);
@@ -54,8 +54,8 @@ public class EntityFactory {
 			break;
 		case FARM_HOUSE:
 			xGridSize = 2;
-			yGridSize = 1;
-			yDrawScale = 2.2f;
+			yGridSize = 2;
+			yDrawScale = 1.0f;
 			building = new FarmHouse();
 			building.setNeededConstructionResource(ResourceType.RS_WOOD, 20);
 			building.setNeededConstructionResource(ResourceType.RS_STONE, 5);
@@ -63,8 +63,8 @@ public class EntityFactory {
 			break;
 		case FELLING_HOUSE:
 			xGridSize = 2;
-			yGridSize = 1;
-			yDrawScale = 2.2f;
+			yGridSize = 2;
+			yDrawScale = 1.0f;
 			building = new FellingHouse();
 			building.setNeededConstructionResource(ResourceType.RS_WOOD, 20);
 			building.setNeededConstructionResource(ResourceType.RS_STONE, 5);
@@ -76,8 +76,8 @@ public class EntityFactory {
 		
 		if(building != null)
 		{
-			building.setDrawAABBLocal(	0.0f, yGridSize * Settings.UNIT * 0.4f,
-										xGridSize * Settings.UNIT, 	yGridSize * Settings.UNIT * (0.4f + yDrawScale) );
+			building.setDrawAABBLocal(	0.0f, yGridSize * Settings.UNIT * 0.2f,
+										xGridSize * Settings.UNIT, 	yGridSize * Settings.UNIT * (0.2f + yDrawScale) );
 			building.setCollisionAABBLocal(	0.1f, 0.1f, 
 											xGridSize * Settings.UNIT - 0.2f,	yGridSize * Settings.UNIT - 0.2f);
 		}

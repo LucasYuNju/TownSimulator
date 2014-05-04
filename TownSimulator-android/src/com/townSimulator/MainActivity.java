@@ -1,7 +1,5 @@
 package com.townSimulator;
 
-import java.io.IOException;
-
 import android.os.Bundle;
 
 import com.TownSimulator.driver.Driver;

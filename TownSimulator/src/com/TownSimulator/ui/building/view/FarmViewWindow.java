@@ -28,7 +28,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
  * workers
  * 
  */
-public class FarmViewWindow extends ViewWindow{
+public class FarmViewWindow extends ListenableViewWindow{
 	private SelectBox<String> dropDown;
 	private ProcessBar processBar;
 	private TextureRegion buttonBackground;
@@ -41,7 +41,7 @@ public class FarmViewWindow extends ViewWindow{
 		super(BuildingType.FARM_HOUSE);
 		buttonBackground = Singleton.getInstance(ResourceManager.class).findTextureRegion("background_button");
 		width = ProcessBar.PREFERED_WIDTH + LABEL_WIDTH + MARGIN * 2;
-		height = LABEL_WIDTH * 3 + WorkerGroup.WORKER_HEIGHT + MARGIN * 2;
+		height = LABEL_WIDTH * 3 + WorkerGroup.HEIGHT + MARGIN * 2;
 		setSize(width, height);
 		addRowOne();
 		addRowTwo();
@@ -60,12 +60,12 @@ public class FarmViewWindow extends ViewWindow{
 		labelStyle.fontColor = Color.WHITE;
 		Label label = new Label("state", labelStyle);
 		label.setSize(LABEL_WIDTH, LABEL_HEIGHT);
-		label.setPosition(MARGIN, MARGIN + WorkerGroup.WORKER_HEIGHT + LABEL_WIDTH * 2);
-		label.setAlignment(Align.center);
+		label.setPosition(MARGIN, MARGIN + WorkerGroup.HEIGHT + LABEL_WIDTH * 2);
+		label.setAlignment(Align.left);
 		addActor(label);
 		
 		processBar = new ProcessBar();
-		processBar.setPosition(MARGIN + LABEL_WIDTH, MARGIN + WorkerGroup.WORKER_HEIGHT + LABEL_WIDTH * 2);
+		processBar.setPosition(MARGIN + LABEL_WIDTH, MARGIN + WorkerGroup.HEIGHT + LABEL_WIDTH * 2);
 		addActor(processBar);
 	}
 	
@@ -75,8 +75,8 @@ public class FarmViewWindow extends ViewWindow{
 		labelStyle.fontColor = Color.WHITE;
 		Label label = new Label("curCrop", labelStyle);
 		label.setSize(LABEL_WIDTH, LABEL_HEIGHT);
-		label.setPosition(MARGIN, MARGIN + WorkerGroup.WORKER_HEIGHT + LABEL_WIDTH);
-		label.setAlignment(Align.center);
+		label.setPosition(MARGIN, MARGIN + WorkerGroup.HEIGHT + LABEL_WIDTH);
+		label.setAlignment(Align.left);
 		addActor(label);
 
 		addDropDown();
@@ -96,7 +96,7 @@ public class FarmViewWindow extends ViewWindow{
 		dropDown = new SelectBox<String>(style);
 		dropDown.setItems("Wheat", "Corn", "Cabbage");
 		dropDown.setSize(LABEL_WIDTH, LABEL_HEIGHT);
-		dropDown.setPosition(getWidth() - MARGIN - LABEL_WIDTH, MARGIN + WorkerGroup.WORKER_HEIGHT + LABEL_WIDTH);
+		dropDown.setPosition(getWidth() - MARGIN - LABEL_WIDTH, MARGIN + WorkerGroup.HEIGHT + LABEL_WIDTH);
 		dropDown.addListener(new EventListener() {
 			@Override
 			public boolean handle(Event event) {

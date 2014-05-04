@@ -1,9 +1,11 @@
 package com.TownSimulator.entity.building;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import com.TownSimulator.entity.ManInfo;
+import com.TownSimulator.ui.building.view.ScrollViewWindow;
 
 public class LivingHouse extends Building{
 	protected List<ManInfo> residents;
@@ -19,7 +21,7 @@ public class LivingHouse extends Building{
 		if(capacity > residents.size()) {
 			residents.add(newResident);
 			newResident.home = this;
-			updataViewWindow();
+			updateViewWindow();
 			return true;
 		}
 		return false;
@@ -29,7 +31,7 @@ public class LivingHouse extends Building{
 	{
 		if(residents.remove(resident)) {
 			resident.home = null;
-			updataViewWindow();
+			updateViewWindow();
 		}
 	}
 	
@@ -38,15 +40,23 @@ public class LivingHouse extends Building{
 		return residents.size() < capacity;
 	}
 	
-	@Override
-	public String[][] getViewData() {
-		//name, gender, age
-		String[][] data = new String[residents.size()][3];
-		for(int i=0; i<residents.size(); i++) {
-			data[i][0] = residents.get(i).getName();
-			data[i][1] = residents.get(i).getGender().toString();
-			data[i][2] = residents.get(i).getAge() + "";
+	
+	public List<List<String>> getViewData() {
+		List<List<String>> list = new ArrayList<List<String>>();
+		for(ManInfo resident : residents) {
+			list.add(resident.toStringList());
 		}
-		return data;
+		return list;
+	}
+
+	
+	/*
+	 * 将数据更新到viewWindow
+	 */
+	protected void updateViewWindow() {
+		if(viewWindow instanceof ScrollViewWindow) {
+			ScrollViewWindow scrollViewWindow = (ScrollViewWindow) viewWindow;
+			scrollViewWindow.updateData(getViewData());
+		}
 	}
 }

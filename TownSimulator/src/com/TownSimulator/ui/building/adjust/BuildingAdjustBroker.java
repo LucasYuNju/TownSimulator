@@ -1,4 +1,4 @@
-package com.TownSimulator.broker;
+package com.TownSimulator.ui.building.adjust;
 
 import com.TownSimulator.ai.btnimpls.construct.ConstructionProject;
 import com.TownSimulator.camera.CameraController;
@@ -16,8 +16,7 @@ import com.TownSimulator.entity.building.FarmLand;
 import com.TownSimulator.map.Map;
 import com.TownSimulator.render.Renderer;
 import com.TownSimulator.ui.UIManager;
-import com.TownSimulator.ui.building.BuildingAdjustGroup;
-import com.TownSimulator.ui.building.BuildingAdjustGroup.BuildAjustUIListener;
+import com.TownSimulator.ui.building.adjust.BuildingAdjustGroup.BuildAjustUIListener;
 import com.TownSimulator.utility.AxisAlignedBoundingBox;
 import com.TownSimulator.utility.Settings;
 import com.TownSimulator.utility.Singleton;
@@ -30,14 +29,14 @@ import com.badlogic.gdx.utils.Array;
  *控制建筑从点击建造图标到确认或取消的过程 
  *
  */
-public class BuildBroker extends Singleton implements EntityListener, CameraListener{
+public class BuildingAdjustBroker extends Singleton implements EntityListener, CameraListener{
 	private 		Building		mCurBuilding;
 	private 		boolean			mbBuildingMovable = false;
 	private			float			mMoveDeltaX = 0.0f;
 	private			float			mMoveDeltaY = 0.0f;
 	private			BuildingAdjustGroup 	mBuildUI;
 	
-	private BuildBroker()
+	private BuildingAdjustBroker()
 	{
 		
 	}
@@ -139,7 +138,7 @@ public class BuildBroker extends Singleton implements EntityListener, CameraList
 				mBuildUI.setListener(null);
 				mBuildUI.setVisible(false);
 				mBuildUI = null;
-				CameraController.getInstance(CameraController.class).removeListener(BuildBroker.this);
+				CameraController.getInstance(CameraController.class).removeListener(BuildingAdjustBroker.this);
 			}
 			
 			@Override
@@ -160,7 +159,7 @@ public class BuildBroker extends Singleton implements EntityListener, CameraList
 				mBuildUI.setListener(null);
 				mBuildUI.setVisible(false);
 				mBuildUI = null;
-				CameraController.getInstance(CameraController.class).removeListener(BuildBroker.this);
+				CameraController.getInstance(CameraController.class).removeListener(BuildingAdjustBroker.this);
 			}
 		});
 		updateUIPos();
