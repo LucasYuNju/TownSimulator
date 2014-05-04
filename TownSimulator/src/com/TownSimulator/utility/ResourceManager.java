@@ -15,6 +15,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 
+
 public class ResourceManager extends Singleton{
 	private HashMap<String, Texture>		mTexturesMap;
 	private HashMap<Integer, BitmapFont> 	mFontsMap;
@@ -91,11 +92,15 @@ public class ResourceManager extends Singleton{
 		mSoundsMap.put(soundName, mAssetsManager.get("sounds"+soundName, Sound.class));
 	}
 	
-	private void playSound(String soundName){
-		if(!mSoundsMap.containsKey(soundName)){
-			loadSound(soundName);
-		}
-		mAssetsManager.get("sounds/"+soundName,Sound.class).play();
+//	private void playSound(String soundName){
+//		if(!mSoundsMap.containsKey(soundName)){
+//			loadSound(soundName);
+//		}
+//		mAssetsManager.get("sounds/"+soundName,Sound.class).play();
+//	}
+	
+	private void playSound(String soundName,float duringTime){
+		
 	}
 	
 	private void loadTexture(String textureName)
@@ -131,6 +136,10 @@ public class ResourceManager extends Singleton{
 	public BitmapFont getFontNoManaged(int size)
 	{
 		return mFontGenerator.generateFont(size);
+	}
+	
+	public AssetManager getAssetManager(){
+		return mAssetsManager;
 	}
 	
 }
