@@ -91,12 +91,8 @@ public class WorkerGroup extends Group{
 		refreshUI();
 		return true;
 	}
-	
-	public int getGroupWidth() {
-		return (int) (numAllowed * WORKER_WIDTH);
-	}
-	
-	int getNumAllowedBuilder() {
+		
+	int getNumAllowedWorker() {
 		return numAllowed;
 	}
 	

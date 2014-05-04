@@ -14,7 +14,7 @@ import com.TownSimulator.ui.building.BuildingAdjustGroup;
 import com.TownSimulator.ui.building.construction.ConstructionWindow;
 import com.TownSimulator.ui.building.view.FarmViewWindow;
 import com.TownSimulator.ui.building.view.ViewWindow;
-import com.TownSimulator.utility.ResourceManager;
+import com.TownSimulator.ui.building.view.WorkableViewWindow;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -61,20 +61,20 @@ public class GameScreenUI extends ScreenUIBase{
 		return constructionWindow;
 	}
 	
-	public ViewWindow createViewWindow(BuildingType type, String[][] data) {
+	public ViewWindow createViewWindow(BuildingType type) {
 		ViewWindow window = null;
 		switch (type) {
 		case WAREHOUSE:
-			window = createScrollViewWindow(type, data);
+			window = createScrollViewWindow(type, null);
 			break;
 		case LOW_COST_HOUSE:
-			window = createScrollViewWindow(type, data);
+			window = createScrollViewWindow(type, null);
 			break;
 		case FARM_HOUSE:
 			window = createFarmViewWindow();
 			break;
 		case FELLING_HOUSE:
-			window = createScrollViewWindow(type, data);
+			window = createWorkableViewWindow(type, 4);
 			break;
 		default:
 			break;
@@ -108,13 +108,18 @@ public class GameScreenUI extends ScreenUIBase{
 		return window;
 	}
 	
+	private ViewWindow createWorkableViewWindow(BuildingType buildingType, int numAllowedWorker) {
+		ViewWindow window = new WorkableViewWindow(buildingType, numAllowedWorker);
+		mStage.addActor(window);
+		windows.add(window);
+		return window;
+	}
+	
 	public void hideAllWindow() {
 		for(Actor window : windows) {
 			window.setVisible(false);
 		}
 	}
-	
-	
 	
 	@Override
 	public void update(float deltaTime) {
@@ -123,8 +128,4 @@ public class GameScreenUI extends ScreenUIBase{
 		int numFood = ResourceInfoCollector.getInstance(ResourceInfoCollector.class).getFoodAmount();
 		stateBar.update(numPeople, numFood);
 	}
-
-//	public void update(int numPeople, int numFood) {
-//		stateBar.update(numPeople, numFood);
-//	}
 }

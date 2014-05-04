@@ -3,8 +3,6 @@ package com.TownSimulator.ui.screen;
 
 import com.TownSimulator.ui.base.FlipButton;
 import com.TownSimulator.ui.base.ScreenUIBase;
-import com.TownSimulator.utility.BGMPlayer;
-import com.TownSimulator.utility.MusicType;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;

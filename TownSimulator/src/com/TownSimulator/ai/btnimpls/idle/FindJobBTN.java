@@ -5,7 +5,7 @@ import com.TownSimulator.ai.behaviortree.ExecuteResult;
 import com.TownSimulator.entity.EntityInfoCollector;
 import com.TownSimulator.entity.Man;
 import com.TownSimulator.entity.building.Building;
-import com.TownSimulator.entity.building.WorkingBuilding;
+import com.TownSimulator.entity.building.WorkableBuilding;
 
 public class FindJobBTN implements ActionNode{
 	private Man man;
@@ -18,9 +18,9 @@ public class FindJobBTN implements ActionNode{
 	@Override
 	public ExecuteResult execute(float deltaTime) {
 		for (Building buidling : EntityInfoCollector.getInstance(EntityInfoCollector.class).getAllBuildings()) {
-			if(buidling instanceof WorkingBuilding)
+			if(buidling instanceof WorkableBuilding)
 			{
-				WorkingBuilding workingBuilding = (WorkingBuilding)buidling;
+				WorkableBuilding workingBuilding = (WorkableBuilding)buidling;
 				if(workingBuilding.getState() == Building.State.Constructed 
 						&& workingBuilding.getCurWorkerCnt() < workingBuilding.getOpenJobCnt())
 				{

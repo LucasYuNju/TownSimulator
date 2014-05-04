@@ -89,22 +89,28 @@ public class ViewWindow extends UndockedWindow{
 
 	
 	public void updateData(String[][] newData) {
-		//data为null或者为空，UI没有初始化过
-		if(newData != null && newData.length != 0) {
-			if(data == null || data.length == 0 ) {
-				data = newData;
-				initUI();
+		if(newData == null || newData.length == 0)
+			return;
+			
+		// data为null或者为空，UI没有初始化过
+		if (data == null || data.length == 0) {
+			data = newData;
+			initUI();
+			updateLabels();
+		} 
+		//newData和data长度不同，重新添加labels
+		else if (data.length != newData.length) {
+			for (Label label : labels) {
+				removeActor(label);
 			}
-			else if(data.length != newData.length) {
-				for(Label label : labels) {
-					removeActor(label);
-				}
-				data = newData;
-				initUI();
-			}
+			data = newData;
+			initUI();
+			updateLabels();
 		}
-		data = newData;
-		updateLabels();
+		else {
+			data = newData;
+			updateLabels();
+		}
 	}
 	
 	private void updateLabels() {

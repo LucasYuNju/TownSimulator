@@ -16,7 +16,7 @@ import com.TownSimulator.utility.quadtree.QuadTreeType;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.Array;
 
-public class FarmHouse extends WorkingBuilding
+public class FarmHouse extends WorkableBuilding
 	implements SelectBoxListener
 {
 	private static final int MAX_WORKER_CNT = 4;
@@ -33,7 +33,6 @@ public class FarmHouse extends WorkingBuilding
 	
 	public FarmHouse() {
 		super("building_farm_house", BuildingType.FARM_HOUSE, JobType.FARMER, MAX_WORKER_CNT);
-		viewWindow.setWorkerGroupListener(this);
 		viewWindow.setSelectBoxListener(this);
 		setSowCropType(CropType.Wheat);
 		initFarmLands();
@@ -285,26 +284,13 @@ public class FarmHouse extends WorkingBuilding
 		return bSowed;
 	}
 
-
-	@Override
-	protected String[][] getViewData() {
-		return null;
-	}
-	
-	@Override
-	public void workerLimitSelected(int limit) {
-		if(state == State.UnderConstruction)
-			//called by ConstructionWindow's WorkerGroup
-			super.workerLimitSelected(limit);
-		else if(state == State.Constructed) {
-			//called by ViewWindow's WorkerGroup
-			Gdx.app.log("FarmHouse", limit + "");			
-		}
-	}
-
-
 	@Override
 	public void selectBoxSelected(String selectedString) {
 		Gdx.app.log("FarmHouse", selectedString);
+	}
+
+	@Override
+	protected void workerLimitChanged(int limit) {
+		Gdx.app.log("FarmHouse", limit + "");		
 	}
 }

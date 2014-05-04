@@ -54,7 +54,7 @@ public abstract class Building extends Entity
 		state = State.PosUnconfirmed;
 		constructionResources = new LinkedList<Resource>();
 		constructionWindow = UIManager.getInstance(UIManager.class).getGameUI().createConstructionWindow(type, constructionResources, numAllowedBuilder);
-		viewWindow = Singleton.getInstance(UIManager.class).getGameUI().createViewWindow(type, new String[0][0]);
+		viewWindow = Singleton.getInstance(UIManager.class).getGameUI().createViewWindow(type);
 		if(viewWindow == null) {
 			throw new NullPointerException("failed to create view window");
 		}

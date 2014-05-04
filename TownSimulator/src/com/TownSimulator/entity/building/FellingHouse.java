@@ -9,15 +9,14 @@ import com.TownSimulator.render.Grid;
 import com.TownSimulator.render.Renderer;
 import com.TownSimulator.render.RendererListener;
 import com.TownSimulator.utility.Settings;
+import com.badlogic.gdx.Gdx;
 
-public class FellingHouse extends WorkingBuilding{
+public class FellingHouse extends WorkableBuilding {
 	public static final int RANGE = 5;
 	
 	public FellingHouse() {
 		super("building_felling_house", BuildingType.FELLING_HOUSE, JobType.LUMERJACK, 2);
-		
 		Renderer.getInstance(Renderer.class).addListener(new RendererListener() {
-			
 			@Override
 			public void renderEnded() {
 			}
@@ -62,7 +61,6 @@ public class FellingHouse extends WorkingBuilding{
 			return true;
 	}
 
-
 	@Override
 	public boolean detectTouchDown() {
 		super.detectTouchDown();
@@ -75,8 +73,7 @@ public class FellingHouse extends WorkingBuilding{
 	}
 
 	@Override
-	protected String[][] getViewData() {
-		
-		return null;
+	public void workerLimitChanged(int limit) {
+		Gdx.app.log("Felling House", "selected limit :" + limit);
 	}
 }

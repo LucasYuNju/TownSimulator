@@ -22,8 +22,8 @@ import com.badlogic.gdx.scenes.scene2d.utils.Align;
 /**
  * 
  * 能跟随地图移动
- * 有关闭按钮
- * 有建筑名
+ * 添加关闭按钮
+ * 添加建筑名
  *
  */
 public class UndockedWindow extends Group{
