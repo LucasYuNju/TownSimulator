@@ -13,7 +13,6 @@ import com.TownSimulator.ui.screen.GameScreenUI;
 import com.TownSimulator.ui.screen.StartScreenUI;
 import com.TownSimulator.ui.screen.StartScreenUI.StartUIListener;
 import com.TownSimulator.utility.Singleton;
-import com.TownSimulator.utility.VoicePlayer;
 
 public class UIManager extends Singleton implements StartUIListener{
 	private StartScreenUI 	mStartUI;

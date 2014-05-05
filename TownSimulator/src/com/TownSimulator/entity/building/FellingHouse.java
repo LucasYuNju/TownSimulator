@@ -8,9 +8,7 @@ import com.TownSimulator.entity.Tree;
 import com.TownSimulator.render.Grid;
 import com.TownSimulator.render.Renderer;
 import com.TownSimulator.render.RendererListener;
-import com.TownSimulator.ui.building.view.WorkableViewWindow;
 import com.TownSimulator.utility.Settings;
-import com.badlogic.gdx.Gdx;
 
 public class FellingHouse extends WorkableBuilding {
 	public static final int RANGE = 5;
