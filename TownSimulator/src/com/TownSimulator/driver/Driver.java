@@ -92,7 +92,7 @@ public class Driver extends SingletonPublisher<DriverListener> implements Applic
 			@Override
 			public boolean touchDown(float screenX, float screenY, int pointer,
 					int button) {
-				VoicePlayer.playSound("rain.mp3");
+				VoicePlayer.getInstance(VoicePlayer.class).playSound("cave3.wav");
 				return true;
 			}
 			

@@ -9,20 +9,22 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 
-public class VoicePlayer{
+public class VoicePlayer extends Singleton{
 	private static Music music;
-	private static ResourceManager resourceManager;
 	
 	private static String musicPath="voice/music/";
 	private static String soundPath="voice/sound/";
 	
-	static
-	{
-		resourceManager=ResourceManager.getInstance(ResourceManager.class);
-		//resourceManager.loadSound(soundPath+"cave3.wav");
+	public VoicePlayer(){
 		playMusic("start.mp3");
 		
 		Driver.getInstance(Driver.class).addListener(new DriverListenerBaseImpl(){
+
+			@Override
+			public void update(float deltaTime) {
+				// TODO Auto-generated method stub
+				super.update(deltaTime);
+			}
 
 			@Override
 			public void dispose() {
@@ -30,10 +32,13 @@ public class VoicePlayer{
 				VoicePlayer.this.dispose();
 			}
 			
-		});
+		});		
 	}
-//	public VoicePlayer(){
+	
+//	static
+//	{
 //		resourceManager=ResourceManager.getInstance(ResourceManager.class);
+//		//resourceManager.loadSound(soundPath+"cave3.wav");
 //		playMusic("start.mp3");
 //		
 //		Driver.getInstance(Driver.class).addListener(new DriverListenerBaseImpl(){
@@ -45,7 +50,7 @@ public class VoicePlayer{
 //			}
 //			
 //		});
-//	}
+//	} 
 	
 	public static void playMusic(String musicName){
 		if(music!=null){
@@ -57,17 +62,14 @@ public class VoicePlayer{
 	}
 	
 	public static void playSound(String soundName){
-		Iterator<String> it_sound = resourceManager.getmSoundsMap().keySet().iterator();
-		//System.out.println("bb"+resourceManager.getmSoundsMap().size());
-		while(it_sound.hasNext())
-		{
-			System.out.println("1111soundIterator: "+it_sound.next());
-		}
-		resourceManager.getSound(soundPath+soundName).play();
-//		resourceManager.getAssetManager().get(soundPath+soundName, Sound.class).play();
+		ResourceManager.getInstance(ResourceManager.class).getSound(soundPath+soundName).play();
 	}
 	
 	private static void playSound(String soundName,float duringTime){
+		
+	}
+	
+	private void update(){
 		
 	}
 	

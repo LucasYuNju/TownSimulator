@@ -22,7 +22,6 @@ public class ResourceManager extends Singleton{
 	private HashMap<String, Sound>          mSoundsMap;
 	private FreeTypeFontGenerator			mFontGenerator;
 	private AssetManager					mAssetsManager;
-	public static int loadTimes=0;
 	
 	public ResourceManager()
 	{
@@ -31,8 +30,7 @@ public class ResourceManager extends Singleton{
 		mAssetsManager = new AssetManager();
 		mFontsMap = new HashMap<Integer, BitmapFont>();
 		mFontGenerator = new FreeTypeFontGenerator(Gdx.files.internal("data/visitor1.ttf"));
-		loadSound("voice/sound/rain.mp3");
-		
+		preLoadSounds();
 		
 		Driver.getInstance(Driver.class).addListener(new DriverListenerBaseImpl()
 		{
@@ -95,27 +93,23 @@ public class ResourceManager extends Singleton{
 		return new Sprite(mTexturesMap.get(textureName));
 	}
 	
-	public void loadSound(String soundName){
+	private void preLoadSounds(){
+		loadSound("voice/sound/cave3.wav");
+	}
+	
+	private void loadSound(String soundName){
 		mAssetsManager.load(soundName, Sound.class);
-		loadTimes++;
-		System.out.println("loadtime:"+loadTimes);
-		System.out.println("aa"+mAssetsManager.getProgress());
-		mAssetsManager.finishLoading();
+		mAssetsManager.finishLoading();		
 		mSoundsMap.put(soundName, mAssetsManager.get(soundName, Sound.class));
-		Iterator<String> it_sound = mSoundsMap.keySet().iterator();
-		while(it_sound.hasNext())
-		{
-			System.out.println("22222soundIterator: "+it_sound.next());
-		}
 	}
 	
 	public Sound getSound(String soundName){
 		if(!mSoundsMap.containsKey(soundName)){
-			System.out.println("it's wrong");
 			loadSound(soundName);
 		}
 		return mSoundsMap.get(soundName);
 	}
+	
 	
 	private void loadTexture(String textureName)
 	{
@@ -150,11 +144,6 @@ public class ResourceManager extends Singleton{
 	public BitmapFont getFontNoManaged(int size)
 	{
 		return mFontGenerator.generateFont(size);
-	}
-	
-
-	public HashMap<String, Sound> getmSoundsMap() {
-		return mSoundsMap;
 	}
 	
 }
