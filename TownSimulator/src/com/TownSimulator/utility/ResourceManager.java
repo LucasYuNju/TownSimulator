@@ -58,6 +58,8 @@ public class ResourceManager extends Singleton{
 			
 		});
 		
+		loadSound("");
+		
 	}
 	
 	public void loadResource()

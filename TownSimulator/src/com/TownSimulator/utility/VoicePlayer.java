@@ -18,7 +18,7 @@ public class VoicePlayer{
 	static
 	{
 		resourceManager=ResourceManager.getInstance(ResourceManager.class);
-		playMusic("start.mp3");
+		//playMusic("start.mp3");
 		
 		Driver.getInstance(Driver.class).addListener(new DriverListenerBaseImpl(){
 
