@@ -1,6 +1,7 @@
 package com.TownSimulator.utility;
 
 import java.util.HashMap;
+import java.util.Iterator;
 
 import com.TownSimulator.driver.Driver;
 import com.TownSimulator.driver.DriverListenerBaseImpl;
@@ -18,6 +19,7 @@ public class VoicePlayer{
 	static
 	{
 		resourceManager=ResourceManager.getInstance(ResourceManager.class);
+		//resourceManager.loadSound(soundPath+"cave3.wav");
 		playMusic("start.mp3");
 		
 		Driver.getInstance(Driver.class).addListener(new DriverListenerBaseImpl(){
@@ -55,10 +57,14 @@ public class VoicePlayer{
 	}
 	
 	public static void playSound(String soundName){
-		if(!resourceManager.getmSoundsMap().containsKey(soundPath+soundName)){
-			resourceManager.loadSound(soundPath+soundName);
+		Iterator<String> it_sound = resourceManager.getmSoundsMap().keySet().iterator();
+		//System.out.println("bb"+resourceManager.getmSoundsMap().size());
+		while(it_sound.hasNext())
+		{
+			System.out.println("1111soundIterator: "+it_sound.next());
 		}
-		resourceManager.getAssetManager().get(soundPath+soundName, Sound.class).play();
+		resourceManager.getSound(soundPath+soundName).play();
+//		resourceManager.getAssetManager().get(soundPath+soundName, Sound.class).play();
 	}
 	
 	private static void playSound(String soundName,float duringTime){
