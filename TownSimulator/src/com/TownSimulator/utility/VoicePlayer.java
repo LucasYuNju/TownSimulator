@@ -1,22 +1,34 @@
 package com.TownSimulator.utility;
 
-import java.util.HashMap;
+import java.util.Iterator;
 
 import com.TownSimulator.driver.Driver;
 import com.TownSimulator.driver.DriverListenerBaseImpl;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
-import com.badlogic.gdx.audio.Sound;
 
-public class VoicePlayer{
+public class VoicePlayer extends Singleton{
 	private static Music music;
 	private static ResourceManager resourceManager;
 	
 	private static String musicPath="voice/music/";
 	private static String soundPath="voice/sound/";
 	
-	static
-	{
+//	static
+//	{
+//		resourceManager=ResourceManager.getInstance(ResourceManager.class);
+//		
+//		Driver.getInstance(Driver.class).addListener(new DriverListenerBaseImpl(){
+//
+//			@Override
+//			public void dispose() {
+//				// TODO Auto-generated method stub
+//				VoicePlayer.this.dispose();
+//			}
+//			
+//		});
+//	}
+	private VoicePlayer(){
 		resourceManager=ResourceManager.getInstance(ResourceManager.class);
 		//playMusic("start.mp3");
 		
@@ -30,22 +42,8 @@ public class VoicePlayer{
 			
 		});
 	}
-//	public VoicePlayer(){
-//		resourceManager=ResourceManager.getInstance(ResourceManager.class);
-//		playMusic("start.mp3");
-//		
-//		Driver.getInstance(Driver.class).addListener(new DriverListenerBaseImpl(){
-//
-//			@Override
-//			public void dispose() {
-//				// TODO Auto-generated method stub
-//				VoicePlayer.this.dispose();
-//			}
-//			
-//		});
-//	}
 	
-	public static void playMusic(String musicName){
+	public void playMusic(String musicName){
 		if(music!=null){
 			music.dispose();
 		}
@@ -54,18 +52,22 @@ public class VoicePlayer{
 		music.play();
 	}
 	
-	public static void playSound(String soundName){
-		if(!resourceManager.getmSoundsMap().containsKey(soundPath+soundName)){
-			resourceManager.loadSound(soundPath+soundName);
+	public void playSound(String soundName){
+		Iterator<String> it_sound = resourceManager.getmSoundsMap().keySet().iterator();
+		//System.out.println("bb"+resourceManager.getmSoundsMap().size());
+		while(it_sound.hasNext())
+		{
+			System.out.println("1111soundIterator: "+it_sound.next());
 		}
-		resourceManager.getAssetManager().get(soundPath+soundName, Sound.class).play();
+		resourceManager.getSound(soundPath+soundName).play();
+//		resourceManager.getAssetManager().get(soundPath+soundName, Sound.class).play();
 	}
 	
 	private static void playSound(String soundName,float duringTime){
 		
 	}
 	
-	public static void dispose(){
+	public void dispose(){
 		if(music!=null){
 			music.dispose();
 		}
