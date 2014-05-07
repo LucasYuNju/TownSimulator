@@ -8,11 +8,14 @@ import java.util.List;
 import com.TownSimulator.entity.Resource;
 import com.TownSimulator.entity.ResourceInfoCollector;
 import com.TownSimulator.entity.ResourceType;
+import com.TownSimulator.ui.UIManager;
 import com.TownSimulator.ui.building.view.ScrollViewWindow;
+import com.TownSimulator.ui.building.view.UndockedWindow;
 import com.TownSimulator.utility.ResourceManager;
 
 public class Warehouse extends Building {
 	private List<Resource> storedResources;
+	protected ScrollViewWindow scrollWindow;
 	
 	public Warehouse() {
 		super(ResourceManager.getInstance(ResourceManager.class).createSprite("building_warehouse"), BuildingType.WAREHOUSE);
@@ -55,9 +58,15 @@ public class Warehouse extends Building {
 	}
 	
 	protected void updateViewWindow() {
-		if(viewWindow instanceof ScrollViewWindow) {
-			ScrollViewWindow scrollViewWindow = (ScrollViewWindow) viewWindow;
-			scrollViewWindow.updateData(getViewData());
-		}
+		//if(undockedWindow instanceof ScrollViewWindow) {
+		//	ScrollViewWindow scrollViewWindow = (ScrollViewWindow) undockedWindow;
+		scrollWindow.updateData(getViewData());
+		//}
+	}
+
+	@Override
+	protected UndockedWindow createUndockedWindow() {
+		scrollWindow = UIManager.getInstance(UIManager.class).getGameUI().createScrollViewWindow(type);
+		return scrollWindow;
 	}
 }

@@ -52,7 +52,7 @@ public class FellingExecuteBTN implements ActionNode{
 			man.getInfo().animeType = ManAnimeType.STANDING;
 		}
 		else
-			man.getInfo().animeType = ManAnimeType.STANDING;
+			man.getInfo().animeType = ManAnimeType.MOVE;
 	}
 	
 	@Override

@@ -15,7 +15,6 @@ import com.TownSimulator.entity.building.BuildingType;
 import com.TownSimulator.entity.building.FellingHouse;
 import com.TownSimulator.entity.building.Warehouse;
 import com.TownSimulator.io.InputMgr;
-import com.TownSimulator.io.InputMgrListenerBaseImpl;
 import com.TownSimulator.map.Map;
 import com.TownSimulator.render.Renderer;
 import com.TownSimulator.ui.UIManager;
@@ -23,7 +22,6 @@ import com.TownSimulator.utility.AxisAlignedBoundingBox;
 import com.TownSimulator.utility.ResourceManager;
 import com.TownSimulator.utility.Settings;
 import com.TownSimulator.utility.SingletonPublisher;
-import com.TownSimulator.utility.VoicePlayer;
 import com.TownSimulator.utility.quadtree.QuadTreeType;
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
@@ -84,17 +82,17 @@ public class Driver extends SingletonPublisher<DriverListener> implements Applic
 //			Renderer.getInstance(Renderer.class).attachDrawScissor(land);
 //		}
 		
-		InputMgr.getInstance(InputMgr.class).addListener(new InputMgrListenerBaseImpl()
-		{
-
-			@Override
-			public boolean touchDown(float screenX, float screenY, int pointer,
-					int button) {
-				VoicePlayer.getInstance(VoicePlayer.class).playSound("cave3.wav");
-				return true;
-			}
-			
-		});
+//		InputMgr.getInstance(InputMgr.class).addListener(new InputMgrListenerBaseImpl()
+//		{
+//
+//			@Override
+//			public boolean touchDown(float screenX, float screenY, int pointer,
+//					int button) {
+//				VoicePlayer.getInstance(VoicePlayer.class).playSound("cave3.wav");
+//				return true;
+//			}
+//			
+//		});
 		
 		for (int i = 0; i < initPepleCnt; i++) {
 			float randX = (rand.nextFloat() - 0.5f) * Settings.UNIT * 6;

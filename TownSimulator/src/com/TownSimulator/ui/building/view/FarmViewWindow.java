@@ -28,17 +28,17 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
  * workers
  * 
  */
-public class FarmViewWindow extends ListenableViewWindow{
+public class FarmViewWindow extends WorkableViewWindow{
 	private SelectBox<String> dropDown;
 	private ProcessBar processBar;
 	private TextureRegion buttonBackground;
-	private WorkerGroup builderGroup;
+	//private WorkerGroup builderGroup;
 	private float width;
 	private float height;
 	private SelectBoxListener selectBoxListener;
 	
-	public FarmViewWindow() {
-		super(BuildingType.FARM_HOUSE);
+	public FarmViewWindow(int numAllowedWorker) {
+		super(BuildingType.FARM_HOUSE, numAllowedWorker);
 		buttonBackground = Singleton.getInstance(ResourceManager.class).findTextureRegion("background_button");
 		width = ProcessBar.PREFERED_WIDTH + LABEL_WIDTH + MARGIN * 2;
 		height = LABEL_WIDTH * 3 + WorkerGroup.HEIGHT + MARGIN * 2;
@@ -46,9 +46,9 @@ public class FarmViewWindow extends ListenableViewWindow{
 		addRowOne();
 		addRowTwo();
 		
-		builderGroup = new WorkerGroup(5);
-		builderGroup.setPosition(MARGIN, MARGIN);
-		addActor(builderGroup);
+//		builderGroup = new WorkerGroup(5);
+//		builderGroup.setPosition(MARGIN, MARGIN);
+//		addActor(builderGroup);
 
 		addCloseButton();
 		addHeader();
@@ -118,12 +118,12 @@ public class FarmViewWindow extends ListenableViewWindow{
 		setPosition(windowX, windowY);
 	}
 	
-	@Override
-	public void setWorkerGroupListener(WorkerGroupListener workerGroupListener) {
-		builderGroup.setListener(workerGroupListener);
-	}
+//	@Override
+//	public void setWorkerGroupListener(WorkerGroupListener workerGroupListener) {
+//		builderGroup.setListener(workerGroupListener);
+//	}
 
-	@Override
+	
 	public void setSelectBoxListener(SelectBoxListener selectBoxListener) {
 		this.selectBoxListener = selectBoxListener;
 	}

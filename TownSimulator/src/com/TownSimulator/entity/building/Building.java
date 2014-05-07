@@ -12,9 +12,8 @@ import com.TownSimulator.entity.ResourceType;
 import com.TownSimulator.ui.UIManager;
 import com.TownSimulator.ui.building.construction.ConstructionWindow;
 import com.TownSimulator.ui.building.construction.ConstructionWindowListener;
-import com.TownSimulator.ui.building.view.ListenableViewWindow;
+import com.TownSimulator.ui.building.view.UndockedWindow;
 import com.TownSimulator.ui.building.view.WorkerGroupListener;
-import com.TownSimulator.utility.Singleton;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 
 
@@ -28,7 +27,7 @@ public abstract class Building extends Entity
 	protected BuildingType				type;
 	private   int 						numAllowedBuilder = 3;
 	private   ConstructionWindow		constructionWindow;
-	protected ListenableViewWindow				viewWindow;
+	private   UndockedWindow			undockedWindow;
 	
 	public enum State
 	{
@@ -55,18 +54,20 @@ public abstract class Building extends Entity
 		constructionWindow = UIManager.getInstance(UIManager.class).getGameUI().createConstructionWindow(type, constructionResources, numAllowedBuilder);
 		constructionWindow.setVisible(false);
 		constructionWindow.setConstructionListener(this);
-		viewWindow = Singleton.getInstance(UIManager.class).getGameUI().createViewWindow(type);
-		viewWindow.setVisible(false);
+		undockedWindow = createUndockedWindow();//Singleton.getInstance(UIManager.class).getGameUI().createViewWindow(type);
+		undockedWindow.setVisible(false);
 //		if(viewWindow == null) {
 //			throw new NullPointerException("failed to create view window");
 //		}
 	}
 	
+	abstract protected UndockedWindow createUndockedWindow();
+	
 	@Override
 	public void setPositionWorld(float x, float y) {
 		super.setPositionWorld(x, y);
 		constructionWindow.setBuildingPosWorld(getPositionXWorld(), getPositionYWorld());
-		viewWindow.setBuildingPosWorld(getPositionXWorld(), getPositionXWorld());
+		undockedWindow.setBuildingPosWorld(getPositionXWorld(), getPositionXWorld());
 	}
 
 	public int getMaxAllowdBuilderCnt()
@@ -178,8 +179,8 @@ public abstract class Building extends Entity
 			constructionWindow.setVisible(true);
 		}
 		if(state == State.Constructed) {
-			viewWindow.setBuildingPosWorld(getPositionXWorld(), getPositionYWorld());
-			viewWindow.setVisible(true);
+			undockedWindow.setBuildingPosWorld(getPositionXWorld(), getPositionYWorld());
+			undockedWindow.setVisible(true);
 		}
 	}
 	
