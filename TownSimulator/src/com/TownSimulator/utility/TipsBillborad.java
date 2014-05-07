@@ -182,12 +182,12 @@ public class TipsBillborad {
 //				textWidth + PAD * 2.0f, textHeight + PAD * 2.0f);
 //		spriteBatch.setColor(Color.WHITE);
 		//font.get
-		font.setColor(1.0f, 1.0f, 1.0f, color.a);
+		font.setColor(color);
 		font.draw(spriteBatch, text, oringinX - textWidth * 0.5f, oringinY + font.getCapHeight());
 		font.setColor(Color.WHITE);
 	}
 	
-	public static void showTips(String text, float originX, float originY)
+	public static void showTips(String text, float originX, float originY, Color color)
 	{
 		//Vector3 pos = new Vector3(originX, originY, 0.0f);
 		//CameraController.getInstance(CameraController.class).worldToScreen(pos);
@@ -198,5 +198,13 @@ public class TipsBillborad {
 		tip.oringinY = originY;
 		tip.velocity.x = 0.0f;
 		tip.velocity.y = Settings.UNIT * 0.2f;
+		tip.color.r = color.r;
+		tip.color.g = color.g;
+		tip.color.b = color.b;
+	}
+	
+	public static float getTipsHeight()
+	{
+		return font.getCapHeight();
 	}
 }

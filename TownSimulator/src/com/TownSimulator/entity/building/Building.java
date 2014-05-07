@@ -14,6 +14,7 @@ import com.TownSimulator.ui.building.construction.ConstructionWindow;
 import com.TownSimulator.ui.building.construction.ConstructionWindowListener;
 import com.TownSimulator.ui.building.view.UndockedWindow;
 import com.TownSimulator.ui.building.view.WorkerGroupListener;
+import com.TownSimulator.utility.quadtree.QuadTreeType;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 
 
@@ -55,7 +56,8 @@ public abstract class Building extends Entity
 		constructionWindow.setVisible(false);
 		constructionWindow.setConstructionListener(this);
 		undockedWindow = createUndockedWindow();//Singleton.getInstance(UIManager.class).getGameUI().createViewWindow(type);
-		undockedWindow.setVisible(false);
+		if(undockedWindow != null)
+			undockedWindow.setVisible(false);
 //		if(viewWindow == null) {
 //			throw new NullPointerException("failed to create view window");
 //		}
@@ -66,8 +68,10 @@ public abstract class Building extends Entity
 	@Override
 	public void setPositionWorld(float x, float y) {
 		super.setPositionWorld(x, y);
-		constructionWindow.setBuildingPosWorld(getPositionXWorld(), getPositionYWorld());
-		undockedWindow.setBuildingPosWorld(getPositionXWorld(), getPositionXWorld());
+		if(constructionWindow != null)
+			constructionWindow.setBuildingPosWorld(getPositionXWorld(), getPositionYWorld());
+		if(undockedWindow != null)
+			undockedWindow.setBuildingPosWorld(getPositionXWorld(), getPositionXWorld());
 	}
 
 	public int getMaxAllowdBuilderCnt()
@@ -164,6 +168,16 @@ public abstract class Building extends Entity
 		return finishedConstructionWork / (float)constructionWork;
 	}
 	
+	public boolean isAround(float x, float y)
+	{
+		float buildingCenterX = getAABBWorld(QuadTreeType.COLLISION).getCenterX();
+		float buildingCenterY = getAABBWorld(QuadTreeType.COLLISION).getCenterY();
+		double dist = Math.pow(x - buildingCenterX, 2)
+				    + Math.pow(y - buildingCenterY, 2);
+		double radius = Math.pow(getAABBWorld(QuadTreeType.COLLISION).getWidth() * 0.5f, 2)
+			    	  + Math.pow(getAABBWorld(QuadTreeType.COLLISION).getHeight() * 0.5f, 2);
+		return dist <= radius;
+	}
 	
 	@Override
 	public boolean detectTouchDown() {
@@ -175,12 +189,17 @@ public abstract class Building extends Entity
 	{
 		super.detectTouchUp();
 		UIManager.getInstance(UIManager.class).getGameUI().hideAllWindow();
+		
 		if(state == State.UnderConstruction) {
-			constructionWindow.setVisible(true);
+			if(constructionWindow != null)
+				constructionWindow.setVisible(true);
 		}
 		if(state == State.Constructed) {
-			undockedWindow.setBuildingPosWorld(getPositionXWorld(), getPositionYWorld());
-			undockedWindow.setVisible(true);
+			if(undockedWindow != null)
+			{
+				undockedWindow.setBuildingPosWorld(getPositionXWorld(), getPositionYWorld());
+				undockedWindow.setVisible(true);
+			}
 		}
 	}
 	

@@ -12,6 +12,10 @@ import com.TownSimulator.ui.UIManager;
 import com.TownSimulator.ui.building.view.ScrollViewWindow;
 import com.TownSimulator.ui.building.view.UndockedWindow;
 import com.TownSimulator.utility.ResourceManager;
+import com.TownSimulator.utility.Settings;
+import com.TownSimulator.utility.TipsBillborad;
+import com.TownSimulator.utility.quadtree.QuadTreeType;
+import com.badlogic.gdx.graphics.Color;
 
 public class Warehouse extends Building {
 	private List<Resource> storedResources;
@@ -23,7 +27,7 @@ public class Warehouse extends Building {
 		storedResources = new LinkedList<Resource>();
 	}
 	
-	public void addStoredResource(ResourceType type, int amount)
+	public void addStoredResource(ResourceType type, int amount, boolean showTips)
 	{
 		if(storedResources.contains(new Resource(type))) 
 			storedResources.get(storedResources.indexOf(new Resource(type))).addAmount(amount);
@@ -33,6 +37,21 @@ public class Warehouse extends Building {
 		ResourceInfoCollector.getInstance(ResourceInfoCollector.class)
 			.addResourceAmount(type, amount);
 		updateViewWindow();
+		
+		if (showTips) {
+			float originX = getAABBWorld(QuadTreeType.DRAW).getCenterX();
+			float originY = getAABBWorld(QuadTreeType.DRAW).maxY + Settings.UNIT * 0.4f;
+			Color color = amount > 0 ? Color.WHITE : Color.RED;
+			TipsBillborad.showTips(
+					type + (amount > 0 ? " + " : " - ") + amount,
+					originX,
+					originY, color);
+		}
+	}
+	
+	public void addStoredResource(ResourceType type, int amount)
+	{
+		addStoredResource(type, amount, true);
 	}
 	
 

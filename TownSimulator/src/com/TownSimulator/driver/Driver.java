@@ -12,7 +12,8 @@ import com.TownSimulator.entity.ResourceInfoCollector;
 import com.TownSimulator.entity.ResourceType;
 import com.TownSimulator.entity.building.Building;
 import com.TownSimulator.entity.building.BuildingType;
-import com.TownSimulator.entity.building.FellingHouse;
+import com.TownSimulator.entity.building.CoatFactory;
+import com.TownSimulator.entity.building.PowerStation;
 import com.TownSimulator.entity.building.Warehouse;
 import com.TownSimulator.io.InputMgr;
 import com.TownSimulator.map.Map;
@@ -47,6 +48,7 @@ public class Driver extends SingletonPublisher<DriverListener> implements Applic
 		wareHouse.addStoredResource(ResourceType.RS_WOOD, 100);
 		wareHouse.addStoredResource(ResourceType.RS_STONE, 50);
 		wareHouse.addStoredResource(ResourceType.RS_WHEAT, 2000);
+		wareHouse.addStoredResource(ResourceType.RS_FUR, 200);
 		wareHouse.setState(Building.State.Constructed);
 		wareHouse.setPositionWorld(originPosX - 2 * Settings.UNIT, originPoxY - 8 * Settings.UNIT);
 		EntityInfoCollector.getInstance(EntityInfoCollector.class).addBuilding(wareHouse);
@@ -68,13 +70,26 @@ public class Driver extends SingletonPublisher<DriverListener> implements Applic
 		aabb = lowCostHouse.getAABBWorld(QuadTreeType.COLLISION);
 		Map.getInstance(Map.class).setGroundTexture("map_soil", aabb.minX, aabb.minY, aabb.maxX, aabb.maxY);
 		
-		FellingHouse fellingHouse = (FellingHouse)EntityFactory.createBuilding(BuildingType.FELLING_HOUSE);
-		fellingHouse.setState(Building.State.Constructed);
-		fellingHouse.setPositionWorld(originPosX, originPoxY - 8 * Settings.UNIT);
-		EntityInfoCollector.getInstance(EntityInfoCollector.class).addBuilding(fellingHouse);
-		CollisionDetector.getInstance(CollisionDetector.class).attachCollisionDetection(fellingHouse);
-		Renderer.getInstance(Renderer.class).attachDrawScissor(fellingHouse);
+//		FellingHouse fellingHouse = (FellingHouse)EntityFactory.createBuilding(BuildingType.FELLING_HOUSE);
+//		fellingHouse.setState(Building.State.Constructed);
+//		fellingHouse.setPositionWorld(originPosX, originPoxY - 8 * Settings.UNIT);
+//		EntityInfoCollector.getInstance(EntityInfoCollector.class).addBuilding(fellingHouse);
+//		CollisionDetector.getInstance(CollisionDetector.class).attachCollisionDetection(fellingHouse);
+//		Renderer.getInstance(Renderer.class).attachDrawScissor(fellingHouse);
 		
+		CoatFactory coatFactory = (CoatFactory)EntityFactory.createBuilding(BuildingType.COAT_FACTORY);
+		coatFactory.setState(Building.State.Constructed);
+		coatFactory.setPositionWorld(originPosX, originPoxY - 8 * Settings.UNIT);
+		EntityInfoCollector.getInstance(EntityInfoCollector.class).addBuilding(coatFactory);
+		CollisionDetector.getInstance(CollisionDetector.class).attachCollisionDetection(coatFactory);
+		Renderer.getInstance(Renderer.class).attachDrawScissor(coatFactory);
+		
+		PowerStation powerStation = (PowerStation)EntityFactory.createBuilding(BuildingType.POWER_STATION);
+		powerStation.setState(Building.State.Constructed);
+		powerStation.setPositionWorld(originPosX, originPoxY - 5 * Settings.UNIT);
+		EntityInfoCollector.getInstance(EntityInfoCollector.class).addBuilding(powerStation);
+		CollisionDetector.getInstance(CollisionDetector.class).attachCollisionDetection(powerStation);
+		Renderer.getInstance(Renderer.class).attachDrawScissor(powerStation);
 //		
 //		farmHouse.setSowCropType(CropType.WHEAT);
 //		

@@ -29,7 +29,7 @@ public abstract class WorkableBuilding extends Building
 		super(textureName, type);
 		this.jobType = jobType;
 		this.maxJobCnt = getMaxJobCnt();
-		this.openJobCnt = maxJobCnt;
+		this.openJobCnt = maxJobCnt;//(int)(maxJobCnt * 0.5f);
 		workers = new Array<Man>();
 		//listenToViewWindow();
 	}
