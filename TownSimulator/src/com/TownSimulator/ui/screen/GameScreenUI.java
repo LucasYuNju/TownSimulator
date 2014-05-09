@@ -13,8 +13,10 @@ import com.TownSimulator.ui.building.adjust.BuildingAdjustGroup;
 import com.TownSimulator.ui.building.construction.ConstructionWindow;
 import com.TownSimulator.ui.building.selector.BuildComsUI;
 import com.TownSimulator.ui.building.view.FarmViewWindow;
+import com.TownSimulator.ui.building.view.RanchViewWindow;
 import com.TownSimulator.ui.building.view.ScrollViewWindow;
 import com.TownSimulator.ui.building.view.WorkableViewWindow;
+import com.TownSimulator.ui.building.view.WorkableWithTipsWindow;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -108,8 +110,22 @@ public class GameScreenUI extends ScreenUIBase{
 		return window;
 	}
 	
+	public RanchViewWindow createRanchViewWindow(int numAllowedWorker) {
+		RanchViewWindow window = new RanchViewWindow(numAllowedWorker);
+		mStage.addActor(window);
+		windows.add(window);
+		return window;
+	}
+	
 	public WorkableViewWindow createWorkableViewWindow(BuildingType buildingType, int numAllowedWorker) {
 		WorkableViewWindow window = new WorkableViewWindow(buildingType, numAllowedWorker);
+		mStage.addActor(window);
+		windows.add(window);
+		return window;
+	}
+	
+	public WorkableWithTipsWindow createWorkableWithTipsWindow(BuildingType buildingType, int numAllowedWorker) {
+		WorkableWithTipsWindow window = new WorkableWithTipsWindow(buildingType, numAllowedWorker);
 		mStage.addActor(window);
 		windows.add(window);
 		return window;

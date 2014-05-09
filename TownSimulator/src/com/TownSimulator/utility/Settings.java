@@ -9,7 +9,7 @@ public class Settings {
 	 * UI Settings
 	 */
 	public static final float MARGIN = UNIT * 0.4f;
-	public static final float LABEL_WIDTH = UNIT * 1.1f;
+	public static final float LABEL_WIDTH = UNIT * 1.3f;
 	public static final float LABEL_HEIGHT = UNIT * 0.4f;
 	public static final float WORKER_WIDTH = UNIT * 0.6f;
 	public static final float WORKER_HEIGHT = UNIT * 0.6f;

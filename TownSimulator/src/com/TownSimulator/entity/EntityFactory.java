@@ -7,6 +7,7 @@ import com.TownSimulator.entity.building.FarmHouse;
 import com.TownSimulator.entity.building.FellingHouse;
 import com.TownSimulator.entity.building.LowCostHouse;
 import com.TownSimulator.entity.building.PowerStation;
+import com.TownSimulator.entity.building.Ranch;
 import com.TownSimulator.entity.building.Warehouse;
 //github.com/LuciusYu/TownSimulator.git
 import com.TownSimulator.utility.ResourceManager;
@@ -73,7 +74,7 @@ public class EntityFactory {
 			building.setNeededConstructionWork(30);
 			break;
 		case POWER_STATION:
-			xGridSize = 2;
+			xGridSize = 4;
 			yGridSize = 2;
 			yDrawScale = 1.0f;
 			building = new PowerStation();
@@ -82,10 +83,19 @@ public class EntityFactory {
 			building.setNeededConstructionWork(30);
 			break;
 		case COAT_FACTORY:
-			xGridSize = 2;
+			xGridSize = 4;
 			yGridSize = 2;
 			yDrawScale = 1.0f;
 			building = new CoatFactory();
+			building.setNeededConstructionResource(ResourceType.RS_WOOD, 20);
+			building.setNeededConstructionResource(ResourceType.RS_STONE, 5);
+			building.setNeededConstructionWork(30);
+			break;
+		case RANCH:
+			xGridSize = 3;
+			yGridSize = 1;
+			yDrawScale = 1.5f;
+			building = new Ranch();
 			building.setNeededConstructionResource(ResourceType.RS_WOOD, 20);
 			building.setNeededConstructionResource(ResourceType.RS_STONE, 5);
 			building.setNeededConstructionWork(30);

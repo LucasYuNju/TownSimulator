@@ -7,10 +7,10 @@ import com.TownSimulator.entity.Man;
 import com.TownSimulator.entity.ManAnimeType;
 import com.TownSimulator.utility.quadtree.QuadTreeType;
 
-public class ProducingBTN extends SequenceNode{
+public class FactoryProducingBTN extends SequenceNode{
 	private Man man;
 	
-	public ProducingBTN(Man man)
+	public FactoryProducingBTN(Man man)
 	{
 		this.man = man;
 		

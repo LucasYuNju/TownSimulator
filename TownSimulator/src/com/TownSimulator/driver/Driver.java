@@ -13,7 +13,10 @@ import com.TownSimulator.entity.ResourceType;
 import com.TownSimulator.entity.building.Building;
 import com.TownSimulator.entity.building.BuildingType;
 import com.TownSimulator.entity.building.CoatFactory;
-import com.TownSimulator.entity.building.PowerStation;
+import com.TownSimulator.entity.building.FarmHouse;
+import com.TownSimulator.entity.building.FarmLand;
+import com.TownSimulator.entity.building.Ranch;
+import com.TownSimulator.entity.building.RanchLand;
 import com.TownSimulator.entity.building.Warehouse;
 import com.TownSimulator.io.InputMgr;
 import com.TownSimulator.map.Map;
@@ -79,23 +82,41 @@ public class Driver extends SingletonPublisher<DriverListener> implements Applic
 		
 		CoatFactory coatFactory = (CoatFactory)EntityFactory.createBuilding(BuildingType.COAT_FACTORY);
 		coatFactory.setState(Building.State.Constructed);
-		coatFactory.setPositionWorld(originPosX, originPoxY - 8 * Settings.UNIT);
+		coatFactory.setPositionWorld(originPosX - 8 * Settings.UNIT, originPoxY - 8 * Settings.UNIT);
 		EntityInfoCollector.getInstance(EntityInfoCollector.class).addBuilding(coatFactory);
 		CollisionDetector.getInstance(CollisionDetector.class).attachCollisionDetection(coatFactory);
 		Renderer.getInstance(Renderer.class).attachDrawScissor(coatFactory);
 		
-		PowerStation powerStation = (PowerStation)EntityFactory.createBuilding(BuildingType.POWER_STATION);
-		powerStation.setState(Building.State.Constructed);
-		powerStation.setPositionWorld(originPosX, originPoxY - 5 * Settings.UNIT);
-		EntityInfoCollector.getInstance(EntityInfoCollector.class).addBuilding(powerStation);
-		CollisionDetector.getInstance(CollisionDetector.class).attachCollisionDetection(powerStation);
-		Renderer.getInstance(Renderer.class).attachDrawScissor(powerStation);
-//		
+//		PowerStation powerStation = (PowerStation)EntityFactory.createBuilding(BuildingType.POWER_STATION);
+//		powerStation.setState(Building.State.Constructed);
+//		powerStation.setPositionWorld(originPosX, originPoxY - 5 * Settings.UNIT);
+//		EntityInfoCollector.getInstance(EntityInfoCollector.class).addBuilding(powerStation);
+//		CollisionDetector.getInstance(CollisionDetector.class).attachCollisionDetection(powerStation);
+//		Renderer.getInstance(Renderer.class).attachDrawScissor(powerStation);
+		
+		Ranch ranch = (Ranch)EntityFactory.createBuilding(BuildingType.RANCH);
+		ranch.setPositionWorld(originPosX - 8 * Settings.UNIT, originPoxY + 2 * Settings.UNIT);
+		ranch.setState(Building.State.Constructed);
+		EntityInfoCollector.getInstance(EntityInfoCollector.class).addBuilding(ranch);
+		CollisionDetector.getInstance(CollisionDetector.class).attachCollisionDetection(ranch);
+		Renderer.getInstance(Renderer.class).attachDrawScissor(ranch);
+		for (RanchLand land : ranch.getRanchLands()) {
+			Renderer.getInstance(Renderer.class).attachDrawScissor(land);
+			CollisionDetector.getInstance(CollisionDetector.class).attachCollisionDetection(land);
+		}
+		//ranch.setType(RanchAnimalType.COW);
+		
+		FarmHouse farmHouse = (FarmHouse)EntityFactory.createBuilding(BuildingType.FARM_HOUSE);
+		farmHouse.setPositionWorld(originPosX, originPoxY + 8 * Settings.UNIT);
+		farmHouse.setState(Building.State.Constructed);
+		EntityInfoCollector.getInstance(EntityInfoCollector.class).addBuilding(farmHouse);
+		CollisionDetector.getInstance(CollisionDetector.class).attachCollisionDetection(farmHouse);
+		Renderer.getInstance(Renderer.class).attachDrawScissor(farmHouse);
 //		farmHouse.setSowCropType(CropType.WHEAT);
-//		
-//		for (FarmLand land : ((FarmHouse)farmHouse).getFarmLands()) {
-//			Renderer.getInstance(Renderer.class).attachDrawScissor(land);
-//		}
+		
+		for (FarmLand land : ((FarmHouse)farmHouse).getFarmLands()) {
+			Renderer.getInstance(Renderer.class).attachDrawScissor(land);
+		}
 		
 //		InputMgr.getInstance(InputMgr.class).addListener(new InputMgrListenerBaseImpl()
 //		{

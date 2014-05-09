@@ -35,8 +35,8 @@ public class UndockedWindow extends Group{
 	public static final float ICON_WIDTH = Settings.LABEL_WIDTH;
 	protected BuildingType buildingType;
 	protected TextureRegion background;
-	private Button closeButton;
-	private Label headerLabel;
+	protected Button closeButton;
+	protected Label headerLabel;
 	
 	public UndockedWindow(BuildingType buildingType) {
 		super();

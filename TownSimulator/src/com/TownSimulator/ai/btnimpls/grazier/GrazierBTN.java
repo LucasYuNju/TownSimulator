@@ -1,13 +1,13 @@
-package com.TownSimulator.ai.btnimpls.factoryworker;
+package com.TownSimulator.ai.btnimpls.grazier;
 
 import com.TownSimulator.ai.behaviortree.SelectorNode;
 import com.TownSimulator.ai.btnimpls.general.GeneralBTN;
 import com.TownSimulator.entity.Man;
 
-public class FactoryWorkerBTN extends SelectorNode{
+public class GrazierBTN extends SelectorNode{
 	private Man man;
 	
-	public FactoryWorkerBTN(Man man)
+	public GrazierBTN(Man man)
 	{
 		this.man = man;
 		
@@ -17,8 +17,7 @@ public class FactoryWorkerBTN extends SelectorNode{
 	private void init() {
 		
 		this.addNode(new GeneralBTN(man))
-			.addNode(new FactoryProducingBTN(man));
+			.addNode(new GrazingBTN(man));
 	}
-	
-	
+
 }

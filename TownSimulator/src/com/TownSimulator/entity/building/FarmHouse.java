@@ -16,11 +16,9 @@ import com.TownSimulator.utility.AxisAlignedBoundingBox;
 import com.TownSimulator.utility.GameMath;
 import com.TownSimulator.utility.Settings;
 import com.TownSimulator.utility.quadtree.QuadTreeType;
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.Array;
 
-public class FarmHouse extends WorkableBuilding
-	implements SelectBoxListener
+public class FarmHouse extends WorkableBuilding implements SelectBoxListener
 {
 	private static final int MAX_JOB_CNT = 4;
 	private CropType curCropType;
@@ -107,6 +105,8 @@ public class FarmHouse extends WorkableBuilding
 	
 	private void cropGrow(float deltaTime)
 	{
+		if(curWorkerCnt == 0)
+			return;
 		float efficiency = 0.0f;
 		for (Man man : workers) {
 			efficiency += man.getInfo().workEfficency;
@@ -125,6 +125,16 @@ public class FarmHouse extends WorkableBuilding
 		for (FarmLand land : farmLands) {
 			land.cropDie(deltaTime);
 		}
+	}
+	
+	private void updateProcess()
+	{
+		float amount = 0.0f;
+		for (FarmLand land : farmLands) {
+			amount += land.getCurCropAmount();
+		}
+		float process = amount / (FarmLand.MAX_CROP_AMOUNT * farmLands.size);
+		farmWindow.updateProcessBar(process);
 	}
 	
 //	private void updateUI()
@@ -158,6 +168,8 @@ public class FarmHouse extends WorkableBuilding
 						for (FarmLand land : farmLands) {
 							land.updateView();
 						}
+						
+						updateProcess();
 					}
 				}
 				
@@ -242,6 +254,9 @@ public class FarmHouse extends WorkableBuilding
 	public void setSowStart(boolean value)
 	{
 		bSowStart = value;
+		
+		if(value == false)
+			farmWindow.setCurCropType(curCropType);
 	}
 	
 	public boolean isSowStart()
@@ -302,11 +317,7 @@ public class FarmHouse extends WorkableBuilding
 
 	@Override
 	public void selectBoxSelected(String selectedString) {
-		Gdx.app.log("FarmHouse", selectedString);
+		setSowCropType(CropType.findWithViewName(selectedString));
 	}
 
-	@Override
-	protected void workerLimitChanged(int limit) {
-		Gdx.app.log("FarmHouse", limit + "");		
-	}
 }

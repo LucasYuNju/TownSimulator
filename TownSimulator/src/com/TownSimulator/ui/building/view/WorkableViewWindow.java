@@ -9,7 +9,7 @@ import com.TownSimulator.entity.building.BuildingType;
  */
 public class WorkableViewWindow extends UndockedWindow{
 
-	private WorkerGroup workerGroup;
+	protected WorkerGroup workerGroup;
 	
 	public WorkableViewWindow(BuildingType buildingType, int numAllowedWorker) {
 		super(buildingType);

@@ -7,9 +7,6 @@ import com.TownSimulator.entity.Man;
 import com.TownSimulator.entity.ManAnimeType;
 import com.TownSimulator.entity.ResourceType;
 import com.TownSimulator.entity.building.Warehouse;
-import com.TownSimulator.utility.Settings;
-import com.TownSimulator.utility.TipsBillborad;
-import com.TownSimulator.utility.quadtree.QuadTreeType;
 
 public class TransportWoodBTN implements ActionNode{
 	private Man man;
