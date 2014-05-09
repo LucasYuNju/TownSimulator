@@ -53,6 +53,11 @@ public class FarmViewWindow extends WorkableViewWindow{
 //		builderGroup.setPosition(MARGIN, MARGIN);
 //		addActor(builderGroup);
 
+//=======
+//		workerGroup = new WorkerGroup(5);
+//		workerGroup.setPosition(MARGIN, MARGIN);
+//		addActor(workerGroup);
+//>>>>>>> branch 'master' of https://github.com/LuciusYu/TownSimulator.git
 		addCloseButton();
 		addHeader();
 	}
@@ -160,6 +165,10 @@ public class FarmViewWindow extends WorkableViewWindow{
 		processBar.setProcess(process);
 	}
 	
+	public void addWorker() {
+		workerGroup.addWorker();
+	}
+	
 	@Override
 	protected void updatePosition()
 	{
@@ -169,11 +178,12 @@ public class FarmViewWindow extends WorkableViewWindow{
 		float windowY = pos.y - getHeight() * 0.5f;
 		setPosition(windowX, windowY);
 	}
-	
-//	@Override
-//	public void setWorkerGroupListener(WorkerGroupListener workerGroupListener) {
-//		builderGroup.setListener(workerGroupListener);
-//	}
+
+	@Override
+	public void setWorkerGroupListener(WorkerGroupListener workerGroupListener) {
+		workerGroup.setListener(workerGroupListener);
+	}
+
 
 	
 	public void setSelectBoxListener(SelectBoxListener selectBoxListener) {

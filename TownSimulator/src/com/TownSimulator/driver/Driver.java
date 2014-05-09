@@ -3,6 +3,7 @@ package com.TownSimulator.driver;
 
 import java.util.Random;
 
+import com.TownSimulator.ai.btnimpls.farmer.FarmerBTN;
 import com.TownSimulator.camera.CameraController;
 import com.TownSimulator.collision.CollisionDetector;
 import com.TownSimulator.entity.EntityFactory;
@@ -12,6 +13,10 @@ import com.TownSimulator.entity.ResourceInfoCollector;
 import com.TownSimulator.entity.ResourceType;
 import com.TownSimulator.entity.building.Building;
 import com.TownSimulator.entity.building.BuildingType;
+import com.TownSimulator.entity.building.CropType;
+import com.TownSimulator.entity.building.FarmHouse;
+import com.TownSimulator.entity.building.FarmLand;
+import com.TownSimulator.entity.building.FellingHouse;
 import com.TownSimulator.entity.building.CoatFactory;
 import com.TownSimulator.entity.building.FarmHouse;
 import com.TownSimulator.entity.building.FarmLand;
@@ -80,6 +85,7 @@ public class Driver extends SingletonPublisher<DriverListener> implements Applic
 //		CollisionDetector.getInstance(CollisionDetector.class).attachCollisionDetection(fellingHouse);
 //		Renderer.getInstance(Renderer.class).attachDrawScissor(fellingHouse);
 		
+
 		CoatFactory coatFactory = (CoatFactory)EntityFactory.createBuilding(BuildingType.COAT_FACTORY);
 		coatFactory.setState(Building.State.Constructed);
 		coatFactory.setPositionWorld(originPosX - 8 * Settings.UNIT, originPoxY - 8 * Settings.UNIT);
@@ -137,6 +143,8 @@ public class Driver extends SingletonPublisher<DriverListener> implements Applic
 			man.setPositionWorld(originPosX + randX, originPoxY + ranxY);
 			//fellingHouse.addWorker(man);
 			//man.setBehavior(new FellingBTN(man));
+//			farmHouse.addWorker(man);
+//			man.setBehavior(new FarmerBTN(man));
 			EntityInfoCollector.getInstance(EntityInfoCollector.class).addMan(man);
 			
 			Renderer.getInstance(Renderer.class).attachDrawScissor(man);

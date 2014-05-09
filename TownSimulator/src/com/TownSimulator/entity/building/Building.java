@@ -28,7 +28,7 @@ public abstract class Building extends Entity
 	protected BuildingType				type;
 	private   int 						numAllowedBuilder = 3;
 	private   ConstructionWindow		constructionWindow;
-	private   UndockedWindow			undockedWindow;
+	protected   UndockedWindow			undockedWindow;
 	
 	public enum State
 	{
