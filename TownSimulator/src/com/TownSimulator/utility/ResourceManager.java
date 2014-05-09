@@ -65,6 +65,8 @@ public class ResourceManager extends Singleton{
 			
 		});
 		
+		loadSound("voice/sound/cave3.wav");
+		
 	}
 	
 //	public void loadResource()
@@ -140,10 +142,10 @@ public class ResourceManager extends Singleton{
 		}
 	}
 	
-	@SuppressWarnings("deprecation")
-	public BitmapFont getFontNoManaged(int size)
-	{
-		return mFontGenerator.generateFont(size);
-	}
+//	@SuppressWarnings("deprecation")
+//	public BitmapFont getFontNoManaged(int size)
+//	{
+//		return mFontGenerator.generateFont(size);
+//	}
 	
 }

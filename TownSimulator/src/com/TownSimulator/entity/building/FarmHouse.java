@@ -8,7 +8,10 @@ import com.TownSimulator.entity.JobType;
 import com.TownSimulator.entity.Man;
 import com.TownSimulator.entity.World;
 import com.TownSimulator.entity.World.SeasonType;
+import com.TownSimulator.ui.UIManager;
+import com.TownSimulator.ui.building.view.FarmViewWindow;
 import com.TownSimulator.ui.building.view.SelectBoxListener;
+import com.TownSimulator.ui.building.view.WorkableViewWindow;
 import com.TownSimulator.utility.AxisAlignedBoundingBox;
 import com.TownSimulator.utility.GameMath;
 import com.TownSimulator.utility.Settings;
@@ -19,7 +22,7 @@ import com.badlogic.gdx.utils.Array;
 public class FarmHouse extends WorkableBuilding
 	implements SelectBoxListener
 {
-	private static final int MAX_WORKER_CNT = 4;
+	private static final int MAX_JOB_CNT = 4;
 	private CropType curCropType;
 	private CropType sowCropType;
 	private boolean bSowStart = false;
@@ -30,17 +33,31 @@ public class FarmHouse extends WorkableBuilding
 	private Array<FarmLand> farmLands;
 	private AxisAlignedBoundingBox collisionAABBLocalWithLands;
 	private AxisAlignedBoundingBox collisionAABBWorldWithLands;
+	private FarmViewWindow farmWindow;
 	
 	public FarmHouse() {
-		super("building_farm_house", BuildingType.FARM_HOUSE, JobType.FARMER, MAX_WORKER_CNT);
-		viewWindow.setSelectBoxListener(this);
+		super("building_farm_house", BuildingType.FARM_HOUSE, JobType.FARMER);
+		//undockedWindow.setSelectBoxListener(this);
 		setSowCropType(CropType.Wheat);
 		initFarmLands();
 		
 		collisionAABBLocalWithLands = new AxisAlignedBoundingBox();
 		collisionAABBWorldWithLands = new AxisAlignedBoundingBox();
 	}
+
+	@Override
+	protected WorkableViewWindow createWorkableWindow() {
+		farmWindow = UIManager.getInstance(UIManager.class).getGameUI().createFarmViewWindow(MAX_JOB_CNT);
+		farmWindow.setSelectBoxListener(this);
+		return farmWindow;
+	}
+
 	
+
+	@Override
+	protected int getMaxJobCnt() {
+		return MAX_JOB_CNT;
+	}
 
 	@Override
 	protected BehaviorTreeNode createBehavior(Man man) {
@@ -110,10 +127,10 @@ public class FarmHouse extends WorkableBuilding
 		}
 	}
 	
-	private void updateUI()
-	{
-		
-	}
+//	private void updateUI()
+//	{
+//		
+//	}
 	
 	@Override
 	public void setState(State state) {
@@ -125,7 +142,7 @@ public class FarmHouse extends WorkableBuilding
 
 				@Override
 				public void update(float deltaTime) {
-					updateUI();
+					//updateUI();
 					
 					if(bSowed)
 					{
@@ -152,7 +169,6 @@ public class FarmHouse extends WorkableBuilding
 	{
 		return farmLands;
 	}
-	
 	
 	
 	@Override

@@ -1,13 +1,9 @@
 package com.TownSimulator.utility;
 
-import java.util.HashMap;
-import java.util.Iterator;
-
 import com.TownSimulator.driver.Driver;
 import com.TownSimulator.driver.DriverListenerBaseImpl;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
-import com.badlogic.gdx.audio.Sound;
 
 public class VoicePlayer extends Singleton{
 	private static Music music;
@@ -15,15 +11,14 @@ public class VoicePlayer extends Singleton{
 	private static String musicPath="voice/music/";
 	private static String soundPath="voice/sound/";
 	
-	public VoicePlayer(){
+	private VoicePlayer(){
 		playMusic("start.mp3");
 		
 		Driver.getInstance(Driver.class).addListener(new DriverListenerBaseImpl(){
 
 			@Override
 			public void update(float deltaTime) {
-				// TODO Auto-generated method stub
-				super.update(deltaTime);
+				VoicePlayer.this.update();
 			}
 
 			@Override
@@ -35,24 +30,7 @@ public class VoicePlayer extends Singleton{
 		});		
 	}
 	
-//	static
-//	{
-//		resourceManager=ResourceManager.getInstance(ResourceManager.class);
-//		//resourceManager.loadSound(soundPath+"cave3.wav");
-//		playMusic("start.mp3");
-//		
-//		Driver.getInstance(Driver.class).addListener(new DriverListenerBaseImpl(){
-//
-//			@Override
-//			public void dispose() {
-//				// TODO Auto-generated method stub
-//				VoicePlayer.this.dispose();
-//			}
-//			
-//		});
-//	} 
-	
-	public static void playMusic(String musicName){
+	public void playMusic(String musicName){
 		if(music!=null){
 			music.dispose();
 		}
@@ -61,11 +39,12 @@ public class VoicePlayer extends Singleton{
 		music.play();
 	}
 	
-	public static void playSound(String soundName){
+
+	public void playSound(String soundName){
 		ResourceManager.getInstance(ResourceManager.class).getSound(soundPath+soundName).play();
 	}
 	
-	private static void playSound(String soundName,float duringTime){
+	public void playSound(String soundName,float duringTime){
 		
 	}
 	
@@ -73,7 +52,7 @@ public class VoicePlayer extends Singleton{
 		
 	}
 	
-	public static void dispose(){
+	private void dispose(){
 		if(music!=null){
 			music.dispose();
 		}

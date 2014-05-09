@@ -8,16 +8,14 @@ import com.TownSimulator.entity.Tree;
 import com.TownSimulator.render.Grid;
 import com.TownSimulator.render.Renderer;
 import com.TownSimulator.render.RendererListener;
-import com.TownSimulator.ui.building.view.WorkableViewWindow;
 import com.TownSimulator.utility.Settings;
-import com.badlogic.gdx.Gdx;
 
 public class FellingHouse extends WorkableBuilding {
 	public static final int RANGE = 5;
-	public static final int MAX_WORKER_CNT = 2;
+	public static final int MAX_JOB_CNT = 2;
 	
 	public FellingHouse() {
-		super("building_felling_house", BuildingType.FELLING_HOUSE, JobType.LUMERJACK, MAX_WORKER_CNT);
+		super("building_felling_house", BuildingType.FELLING_HOUSE, JobType.LUMERJACK);
 		Renderer.getInstance(Renderer.class).addListener(new RendererListener() {
 			@Override
 			public void renderEnded() {
@@ -72,6 +70,11 @@ public class FellingHouse extends WorkableBuilding {
 	@Override
 	protected BehaviorTreeNode createBehavior(Man man) {
 		return new FellingBTN(man);
+	}
+
+	@Override
+	protected int getMaxJobCnt() {
+		return MAX_JOB_CNT;
 	}
 
 	/*
