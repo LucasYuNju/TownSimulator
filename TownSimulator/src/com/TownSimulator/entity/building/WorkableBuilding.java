@@ -156,7 +156,7 @@ public abstract class WorkableBuilding extends Building
 //			WorkableViewWindow workableViewWindow = (WorkableViewWindow) viewWindow;
 //			workableViewWindow.addWorker();
 //		}
-		WorkableViewWindow workableViewWindow = (WorkableViewWindow) undockedWindow;
+//		WorkableViewWindow workableViewWindow = (WorkableViewWindow) undockedWindow;
 		workableWindow.addWorker();
 		System.out.println("Add Worker");
 	}
