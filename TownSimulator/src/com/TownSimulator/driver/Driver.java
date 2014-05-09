@@ -3,6 +3,7 @@ package com.TownSimulator.driver;
 
 import java.util.Random;
 
+import com.TownSimulator.ai.btnimpls.farmer.FarmerBTN;
 import com.TownSimulator.camera.CameraController;
 import com.TownSimulator.collision.CollisionDetector;
 import com.TownSimulator.entity.EntityFactory;
@@ -12,6 +13,9 @@ import com.TownSimulator.entity.ResourceInfoCollector;
 import com.TownSimulator.entity.ResourceType;
 import com.TownSimulator.entity.building.Building;
 import com.TownSimulator.entity.building.BuildingType;
+import com.TownSimulator.entity.building.CropType;
+import com.TownSimulator.entity.building.FarmHouse;
+import com.TownSimulator.entity.building.FarmLand;
 import com.TownSimulator.entity.building.FellingHouse;
 import com.TownSimulator.entity.building.Warehouse;
 import com.TownSimulator.io.InputMgr;
@@ -79,8 +83,14 @@ public class Driver extends SingletonPublisher<DriverListener> implements Applic
 		CollisionDetector.getInstance(CollisionDetector.class).attachCollisionDetection(fellingHouse);
 		Renderer.getInstance(Renderer.class).attachDrawScissor(fellingHouse);
 		
+//		FarmHouse farmHouse=(FarmHouse)EntityFactory.createBuilding(BuildingType.FARM_HOUSE);
+//		farmHouse.setState(Building.State.Constructed);
+//		farmHouse.setPositionWorld(originPosX, originPoxY - 8 * Settings.UNIT);
+//		EntityInfoCollector.getInstance(EntityInfoCollector.class).addBuilding(farmHouse);
+//		CollisionDetector.getInstance(CollisionDetector.class).attachCollisionDetection(farmHouse);
+//		Renderer.getInstance(Renderer.class).attachDrawScissor(farmHouse);
 //		
-//		farmHouse.setSowCropType(CropType.WHEAT);
+//		farmHouse.setSowCropType(CropType.Wheat);
 //		
 //		for (FarmLand land : ((FarmHouse)farmHouse).getFarmLands()) {
 //			Renderer.getInstance(Renderer.class).attachDrawScissor(land);
@@ -105,6 +115,8 @@ public class Driver extends SingletonPublisher<DriverListener> implements Applic
 			man.setPositionWorld(originPosX + randX, originPoxY + ranxY);
 			//fellingHouse.addWorker(man);
 			//man.setBehavior(new FellingBTN(man));
+//			farmHouse.addWorker(man);
+//			man.setBehavior(new FarmerBTN(man));
 			EntityInfoCollector.getInstance(EntityInfoCollector.class).addMan(man);
 			
 			Renderer.getInstance(Renderer.class).attachDrawScissor(man);

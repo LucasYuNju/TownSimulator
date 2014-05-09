@@ -4,6 +4,7 @@ import com.TownSimulator.ai.behaviortree.BehaviorTreeNode;
 import com.TownSimulator.ai.btnimpls.idle.IdleBTN;
 import com.TownSimulator.entity.JobType;
 import com.TownSimulator.entity.Man;
+import com.TownSimulator.ui.building.view.FarmViewWindow;
 import com.TownSimulator.ui.building.view.WorkableViewWindow;
 import com.TownSimulator.ui.building.view.WorkerGroupListener;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -126,8 +127,17 @@ public abstract class WorkableBuilding extends Building
 	}
 	
 	public void updateViewWindow() {
-		WorkableViewWindow workableViewWindow = (WorkableViewWindow) viewWindow;
-		workableViewWindow.addWorker();
+		/**
+		 * !FIXME
+		 */
+		if(viewWindow instanceof FarmViewWindow) {
+			FarmViewWindow farmViewWindow = (FarmViewWindow) viewWindow;
+			farmViewWindow.addWorker();
+		}
+		else {
+			WorkableViewWindow workableViewWindow = (WorkableViewWindow) viewWindow;
+			workableViewWindow.addWorker();
+		}
 		System.out.println("Add Worker");
 	}
 	

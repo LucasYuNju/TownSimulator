@@ -32,7 +32,7 @@ public class FarmViewWindow extends ListenableViewWindow{
 	private SelectBox<String> dropDown;
 	private ProcessBar processBar;
 	private TextureRegion buttonBackground;
-	private WorkerGroup builderGroup;
+	private WorkerGroup workerGroup;
 	private float width;
 	private float height;
 	private SelectBoxListener selectBoxListener;
@@ -46,9 +46,9 @@ public class FarmViewWindow extends ListenableViewWindow{
 		addRowOne();
 		addRowTwo();
 		
-		builderGroup = new WorkerGroup(5);
-		builderGroup.setPosition(MARGIN, MARGIN);
-		addActor(builderGroup);
+		workerGroup = new WorkerGroup(5);
+		workerGroup.setPosition(MARGIN, MARGIN);
+		addActor(workerGroup);
 
 		addCloseButton();
 		addHeader();
@@ -108,6 +108,10 @@ public class FarmViewWindow extends ListenableViewWindow{
 		addActor(dropDown);
 	}
 	
+	public void addWorker() {
+		workerGroup.addWorker();
+	}
+	
 	@Override
 	protected void updatePosition()
 	{
@@ -120,7 +124,7 @@ public class FarmViewWindow extends ListenableViewWindow{
 	
 	@Override
 	public void setWorkerGroupListener(WorkerGroupListener workerGroupListener) {
-		builderGroup.setListener(workerGroupListener);
+		workerGroup.setListener(workerGroupListener);
 	}
 
 	@Override

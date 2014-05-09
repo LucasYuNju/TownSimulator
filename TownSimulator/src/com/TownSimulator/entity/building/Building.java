@@ -173,14 +173,14 @@ public abstract class Building extends Entity
 	public void detectTouchUp()
 	{
 		super.detectTouchUp();
-		UIManager.getInstance(UIManager.class).getGameUI().hideAllWindow();
-		if(state == State.UnderConstruction) {
-			constructionWindow.setVisible(true);
-		}
-		if(state == State.Constructed) {
-			viewWindow.setBuildingPosWorld(getPositionXWorld(), getPositionYWorld());
-			viewWindow.setVisible(true);
-		}
+//		UIManager.getInstance(UIManager.class).getGameUI().hideAllWindow();
+//		if(state == State.UnderConstruction) {
+//			constructionWindow.setVisible(true);
+//		}
+//		if(state == State.Constructed) {
+//			viewWindow.setBuildingPosWorld(getPositionXWorld(), getPositionYWorld());
+//			viewWindow.setVisible(true);
+//		}
 	}
 	
 	/**
