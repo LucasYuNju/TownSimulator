@@ -7,9 +7,9 @@ import com.TownSimulator.entity.building.BuildingType;
  * 	支持WorkerGroupWindow及监听
  *
  */
-public class WorkableViewWindow extends ListenableViewWindow{
+public class WorkableViewWindow extends UndockedWindow{
 
-	private WorkerGroup workerGroup;
+	protected WorkerGroup workerGroup;
 	
 	public WorkableViewWindow(BuildingType buildingType, int numAllowedWorker) {
 		super(buildingType);
@@ -26,13 +26,13 @@ public class WorkableViewWindow extends ListenableViewWindow{
 		workerGroup.addWorker();
 	}
 
-	@Override
+	
 	public void setWorkerGroupListener(WorkerGroupListener workerGroupListener) {
 		workerGroup.setListener(workerGroupListener);
 	}
 
-	@Override
-	public void setSelectBoxListener(SelectBoxListener selectBoxListener) {
-		//do nothing
-	}
+//	@Override
+//	public void setSelectBoxListener(SelectBoxListener selectBoxListener) {
+//		//do nothing
+//	}
 }

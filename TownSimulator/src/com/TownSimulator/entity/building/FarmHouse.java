@@ -8,18 +8,19 @@ import com.TownSimulator.entity.JobType;
 import com.TownSimulator.entity.Man;
 import com.TownSimulator.entity.World;
 import com.TownSimulator.entity.World.SeasonType;
+import com.TownSimulator.ui.UIManager;
+import com.TownSimulator.ui.building.view.FarmViewWindow;
 import com.TownSimulator.ui.building.view.SelectBoxListener;
+import com.TownSimulator.ui.building.view.WorkableViewWindow;
 import com.TownSimulator.utility.AxisAlignedBoundingBox;
 import com.TownSimulator.utility.GameMath;
 import com.TownSimulator.utility.Settings;
 import com.TownSimulator.utility.quadtree.QuadTreeType;
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.Array;
 
-public class FarmHouse extends WorkableBuilding
-	implements SelectBoxListener
+public class FarmHouse extends WorkableBuilding implements SelectBoxListener
 {
-	private static final int MAX_WORKER_CNT = 4;
+	private static final int MAX_JOB_CNT = 4;
 	private CropType curCropType;
 	private CropType sowCropType;
 	private boolean bSowStart = false;
@@ -30,17 +31,31 @@ public class FarmHouse extends WorkableBuilding
 	private Array<FarmLand> farmLands;
 	private AxisAlignedBoundingBox collisionAABBLocalWithLands;
 	private AxisAlignedBoundingBox collisionAABBWorldWithLands;
+	private FarmViewWindow farmWindow;
 	
 	public FarmHouse() {
-		super("building_farm_house", BuildingType.FARM_HOUSE, JobType.FARMER, MAX_WORKER_CNT);
-		viewWindow.setSelectBoxListener(this);
+		super("building_farm_house", BuildingType.FARM_HOUSE, JobType.FARMER);
+		//undockedWindow.setSelectBoxListener(this);
 		setSowCropType(CropType.Wheat);
 		initFarmLands();
 		
 		collisionAABBLocalWithLands = new AxisAlignedBoundingBox();
 		collisionAABBWorldWithLands = new AxisAlignedBoundingBox();
 	}
+
+	@Override
+	protected WorkableViewWindow createWorkableWindow() {
+		farmWindow = UIManager.getInstance(UIManager.class).getGameUI().createFarmViewWindow(MAX_JOB_CNT);
+		farmWindow.setSelectBoxListener(this);
+		return farmWindow;
+	}
+
 	
+
+	@Override
+	protected int getMaxJobCnt() {
+		return MAX_JOB_CNT;
+	}
 
 	@Override
 	protected BehaviorTreeNode createBehavior(Man man) {
@@ -90,6 +105,8 @@ public class FarmHouse extends WorkableBuilding
 	
 	private void cropGrow(float deltaTime)
 	{
+		if(curWorkerCnt == 0)
+			return;
 		float efficiency = 0.0f;
 		for (Man man : workers) {
 			efficiency += man.getInfo().workEfficency;
@@ -110,10 +127,20 @@ public class FarmHouse extends WorkableBuilding
 		}
 	}
 	
-	private void updateUI()
+	private void updateProcess()
 	{
-		
+		float amount = 0.0f;
+		for (FarmLand land : farmLands) {
+			amount += land.getCurCropAmount();
+		}
+		float process = amount / (FarmLand.MAX_CROP_AMOUNT * farmLands.size);
+		farmWindow.updateProcessBar(process);
 	}
+	
+//	private void updateUI()
+//	{
+//		
+//	}
 	
 	@Override
 	public void setState(State state) {
@@ -125,7 +152,7 @@ public class FarmHouse extends WorkableBuilding
 
 				@Override
 				public void update(float deltaTime) {
-					updateUI();
+					//updateUI();
 					
 					if(bSowed)
 					{
@@ -141,6 +168,8 @@ public class FarmHouse extends WorkableBuilding
 						for (FarmLand land : farmLands) {
 							land.updateView();
 						}
+						
+						updateProcess();
 					}
 				}
 				
@@ -152,7 +181,6 @@ public class FarmHouse extends WorkableBuilding
 	{
 		return farmLands;
 	}
-	
 	
 	
 	@Override
@@ -226,6 +254,9 @@ public class FarmHouse extends WorkableBuilding
 	public void setSowStart(boolean value)
 	{
 		bSowStart = value;
+		
+		if(value == false)
+			farmWindow.setCurCropType(curCropType);
 	}
 	
 	public boolean isSowStart()
@@ -286,11 +317,7 @@ public class FarmHouse extends WorkableBuilding
 
 	@Override
 	public void selectBoxSelected(String selectedString) {
-		Gdx.app.log("FarmHouse", selectedString);
+		setSowCropType(CropType.findWithViewName(selectedString));
 	}
 
-	@Override
-	protected void workerLimitChanged(int limit) {
-		Gdx.app.log("FarmHouse", limit + "");		
-	}
 }

@@ -19,12 +19,10 @@ public class SowExecuteBTN implements ActionNode{
 	
 	private void sowFinish(){
 		FarmHouse farmHouse=(FarmHouse)man.getInfo().workingBuilding;
-		farmHouse.setSowStart(false);
 		farmHouse.setSowed(true);
 		farmHouse.clearSowedLandCnt();
-		
 		farmHouse.setCurCropType(farmHouse.getSowCropType());
-		
+		farmHouse.setSowStart(false);
 		timeAccum=0f;
 	}
 	

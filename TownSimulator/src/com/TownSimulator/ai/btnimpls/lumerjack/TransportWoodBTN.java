@@ -7,9 +7,6 @@ import com.TownSimulator.entity.Man;
 import com.TownSimulator.entity.ManAnimeType;
 import com.TownSimulator.entity.ResourceType;
 import com.TownSimulator.entity.building.Warehouse;
-import com.TownSimulator.utility.Settings;
-import com.TownSimulator.utility.TipsBillborad;
-import com.TownSimulator.utility.quadtree.QuadTreeType;
 
 public class TransportWoodBTN implements ActionNode{
 	private Man man;
@@ -42,9 +39,7 @@ public class TransportWoodBTN implements ActionNode{
 		{
 			man.getInfo().animeType = ManAnimeType.STANDING;
 			warehouse.addStoredResource(ResourceType.RS_WOOD, FELLING_WOOD_AMOUNT);
-			float originX = warehouse.getAABBWorld(QuadTreeType.DRAW).getCenterX();
-			float originY = warehouse.getAABBWorld(QuadTreeType.DRAW).maxY + Settings.UNIT * 0.4f;
-			TipsBillborad.showTips("Wood + " + FELLING_WOOD_AMOUNT, originX, originY);
+			
 			fellingInfo.hasWood = false;
 		}
 		else

@@ -7,16 +7,16 @@ import com.TownSimulator.entity.EntityInfoCollector;
 import com.TownSimulator.entity.Resource;
 import com.TownSimulator.entity.ResourceInfoCollector;
 import com.TownSimulator.entity.building.BuildingType;
-import com.TownSimulator.entity.building.FellingHouse;
 import com.TownSimulator.ui.StateBar;
 import com.TownSimulator.ui.base.ScreenUIBase;
 import com.TownSimulator.ui.building.adjust.BuildingAdjustGroup;
 import com.TownSimulator.ui.building.construction.ConstructionWindow;
 import com.TownSimulator.ui.building.selector.BuildComsUI;
 import com.TownSimulator.ui.building.view.FarmViewWindow;
-import com.TownSimulator.ui.building.view.ListenableViewWindow;
+import com.TownSimulator.ui.building.view.RanchViewWindow;
 import com.TownSimulator.ui.building.view.ScrollViewWindow;
 import com.TownSimulator.ui.building.view.WorkableViewWindow;
+import com.TownSimulator.ui.building.view.WorkableWithTipsWindow;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -47,7 +47,7 @@ public class GameScreenUI extends ScreenUIBase{
 		
 		stateBar = new StateBar();
 		stateBar.setVisible(true);
-		mStage.addActor(stateBar);
+		//mStage.addActor(stateBar);
 	}
 	
 	public BuildingAdjustGroup getBuildAjustUI()
@@ -55,28 +55,28 @@ public class GameScreenUI extends ScreenUIBase{
 		return mBuildAjustUI;
 	}	
 	
-	public ListenableViewWindow createViewWindow(BuildingType type) {
-		ListenableViewWindow window = null;
-		switch (type) {
-		case WAREHOUSE:
-			window = createScrollViewWindow(type);
-			break;
-		case LOW_COST_HOUSE:
-			window = createScrollViewWindow(type);
-			break;
-		case FARM_HOUSE:
-			window = createFarmViewWindow();
-			break;
-		case FELLING_HOUSE:
-			window = createWorkableViewWindow(type, FellingHouse.MAX_WORKER_CNT);
-			break;
-		default:
-			break;
-		}
-		if(window != null)
-			windows.add(window);
-		return window;
-	}
+//	public ListenableViewWindow createViewWindow(BuildingType type) {
+//		ListenableViewWindow window = null;
+//		switch (type) {
+//		case WAREHOUSE:
+//			window = createScrollViewWindow(type);
+//			break;
+//		case LOW_COST_HOUSE:
+//			window = createScrollViewWindow(type);
+//			break;
+//		case FARM_HOUSE:
+//			window = createFarmViewWindow();
+//			break;
+//		case FELLING_HOUSE:
+//			window = createWorkableViewWindow(type, FellingHouse.MAX_WORKER_CNT);
+//			break;
+//		default:
+//			break;
+//		}
+//		if(window != null)
+//			windows.add(window);
+//		return window;
+//	}
 	
 	public ConstructionWindow createConstructionWindow(BuildingType buildingType, List<Resource> resouces, int numAllowedBuilder) {
 		ConstructionWindow constructionWindow = new ConstructionWindow(buildingType, resouces, numAllowedBuilder);
@@ -86,8 +86,8 @@ public class GameScreenUI extends ScreenUIBase{
 		return constructionWindow;
 	}
 	
-	private ListenableViewWindow createScrollViewWindow(BuildingType buildingType) {
-		ListenableViewWindow window = new ScrollViewWindow(buildingType);
+	public ScrollViewWindow createScrollViewWindow(BuildingType buildingType) {
+		ScrollViewWindow window = new ScrollViewWindow(buildingType);
 		//scrollPane不需要设置size，window设置size时会更新scrollPane的size
 		ScrollPane scrollPane = new ScrollPane(window);
 		scrollPane.setScrollingDisabled(true, false);
@@ -103,15 +103,29 @@ public class GameScreenUI extends ScreenUIBase{
 		return window;
 	}
 	
-	private ListenableViewWindow createFarmViewWindow() {
-		FarmViewWindow window = new FarmViewWindow();
+	public FarmViewWindow createFarmViewWindow(int numAllowedWorker) {
+		FarmViewWindow window = new FarmViewWindow(numAllowedWorker);
 		mStage.addActor(window);
 		windows.add(window);
 		return window;
 	}
 	
-	private ListenableViewWindow createWorkableViewWindow(BuildingType buildingType, int numAllowedWorker) {
-		ListenableViewWindow window = new WorkableViewWindow(buildingType, numAllowedWorker);
+	public RanchViewWindow createRanchViewWindow(int numAllowedWorker) {
+		RanchViewWindow window = new RanchViewWindow(numAllowedWorker);
+		mStage.addActor(window);
+		windows.add(window);
+		return window;
+	}
+	
+	public WorkableViewWindow createWorkableViewWindow(BuildingType buildingType, int numAllowedWorker) {
+		WorkableViewWindow window = new WorkableViewWindow(buildingType, numAllowedWorker);
+		mStage.addActor(window);
+		windows.add(window);
+		return window;
+	}
+	
+	public WorkableWithTipsWindow createWorkableWithTipsWindow(BuildingType buildingType, int numAllowedWorker) {
+		WorkableWithTipsWindow window = new WorkableWithTipsWindow(buildingType, numAllowedWorker);
 		mStage.addActor(window);
 		windows.add(window);
 		return window;
