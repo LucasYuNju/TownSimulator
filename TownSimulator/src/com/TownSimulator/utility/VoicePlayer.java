@@ -12,7 +12,7 @@ public class VoicePlayer extends Singleton{
 	private static String soundPath="voice/sound/";
 	
 	private VoicePlayer(){
-		playMusic("start.mp3");
+		//playMusic("start.mp3");
 		
 		Driver.getInstance(Driver.class).addListener(new DriverListenerBaseImpl(){
 

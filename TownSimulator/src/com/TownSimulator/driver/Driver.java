@@ -12,6 +12,9 @@ import com.TownSimulator.entity.ResourceInfoCollector;
 import com.TownSimulator.entity.ResourceType;
 import com.TownSimulator.entity.building.Building;
 import com.TownSimulator.entity.building.BuildingType;
+import com.TownSimulator.entity.building.CropType;
+import com.TownSimulator.entity.building.FarmHouse;
+import com.TownSimulator.entity.building.FarmLand;
 import com.TownSimulator.entity.building.FellingHouse;
 import com.TownSimulator.entity.building.Warehouse;
 import com.TownSimulator.io.InputMgr;
@@ -22,6 +25,7 @@ import com.TownSimulator.ui.UIManager;
 import com.TownSimulator.utility.AxisAlignedBoundingBox;
 import com.TownSimulator.utility.ResourceManager;
 import com.TownSimulator.utility.Settings;
+import com.TownSimulator.utility.Singleton;
 import com.TownSimulator.utility.SingletonPublisher;
 import com.TownSimulator.utility.VoicePlayer;
 import com.TownSimulator.utility.quadtree.QuadTreeType;
@@ -77,36 +81,43 @@ public class Driver extends SingletonPublisher<DriverListener> implements Applic
 		CollisionDetector.getInstance(CollisionDetector.class).attachCollisionDetection(fellingHouse);
 		Renderer.getInstance(Renderer.class).attachDrawScissor(fellingHouse);
 		
-//		
-//		farmHouse.setSowCropType(CropType.WHEAT);
-//		
-//		for (FarmLand land : ((FarmHouse)farmHouse).getFarmLands()) {
-//			Renderer.getInstance(Renderer.class).attachDrawScissor(land);
-//		}
-		
-		InputMgr.getInstance(InputMgr.class).addListener(new InputMgrListenerBaseImpl()
-		{
-
-			@Override
-			public boolean touchDown(float screenX, float screenY, int pointer,
-					int button) {
-				VoicePlayer.getInstance(VoicePlayer.class).playSound("cave3.wav");
-				return true;
-			}
-			
-		});
-		
-		for (int i = 0; i < initPepleCnt; i++) {
-			float randX = (rand.nextFloat() - 0.5f) * Settings.UNIT * 6;
-			float ranxY = (rand.nextFloat() - 0.5f) * Settings.UNIT * 6;
-			Man man = new Man();
-			man.setPositionWorld(originPosX + randX, originPoxY + ranxY);
-			//fellingHouse.addWorker(man);
-			//man.setBehavior(new FellingBTN(man));
-			EntityInfoCollector.getInstance(EntityInfoCollector.class).addMan(man);
-			
-			Renderer.getInstance(Renderer.class).attachDrawScissor(man);
+		/*
+		 * init farm house
+		 */
+		FarmHouse farmHouse = (FarmHouse) EntityFactory.createBuilding(BuildingType.FARM_HOUSE);
+		farmHouse.setSowCropType(CropType.Wheat);
+		farmHouse.setState(Building.State.Constructed);
+		farmHouse.setPositionWorld(originPosX - 4 * Settings.UNIT, originPoxY);
+		Singleton.getInstance(EntityInfoCollector.class).addBuilding(farmHouse);
+		Singleton.getInstance(CollisionDetector.class).attachCollisionDetection(farmHouse);
+		Singleton.getInstance(Renderer.class).attachDrawScissor(farmHouse);
+		for (FarmLand land : farmHouse.getFarmLands()) {
+			Renderer.getInstance(Renderer.class).attachDrawScissor(land);
 		}
+		
+//		InputMgr.getInstance(InputMgr.class).addListener(new InputMgrListenerBaseImpl()
+//		{
+//
+//			@Override
+//			public boolean touchDown(float screenX, float screenY, int pointer,
+//					int button) {
+//				VoicePlayer.getInstance(VoicePlayer.class).playSound("cave3.wav");
+//				return true;
+//			}
+//			
+//		});
+		
+//		for (int i = 0; i < initPepleCnt; i++) {
+//			float randX = (rand.nextFloat() - 0.5f) * Settings.UNIT * 6;
+//			float ranxY = (rand.nextFloat() - 0.5f) * Settings.UNIT * 6;
+//			Man man = new Man();
+//			man.setPositionWorld(originPosX + randX, originPoxY + ranxY);
+//			//fellingHouse.addWorker(man);
+//			//man.setBehavior(new FellingBTN(man));
+//			EntityInfoCollector.getInstance(EntityInfoCollector.class).addMan(man);
+//			
+//			Renderer.getInstance(Renderer.class).attachDrawScissor(man);
+//		}
 	}
 	
 	@Override
