@@ -185,7 +185,7 @@ public abstract class Building extends Entity
 	}
 
 	@Override
-	public void detectTouchUp()
+	public void detectTapped()
 	{
 		super.detectTouchUp();
 		UIManager.getInstance(UIManager.class).getGameUI().hideAllWindow();

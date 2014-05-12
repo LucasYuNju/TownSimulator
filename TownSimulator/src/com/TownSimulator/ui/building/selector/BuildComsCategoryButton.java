@@ -10,7 +10,7 @@ public class BuildComsCategoryButton extends IconLabelButton{
 	private static 	BuildComsButtonsGroup mCurVisibleGroup;
 	
 	public BuildComsCategoryButton(String textureName, String labelText) {
-		super(textureName, labelText, (int)BuildComsUI.BUTTON_TOP_LABEL_PAD);
+		super(textureName, labelText, (int)BuildComsUI.BUTTON_TOP_LABEL_HEIGHT);
 		setSize(BuildComsUI.BUTTON_WIDTH, BuildComsUI.BUTTON_WIDTH);
 		
 		mButtonsGroup = new BuildComsButtonsGroup();
