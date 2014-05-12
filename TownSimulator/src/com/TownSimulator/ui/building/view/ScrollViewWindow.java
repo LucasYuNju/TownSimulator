@@ -51,7 +51,7 @@ public class ScrollViewWindow extends ListenableViewWindow{
 			for(int j=0; j<data.get(i).size(); j++) {
 				Label label = new Label(data.get(i).get(j), labelStyle);
 				label.setSize(LABEL_WIDTH, LABEL_HEIGHT);
-				label.setPosition(LABEL_WIDTH * j + MARGIN, getHeight() - LABEL_HEIGHT * i - LABEL_HEIGHT - MARGIN);
+				label.setPosition(LABEL_WIDTH * j + MARGIN, getHeight() - LABEL_HEIGHT * i - LABEL_HEIGHT - MARGIN * 2.0f);
 				addActor(label);
 				labels.add(label);
 			}

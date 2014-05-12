@@ -20,16 +20,17 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 
 public abstract class Building extends Entity 
 	implements ConstructionWindowListener, WorkerGroupListener{
+	
 	protected List<Resource>			constructionResources;
 	protected float						constructionWork;
 	protected float						finishedConstructionWork;
+	protected State						buildingState;
+	protected BuildingType				buildingType;
+	protected UndockedWindow			undockedWindow;
 	private	  ConstructionProject		constructionProject;
-	protected State						state;
-	protected BuildingType				type;
-	private   int 						numAllowedBuilder = 3;
 	private   ConstructionWindow		constructionWindow;
-	protected   UndockedWindow			undockedWindow;
 	private	  ConstructionProgressBar	constructionProgressBar;
+	private   int 						numAllowedBuilder = 3;
 	
 	public enum State
 	{
@@ -39,21 +40,21 @@ public abstract class Building extends Entity
 	public Building(String textureName, BuildingType type)
 	{
 		super(textureName);
-		this.type = type;
+		this.buildingType = type;
 		init();
 	}
 	
 	public Building(Sprite sp, BuildingType type) {
 		super(sp);
-		this.type = type;
+		this.buildingType = type;
 		init();
 	}
 	
 	private void init()
 	{
-		state = State.PosUnconfirmed;
+		buildingState = State.PosUnconfirmed;
 		constructionResources = new LinkedList<Resource>();
-		constructionWindow = UIManager.getInstance(UIManager.class).getGameUI().createConstructionWindow(type, constructionResources, numAllowedBuilder);
+		constructionWindow = UIManager.getInstance(UIManager.class).getGameUI().createConstructionWindow(buildingType, constructionResources, numAllowedBuilder);
 		constructionWindow.setVisible(false);
 		constructionWindow.setConstructionListener(this);
 		undockedWindow = createUndockedWindow();//Singleton.getInstance(UIManager.class).getGameUI().createViewWindow(type);
@@ -82,7 +83,7 @@ public abstract class Building extends Entity
 	
 	public BuildingType getType()
 	{
-		return type;
+		return buildingType;
 	}
 	
 	public void setNeededConstructionResource(ResourceType type, int need)
@@ -183,7 +184,7 @@ public abstract class Building extends Entity
 	
 	@Override
 	public boolean detectTouchDown() {
-		return super.detectTouchDown() || state == State.UnderConstruction || state == State.Constructed;
+		return super.detectTouchDown() || buildingState == State.UnderConstruction || buildingState == State.Constructed;
 	}
 
 	@Override
@@ -192,11 +193,11 @@ public abstract class Building extends Entity
 		super.detectTouchUp();
 		UIManager.getInstance(UIManager.class).getGameUI().hideAllWindow();
 		
-		if(state == State.UnderConstruction) {
+		if(buildingState == State.UnderConstruction) {
 			if(constructionWindow != null)
 				constructionWindow.setVisible(true);
 		}
-		if(state == State.Constructed) {
+		if(buildingState == State.Constructed) {
 			if(undockedWindow != null)
 			{
 				undockedWindow.setBuildingPosWorld(getPositionXWorld(), getPositionYWorld());
@@ -212,7 +213,7 @@ public abstract class Building extends Entity
 	
 	public void setState(State state)
 	{
-		this.state = state;
+		this.buildingState = state;
 		
 		if(state == State.UnderConstruction)
 			constructionProgressBar = ConstructionProgressBar.create(this);
@@ -228,7 +229,7 @@ public abstract class Building extends Entity
 	
 	public State getState()
 	{
-		return state;
+		return buildingState;
 	}
 
 	//this method will notify constructionWindow

@@ -204,7 +204,7 @@ public class FarmHouse extends WorkableBuilding implements SelectBoxListener
 	public AxisAlignedBoundingBox getAABBWorld(QuadTreeType type) {
 		if(type == QuadTreeType.COLLISION)
 		{
-			if(state == State.PosUnconfirmed)
+			if(buildingState == State.PosUnconfirmed)
 			{
 				collisionAABBWorldWithLands.minX = collisionAABBLocalWithLands.minX + mPosXWorld;
 				collisionAABBWorldWithLands.minY = collisionAABBLocalWithLands.minY + mPosYWorld;

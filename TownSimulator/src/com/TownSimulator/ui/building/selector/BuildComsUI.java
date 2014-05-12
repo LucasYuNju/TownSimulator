@@ -49,7 +49,7 @@ public class BuildComsUI extends Group {
 		mBuildButtonsList.add(buildFood);
 		
 		BuildComsCategoryButton buildInfrastruction = new BuildComsCategoryButton("button_build_infrastructure", "Infras- tructure");
-		buildInfrastruction.addBuild("button_build_house", "warehouse", BuildingType.WAREHOUSE);
+		buildInfrastruction.addBuild("button_build_warehouse", "warehouse", BuildingType.WAREHOUSE);
 		buildInfrastruction.addBuild("button_build_power_station", "power station", BuildingType.POWER_STATION);
 		buildInfrastruction.addBuild("button_build_coat_factory", "coat factory", BuildingType.COAT_FACTORY);
 		buildInfrastruction.setVisible(false);

@@ -142,7 +142,7 @@ public class Ranch extends WorkableBuilding{
 
 				@Override
 				public void update(float deltaTime) {
-					if(type == null)
+					if(ranchAnimalType == null)
 						return;
 					
 					for (RanchAnimal animal : ranchAnimals) {
@@ -176,7 +176,7 @@ public class Ranch extends WorkableBuilding{
 	public AxisAlignedBoundingBox getAABBWorld(QuadTreeType type) {
 		if(type == QuadTreeType.COLLISION)
 		{
-			if(state == State.PosUnconfirmed)
+			if(buildingState == State.PosUnconfirmed)
 			{
 				collisionAABBWorldWithLands.minX = collisionAABBLocalWithLands.minX + mPosXWorld;
 				collisionAABBWorldWithLands.minY = collisionAABBLocalWithLands.minY + mPosYWorld;

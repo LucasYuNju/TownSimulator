@@ -47,9 +47,9 @@ public class EntityFactory {
 			building.setNeededConstructionWork(20);
 			break;
 		case WAREHOUSE:
-			xGridSize = 2;
-			yGridSize = 2;
-			yDrawScale = 1.0f;
+			xGridSize = 3;
+			yGridSize = 1;
+			yDrawScale = 1.5f;
 			building = new Warehouse();
 			building.setNeededConstructionResource(ResourceType.RS_WOOD, 20);
 			building.setNeededConstructionResource(ResourceType.RS_STONE, 5);
@@ -65,8 +65,8 @@ public class EntityFactory {
 			building.setNeededConstructionWork(30);
 			break;
 		case FELLING_HOUSE:
-			xGridSize = 2;
-			yGridSize = 2;
+			xGridSize = 3;
+			yGridSize = 3;
 			yDrawScale = 1.0f;
 			building = new FellingHouse();
 			building.setNeededConstructionResource(ResourceType.RS_WOOD, 20);

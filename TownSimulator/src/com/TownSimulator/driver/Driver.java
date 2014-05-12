@@ -15,6 +15,7 @@ import com.TownSimulator.entity.building.BuildingType;
 import com.TownSimulator.entity.building.CoatFactory;
 import com.TownSimulator.entity.building.FarmHouse;
 import com.TownSimulator.entity.building.FarmLand;
+import com.TownSimulator.entity.building.FellingHouse;
 import com.TownSimulator.entity.building.Ranch;
 import com.TownSimulator.entity.building.RanchLand;
 import com.TownSimulator.entity.building.Warehouse;
@@ -73,12 +74,12 @@ public class Driver extends SingletonPublisher<DriverListener> implements Applic
 		aabb = lowCostHouse.getAABBWorld(QuadTreeType.COLLISION);
 		Map.getInstance(Map.class).setGroundTexture("map_soil", aabb.minX, aabb.minY, aabb.maxX, aabb.maxY);
 		
-//		FellingHouse fellingHouse = (FellingHouse)EntityFactory.createBuilding(BuildingType.FELLING_HOUSE);
-//		fellingHouse.setState(Building.State.Constructed);
-//		fellingHouse.setPositionWorld(originPosX, originPoxY - 8 * Settings.UNIT);
-//		EntityInfoCollector.getInstance(EntityInfoCollector.class).addBuilding(fellingHouse);
-//		CollisionDetector.getInstance(CollisionDetector.class).attachCollisionDetection(fellingHouse);
-//		Renderer.getInstance(Renderer.class).attachDrawScissor(fellingHouse);
+		FellingHouse fellingHouse = (FellingHouse)EntityFactory.createBuilding(BuildingType.FELLING_HOUSE);
+		fellingHouse.setState(Building.State.Constructed);
+		fellingHouse.setPositionWorld(originPosX - 12 * Settings.UNIT, originPoxY - 8 * Settings.UNIT);
+		EntityInfoCollector.getInstance(EntityInfoCollector.class).addBuilding(fellingHouse);
+		CollisionDetector.getInstance(CollisionDetector.class).attachCollisionDetection(fellingHouse);
+		Renderer.getInstance(Renderer.class).attachDrawScissor(fellingHouse);
 		
 
 

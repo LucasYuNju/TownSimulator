@@ -3,9 +3,7 @@ package com.TownSimulator.ui.screen;
 import java.util.LinkedList;
 import java.util.List;
 
-import com.TownSimulator.entity.EntityInfoCollector;
 import com.TownSimulator.entity.Resource;
-import com.TownSimulator.entity.ResourceInfoCollector;
 import com.TownSimulator.entity.building.BuildingType;
 import com.TownSimulator.ui.StateBar;
 import com.TownSimulator.ui.base.ScreenUIBase;
@@ -139,9 +137,11 @@ public class GameScreenUI extends ScreenUIBase{
 	
 	@Override
 	public void update(float deltaTime) {
+//		super.update(deltaTime);
+//		int numPeople = EntityInfoCollector.getInstance(EntityInfoCollector.class).getAllMan().size;
+//		int numFood = ResourceInfoCollector.getInstance(ResourceInfoCollector.class).getFoodAmount();
+//		stateBar.update(numPeople, numFood);
 		super.update(deltaTime);
-		int numPeople = EntityInfoCollector.getInstance(EntityInfoCollector.class).getAllMan().size;
-		int numFood = ResourceInfoCollector.getInstance(ResourceInfoCollector.class).getFoodAmount();
-		stateBar.update(numPeople, numFood);
+		stateBar.update();
 	}
 }
