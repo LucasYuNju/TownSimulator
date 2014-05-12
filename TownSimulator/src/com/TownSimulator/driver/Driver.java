@@ -30,6 +30,7 @@ import com.TownSimulator.ui.UIManager;
 import com.TownSimulator.utility.AxisAlignedBoundingBox;
 import com.TownSimulator.utility.ResourceManager;
 import com.TownSimulator.utility.Settings;
+import com.TownSimulator.utility.Singleton;
 import com.TownSimulator.utility.SingletonPublisher;
 import com.TownSimulator.utility.quadtree.QuadTreeType;
 import com.badlogic.gdx.ApplicationListener;
@@ -85,6 +86,7 @@ public class Driver extends SingletonPublisher<DriverListener> implements Applic
 //		CollisionDetector.getInstance(CollisionDetector.class).attachCollisionDetection(fellingHouse);
 //		Renderer.getInstance(Renderer.class).attachDrawScissor(fellingHouse);
 		
+
 
 		CoatFactory coatFactory = (CoatFactory)EntityFactory.createBuilding(BuildingType.COAT_FACTORY);
 		coatFactory.setState(Building.State.Constructed);
@@ -149,6 +151,30 @@ public class Driver extends SingletonPublisher<DriverListener> implements Applic
 			
 			Renderer.getInstance(Renderer.class).attachDrawScissor(man);
 		}
+		
+//		InputMgr.getInstance(InputMgr.class).addListener(new InputMgrListenerBaseImpl()
+//		{
+//
+//			@Override
+//			public boolean touchDown(float screenX, float screenY, int pointer,
+//					int button) {
+//				VoicePlayer.getInstance(VoicePlayer.class).playSound("cave3.wav");
+//				return true;
+//			}
+//			
+//		});
+		
+//		for (int i = 0; i < initPepleCnt; i++) {
+//			float randX = (rand.nextFloat() - 0.5f) * Settings.UNIT * 6;
+//			float ranxY = (rand.nextFloat() - 0.5f) * Settings.UNIT * 6;
+//			Man man = new Man();
+//			man.setPositionWorld(originPosX + randX, originPoxY + ranxY);
+//			//fellingHouse.addWorker(man);
+//			//man.setBehavior(new FellingBTN(man));
+//			EntityInfoCollector.getInstance(EntityInfoCollector.class).addMan(man);
+//			
+//			Renderer.getInstance(Renderer.class).attachDrawScissor(man);
+//		}
 	}
 	
 	@Override

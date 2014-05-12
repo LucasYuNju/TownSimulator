@@ -39,7 +39,7 @@ public class GameScreenUI extends ScreenUIBase{
 	{
 		mBuildComsUI = new BuildComsUI();
 		mBuildComsUI.setPosition( Gdx.graphics.getWidth() - mBuildComsUI.getWidth(), 0.0f );
-		mStage.addActor(mBuildComsUI);
+//		mStage.addActor(mBuildComsUI);
 		
 		mBuildAjustUI = new BuildingAdjustGroup();
 		mBuildAjustUI.setVisible(false);
