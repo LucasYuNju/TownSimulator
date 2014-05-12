@@ -3,7 +3,6 @@ package com.TownSimulator.driver;
 
 import java.util.Random;
 
-import com.TownSimulator.ai.btnimpls.farmer.FarmerBTN;
 import com.TownSimulator.camera.CameraController;
 import com.TownSimulator.collision.CollisionDetector;
 import com.TownSimulator.entity.EntityFactory;
@@ -13,10 +12,6 @@ import com.TownSimulator.entity.ResourceInfoCollector;
 import com.TownSimulator.entity.ResourceType;
 import com.TownSimulator.entity.building.Building;
 import com.TownSimulator.entity.building.BuildingType;
-import com.TownSimulator.entity.building.CropType;
-import com.TownSimulator.entity.building.FarmHouse;
-import com.TownSimulator.entity.building.FarmLand;
-import com.TownSimulator.entity.building.FellingHouse;
 import com.TownSimulator.entity.building.CoatFactory;
 import com.TownSimulator.entity.building.FarmHouse;
 import com.TownSimulator.entity.building.FarmLand;
@@ -30,7 +25,6 @@ import com.TownSimulator.ui.UIManager;
 import com.TownSimulator.utility.AxisAlignedBoundingBox;
 import com.TownSimulator.utility.ResourceManager;
 import com.TownSimulator.utility.Settings;
-import com.TownSimulator.utility.Singleton;
 import com.TownSimulator.utility.SingletonPublisher;
 import com.TownSimulator.utility.quadtree.QuadTreeType;
 import com.badlogic.gdx.ApplicationListener;

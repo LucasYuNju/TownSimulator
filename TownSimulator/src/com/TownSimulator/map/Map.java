@@ -89,8 +89,8 @@ public class Map extends Singleton{
 						tree.addHealth(Tree.MAX_HELTH * scale);
 						tree.setPositionWorld(	Settings.UNIT * x + Settings.UNIT * 0.5f + randX,
 												Settings.UNIT * y + Settings.UNIT * 0.5f + randY);
-						//CollisionDetector.getInstance(CollisionDetector.class).attachCollisionDetection(tree);
-						//Renderer.getInstance(Renderer.class).attachDrawScissor(tree);
+						CollisionDetector.getInstance(CollisionDetector.class).attachCollisionDetection(tree);
+						Renderer.getInstance(Renderer.class).attachDrawScissor(tree);
 					}
 				}
 				

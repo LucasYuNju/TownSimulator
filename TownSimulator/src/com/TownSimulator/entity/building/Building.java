@@ -21,14 +21,15 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 public abstract class Building extends Entity 
 	implements ConstructionWindowListener, WorkerGroupListener{
 	protected List<Resource>			constructionResources;
-	protected int						constructionWork;
-	protected int						finishedConstructionWork;
+	protected float						constructionWork;
+	protected float						finishedConstructionWork;
 	private	  ConstructionProject		constructionProject;
 	protected State						state;
 	protected BuildingType				type;
 	private   int 						numAllowedBuilder = 3;
 	private   ConstructionWindow		constructionWindow;
 	protected   UndockedWindow			undockedWindow;
+	private	  ConstructionProgressBar	constructionProgressBar;
 	
 	public enum State
 	{
@@ -123,21 +124,22 @@ public abstract class Building extends Entity
 		constructionWork = amount;
 	}
 	
-	public int getUnfinishedConstructionWork()
+	public float getUnfinishedConstructionWork()
 	{
 		return constructionWork - finishedConstructionWork;
 	}
 
-	public int getFinishedConstructionWork() 
+	public float getFinishedConstructionWork() 
 	{
 		return finishedConstructionWork;
 	}
 
 	//this method will notify constructionWindow
-	public void doConstructionWork(int amount)
+	public void doConstructionWork(float f)
 	{
-		finishedConstructionWork = Math.min(constructionWork, finishedConstructionWork + amount);
+		finishedConstructionWork = Math.min(constructionWork, finishedConstructionWork + f);
 		constructionWindow.setProcess(getProcess());
+		constructionProgressBar.setProgress(getProcess());
 	}
 	
 	public boolean isConstructionResourceSufficient()
@@ -211,6 +213,17 @@ public abstract class Building extends Entity
 	public void setState(State state)
 	{
 		this.state = state;
+		
+		if(state == State.UnderConstruction)
+			constructionProgressBar = ConstructionProgressBar.create(this);
+		else if(state == State.Constructed)
+		{
+			if(constructionProgressBar != null)
+			{
+				constructionProgressBar.realease();
+				constructionProgressBar = null;
+			}
+		}
 	}
 	
 	public State getState()
