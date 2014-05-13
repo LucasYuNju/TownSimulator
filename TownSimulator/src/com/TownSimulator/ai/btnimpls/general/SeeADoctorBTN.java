@@ -1,6 +1,6 @@
 package com.TownSimulator.ai.btnimpls.general;
 
-import com.TownSimulator.ai.behaviortree.BehaviorTreeNode;
+import com.TownSimulator.ai.behaviortree.ActionNode;
 import com.TownSimulator.ai.behaviortree.ExecuteResult;
 import com.TownSimulator.ai.behaviortree.SequenceNode;
 import com.TownSimulator.entity.EntityInfoCollector;
@@ -11,7 +11,6 @@ import com.TownSimulator.entity.building.BuildingType;
 import com.TownSimulator.entity.building.Hospital;
 import com.TownSimulator.utility.Singleton;
 import com.TownSimulator.utility.quadtree.QuadTreeType;
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.Array;
 
 public class SeeADoctorBTN extends SequenceNode{
@@ -23,7 +22,7 @@ public class SeeADoctorBTN extends SequenceNode{
 	}
 
 	private void initSubNodes() {		
-		BehaviorTreeNode seeADoctorNode = new BehaviorTreeNode() {
+		ActionNode seeADoctorNode = new ActionNode() {
 
 			@Override
 			public ExecuteResult execute(float deltaTime) {
@@ -58,6 +57,7 @@ public class SeeADoctorBTN extends SequenceNode{
 				}
 				return ExecuteResult.FALSE;
 			}
+
 		};
 		addNode(seeADoctorNode);
 	}

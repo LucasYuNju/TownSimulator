@@ -14,8 +14,13 @@ import com.TownSimulator.entity.building.Bar;
 import com.TownSimulator.entity.building.Building;
 import com.TownSimulator.entity.building.BuildingType;
 import com.TownSimulator.entity.building.CoatFactory;
+//github.com/LuciusYu/TownSimulator.git
+import com.TownSimulator.entity.building.FarmHouse;
+import com.TownSimulator.entity.building.FarmLand;
 import com.TownSimulator.entity.building.FellingHouse;
 import com.TownSimulator.entity.building.Hospital;
+import com.TownSimulator.entity.building.Ranch;
+import com.TownSimulator.entity.building.RanchLand;
 import com.TownSimulator.entity.building.Warehouse;
 import com.TownSimulator.io.InputMgr;
 import com.TownSimulator.map.Map;
@@ -30,11 +35,6 @@ import com.TownSimulator.utility.quadtree.QuadTreeType;
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
-//github.com/LuciusYu/TownSimulator.git
-import com.TownSimulator.entity.building.FarmHouse;
-import com.TownSimulator.entity.building.FarmLand;
-import com.TownSimulator.entity.building.Ranch;
-import com.TownSimulator.entity.building.RanchLand;
 
 public class Driver extends SingletonPublisher<DriverListener> implements ApplicationListener{
 	private Driver()
