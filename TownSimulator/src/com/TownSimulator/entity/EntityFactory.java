@@ -1,10 +1,12 @@
 package com.TownSimulator.entity;
 
+import com.TownSimulator.entity.building.Bar;
 import com.TownSimulator.entity.building.Building;
 import com.TownSimulator.entity.building.BuildingType;
 import com.TownSimulator.entity.building.CoatFactory;
 import com.TownSimulator.entity.building.FarmHouse;
 import com.TownSimulator.entity.building.FellingHouse;
+import com.TownSimulator.entity.building.Hospital;
 import com.TownSimulator.entity.building.LowCostHouse;
 import com.TownSimulator.entity.building.PowerStation;
 import com.TownSimulator.entity.building.Ranch;
@@ -96,6 +98,24 @@ public class EntityFactory {
 			yGridSize = 1;
 			yDrawScale = 1.5f;
 			building = new Ranch();
+			building.setNeededConstructionResource(ResourceType.RS_WOOD, 20);
+			building.setNeededConstructionResource(ResourceType.RS_STONE, 5);
+			building.setNeededConstructionWork(30);
+			break;
+		case Hospital:
+			xGridSize = 3;
+			yGridSize = 2;
+			yDrawScale = 1.5f;
+			building = new Hospital();
+			building.setNeededConstructionResource(ResourceType.RS_WOOD, 20);
+			building.setNeededConstructionResource(ResourceType.RS_STONE, 5);
+			building.setNeededConstructionWork(30);
+			break;
+		case Bar:
+			xGridSize = 2;
+			yGridSize = 2;
+			yDrawScale = 1.5f;
+			building = new Bar();
 			building.setNeededConstructionResource(ResourceType.RS_WOOD, 20);
 			building.setNeededConstructionResource(ResourceType.RS_STONE, 5);
 			building.setNeededConstructionWork(30);

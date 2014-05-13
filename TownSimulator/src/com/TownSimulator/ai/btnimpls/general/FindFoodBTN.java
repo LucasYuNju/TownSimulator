@@ -36,7 +36,7 @@ public class FindFoodBTN extends SequenceNode{
 	{
 		int amount = EAT_FOOD_RESOURCE_AMOUNT;
 		
-		for (Building building : EntityInfoCollector.getInstance(EntityInfoCollector.class).getBuildingWithType(BuildingType.WAREHOUSE)) {
+		for (Building building : EntityInfoCollector.getInstance(EntityInfoCollector.class).getBuildings(BuildingType.WAREHOUSE)) {
 //			if(building.getType() == BuildingType.WAREHOUSE)
 //			{
 				Warehouse wareHouse = (Warehouse)building;

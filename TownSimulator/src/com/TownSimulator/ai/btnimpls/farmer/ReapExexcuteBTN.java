@@ -36,7 +36,7 @@ public class ReapExexcuteBTN extends ActionNode{
 	{
 		double minDest = Double.MAX_VALUE;
 		Warehouse result = null;
-		for( Building building : EntityInfoCollector.getInstance(EntityInfoCollector.class).getBuildingWithType(BuildingType.WAREHOUSE) )
+		for( Building building : EntityInfoCollector.getInstance(EntityInfoCollector.class).getBuildings(BuildingType.WAREHOUSE) )
 		{
 //			if(building.getType() == BuildingType.WAREHOUSE)
 //			{

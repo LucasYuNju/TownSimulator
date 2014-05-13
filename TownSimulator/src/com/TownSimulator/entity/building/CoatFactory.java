@@ -42,7 +42,7 @@ public class CoatFactory extends WorkableBuilding{
 	private void decreFurResource(int amount)
 	{
 		int remainAmount = amount;
-		for (Building building : EntityInfoCollector.getInstance(EntityInfoCollector.class).getBuildingWithType(BuildingType.WAREHOUSE)) {
+		for (Building building : EntityInfoCollector.getInstance(EntityInfoCollector.class).getBuildings(BuildingType.WAREHOUSE)) {
 //			if(building.getType() == BuildingType.WAREHOUSE)
 //			{
 				Warehouse warehouse = (Warehouse)building;
@@ -109,7 +109,7 @@ public class CoatFactory extends WorkableBuilding{
 				@Override
 				public void update(float deltaTime) {
 					if(EntityInfoCollector.getInstance(EntityInfoCollector.class)
-							.getBuildingWithType(BuildingType.POWER_STATION).size <= 0)
+							.getBuildings(BuildingType.POWER_STATION).size <= 0)
 					{
 						workTipsWindow.setTips("Need Power Station");
 						return;
