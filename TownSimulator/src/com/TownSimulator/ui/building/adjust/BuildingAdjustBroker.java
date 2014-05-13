@@ -13,6 +13,8 @@ import com.TownSimulator.entity.building.Building.State;
 import com.TownSimulator.entity.building.BuildingType;
 import com.TownSimulator.entity.building.FarmHouse;
 import com.TownSimulator.entity.building.FarmLand;
+import com.TownSimulator.entity.building.Ranch;
+import com.TownSimulator.entity.building.RanchLand;
 import com.TownSimulator.map.Map;
 import com.TownSimulator.render.Renderer;
 import com.TownSimulator.ui.UIManager;
@@ -52,13 +54,14 @@ public class BuildingAdjustBroker extends Singleton implements EntityListener, C
 		int gridX = (int) (CameraController.getInstance(CameraController.class).getX() / Settings.UNIT);
 		int gridY = (int) (CameraController.getInstance(CameraController.class).getY() / Settings.UNIT);
 		int gridSerchSize = 0;
-		AxisAlignedBoundingBox buildingCollisionAABB;// = newBuildingObject.getCollisionAABBLocal();
+		AxisAlignedBoundingBox buildingCollisionAABB;
 		if(type == BuildingType.FARM_HOUSE)
 			buildingCollisionAABB = ((FarmHouse)newBuildingObject).getCollisionAABBLocalWithLands();
+		else if(type == BuildingType.RANCH)
+			buildingCollisionAABB = ((Ranch)newBuildingObject).getCollisionAABBLocalWithLands();
 		else
 			buildingCollisionAABB = newBuildingObject.getCollisionAABBLocal();
-		//float buildingWidth = buildingCollisionAABB.maxX - buildingCollisionAABB.minX;
-		//float buildingHeight = buildingCollisionAABB.maxY - buildingCollisionAABB.minY;
+		
 		boolean bPosFind = false;
 		float posX = 0.0f;
 		float posY = 0.0f;
@@ -86,11 +89,11 @@ public class BuildingAdjustBroker extends Singleton implements EntityListener, C
 			for (FarmLand land : ((FarmHouse)newBuildingObject).getFarmLands()) {
 				Renderer.getInstance(Renderer.class).attachDrawScissor(land);
 			}
+		else if(type == BuildingType.RANCH)
+			for (RanchLand land : ((Ranch)newBuildingObject).getRanchLands()) {
+				Renderer.getInstance(Renderer.class).attachDrawScissor(land);
+			}
 		CollisionDetector.getInstance(CollisionDetector.class).attachCollisionDetection(newBuildingObject);
-//		if(type == BuildingType.FARM_HOUSE)
-//			for (FarmLand land : ((FarmHouse)newBuildingObject).getFarmLands()) {
-//				CollisionDetector.getInstance(CollisionDetector.class).attachCollisionDetection(land);
-//			}
 		
 		setBuilding(newBuildingObject);
 		setBuildAjustUI(UIManager.getInstance(UIManager.class).getGameUI().getBuildAjustUI());
@@ -125,9 +128,13 @@ public class BuildingAdjustBroker extends Singleton implements EntityListener, C
 				EntityInfoCollector.getInstance(EntityInfoCollector.class).addBuilding(mCurBuilding);
 				
 				if(mCurBuilding.getType() == BuildingType.FARM_HOUSE)
-				for (FarmLand land : ((FarmHouse)mCurBuilding).getFarmLands()) {
-					CollisionDetector.getInstance(CollisionDetector.class).attachCollisionDetection(land);
-				}
+					for (FarmLand land : ((FarmHouse)mCurBuilding).getFarmLands()) {
+						CollisionDetector.getInstance(CollisionDetector.class).attachCollisionDetection(land);
+					}
+				else if(mCurBuilding.getType() == BuildingType.RANCH)
+					for (RanchLand land : ((Ranch)mCurBuilding).getRanchLands()) {
+						CollisionDetector.getInstance(CollisionDetector.class).attachCollisionDetection(land);
+					}
 				
 				AxisAlignedBoundingBox aabb = mCurBuilding.getAABBWorld(QuadTreeType.COLLISION);
 				Map.getInstance(Map.class).setGroundTexture("map_soil", aabb.minX, aabb.minY, aabb.maxX, aabb.maxY);
@@ -149,11 +156,12 @@ public class BuildingAdjustBroker extends Singleton implements EntityListener, C
 					for (FarmLand land : ((FarmHouse)mCurBuilding).getFarmLands()) {
 						Renderer.getInstance(Renderer.class).dettachDrawScissor(land);
 					}
+				if(mCurBuilding.getType() == BuildingType.RANCH)
+					for (RanchLand land : ((Ranch)mCurBuilding).getRanchLands()) {
+						Renderer.getInstance(Renderer.class).dettachDrawScissor(land);
+					}
 				CollisionDetector.getInstance(CollisionDetector.class).dettachCollisionDetection(mCurBuilding);
-//				if(mCurBuilding.getType() == BuildingType.FARM_HOUSE)
-//					for (FarmLand land : ((FarmHouse)mCurBuilding).getFarmLands()) {
-//						CollisionDetector.getInstance(CollisionDetector.class).dettachCollisionDetection(land);
-//					}
+
 				mCurBuilding.setListener(null);
 				mCurBuilding = null;
 				mBuildUI.setListener(null);
@@ -217,8 +225,6 @@ public class BuildingAdjustBroker extends Singleton implements EntityListener, C
 				
 				Array<QuadTreeManageble> excluded = new Array<QuadTreeManageble>();
 				excluded.add(mCurBuilding);
-//				if(mCurBuilding.getType() == BuildingType.FARM_HOUSE)
-//					excluded.addAll( ((FarmHouse)mCurBuilding).getFarmLands() );
 				if( !CollisionDetector.getInstance(CollisionDetector.class).detect(destAABB, null, excluded) )
 				{
 					mCurBuilding.translate(moveDeltaX, moveDeltaY);
@@ -243,7 +249,6 @@ public class BuildingAdjustBroker extends Singleton implements EntityListener, C
 
 	@Override
 	public void objBeTapped(Entity obj) {
-		// TODO Auto-generated method stub
 		
 	}
 	

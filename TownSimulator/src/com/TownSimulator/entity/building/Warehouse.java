@@ -85,7 +85,7 @@ public class Warehouse extends Building {
 
 	@Override
 	protected UndockedWindow createUndockedWindow() {
-		scrollWindow = UIManager.getInstance(UIManager.class).getGameUI().createScrollViewWindow(type);
+		scrollWindow = UIManager.getInstance(UIManager.class).getGameUI().createScrollViewWindow(buildingType);
 		return scrollWindow;
 	}
 }

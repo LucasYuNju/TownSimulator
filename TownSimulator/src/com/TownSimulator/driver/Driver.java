@@ -14,11 +14,8 @@ import com.TownSimulator.entity.building.Bar;
 import com.TownSimulator.entity.building.Building;
 import com.TownSimulator.entity.building.BuildingType;
 import com.TownSimulator.entity.building.CoatFactory;
-import com.TownSimulator.entity.building.FarmHouse;
-import com.TownSimulator.entity.building.FarmLand;
+import com.TownSimulator.entity.building.FellingHouse;
 import com.TownSimulator.entity.building.Hospital;
-import com.TownSimulator.entity.building.Ranch;
-import com.TownSimulator.entity.building.RanchLand;
 import com.TownSimulator.entity.building.Warehouse;
 import com.TownSimulator.io.InputMgr;
 import com.TownSimulator.map.Map;
@@ -33,6 +30,11 @@ import com.TownSimulator.utility.quadtree.QuadTreeType;
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
+//github.com/LuciusYu/TownSimulator.git
+import com.TownSimulator.entity.building.FarmHouse;
+import com.TownSimulator.entity.building.FarmLand;
+import com.TownSimulator.entity.building.Ranch;
+import com.TownSimulator.entity.building.RanchLand;
 
 public class Driver extends SingletonPublisher<DriverListener> implements ApplicationListener{
 	private Driver()
@@ -76,12 +78,12 @@ public class Driver extends SingletonPublisher<DriverListener> implements Applic
 		aabb = lowCostHouse.getAABBWorld(QuadTreeType.COLLISION);
 		Map.getInstance(Map.class).setGroundTexture("map_soil", aabb.minX, aabb.minY, aabb.maxX, aabb.maxY);
 		
-//		FellingHouse fellingHouse = (FellingHouse)EntityFactory.createBuilding(BuildingType.FELLING_HOUSE);
-//		fellingHouse.setState(Building.State.Constructed);
-//		fellingHouse.setPositionWorld(originPosX, originPoxY - 8 * Settings.UNIT);
-//		EntityInfoCollector.getInstance(EntityInfoCollector.class).addBuilding(fellingHouse);
-//		CollisionDetector.getInstance(CollisionDetector.class).attachCollisionDetection(fellingHouse);
-//		Renderer.getInstance(Renderer.class).attachDrawScissor(fellingHouse);
+		FellingHouse fellingHouse = (FellingHouse)EntityFactory.createBuilding(BuildingType.FELLING_HOUSE);
+		fellingHouse.setState(Building.State.Constructed);
+		fellingHouse.setPositionWorld(originPosX - 12 * Settings.UNIT, originPoxY - 8 * Settings.UNIT);
+		EntityInfoCollector.getInstance(EntityInfoCollector.class).addBuilding(fellingHouse);
+		CollisionDetector.getInstance(CollisionDetector.class).attachCollisionDetection(fellingHouse);
+		Renderer.getInstance(Renderer.class).attachDrawScissor(fellingHouse);
 		
 		Hospital hospital = (Hospital)EntityFactory.createBuilding(BuildingType.Hospital);
 		hospital.setState(Building.State.Constructed);
@@ -142,7 +144,7 @@ public class Driver extends SingletonPublisher<DriverListener> implements Applic
 //			@Override
 //			public boolean touchDown(float screenX, float screenY, int pointer,
 //					int button) {
-//				VoicePlayer.getInstance(VoicePlayer.class).playSound("cave3.wav");
+//				UIManager.getInstance(UIManager.class).getGameUI().getMessageBoard().showMessage("Hello Wolrd!");
 //				return true;
 //			}
 //			

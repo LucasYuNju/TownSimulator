@@ -60,7 +60,7 @@ public class Hospital extends Building{
 	
 	@Override
 	protected UndockedWindow createUndockedWindow() {
-		scrollWindow = Singleton.getInstance(UIManager.class).getGameUI().createScrollViewWindow(type);
+		scrollWindow = Singleton.getInstance(UIManager.class).getGameUI().createScrollViewWindow(buildingType);
 		return scrollWindow;
 	}
 

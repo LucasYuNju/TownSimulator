@@ -3,10 +3,9 @@ package com.TownSimulator.ui.screen;
 import java.util.LinkedList;
 import java.util.List;
 
-import com.TownSimulator.entity.EntityInfoCollector;
 import com.TownSimulator.entity.Resource;
-import com.TownSimulator.entity.ResourceInfoCollector;
 import com.TownSimulator.entity.building.BuildingType;
+import com.TownSimulator.ui.MessageBoard;
 import com.TownSimulator.ui.StateBar;
 import com.TownSimulator.ui.base.ScreenUIBase;
 import com.TownSimulator.ui.building.adjust.BuildingAdjustGroup;
@@ -29,6 +28,7 @@ public class GameScreenUI extends ScreenUIBase{
 	private BuildingAdjustGroup	mBuildAjustUI;
 	private List<Actor> windows = new LinkedList<Actor>();
 	private StateBar stateBar;
+	private MessageBoard messageBoard;
 	
 	public GameScreenUI()
 	{
@@ -40,7 +40,7 @@ public class GameScreenUI extends ScreenUIBase{
 	{
 		mBuildComsUI = new BuildComsUI();
 		mBuildComsUI.setPosition( Gdx.graphics.getWidth() - mBuildComsUI.getWidth(), 0.0f );
-//		mStage.addActor(mBuildComsUI);
+		mStage.addActor(mBuildComsUI);
 		
 		mBuildAjustUI = new BuildingAdjustGroup();
 		mBuildAjustUI.setVisible(false);
@@ -48,13 +48,21 @@ public class GameScreenUI extends ScreenUIBase{
 		
 		stateBar = new StateBar();
 		stateBar.setVisible(true);
-		//mStage.addActor(stateBar);
+		mStage.addActor(stateBar);
+		
+		messageBoard = new MessageBoard();
+		mStage.addActor(messageBoard);
 	}
 	
 	public BuildingAdjustGroup getBuildAjustUI()
 	{
 		return mBuildAjustUI;
-	}	
+	}
+	
+	public MessageBoard getMessageBoard()
+	{
+		return messageBoard;
+	}
 	
 //	public ListenableViewWindow createViewWindow(BuildingType type) {
 //		ListenableViewWindow window = null;
@@ -147,9 +155,11 @@ public class GameScreenUI extends ScreenUIBase{
 	
 	@Override
 	public void update(float deltaTime) {
+//		super.update(deltaTime);
+//		int numPeople = EntityInfoCollector.getInstance(EntityInfoCollector.class).getAllMan().size;
+//		int numFood = ResourceInfoCollector.getInstance(ResourceInfoCollector.class).getFoodAmount();
+//		stateBar.update(numPeople, numFood);
 		super.update(deltaTime);
-		int numPeople = EntityInfoCollector.getInstance(EntityInfoCollector.class).getAllMan().size;
-		int numFood = ResourceInfoCollector.getInstance(ResourceInfoCollector.class).getFoodAmount();
-		stateBar.update(numPeople, numFood);
+		stateBar.update();
 	}
 }

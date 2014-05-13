@@ -14,12 +14,16 @@ public class WorkableViewWindow extends UndockedWindow{
 	public WorkableViewWindow(BuildingType buildingType, int numAllowedWorker) {
 		super(buildingType);
 		workerGroup = new WorkerGroup(numAllowedWorker);
-		setSize(workerGroup.getWidth() + MARGIN * 2, workerGroup.getHeight() + MARGIN * 2);
 		workerGroup.setVisible(true);
 		workerGroup.setPosition(MARGIN, MARGIN);
 		addActor(workerGroup);
 		addHeader();
 		addCloseButton();
+		
+		float width = Math.max(workerGroup.getWidth(),
+				headerLabel.getStyle().font.getBounds(headerLabel.getText()).width + closeButton.getWidth() + MARGIN);
+		setSize(width + MARGIN * 2, workerGroup.getHeight() + MARGIN * 2);
+		updateLayout();
 	}
 	
 	public void addWorker() {

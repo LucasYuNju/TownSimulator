@@ -4,7 +4,6 @@ import com.TownSimulator.ai.behaviortree.BehaviorTreeNode;
 import com.TownSimulator.ai.btnimpls.idle.IdleBTN;
 import com.TownSimulator.entity.JobType;
 import com.TownSimulator.entity.Man;
-import com.TownSimulator.ui.building.view.FarmViewWindow;
 import com.TownSimulator.ui.UIManager;
 import com.TownSimulator.ui.building.view.UndockedWindow;
 import com.TownSimulator.ui.building.view.WorkableViewWindow;
@@ -58,7 +57,7 @@ public abstract class WorkableBuilding extends Building
 	protected WorkableViewWindow createWorkableWindow()
 	{
 		//workableWindow = UIManager.getInstance(UIManager.class).getGameUI().createWorkableViewWindow(type, maxJobCnt);
-		return UIManager.getInstance(UIManager.class).getGameUI().createWorkableViewWindow(type, getMaxJobCnt());
+		return UIManager.getInstance(UIManager.class).getGameUI().createWorkableViewWindow(buildingType, getMaxJobCnt());
 	}
 	
 	abstract protected int getMaxJobCnt(); 
@@ -135,10 +134,10 @@ public abstract class WorkableBuilding extends Building
 	 */
 	@Override
 	public final void workerLimitSelected(int limit) {
-		if(state == State.UnderConstruction)
+		if(buildingState == State.UnderConstruction)
 			//called by ConstructionWindow's WorkerGroup
 			super.workerLimitSelected(limit);
-		else if(state == State.Constructed) {
+		else if(buildingState == State.Constructed) {
 			//called by ViewWindow's WorkerGroup
 			workerLimitChanged(limit);
 		}

@@ -125,7 +125,7 @@ public class CoatFactory extends WorkableBuilding{
 	@Override
 	protected WorkableViewWindow createWorkableWindow() {
 		workTipsWindow = UIManager.getInstance(UIManager.class).getGameUI()
-							.createWorkableWithTipsWindow(type, getMaxJobCnt());
+							.createWorkableWithTipsWindow(buildingType, getMaxJobCnt());
 		return workTipsWindow;
 	}
 	
