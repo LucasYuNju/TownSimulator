@@ -190,7 +190,7 @@ public abstract class Building extends Entity
 	@Override
 	public void detectTapped()
 	{
-		super.detectTouchUp();
+		super.detectTapped();
 		UIManager.getInstance(UIManager.class).getGameUI().hideAllWindow();
 		
 		if(buildingState == State.UnderConstruction) {

@@ -1,19 +1,19 @@
-package com.TownSimulator.ai.btnimpls.farmer;
+package com.TownSimulator.ai.btnimpls.lumerjack;
 
 import com.TownSimulator.ai.behaviortree.SelectorNode;
 import com.TownSimulator.ai.btnimpls.general.RandomMoveBTN;
 import com.TownSimulator.entity.Man;
 
-public class FarmerBTN extends SelectorNode{
+public class LumerJackBTN extends SelectorNode{
 	private Man mMan;
 	
-	public FarmerBTN(Man man) {
+	public LumerJackBTN(Man man) {
 		this.mMan = man;
-		initTree();
+		init();
 	}
 
-	protected void initTree() {
-		this.addNode(new FarmBTN(mMan))
+	protected void init() {
+		this.addNode(new FellingBTN(mMan))
 			.addNode(new RandomMoveBTN(mMan));
 	}
 }

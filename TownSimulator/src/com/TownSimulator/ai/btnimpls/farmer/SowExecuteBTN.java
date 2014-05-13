@@ -8,7 +8,7 @@ import com.TownSimulator.entity.building.FarmHouse;
 import com.TownSimulator.entity.building.FarmLand;
 import com.TownSimulator.utility.quadtree.QuadTreeType;
 
-public class SowExecuteBTN implements ActionNode{
+public class SowExecuteBTN extends ActionNode{
 	private Man man;
 	private static final float SOW_TIME_PER_LAND = 2.0f;
 	private float timeAccum = 0.0f;

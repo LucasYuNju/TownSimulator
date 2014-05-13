@@ -41,6 +41,9 @@ public class FellingBTN extends SequenceNode{
 			if(obj instanceof Tree)
 			{
 				Tree tree = (Tree) obj;
+				if(tree.isCutting())
+					continue;
+				
 				if(house.isInRange(tree) && tree.getScale() >= 0.8f)
 					return tree;
 			}
@@ -71,7 +74,10 @@ public class FellingBTN extends SequenceNode{
 				if(fellingInfo.fellingTree == null)
 					return ExecuteResult.FALSE;
 				else
+				{
+					fellingInfo.fellingTree.setCutting(true);
 					return ExecuteResult.TRUE;
+				}
 			}
 		};
 		

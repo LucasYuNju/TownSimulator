@@ -25,7 +25,7 @@ public class IconLabelButton extends IconButton{
 		this.labelText = labelText;
 		labels = new Array<Label>();
 		font = ResourceManager.getInstance(ResourceManager.class).getFont(mFontSize);
-		mLabelBackgroud = ResourceManager.getInstance(ResourceManager.class).findTextureRegion("background");
+		mLabelBackgroud = ResourceManager.getInstance(ResourceManager.class).createTextureRegion("background");
 //		if(labelText != null)
 //		{
 //			LabelStyle labelStyle = new LabelStyle();

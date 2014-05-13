@@ -28,9 +28,9 @@ public class WorkerGroup extends Group{
 	public WorkerGroup(int numAllowedBuilder) {
 		this.numAllowed = numAllowedBuilder;
 		numSelected = numAllowedBuilder;
-		builderTexture = Singleton.getInstance(ResourceManager.class).findTextureRegion("head");
-		allowedBuilderTexture = Singleton.getInstance(ResourceManager.class).findTextureRegion("head_gray");
-		forbiddenBuilderTexture = Singleton.getInstance(ResourceManager.class).findTextureRegion("head_forbidden");
+		builderTexture = Singleton.getInstance(ResourceManager.class).createTextureRegion("head");
+		allowedBuilderTexture = Singleton.getInstance(ResourceManager.class).createTextureRegion("head_gray");
+		forbiddenBuilderTexture = Singleton.getInstance(ResourceManager.class).createTextureRegion("head_forbidden");
 		initBuilderButtons();
 		setSize(WORKER_WIDTH * numAllowed, HEIGHT);
 	}

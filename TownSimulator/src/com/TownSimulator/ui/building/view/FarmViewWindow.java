@@ -42,7 +42,7 @@ public class FarmViewWindow extends WorkableViewWindow{
 	
 	public FarmViewWindow(int numAllowedWorker) {
 		super(BuildingType.FARM_HOUSE, numAllowedWorker);
-		buttonBackground = Singleton.getInstance(ResourceManager.class).findTextureRegion("background_button");
+		buttonBackground = Singleton.getInstance(ResourceManager.class).createTextureRegion("background_button");
 		width = ProcessBar.PREFERED_WIDTH + LABEL_WIDTH + MARGIN * 2;
 		height = LABEL_HEIGHT * 4 + WorkerGroup.HEIGHT + MARGIN * 2;
 		setSize(width, height);

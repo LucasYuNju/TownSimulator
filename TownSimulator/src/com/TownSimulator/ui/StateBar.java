@@ -40,7 +40,7 @@ public class StateBar extends Group{
 	
 	public StateBar() {
 		super();
-		background = Singleton.getInstance(ResourceManager.class).findTextureRegion("background");
+		background = Singleton.getInstance(ResourceManager.class).createTextureRegion("background");
 		setSize( (MARGIN + LABEL_WIDTH) * column + MARGIN, (MARGIN + LABEL_HEIGHT) * line + MARGIN);
 		setPosition(0, Gdx.graphics.getHeight() - getHeight());
 		initLabels();

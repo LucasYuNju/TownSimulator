@@ -36,7 +36,7 @@ public class RanchViewWindow extends WorkableViewWindow{
 	
 	public RanchViewWindow(int numAllowedWorker) {
 		super(BuildingType.RANCH, numAllowedWorker);
-		buttonBackground = Singleton.getInstance(ResourceManager.class).findTextureRegion("background_button");
+		buttonBackground = Singleton.getInstance(ResourceManager.class).createTextureRegion("background_button");
 		width = ProcessBar.PREFERED_WIDTH + LABEL_WIDTH + MARGIN * 2;
 		height = LABEL_HEIGHT * 2 + WorkerGroup.HEIGHT + MARGIN * 2;
 		setSize(width, height);

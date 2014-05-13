@@ -1,5 +1,9 @@
 package com.TownSimulator.ai.behaviortree;
 
-public interface ActionNode extends BehaviorTreeNode{
+public abstract class ActionNode implements BehaviorTreeNode{
 
+	@Override
+	public void destroy() {
+		
+	}
 }

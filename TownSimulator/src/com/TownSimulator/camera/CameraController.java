@@ -152,9 +152,25 @@ public class CameraController extends SingletonPublisher<CameraListener>{
 		mCamera.project(posW);
 	}
 	
+	public void worldToScreen(Vector2 posS)
+	{
+		Vector3 pos3 = new Vector3(posS, 0.0f);
+		worldToScreen(pos3);
+		posS.x = pos3.x;
+		posS.y = pos3.y;
+	}
+	
 	public void screenToWorld(Vector3 posS)
 	{
 		mCamera.unproject(posS);
+	}
+	
+	public void screenToWorld(Vector2 posS)
+	{
+		Vector3 pos3 = new Vector3(posS, 0.0f);
+		screenToWorld(pos3);
+		posS.x = pos3.x;
+		posS.y = pos3.y;
 	}
 	
 	public float screenToWorldDeltaX(float deltaX)

@@ -76,7 +76,7 @@ public class Driver extends SingletonPublisher<DriverListener> implements Applic
 		
 		FellingHouse fellingHouse = (FellingHouse)EntityFactory.createBuilding(BuildingType.FELLING_HOUSE);
 		fellingHouse.setState(Building.State.Constructed);
-		fellingHouse.setPositionWorld(originPosX - 12 * Settings.UNIT, originPoxY - 8 * Settings.UNIT);
+		fellingHouse.setPositionWorld(originPosX - 12 * Settings.UNIT, originPoxY - 12 * Settings.UNIT);
 		EntityInfoCollector.getInstance(EntityInfoCollector.class).addBuilding(fellingHouse);
 		CollisionDetector.getInstance(CollisionDetector.class).attachCollisionDetection(fellingHouse);
 		Renderer.getInstance(Renderer.class).attachDrawScissor(fellingHouse);
@@ -127,7 +127,12 @@ public class Driver extends SingletonPublisher<DriverListener> implements Applic
 //			@Override
 //			public boolean touchDown(float screenX, float screenY, int pointer,
 //					int button) {
-//				UIManager.getInstance(UIManager.class).getGameUI().getMessageBoard().showMessage("Hello Wolrd!");
+//				Vector2 pos = new Vector2(screenX, screenY);
+//				CameraController.getInstance(CameraController.class).screenToWorld(pos);
+////				TextureRegion tex = ResourceManager.getInstance(ResourceManager.class).createTextureRegion("particle_rect");
+////				BounceParticle.create(pos, new Vector2(100.0f, 0.0f), new Vector2(0.0f, -Settings.UNIT * 4), new Vector2(10.0f, 10.0f), Color.ORANGE, 3.0f, tex,
+////						pos.y - Settings.UNIT);
+//				RandomJetBounceParticleSystem.createRectPartlces(pos, 0.0f, (float)Math.PI, 100.0f, 100.0f, Color.ORANGE, pos.y - Settings.UNIT, 4);
 //				return true;
 //			}
 //			
@@ -138,10 +143,6 @@ public class Driver extends SingletonPublisher<DriverListener> implements Applic
 			float ranxY = (rand.nextFloat() - 0.5f) * Settings.UNIT * 6;
 			Man man = new Man();
 			man.setPositionWorld(originPosX + randX, originPoxY + ranxY);
-			//fellingHouse.addWorker(man);
-			//man.setBehavior(new FellingBTN(man));
-//			farmHouse.addWorker(man);
-//			man.setBehavior(new FarmerBTN(man));
 			EntityInfoCollector.getInstance(EntityInfoCollector.class).addMan(man);
 			
 			Renderer.getInstance(Renderer.class).attachDrawScissor(man);

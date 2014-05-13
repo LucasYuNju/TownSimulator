@@ -48,7 +48,7 @@ public class ConstructionWindow extends UndockedWindow{
 	
 	public ConstructionWindow(BuildingType buildingType, List<Resource> resources, int numAllowedBuilder) {
 		super(buildingType);
-		background = Singleton.getInstance(ResourceManager.class).findTextureRegion("background");
+		background = Singleton.getInstance(ResourceManager.class).createTextureRegion("background");
 		this.resources = resources;
 		//初始化顺序matters
 		//1

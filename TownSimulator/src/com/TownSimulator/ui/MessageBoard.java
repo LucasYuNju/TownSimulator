@@ -20,7 +20,7 @@ public class MessageBoard extends Actor{
 	private static final 	float 				HEIGHT 			= (LINE_HEIGHT + MARGIN) * lines + MARGIN;
 	private static final 	float 				BASE_ALPHA 		= Settings.UI_ALPHA;
 	private static final 	float 				SHOW_TIME 		= 10.0f;
-	private static final	TextureRegion 		background 		= ResourceManager.getInstance(ResourceManager.class).findTextureRegion("background");
+	private static final	TextureRegion 		background 		= ResourceManager.getInstance(ResourceManager.class).createTextureRegion("background");
 	private static final	BitmapFont 			font 			= ResourceManager.getInstance(ResourceManager.class).getFont((int)LINE_HEIGHT);
 	private 			 	float 				drawAlpha 		= 0.0f;
 	private 			 	float 				showTimeAccum 	= 0.0f;

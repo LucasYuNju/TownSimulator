@@ -12,7 +12,6 @@ import com.TownSimulator.render.Renderer;
 import com.TownSimulator.utility.Animation;
 import com.TownSimulator.utility.ResourceManager;
 import com.TownSimulator.utility.Settings;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
 
 public class Man extends Entity{
@@ -82,31 +81,36 @@ public class Man extends Entity{
 		mAnimesMap = new HashMap<ManAnimeType, Animation>();
 		mAnimesMapFlipped = new HashMap<ManAnimeType, Animation>();
 		
-		Animation standAnime = new Animation(0.0f);
-		standAnime.addSprite(ResourceManager.getInstance(ResourceManager.class).createSprite("pixar_man_1"));
+		Animation standAnime = new Animation();
+		standAnime.addFrame("pixar_man_1", 0.0f);
 		mAnimesMap.put(ManAnimeType.STANDING, standAnime);
 		
-		Animation moveAnime = new Animation(0.2f);
-		moveAnime.addSprite(ResourceManager.getInstance(ResourceManager.class).createSprite("pixar_man_1"));
-		moveAnime.addSprite(ResourceManager.getInstance(ResourceManager.class).createSprite("pixar_man_2"));
+		Animation moveAnime = new Animation();
+		moveAnime.addFrame("pixar_man_1", 0.1f);
+		moveAnime.addFrame("pixar_man_2", 1.0f);
 		mAnimesMap.put(ManAnimeType.MOVE, moveAnime);
 		
-		Animation dieAnime = new Animation(0.0f);
-		dieAnime.addSprite(ResourceManager.getInstance(ResourceManager.class).createSprite("man_dead"));
+		Animation dieAnime = new Animation();
+		dieAnime.addFrame("man_dead", 0.0f);
 		mAnimesMap.put(ManAnimeType.DIE, dieAnime);
+		
+		Animation workAnime = new Animation();
+		workAnime.addFrame("pixar_man_1", 0.1f);
+		workAnime.addFrame("pixar_man_2", 1.0f);
+		mAnimesMap.put(ManAnimeType.WORK, workAnime);
 		
 		Iterator<ManAnimeType> itr = mAnimesMap.keySet().iterator();
 		while(itr.hasNext())
 		{
 			ManAnimeType key = itr.next();
 			Animation anime = mAnimesMap.get(key);
-			Animation animeFlip = new Animation(anime.getFrameInterval());
-			for (Sprite sp : anime.getSprites()) {
-				Sprite spFlip = new Sprite(sp);
-				spFlip.flip(true, false);
-				animeFlip.addSprite(spFlip);
-			}
-			mAnimesMapFlipped.put(key, animeFlip);
+//			Animation animeFlip = new Animation();
+//			for (AnimeFrame frame : anime.getFrames()) {
+//				Sprite spFlip = new Sprite(sp);
+//				spFlip.flip(true, false);
+//				animeFlip.addFrame(spFlip);
+//			}
+			mAnimesMapFlipped.put(key, anime.flip());
 		}
 	}
 	
@@ -139,6 +143,9 @@ public class Man extends Entity{
 
 	public void setBehavior(BehaviorTreeNode behavior)
 	{
+		if(behavior != mBehavior && mBehavior != null)
+			mBehavior.destroy();
+		
 		mBehavior = behavior;
 	}
 	
@@ -187,6 +194,14 @@ public class Man extends Entity{
 	public ManInfo getInfo()
 	{
 		return mInfo;
+	}
+	
+	public Animation getAnimation(ManAnimeType type, boolean flip)
+	{
+		if(flip)
+			return mAnimesMapFlipped.get(type);
+		else
+			return mAnimesMap.get(type);
 	}
 
 	public void updateSprite(float deltaTime)

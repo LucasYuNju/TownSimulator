@@ -1,7 +1,7 @@
 package com.TownSimulator.entity.building;
 
 import com.TownSimulator.ai.behaviortree.BehaviorTreeNode;
-import com.TownSimulator.ai.btnimpls.lumerjack.FellingBTN;
+import com.TownSimulator.ai.btnimpls.lumerjack.LumerJackBTN;
 import com.TownSimulator.entity.JobType;
 import com.TownSimulator.entity.Man;
 import com.TownSimulator.entity.Tree;
@@ -23,7 +23,7 @@ public class FellingHouse extends WorkableBuilding {
 			
 			@Override
 			public void renderBegined() {
-				if(isSelected)
+				if(isSelected || getState() == Building.State.PosUnconfirmed)
 					drawRange();
 			}
 		});
@@ -31,8 +31,8 @@ public class FellingHouse extends WorkableBuilding {
 	
 	private void drawRange()
 	{
-		int originGridX = (int)(getPositionXWorld() / Settings.UNIT);
-		int originGridY = (int)(getPositionYWorld() / Settings.UNIT);
+		int originGridX = (int)(mCollisionAABBWorld.getCenterX() / Settings.UNIT);
+		int originGridY = (int)(mCollisionAABBWorld.getCenterY() / Settings.UNIT);
 		for (int x = originGridX - RANGE; x <= originGridX + RANGE; x++) {
 			for (int y = originGridY - RANGE; y <= originGridY + RANGE; y++) {
 				int dstX = Math.abs(x - originGridX);
@@ -49,8 +49,8 @@ public class FellingHouse extends WorkableBuilding {
 	
 	public boolean isInRange(Tree tree)
 	{
-		int originGridX = (int)(getPositionXWorld() / Settings.UNIT);
-		int originGridY = (int)(getPositionYWorld() / Settings.UNIT);
+		int originGridX = (int)(mCollisionAABBWorld.getCenterX() / Settings.UNIT);
+		int originGridY = (int)(mCollisionAABBWorld.getCenterY() / Settings.UNIT);
 		int x = (int)(tree.getPositionXWorld() / Settings.UNIT);
 		int y = (int)(tree.getPositionYWorld() / Settings.UNIT);
 		int dstX = Math.abs(x - originGridX);
@@ -69,7 +69,7 @@ public class FellingHouse extends WorkableBuilding {
 	
 	@Override
 	protected BehaviorTreeNode createBehavior(Man man) {
-		return new FellingBTN(man);
+		return new LumerJackBTN(man);
 	}
 
 	@Override

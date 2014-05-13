@@ -8,7 +8,7 @@ import com.TownSimulator.entity.ManAnimeType;
 import com.TownSimulator.utility.quadtree.QuadTreeType;
 import com.badlogic.gdx.math.Vector2;
 
-public class ConstructionExecuteBTN implements ActionNode{
+public class ConstructionExecuteBTN extends ActionNode{
 	public static final float		BUILD_CONTRIBUTE_SPPED = 0.4f;
 	//public static final float	BUILD_CONTRIBUTE_INTERVAL = 2.0f;
 	//private ConstructionInfo		mMan.getInfo().constructionInfo;
