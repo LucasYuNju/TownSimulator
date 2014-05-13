@@ -3,7 +3,6 @@ package com.TownSimulator.driver;
 
 import java.util.Random;
 
-import com.TownSimulator.ai.btnimpls.farmer.FarmerBTN;
 import com.TownSimulator.camera.CameraController;
 import com.TownSimulator.collision.CollisionDetector;
 import com.TownSimulator.entity.EntityFactory;
@@ -11,15 +10,13 @@ import com.TownSimulator.entity.EntityInfoCollector;
 import com.TownSimulator.entity.Man;
 import com.TownSimulator.entity.ResourceInfoCollector;
 import com.TownSimulator.entity.ResourceType;
+import com.TownSimulator.entity.building.Bar;
 import com.TownSimulator.entity.building.Building;
 import com.TownSimulator.entity.building.BuildingType;
-import com.TownSimulator.entity.building.CropType;
-import com.TownSimulator.entity.building.FarmHouse;
-import com.TownSimulator.entity.building.FarmLand;
-import com.TownSimulator.entity.building.FellingHouse;
 import com.TownSimulator.entity.building.CoatFactory;
 import com.TownSimulator.entity.building.FarmHouse;
 import com.TownSimulator.entity.building.FarmLand;
+import com.TownSimulator.entity.building.Hospital;
 import com.TownSimulator.entity.building.Ranch;
 import com.TownSimulator.entity.building.RanchLand;
 import com.TownSimulator.entity.building.Warehouse;
@@ -86,8 +83,21 @@ public class Driver extends SingletonPublisher<DriverListener> implements Applic
 //		CollisionDetector.getInstance(CollisionDetector.class).attachCollisionDetection(fellingHouse);
 //		Renderer.getInstance(Renderer.class).attachDrawScissor(fellingHouse);
 		
+		Hospital hospital = (Hospital)EntityFactory.createBuilding(BuildingType.Hospital);
+		hospital.setState(Building.State.Constructed);
+		hospital.setPositionWorld(originPosX - 16 * Settings.UNIT, originPoxY - 8 * Settings.UNIT);
+		Singleton.getInstance(EntityInfoCollector.class).addBuilding(hospital);
+		Singleton.getInstance(CollisionDetector.class).attachCollisionDetection(hospital);
+		Singleton.getInstance(Renderer.class).attachDrawScissor(hospital);
 
-
+		Bar bar = (Bar)EntityFactory.createBuilding(BuildingType.Bar);
+		bar.setState(Building.State.Constructed);
+		bar.setPositionWorld(originPosX - 20 * Settings.UNIT, originPoxY - 8 * Settings.UNIT);
+		Singleton.getInstance(EntityInfoCollector.class).addBuilding(bar);
+		Singleton.getInstance(CollisionDetector.class).attachCollisionDetection(bar);
+		Singleton.getInstance(Renderer.class).attachDrawScissor(bar);
+		
+		
 		CoatFactory coatFactory = (CoatFactory)EntityFactory.createBuilding(BuildingType.COAT_FACTORY);
 		coatFactory.setState(Building.State.Constructed);
 		coatFactory.setPositionWorld(originPosX - 8 * Settings.UNIT, originPoxY - 8 * Settings.UNIT);

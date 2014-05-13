@@ -22,13 +22,18 @@ public class ManInfo {
 	public float			hungerPoints = HUNGER_POINTS_MAX;
 	public boolean			isDead = false;
 	
-	private static final int MAX_AGE = 100;
-	private static final int ADULT_AGE = 10;
+	private static final float MAX_AGE = 100;
+	private static final float ADULT_AGE = 10;
+	private static final float MAX_HEALTH_DEGREE = 100;
+	private static final float SICK_HEALTH_DEGREE = 40;		//住院
+	private static final float HEALTHY_HEALTH_DEGREE = 70;	//出院
+	private static final float TREAMENT = 0.001f;
 	private static List<String> namePool;
 	private Gender gender;
 	private String name;
 	private int age;
-
+	private float healthDegree;
+	
 	@Deprecated
 	public ManInfo() {
 		this((int)(Math.random() * MAX_AGE), Gender.Male);
@@ -38,8 +43,35 @@ public class ManInfo {
 		this.age = age;
 		this.gender = gender;
 		name = getRandomName();
+		healthDegree = 10f;
 	}
 	
+	//healthDeredd转化成0~5
+	public float getHealthDegree() {
+//		return (int) (healthDegree / 20 + 0.5f);
+		return healthDegree;
+	}
+	
+	public boolean isSick() {
+		return healthDegree <= SICK_HEALTH_DEGREE;
+	}
+	
+	/**
+	 * 是否足够出院
+	 */
+	public boolean isHealthy() {
+		return healthDegree >= HEALTHY_HEALTH_DEGREE;
+	}
+	
+	public void addHealthDegree() {
+		healthDegree +=TREAMENT;
+	}
+	
+	//默认减1
+	public void decreaseHealth() {
+		healthDegree -= 1;
+	}
+
 	public boolean isAdult() {
 		return age >= ADULT_AGE;
 	}
@@ -107,6 +139,15 @@ public class ManInfo {
 		list.add(getAge() + "");
 		return list;
 	}
+	
+	public List<String> toPatientStringList() {
+		List<String> list = new ArrayList<String>();
+		list.add(getName());
+		list.add(getGender().toString());
+		list.add(getAge() + "");
+		list.add(getHealthDegree() + "");
+		return list;
+	}	
 
 	static {
 		initNamePool();

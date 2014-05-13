@@ -72,7 +72,7 @@ public class EntityInfoCollector extends Singleton{
 		buildingsList.removeValue(building, false);
 	}
 	
-	public Array<Building> getBuildingWithType(BuildingType type)
+	public Array<Building> getBuildings(BuildingType type)
 	{
 		if( !buildingsMap.containsKey(type) )
 			buildingsMap.put(type, new Array<Building>());
@@ -122,7 +122,7 @@ public class EntityInfoCollector extends Singleton{
 			return null;
 		
 		WareHouseFindResult result = new WareHouseFindResult();
-		Array<Building> allBuildings = getBuildingWithType(BuildingType.WAREHOUSE);
+		Array<Building> allBuildings = getBuildings(BuildingType.WAREHOUSE);
 		Array<Warehouse> wareHouseWithRs = new Array<Warehouse>();
 		double dstMin = -1.0f;
 		for (int i = 0; i < allBuildings.size; i++) {

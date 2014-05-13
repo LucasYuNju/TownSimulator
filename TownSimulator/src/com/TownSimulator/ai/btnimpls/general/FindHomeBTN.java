@@ -7,6 +7,7 @@ import com.TownSimulator.ai.behaviortree.SequenceNode;
 import com.TownSimulator.entity.EntityInfoCollector;
 import com.TownSimulator.entity.Man;
 import com.TownSimulator.entity.building.Building;
+import com.TownSimulator.entity.building.BuildingType;
 import com.TownSimulator.entity.building.LivingHouse;
 
 public class FindHomeBTN extends SequenceNode{
@@ -21,7 +22,7 @@ public class FindHomeBTN extends SequenceNode{
 	private LivingHouse findHome()
 	{
 		for (Building building : EntityInfoCollector.getInstance(EntityInfoCollector.class).getAllBuildings()) {
-			if(building instanceof LivingHouse)
+			if(building.getType() == BuildingType.LOW_COST_HOUSE || building.getType() == BuildingType.APARTMENT)
 			{
 				LivingHouse house = (LivingHouse)building;
 				if(house.hasAvailableRoom())

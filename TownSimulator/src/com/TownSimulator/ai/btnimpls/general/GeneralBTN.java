@@ -15,8 +15,9 @@ public class GeneralBTN extends SelectorNode{
 	
 	private void init()
 	{
-		this.addNode( new FindHomeBTN(man) )
-			.addNode( new FindFoodBTN(man) );
+		addNode(new FindHomeBTN(man));
+		addNode(new FindFoodBTN(man));
+		addNode(new SeeADoctorBTN(man));
 	}
 	
 }
