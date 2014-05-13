@@ -24,15 +24,21 @@ public class ManInfo {
 	
 	private static final float MAX_AGE = 100;
 	private static final float ADULT_AGE = 10;
-	private static final float MAX_HEALTH_DEGREE = 100;
-	private static final float SICK_HEALTH_DEGREE = 40;		//住院
-	private static final float HEALTHY_HEALTH_DEGREE = 70;	//出院
-	private static final float TREAMENT = 0.001f;
+	
+	private static final float MAX_HEALTH_POINTS = 100;
+	private static final float SICK_HEALTH_POINTS = 40;				//住院
+	private static final float HEALTHY_HEALTH_POINTS = 70;			//出院
+	private static final float HEALTH_POINTS_INCREMENT = 0.001f;
+
+	private static final float MAX_HAPPINESS_POINTS = 100;
+	private static final float DEPRESSED_HAPPINESS_POINTS = 50;		//去酒吧
+	private static final float HAPPINESS_POINTS_INCREMENT = 10;
 	private static List<String> namePool;
 	private Gender gender;
 	private String name;
 	private int age;
 	private float healthDegree;
+	private float happinessDegree;
 	
 	@Deprecated
 	public ManInfo() {
@@ -44,27 +50,38 @@ public class ManInfo {
 		this.gender = gender;
 		name = getRandomName();
 		healthDegree = 10f;
+		happinessDegree = MAX_HAPPINESS_POINTS;
+	}
+	
+	public boolean isDepressed() {
+		return happinessDegree < DEPRESSED_HAPPINESS_POINTS;
+	}
+	
+	public void addHappinessPoints() {
+		happinessDegree += HAPPINESS_POINTS_INCREMENT;
+		if(happinessDegree > MAX_HAPPINESS_POINTS)
+			happinessDegree = MAX_HAPPINESS_POINTS;
 	}
 	
 	//healthDeredd转化成0~5
-	public float getHealthDegree() {
+	public float getHealthPoints() {
 //		return (int) (healthDegree / 20 + 0.5f);
 		return healthDegree;
 	}
 	
 	public boolean isSick() {
-		return healthDegree <= SICK_HEALTH_DEGREE;
+		return healthDegree <= SICK_HEALTH_POINTS;
 	}
 	
 	/**
 	 * 是否足够出院
 	 */
 	public boolean isHealthy() {
-		return healthDegree >= HEALTHY_HEALTH_DEGREE;
+		return healthDegree >= HEALTHY_HEALTH_POINTS;
 	}
 	
-	public void addHealthDegree() {
-		healthDegree +=TREAMENT;
+	public void addHealthPoints() {
+		healthDegree +=HEALTH_POINTS_INCREMENT;
 	}
 	
 	//默认减1
@@ -145,7 +162,7 @@ public class ManInfo {
 		list.add(getName());
 		list.add(getGender().toString());
 		list.add(getAge() + "");
-		list.add(getHealthDegree() + "");
+		list.add(getHealthPoints() + "");
 		return list;
 	}	
 

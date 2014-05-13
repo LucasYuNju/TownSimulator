@@ -30,7 +30,7 @@ public class SeeADoctorBTN extends SequenceNode{
 				Hospital hospital;
 				if((hospital=getAdmittedHospital()) != null) {
 					if(!man.getInfo().isHealthy()) {
-						man.getInfo().addHealthDegree();
+						man.getInfo().addHealthPoints();
 						hospital.updateViewWindow();
 						return ExecuteResult.RUNNING;
 					}
