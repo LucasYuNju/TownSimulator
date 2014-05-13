@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.TownSimulator.entity.Resource;
 import com.TownSimulator.entity.building.BuildingType;
+import com.TownSimulator.ui.MessageBoard;
 import com.TownSimulator.ui.StateBar;
 import com.TownSimulator.ui.base.ScreenUIBase;
 import com.TownSimulator.ui.building.adjust.BuildingAdjustGroup;
@@ -26,6 +27,7 @@ public class GameScreenUI extends ScreenUIBase{
 	private BuildingAdjustGroup	mBuildAjustUI;
 	private List<Actor> windows = new LinkedList<Actor>();
 	private StateBar stateBar;
+	private MessageBoard messageBoard;
 	
 	public GameScreenUI()
 	{
@@ -46,12 +48,20 @@ public class GameScreenUI extends ScreenUIBase{
 		stateBar = new StateBar();
 		stateBar.setVisible(true);
 		mStage.addActor(stateBar);
+		
+		messageBoard = new MessageBoard();
+		mStage.addActor(messageBoard);
 	}
 	
 	public BuildingAdjustGroup getBuildAjustUI()
 	{
 		return mBuildAjustUI;
-	}	
+	}
+	
+	public MessageBoard getMessageBoard()
+	{
+		return messageBoard;
+	}
 	
 //	public ListenableViewWindow createViewWindow(BuildingType type) {
 //		ListenableViewWindow window = null;
