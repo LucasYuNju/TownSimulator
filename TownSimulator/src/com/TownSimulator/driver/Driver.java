@@ -8,6 +8,7 @@ import com.TownSimulator.collision.CollisionDetector;
 import com.TownSimulator.entity.EntityFactory;
 import com.TownSimulator.entity.EntityInfoCollector;
 import com.TownSimulator.entity.Man;
+import com.TownSimulator.entity.ManInfo;
 import com.TownSimulator.entity.ResourceInfoCollector;
 import com.TownSimulator.entity.ResourceType;
 import com.TownSimulator.entity.building.Bar;
@@ -147,14 +148,16 @@ public class Driver extends SingletonPublisher<DriverListener> implements Applic
 //				UIManager.getInstance(UIManager.class).getGameUI().getMessageBoard().showMessage("Hello Wolrd!");
 //				return true;
 //			}
-//			
 //		});
 		
-		for (int i = 0; i < initPepleCnt; i++) {
+		for (int i = 0; i < initPepleCnt * 5; i++) {
 			float randX = (rand.nextFloat() - 0.5f) * Settings.UNIT * 6;
 			float ranxY = (rand.nextFloat() - 0.5f) * Settings.UNIT * 6;
 			Man man = new Man();
 			man.setPositionWorld(originPosX + randX, originPoxY + ranxY);
+			man.getInfo().setHappinessPoints(ManInfo.HAPPINESS_POINTS_DEPRESSED - i + initPepleCnt * 4);
+			man.getInfo().setHealthyPoints(ManInfo.HEALTH_POINTS_SICK);
+//			man.getInfo().setHungryPoints(ManInfo.HEALTH_POINTS_SICK);
 			//fellingHouse.addWorker(man);
 			//man.setBehavior(new FellingBTN(man));
 //			farmHouse.addWorker(man);

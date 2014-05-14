@@ -34,12 +34,6 @@ public class ResourceInfoCollector extends Singleton{
 			return 0;
 	}
 	
-//	private boolean isFood(ResourceType type)
-//	{
-//		return 		type == ResourceType.RS_CORN
-//				||	type == ResourceType.RS_WHEAT;
-//	}
-	
 	public int getFoodAmount()
 	{
 		return foodAmount;

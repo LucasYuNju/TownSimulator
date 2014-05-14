@@ -16,11 +16,9 @@ public class BarViewWindow extends WorkableViewWindow{
 	public BarViewWindow(int numAllowedWorker, int maxWineStorage) {
 		super(BuildingType.Bar, numAllowedWorker);
 		this.maxWineStorage = maxWineStorage;
-		if(getWidth() < LABEL_WIDTH * 3)
-			setSize(LABEL_WIDTH * 3, getHeight() + LABEL_HEIGHT);
-		else
-			setSize(getWidth(), getHeight() + LABEL_HEIGHT);
+		setSize(getWidth(), getHeight() + LABEL_HEIGHT);
 		addLabel();
+		updateLayout();
 	}
 	
 	private void addLabel() {
@@ -46,11 +44,13 @@ public class BarViewWindow extends WorkableViewWindow{
 			addLabel();
 		}
 		else {
+			wineStorageLabel.setText("");
 			wineStorageLabel.setText(getWineStorageText());
 		}
 	}
 	
 	private String getWineStorageText() {
-		return "wine " + wineStorage + "/" + maxWineStorage;
+//		return "wine " + wineStorage + "/" + maxWineStorage;
+		return wineStorage + "/" + maxWineStorage;
 	}
 }

@@ -3,28 +3,32 @@ package com.TownSimulator.entity.building;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.TownSimulator.ai.behaviortree.BehaviorTreeNode;
+import com.TownSimulator.ai.btnimpls.doctor.DoctorNode;
+import com.TownSimulator.entity.JobType;
 import com.TownSimulator.entity.Man;
+import com.TownSimulator.entity.ManInfo;
 import com.TownSimulator.ui.UIManager;
-import com.TownSimulator.ui.building.view.ScrollViewWindow;
-import com.TownSimulator.ui.building.view.UndockedWindow;
+import com.TownSimulator.ui.building.view.HospitalViewWindow;
+import com.TownSimulator.ui.building.view.WorkableViewWindow;
 import com.TownSimulator.utility.Singleton;
 
-public class Hospital extends Building{
+public class Hospital extends WorkableBuilding{
+	private static final int MAX_JOB_CNT = 2;
+	private static final int CAPACITY = 10;
 	private List<Man> patients;
-	private int capacity = 10;
-	private int numPatient = 0;
-	protected ScrollViewWindow scrollWindow;
+	protected HospitalViewWindow hospitalViewWindow;
 	
 	public Hospital() {
-		super("building_hospital", BuildingType.Hospital);
+		super("building_hospital", BuildingType.Hospital, JobType.BARTENDER);
 		patients = new ArrayList<Man>();
+		updateHospitalViewWindow();
 	}
 
 	public boolean addPatient(Man man) {
-		if(numPatient < capacity && man.getInfo().isSick()) {
-			numPatient++;
+		if(hasCapacity() && man.getInfo().isSick()) {
 			patients.add(man);
-			updateViewWindow();
+			updateHospitalViewWindow();
 			return true;
 		}
 		return false;
@@ -36,18 +40,13 @@ public class Hospital extends Building{
 	
 	public void removePatient(Man man) {
 		if(patients.contains(man)) {
-			numPatient--;
 			patients.remove(man);
-			updateViewWindow();
+			updateHospitalViewWindow();
 		}
 	}
 	
 	public boolean hasCapacity() {
-		return numPatient < capacity;
-	}
-	
-	public boolean releasePatient() {
-		return true;
+		return patients.size() < CAPACITY;
 	}
 	
 	public List<List<String>> getViewData() {
@@ -55,17 +54,41 @@ public class Hospital extends Building{
 		for(Man patient : patients) {
 			list.add(patient.getInfo().toPatientStringList());
 		}
+		if(list.isEmpty()) {
+			list.add(ManInfo.getEmptyPatientStringList());
+		}
 		return list;
 	}
 	
 	@Override
-	protected UndockedWindow createUndockedWindow() {
-		scrollWindow = Singleton.getInstance(UIManager.class).getGameUI().createScrollViewWindow(buildingType);
-		return scrollWindow;
+	protected  WorkableViewWindow createWorkableWindow() {
+		hospitalViewWindow = Singleton.getInstance(UIManager.class).getGameUI().createHospitalViewWindow(getMaxJobCnt());
+		return hospitalViewWindow;
+	}
+
+	public void updateHospitalViewWindow() {
+		hospitalViewWindow.updateData(getViewData());
 	}
 
 	@Override
-	public void updateViewWindow() {
-		scrollWindow.updateData(getViewData());
+	protected int getMaxJobCnt() {
+		return MAX_JOB_CNT;
+	}
+
+	@Override
+	protected BehaviorTreeNode createBehavior(Man man) {
+		return new DoctorNode(man);
+	}
+	
+	/**
+	 * man只能属于workers和patients两个列表中的一个
+	 */
+	@Override
+	public void removeWorker(Man man)
+	{
+		super.removeWorker(man);
+		if(patients.remove(man)) {
+			updateHospitalViewWindow();
+		}
 	}
 }

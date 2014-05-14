@@ -11,7 +11,6 @@ import com.TownSimulator.entity.building.BuildingType;
 import com.TownSimulator.entity.building.Hospital;
 import com.TownSimulator.utility.Singleton;
 import com.TownSimulator.utility.quadtree.QuadTreeType;
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.Array;
 
 public class SeeADoctorBTN extends SequenceNode{
@@ -30,8 +29,10 @@ public class SeeADoctorBTN extends SequenceNode{
 				Hospital hospital;
 				if((hospital=getAdmittedHospital()) != null) {
 					if(!man.getInfo().isHealthy()) {
-						man.getInfo().addHealthPoints();
-						hospital.updateViewWindow();
+						if(hospital.getCurWorkerCnt() > 0) {
+							man.getInfo().receiveTreatment();
+							hospital.updateHospitalViewWindow();
+						}
 						return ExecuteResult.RUNNING;
 					}
 					else {
@@ -41,7 +42,6 @@ public class SeeADoctorBTN extends SequenceNode{
 				}
 				if (man.getInfo().isSick()) {
 					if((hospital=getEmptyHospital()) != null) {
-						
 						float destX = hospital.getAABBWorld(QuadTreeType.COLLISION).getCenterX();
 						float destY = hospital.getAABBWorld(QuadTreeType.COLLISION).getCenterY();
 						man.setMoveDestination(destX, destY);

@@ -13,6 +13,7 @@ import com.TownSimulator.ui.building.construction.ConstructionWindow;
 import com.TownSimulator.ui.building.selector.BuildComsUI;
 import com.TownSimulator.ui.building.view.BarViewWindow;
 import com.TownSimulator.ui.building.view.FarmViewWindow;
+import com.TownSimulator.ui.building.view.HospitalViewWindow;
 import com.TownSimulator.ui.building.view.RanchViewWindow;
 import com.TownSimulator.ui.building.view.ScrollViewWindow;
 import com.TownSimulator.ui.building.view.WorkableViewWindow;
@@ -141,10 +142,17 @@ public class GameScreenUI extends ScreenUIBase{
 	}
 	
 	public BarViewWindow createBarViewWindow(int numAllowedWorker, int maxWineStorage) {
-		BarViewWindow barViewWindow = new BarViewWindow(numAllowedWorker, maxWineStorage);
-		mStage.addActor(barViewWindow);
-		windows.add(barViewWindow);
-		return barViewWindow;
+		BarViewWindow window = new BarViewWindow(numAllowedWorker, maxWineStorage);
+		mStage.addActor(window);
+		windows.add(window);
+		return window;
+	}
+	
+	public HospitalViewWindow createHospitalViewWindow(int numAllowedWorker) {
+		HospitalViewWindow window = new HospitalViewWindow(numAllowedWorker);
+		mStage.addActor(window);
+		windows.add(window);
+		return window;
 	}
 	
 	public void hideAllWindow() {

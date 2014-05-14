@@ -18,6 +18,6 @@ public class GeneralBTN extends SelectorNode{
 		addNode(new FindHomeBTN(man));
 		addNode(new FindFoodBTN(man));
 		addNode(new SeeADoctorBTN(man));
+		addNode(new DrinkBTN(man));
 	}
-	
 }

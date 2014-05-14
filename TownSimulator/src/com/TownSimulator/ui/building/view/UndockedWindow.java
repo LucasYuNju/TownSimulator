@@ -20,11 +20,9 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.Align;
 
 /**
- * 
  * 能跟随地图移动
- * 添加关闭按钮
- * 添加建筑名
- *
+ * <p>添加关闭按钮
+ * <p>添加建筑名
  */
 public class UndockedWindow extends Group{
 	protected float buildingPosXWorld;
@@ -33,6 +31,7 @@ public class UndockedWindow extends Group{
 	public static final float LABEL_WIDTH = Settings.LABEL_WIDTH;
 	public static final float LABEL_HEIGHT = Settings.LABEL_HEIGHT;
 	public static final float ICON_WIDTH = Settings.LABEL_WIDTH;
+	public static final float MIN_WIDTH = LABEL_WIDTH * 2.5f;
 	protected BuildingType buildingType;
 	protected TextureRegion background;
 	protected Button closeButton;
@@ -95,7 +94,10 @@ public class UndockedWindow extends Group{
 			headerLabel.setPosition(MARGIN, getHeight() - LABEL_HEIGHT);
 		}
 	}
-
+	
+	/**
+	 * 更新组件位置
+	 */
 	protected void updateLayout()
 	{
 		closeButton.setPosition(getWidth() - closeButton.getWidth(), getHeight() - closeButton.getHeight());

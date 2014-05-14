@@ -7,6 +7,10 @@ import com.TownSimulator.ai.btnimpls.construct.ConstructionInfo;
 import com.TownSimulator.entity.building.LivingHouse;
 import com.TownSimulator.entity.building.WorkableBuilding;
 
+/**
+ * 全public大丈夫T T
+ * 
+ */
 public class ManInfo {
 	public ManAnimeType 	animeType = ManAnimeType.STANDING;
 	public boolean 			animeFlip = false;
@@ -25,20 +29,20 @@ public class ManInfo {
 	private static final float MAX_AGE = 100;
 	private static final float ADULT_AGE = 10;
 	
-	private static final float MAX_HEALTH_POINTS = 100;
-	private static final float SICK_HEALTH_POINTS = 40;				//住院
-	private static final float HEALTHY_HEALTH_POINTS = 70;			//出院
-	private static final float HEALTH_POINTS_INCREMENT = 0.001f;
+	private static final float HEALTH_POINTS_MAX = 100;
+	public static final float HEALTH_POINTS_SICK = 40;				//住院
+	private static final float HEALTH_POINTS_HEALTHY = 70;			//出院
+	private static final float HEALTH_POINTS_INCREMENT = 0.005f;
 
-	private static final float MAX_HAPPINESS_POINTS = 100;
-	private static final float DEPRESSED_HAPPINESS_POINTS = 50;		//去酒吧
-	private static final float HAPPINESS_POINTS_INCREMENT = 10;
+	private static final float HAPPINESS_POINTS_MAX = 100;
+	public static final float HAPPINESS_POINTS_DEPRESSED = 50;		//去酒吧
+	private static final float HAPPINESS_POINTS_PER_WINE = 10;
 	private static List<String> namePool;
 	private Gender gender;
 	private String name;
 	private int age;
-	private float healthDegree;
-	private float happinessDegree;
+	private float healthPoints;
+	private float happinessPoints;
 	
 	@Deprecated
 	public ManInfo() {
@@ -49,44 +53,52 @@ public class ManInfo {
 		this.age = age;
 		this.gender = gender;
 		name = getRandomName();
-		healthDegree = 10f;
-		happinessDegree = MAX_HAPPINESS_POINTS;
+		healthPoints = HEALTH_POINTS_MAX;
+		happinessPoints = HAPPINESS_POINTS_MAX;
+	}
+	
+	public void setHappinessPoints(float points) {
+		happinessPoints = points;
+	}
+	
+	public void setHealthyPoints(float points) {
+		healthPoints = points;
 	}
 	
 	public boolean isDepressed() {
-		return happinessDegree < DEPRESSED_HAPPINESS_POINTS;
+		return happinessPoints <= HAPPINESS_POINTS_DEPRESSED;
 	}
 	
-	public void addHappinessPoints() {
-		happinessDegree += HAPPINESS_POINTS_INCREMENT;
-		if(happinessDegree > MAX_HAPPINESS_POINTS)
-			happinessDegree = MAX_HAPPINESS_POINTS;
+	public void drinkWine() {
+		happinessPoints += HAPPINESS_POINTS_PER_WINE;
+		if(happinessPoints > HAPPINESS_POINTS_MAX)
+			happinessPoints = HAPPINESS_POINTS_MAX;
 	}
 	
 	//healthDeredd转化成0~5
 	public float getHealthPoints() {
 //		return (int) (healthDegree / 20 + 0.5f);
-		return healthDegree;
+		return healthPoints;
 	}
 	
 	public boolean isSick() {
-		return healthDegree <= SICK_HEALTH_POINTS;
+		return healthPoints <= HEALTH_POINTS_SICK;
 	}
 	
 	/**
 	 * 是否足够出院
 	 */
 	public boolean isHealthy() {
-		return healthDegree >= HEALTHY_HEALTH_POINTS;
+		return healthPoints >= HEALTH_POINTS_HEALTHY;
 	}
 	
-	public void addHealthPoints() {
-		healthDegree +=HEALTH_POINTS_INCREMENT;
+	public void receiveTreatment() {
+		healthPoints += HEALTH_POINTS_INCREMENT;
 	}
 	
 	//默认减1
 	public void decreaseHealth() {
-		healthDegree -= 1;
+		healthPoints -= 1;
 	}
 
 	public boolean isAdult() {
@@ -149,11 +161,19 @@ public class ManInfo {
 		}
 	}
 	
-	public List<String> toStringList() {
+	public List<String> toResidentStringList() {
 		List<String> list = new ArrayList<String>();
 		list.add(getName());
 		list.add(getGender().toString());
 		list.add(getAge() + "");
+		return list;
+	}
+
+	public static List<String> getEmptyResidentStringList() {
+		List<String> list = new ArrayList<String>();
+		list.add("");
+		list.add("");
+		list.add("");
 		return list;
 	}
 	
@@ -165,6 +185,16 @@ public class ManInfo {
 		list.add(getHealthPoints() + "");
 		return list;
 	}	
+	
+	//便于hospital的viewWindow初始化宽度
+	public static List<String> getEmptyPatientStringList() {
+		List<String> list = new ArrayList<String>();
+		list.add("");
+		list.add("");
+		list.add("");
+		list.add("");
+		return list;		
+	}
 
 	static {
 		initNamePool();
