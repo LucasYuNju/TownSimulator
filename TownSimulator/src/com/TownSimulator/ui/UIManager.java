@@ -3,28 +3,39 @@ package com.TownSimulator.ui;
 
 import com.TownSimulator.driver.Driver;
 import com.TownSimulator.driver.DriverListenerBaseImpl;
-import com.TownSimulator.entity.World;
 import com.TownSimulator.io.InputMgr;
 import com.TownSimulator.io.InputMgrListenerBaseImpl;
-import com.TownSimulator.map.Map;
-import com.TownSimulator.render.Renderer;
 import com.TownSimulator.ui.base.ScreenUIBase;
 import com.TownSimulator.ui.screen.GameScreenUI;
+import com.TownSimulator.ui.screen.LoadingScreenUI;
+import com.TownSimulator.ui.screen.LoadingScreenUI.LoadingUIListener;
 import com.TownSimulator.ui.screen.StartScreenUI;
 import com.TownSimulator.ui.screen.StartScreenUI.StartUIListener;
 import com.TownSimulator.utility.Singleton;
 
 public class UIManager extends Singleton implements StartUIListener{
 	private StartScreenUI 	mStartUI;
+	private LoadingScreenUI mLoadingUI;
 	private GameScreenUI	mGameUI;
 	private ScreenUIBase	mCurScreenUI;
 	
 	private UIManager()
 	{
 		mStartUI = new StartScreenUI();
-		mGameUI = new GameScreenUI();
-		mCurScreenUI = mStartUI;
 		mStartUI.setListner(this);
+		
+		mLoadingUI = new LoadingScreenUI();
+		mLoadingUI.setListener(new LoadingUIListener() {
+			
+			@Override
+			public void loadingFinish() {
+				mCurScreenUI = mGameUI;
+			}
+		});
+		
+		mGameUI = new GameScreenUI();
+		
+		mCurScreenUI = mStartUI;
 		//VoicePlayer.playMusic("start.mp3");
 		
 		Driver.getInstance(Driver.class).addListener(new DriverListenerBaseImpl()
@@ -69,7 +80,6 @@ public class UIManager extends Singleton implements StartUIListener{
 			
 		});
 		
-		
 	}
 	
 	public GameScreenUI getGameUI()
@@ -85,11 +95,13 @@ public class UIManager extends Singleton implements StartUIListener{
 	@Override
 	public void startGame() 
 	{
-		mCurScreenUI = mGameUI;
-		Map.getInstance(Map.class).init(100);
-		Renderer.getInstance(Renderer.class).setRenderScene(true);
-		Driver.getInstance(Driver.class).init();
-		World.getInstance(World.class).init();
+		mLoadingUI.startLoading();
+		mCurScreenUI = mLoadingUI;
+//		mCurScreenUI = mGameUI;
+//		Map.getInstance(Map.class).init(100);
+//		Renderer.getInstance(Renderer.class).setRenderScene(true);
+//		Driver.getInstance(Driver.class).init();
+//		World.getInstance(World.class).init();
 		
 		//VoicePlayer.playMusic("game.mp3");
 

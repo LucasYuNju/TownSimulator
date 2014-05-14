@@ -43,12 +43,6 @@ public class StartScreenUI extends ScreenUIBase {
 			@Override
 			public boolean touchDown(InputEvent event, float x, float y,
 					int pointer, int button) {
-//				if(mListner != null)
-//				{
-//					mListner.startGame();
-//					return true;
-//				}
-//				return false;
 				return true;
 			}
 			
@@ -73,7 +67,21 @@ public class StartScreenUI extends ScreenUIBase {
 		mButtonList.add(mScoreButton);
 		
 		mQuitButton = new FlipButton("button_up", "button_down", "Quit");
-		mQuitButton.setSize(mButtonWidth, mButtonHeight );	
+		mQuitButton.setSize(mButtonWidth, mButtonHeight );
+		mQuitButton.addListener(new InputListener()
+		{
+			@Override
+			public boolean touchDown(InputEvent event, float x, float y,
+					int pointer, int button) {
+				return true;
+			}
+			
+			@Override
+			public void touchUp(InputEvent event, float x, float y,
+					int pointer, int button) {
+				Gdx.app.exit();
+			}
+		});
 		mButtonList.add(mQuitButton);
 		
 		updateLayout();
