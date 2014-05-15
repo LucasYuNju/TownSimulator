@@ -7,6 +7,9 @@ import com.TownSimulator.driver.DriverListenerBaseImpl;
 import com.TownSimulator.entity.JobType;
 import com.TownSimulator.entity.Man;
 import com.TownSimulator.entity.World;
+import com.TownSimulator.ui.UIManager;
+import com.TownSimulator.ui.building.view.SchoolViewWindow;
+import com.TownSimulator.ui.building.view.WorkableViewWindow;
 
 public class School extends WorkableBuilding{
 	
@@ -15,10 +18,12 @@ public class School extends WorkableBuilding{
 	private boolean isTeacherWork;
 	public static final int SingleSchoolStudentNum=30;
 	private int currentStudentNum;
+	private SchoolViewWindow schoolViewWindow;
 	
 	public School(){
-		super("", BuildingType.SCHOOL,JobType.TEACHER);
+		super("building_bar", BuildingType.SCHOOL,JobType.TEACHER);
 		currentStudentNum=0;
+		schoolViewWindow=(SchoolViewWindow)undockedWindow;
 	}
 
 	@Override
@@ -71,6 +76,20 @@ public class School extends WorkableBuilding{
 			});
 		}
 	}
+	
+	
+
+	@Override
+	protected WorkableViewWindow createWorkableWindow() {
+		// TODO Auto-generated method stub
+		return UIManager.getInstance(UIManager.class).getGameUI().createSchoolViewWindow(getMaxJobCnt());
+	}
+
+	@Override
+	public void updateViewWindow() {
+		// TODO Auto-generated method stub
+		schoolViewWindow.updateStudentNum();
+	}
 
 	public int getCurrentStudentNum() {
 		return currentStudentNum;
@@ -78,7 +97,10 @@ public class School extends WorkableBuilding{
 
 	public void growCurrentStudentNum() {
 		this.currentStudentNum++;
+		updateViewWindow();
 	}
+	
+	
 	
 
 }

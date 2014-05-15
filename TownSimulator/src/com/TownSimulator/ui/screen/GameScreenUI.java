@@ -14,6 +14,7 @@ import com.TownSimulator.ui.building.selector.BuildComsUI;
 import com.TownSimulator.ui.building.view.BarViewWindow;
 import com.TownSimulator.ui.building.view.FarmViewWindow;
 import com.TownSimulator.ui.building.view.RanchViewWindow;
+import com.TownSimulator.ui.building.view.SchoolViewWindow;
 import com.TownSimulator.ui.building.view.ScrollViewWindow;
 import com.TownSimulator.ui.building.view.WorkableViewWindow;
 import com.TownSimulator.ui.building.view.WorkableWithTipsWindow;
@@ -146,6 +147,13 @@ public class GameScreenUI extends ScreenUIBase{
 		mStage.addActor(barViewWindow);
 		windows.add(barViewWindow);
 		return barViewWindow;
+	}
+	
+	public SchoolViewWindow createSchoolViewWindow(int numAllowedWorker){
+		SchoolViewWindow schoolViewWindow=new SchoolViewWindow(numAllowedWorker);
+		mStage.addActor(schoolViewWindow);
+		windows.add(schoolViewWindow);
+		return schoolViewWindow;
 	}
 	
 	public void hideAllWindow() {

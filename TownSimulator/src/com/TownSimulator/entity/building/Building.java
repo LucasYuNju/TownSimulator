@@ -57,7 +57,7 @@ public abstract class Building extends Entity
 		constructionWindow = UIManager.getInstance(UIManager.class).getGameUI().createConstructionWindow(buildingType, constructionResources, numAllowedBuilder);
 		constructionWindow.setVisible(false);
 		constructionWindow.setConstructionListener(this);
-		undockedWindow = createUndockedWindow();//Singleton.getInstance(UIManager.class).getGameUI().createViewWindow(type);
+		undockedWindow = createUndockedWindow();
 		if(undockedWindow != null)
 			undockedWindow.setVisible(false);
 //		if(viewWindow == null) {

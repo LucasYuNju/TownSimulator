@@ -22,6 +22,7 @@ import com.TownSimulator.entity.building.Hospital;
 import com.TownSimulator.entity.building.PowerStation;
 import com.TownSimulator.entity.building.Ranch;
 import com.TownSimulator.entity.building.RanchLand;
+import com.TownSimulator.entity.building.School;
 import com.TownSimulator.entity.building.Warehouse;
 import com.TownSimulator.io.InputMgr;
 import com.TownSimulator.map.Map;
@@ -93,12 +94,19 @@ public class Driver extends SingletonPublisher<DriverListener> implements Applic
 		Singleton.getInstance(CollisionDetector.class).attachCollisionDetection(hospital);
 		Singleton.getInstance(Renderer.class).attachDrawScissor(hospital);
 
-		Bar bar = (Bar)EntityFactory.createBuilding(BuildingType.Bar);
-		bar.setState(Building.State.Constructed);
-		bar.setPositionWorld(originPosX - 20 * Settings.UNIT, originPoxY - 8 * Settings.UNIT);
-		Singleton.getInstance(EntityInfoCollector.class).addBuilding(bar);
-		Singleton.getInstance(CollisionDetector.class).attachCollisionDetection(bar);
-		Singleton.getInstance(Renderer.class).attachDrawScissor(bar);
+//		Bar bar = (Bar)EntityFactory.createBuilding(BuildingType.Bar);
+//		bar.setState(Building.State.Constructed);
+//		bar.setPositionWorld(originPosX - 20 * Settings.UNIT, originPoxY - 8 * Settings.UNIT);
+//		Singleton.getInstance(EntityInfoCollector.class).addBuilding(bar);
+//		Singleton.getInstance(CollisionDetector.class).attachCollisionDetection(bar);
+//		Singleton.getInstance(Renderer.class).attachDrawScissor(bar);
+		
+		School school=(School)EntityFactory.createBuilding(BuildingType.SCHOOL);
+		school.setState(Building.State.Constructed);
+		school.setPositionWorld(originPosX - 20 * Settings.UNIT, originPoxY - 8 * Settings.UNIT);
+		Singleton.getInstance(EntityInfoCollector.class).addBuilding(school);
+		Singleton.getInstance(CollisionDetector.class).attachCollisionDetection(school);
+		Singleton.getInstance(Renderer.class).attachDrawScissor(school);
 		
 		
 		CoatFactory coatFactory = (CoatFactory)EntityFactory.createBuilding(BuildingType.COAT_FACTORY);

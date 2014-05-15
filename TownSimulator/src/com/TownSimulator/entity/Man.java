@@ -70,6 +70,7 @@ public class Man extends Entity{
 		
 	}
 	
+	@SuppressWarnings("deprecation")
 	private void initInfo()
 	{
 		mInfo = new ManInfo();

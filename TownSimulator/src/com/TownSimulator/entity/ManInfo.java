@@ -25,10 +25,9 @@ public class ManInfo {
 	public boolean			isDead = false;
 	
 	
-	private static final int MAX_AGE = 100;
-	private static final int ADULT_AGE = 10;
-	public static final int MAX_STUDENT_AGE=ADULT_AGE;
-	public static final int MIN_STUDENT_AGE=MAX_STUDENT_AGE-10;
+	private static final int MAX_AGE = 50;
+	public static final int ADULT_AGE = 15;
+	public static final int MIN_STUDENT_AGE=ADULT_AGE-10;
 
 	
 	private static final float MAX_HEALTH_POINTS = 100;
@@ -55,7 +54,7 @@ public class ManInfo {
 		this.age = age;
 		this.gender = gender;
 		name = getRandomName();
-		healthDegree = 10f;
+		healthDegree = MAX_HEALTH_POINTS;
 		happinessDegree = MAX_HAPPINESS_POINTS;
 	}
 	

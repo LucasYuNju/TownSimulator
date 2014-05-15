@@ -49,17 +49,8 @@ public class FarmViewWindow extends WorkableViewWindow{
 		addRowOne();
 		addRowTwo();
 		addRowTree();
-//		builderGroup = new WorkerGroup(5);
-//		builderGroup.setPosition(MARGIN, MARGIN);
-//		addActor(builderGroup);
-
-//=======
-//		workerGroup = new WorkerGroup(5);
-//		workerGroup.setPosition(MARGIN, MARGIN);
-//		addActor(workerGroup);
-//>>>>>>> branch 'master' of https://github.com/LuciusYu/TownSimulator.git
-		addCloseButton();
-		addHeader();
+		
+		updateLayout();
 	}
 	
 	private void addRowOne() {
@@ -179,10 +170,10 @@ public class FarmViewWindow extends WorkableViewWindow{
 		setPosition(windowX, windowY);
 	}
 
-	@Override
-	public void setWorkerGroupListener(WorkerGroupListener workerGroupListener) {
-		workerGroup.setListener(workerGroupListener);
-	}
+//	@Override
+//	public void setWorkerGroupListener(WorkerGroupListener workerGroupListener) {
+//		workerGroup.setListener(workerGroupListener);
+//	}
 
 
 	

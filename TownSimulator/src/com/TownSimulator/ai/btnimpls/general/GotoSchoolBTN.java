@@ -73,23 +73,6 @@ public class GotoSchoolBTN extends SequenceNode{
 		    .addNode(judgeSchoolConstructNode)
 		    .addNode(gotoSchoolNode);
 	}
-
-//	@Override
-//	public ExecuteResult execute(float deltaTime) {
-//		// TODO Auto-generated method stub
-//		if(checkAgeOutSchool(man.getInfo().getAge())){
-//			return ExecuteResult.FALSE;
-//		}
-//		if((!World.getInstance(World.class).isSchoolConstructed())&&(!World.getInstance(World.class).isTeacherWork())){
-//			return ExecuteResult.FALSE;
-//		}
-//		if(checkAgeInSchool(man.getInfo().getAge())){
-//			gotoSchool(deltaTime);
-//			return ExecuteResult.TRUE;
-//		}
-//			
-//		return ExecuteResult.FALSE;
-//	}
 	
 	public void gotoSchool(float deltaTime){
 		School school=EntityInfoCollector.getInstance(EntityInfoCollector.class).
@@ -109,11 +92,11 @@ public class GotoSchoolBTN extends SequenceNode{
 	}
 	
 	public boolean checkAgeInSchool(int age){
-		return (ManInfo.MIN_STUDENT_AGE<=age)&&(age<ManInfo.MAX_STUDENT_AGE);
+		return (ManInfo.MIN_STUDENT_AGE<=age)&&(age<ManInfo.ADULT_AGE);
 	}
 	
 	public boolean checkAgeOutSchool(int age){
-		return (age>=ManInfo.MAX_STUDENT_AGE)||(age<ManInfo.MIN_STUDENT_AGE);
+		return (age>=ManInfo.ADULT_AGE)||(age<ManInfo.MIN_STUDENT_AGE);
 	}
 
 }

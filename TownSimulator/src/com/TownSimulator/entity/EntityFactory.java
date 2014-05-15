@@ -10,6 +10,7 @@ import com.TownSimulator.entity.building.Hospital;
 import com.TownSimulator.entity.building.LowCostHouse;
 import com.TownSimulator.entity.building.PowerStation;
 import com.TownSimulator.entity.building.Ranch;
+import com.TownSimulator.entity.building.School;
 import com.TownSimulator.entity.building.Warehouse;
 //github.com/LuciusYu/TownSimulator.git
 import com.TownSimulator.utility.ResourceManager;
@@ -116,6 +117,15 @@ public class EntityFactory {
 			yGridSize = 2;
 			yDrawScale = 1.5f;
 			building = new Bar();
+			building.setNeededConstructionResource(ResourceType.RS_WOOD, 20);
+			building.setNeededConstructionResource(ResourceType.RS_STONE, 5);
+			building.setNeededConstructionWork(30);
+			break;
+		case SCHOOL:
+			xGridSize=2;
+			yGridSize=2;
+			yDrawScale=1.5f;
+			building=new School();
 			building.setNeededConstructionResource(ResourceType.RS_WOOD, 20);
 			building.setNeededConstructionResource(ResourceType.RS_STONE, 5);
 			building.setNeededConstructionWork(30);
