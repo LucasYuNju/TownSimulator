@@ -4,13 +4,11 @@ import com.TownSimulator.ai.behaviortree.ActionNode;
 import com.TownSimulator.ai.behaviortree.ConditionNode;
 import com.TownSimulator.ai.behaviortree.ExecuteResult;
 import com.TownSimulator.ai.behaviortree.SequenceNode;
-import com.TownSimulator.entity.EntityInfoCollector.BuildingFindResult;
 import com.TownSimulator.entity.EntityInfoCollector;
 import com.TownSimulator.entity.Man;
 import com.TownSimulator.entity.ManAnimeType;
 import com.TownSimulator.entity.ManInfo;
 import com.TownSimulator.entity.World;
-import com.TownSimulator.entity.building.BuildingType;
 import com.TownSimulator.entity.building.School;
 
 public class GotoSchoolBTN extends SequenceNode{

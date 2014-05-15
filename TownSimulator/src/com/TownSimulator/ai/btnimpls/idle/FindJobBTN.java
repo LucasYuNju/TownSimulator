@@ -8,7 +8,7 @@ import com.TownSimulator.entity.ManInfo;
 import com.TownSimulator.entity.building.Building;
 import com.TownSimulator.entity.building.WorkableBuilding;
 
-public class FindJobBTN implements ActionNode{
+public class FindJobBTN extends ActionNode{
 	private Man man;
 	
 	public FindJobBTN(Man man)

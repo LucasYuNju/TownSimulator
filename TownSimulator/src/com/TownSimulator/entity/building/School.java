@@ -4,12 +4,9 @@ import com.TownSimulator.ai.behaviortree.BehaviorTreeNode;
 import com.TownSimulator.ai.btnimpls.teacher.TeacherBTN;
 import com.TownSimulator.driver.Driver;
 import com.TownSimulator.driver.DriverListenerBaseImpl;
-import com.TownSimulator.entity.EntityInfoCollector;
 import com.TownSimulator.entity.JobType;
 import com.TownSimulator.entity.Man;
-import com.TownSimulator.entity.ManInfo;
 import com.TownSimulator.entity.World;
-import com.badlogic.gdx.utils.Array;
 
 public class School extends WorkableBuilding{
 	

@@ -121,7 +121,7 @@ public class ResourceManager extends Singleton{
 		mTexturesMap.put(textureName, mAssetsManager.get("data/" + textureName + ".png", Texture.class));
 	}
 	
-	public TextureRegion findTextureRegion(String textureName)
+	public TextureRegion createTextureRegion(String textureName)
 	{
 		if(!mTexturesMap.containsKey(textureName))
 			loadTexture(textureName);

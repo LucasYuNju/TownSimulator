@@ -20,15 +20,17 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 
 public abstract class Building extends Entity 
 	implements ConstructionWindowListener, WorkerGroupListener{
+	
 	protected List<Resource>			constructionResources;
-	protected int						constructionWork;
-	protected int						finishedConstructionWork;
+	protected float						constructionWork;
+	protected float						finishedConstructionWork;
+	protected State						buildingState;
+	protected BuildingType				buildingType;
+	protected UndockedWindow			undockedWindow;
 	private	  ConstructionProject		constructionProject;
-	protected State						state;
-	protected BuildingType				type;
-	private   int 						numAllowedBuilder = 3;
 	private   ConstructionWindow		constructionWindow;
-	protected   UndockedWindow			undockedWindow;
+	private	  ConstructionProgressBar	constructionProgressBar;
+	private   int 						numAllowedBuilder = 3;
 	
 	public enum State
 	{
@@ -38,21 +40,21 @@ public abstract class Building extends Entity
 	public Building(String textureName, BuildingType type)
 	{
 		super(textureName);
-		this.type = type;
+		this.buildingType = type;
 		init();
 	}
 	
 	public Building(Sprite sp, BuildingType type) {
 		super(sp);
-		this.type = type;
+		this.buildingType = type;
 		init();
 	}
 	
 	private void init()
 	{
-		state = State.PosUnconfirmed;
+		buildingState = State.PosUnconfirmed;
 		constructionResources = new LinkedList<Resource>();
-		constructionWindow = UIManager.getInstance(UIManager.class).getGameUI().createConstructionWindow(type, constructionResources, numAllowedBuilder);
+		constructionWindow = UIManager.getInstance(UIManager.class).getGameUI().createConstructionWindow(buildingType, constructionResources, numAllowedBuilder);
 		constructionWindow.setVisible(false);
 		constructionWindow.setConstructionListener(this);
 		undockedWindow = createUndockedWindow();//Singleton.getInstance(UIManager.class).getGameUI().createViewWindow(type);
@@ -81,7 +83,7 @@ public abstract class Building extends Entity
 	
 	public BuildingType getType()
 	{
-		return type;
+		return buildingType;
 	}
 	
 	public void setNeededConstructionResource(ResourceType type, int need)
@@ -123,21 +125,22 @@ public abstract class Building extends Entity
 		constructionWork = amount;
 	}
 	
-	public int getUnfinishedConstructionWork()
+	public float getUnfinishedConstructionWork()
 	{
 		return constructionWork - finishedConstructionWork;
 	}
 
-	public int getFinishedConstructionWork() 
+	public float getFinishedConstructionWork() 
 	{
 		return finishedConstructionWork;
 	}
 
 	//this method will notify constructionWindow
-	public void doConstructionWork(int amount)
+	public void doConstructionWork(float f)
 	{
-		finishedConstructionWork = Math.min(constructionWork, finishedConstructionWork + amount);
+		finishedConstructionWork = Math.min(constructionWork, finishedConstructionWork + f);
 		constructionWindow.setProcess(getProcess());
+		constructionProgressBar.setProgress(getProcess());
 	}
 	
 	public boolean isConstructionResourceSufficient()
@@ -181,20 +184,20 @@ public abstract class Building extends Entity
 	
 	@Override
 	public boolean detectTouchDown() {
-		return super.detectTouchDown() || state == State.UnderConstruction || state == State.Constructed;
+		return super.detectTouchDown() || buildingState == State.UnderConstruction || buildingState == State.Constructed;
 	}
 
 	@Override
-	public void detectTouchUp()
+	public void detectTapped()
 	{
-		super.detectTouchUp();
+		super.detectTapped();
 		UIManager.getInstance(UIManager.class).getGameUI().hideAllWindow();
 		
-		if(state == State.UnderConstruction) {
+		if(buildingState == State.UnderConstruction) {
 			if(constructionWindow != null)
 				constructionWindow.setVisible(true);
 		}
-		if(state == State.Constructed) {
+		if(buildingState == State.Constructed) {
 			if(undockedWindow != null)
 			{
 				undockedWindow.setBuildingPosWorld(getPositionXWorld(), getPositionYWorld());
@@ -210,12 +213,23 @@ public abstract class Building extends Entity
 	
 	public void setState(State state)
 	{
-		this.state = state;
+		this.buildingState = state;
+		
+		if(state == State.UnderConstruction)
+			constructionProgressBar = ConstructionProgressBar.create(this);
+		else if(state == State.Constructed)
+		{
+			if(constructionProgressBar != null)
+			{
+				constructionProgressBar.realease();
+				constructionProgressBar = null;
+			}
+		}
 	}
 	
 	public State getState()
 	{
-		return state;
+		return buildingState;
 	}
 
 	//this method will notify constructionWindow

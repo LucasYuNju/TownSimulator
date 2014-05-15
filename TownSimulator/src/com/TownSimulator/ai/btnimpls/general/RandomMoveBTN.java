@@ -10,7 +10,7 @@ import com.TownSimulator.entity.ManInfo;
 import com.TownSimulator.utility.GameMath;
 import com.TownSimulator.utility.Settings;
 
-public class RandomMoveBTN implements ActionNode{
+public class RandomMoveBTN extends ActionNode{
 	private static final 	float	STADING_MAX_TIME = 5.0f;
 	private static final 	float	STADING_MIN_TIME = 1.0f;
 	private static			Random 	mRand = new Random(System.nanoTime());

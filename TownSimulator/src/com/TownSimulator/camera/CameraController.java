@@ -152,9 +152,25 @@ public class CameraController extends SingletonPublisher<CameraListener>{
 		mCamera.project(posW);
 	}
 	
+	public void worldToScreen(Vector2 posS)
+	{
+		Vector3 pos3 = new Vector3(posS, 0.0f);
+		worldToScreen(pos3);
+		posS.x = pos3.x;
+		posS.y = pos3.y;
+	}
+	
 	public void screenToWorld(Vector3 posS)
 	{
 		mCamera.unproject(posS);
+	}
+	
+	public void screenToWorld(Vector2 posS)
+	{
+		Vector3 pos3 = new Vector3(posS, 0.0f);
+		screenToWorld(pos3);
+		posS.x = pos3.x;
+		posS.y = pos3.y;
 	}
 	
 	public float screenToWorldDeltaX(float deltaX)
@@ -182,7 +198,7 @@ public class CameraController extends SingletonPublisher<CameraListener>{
 			mCamera.unproject(mZoomOriginW);
 		}
 		
-		float scaleDelta = (mPrevZoomDist - distance ) / 32.0f * ZOOM_SPEED;
+		float scaleDelta = (mPrevZoomDist - distance ) / Settings.UNIT * ZOOM_SPEED;
 		float scale = mCameraScale + scaleDelta;
 		scale = MathUtils.clamp(mCameraScale, 0.5f, 4.0f);
 		if( scale != mCameraScale )
@@ -214,9 +230,9 @@ public class CameraController extends SingletonPublisher<CameraListener>{
 	
 	private void moveRelScreen( float deltaX, float deltaY )
 	{
-		float x = MathUtils.clamp(mCamera.position.x - deltaX * mCameraScale,
+		float x = MathUtils.clamp(mCamera.position.x - screenToWorldDeltaX(deltaX),
 				mCamera.viewportWidth * 0.5f, Map.MAP_WIDTH * Settings.UNIT - mCamera.viewportWidth * 0.5f);
-		float y = MathUtils.clamp(mCamera.position.y + deltaY * mCameraScale,
+		float y = MathUtils.clamp(mCamera.position.y + screenToWorldDeltaY(deltaY),
 				mCamera.viewportHeight * 0.5f, Map.MAP_HEIGHT * Settings.UNIT - mCamera.viewportHeight * 0.5f);
 		float dx = x - mCamera.position.x;
 		float dy = y - mCamera.position.y;

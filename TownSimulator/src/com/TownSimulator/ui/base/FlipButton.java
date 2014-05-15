@@ -23,8 +23,8 @@ public class FlipButton extends Button{
 	
 	public FlipButton(String imgUp, String imgDown, String text)
 	{
-		this(ResourceManager.getInstance(ResourceManager.class).findTextureRegion(imgUp), 
-				ResourceManager.getInstance(ResourceManager.class).findTextureRegion(imgDown), text);
+		this(ResourceManager.getInstance(ResourceManager.class).createTextureRegion(imgUp), 
+				ResourceManager.getInstance(ResourceManager.class).createTextureRegion(imgDown), text);
 	}
 	
 	public FlipButton(TextureRegion imgUp, TextureRegion imgDown, String text) {

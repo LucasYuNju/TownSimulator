@@ -10,7 +10,7 @@ import com.TownSimulator.entity.ResourceInfoCollector;
 import com.TownSimulator.entity.building.Building;
 import com.TownSimulator.entity.building.Warehouse;
 
-public class ConstructionTransportBTN implements ActionNode{
+public class ConstructionTransportBTN extends ActionNode{
 	public static final int		MAX_TRANSPORT_RS_AMOUNT = 5;
 	private State				mCurState;
 	//private ConstructionInfo		mMan.getInfo().constructionInfo;

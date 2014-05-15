@@ -9,6 +9,9 @@ import com.TownSimulator.entity.JobType;
 import com.TownSimulator.entity.Man;
 import com.TownSimulator.entity.ResourceInfoCollector;
 import com.TownSimulator.entity.ResourceType;
+import com.TownSimulator.ui.UIManager;
+import com.TownSimulator.ui.building.view.WorkableViewWindow;
+import com.TownSimulator.ui.building.view.WorkableWithTipsWindow;
 import com.TownSimulator.utility.Settings;
 import com.TownSimulator.utility.TipsBillborad;
 import com.TownSimulator.utility.quadtree.QuadTreeType;
@@ -17,8 +20,10 @@ import com.badlogic.gdx.graphics.Color;
 public class CoatFactory extends WorkableBuilding{
 	private static final int 	MAX_JOB_CNT = 4;
 	private static final float 	PRODUCE_INTERVAL_TIME = 20.0f;
-	private static final int 	PRODUCE_AMOUNT = 1;
+	private static final int 	PRODUCE_FUR_PER_COAT = 4;
+	private static final int 	PRODUCE_COAT_AMOUNT = 1;
 	private float produceAccum = 0.0f;
+	private WorkableWithTipsWindow	workTipsWindow;
 	
 	public CoatFactory() {
 		super("building_coat_factory", BuildingType.COAT_FACTORY, JobType.FACTORY_WORKER);
@@ -37,27 +42,27 @@ public class CoatFactory extends WorkableBuilding{
 	private void decreFurResource(int amount)
 	{
 		int remainAmount = amount;
-		for (Building building : EntityInfoCollector.getInstance(EntityInfoCollector.class).getAllBuildings()) {
-			if(building.getType() == BuildingType.WAREHOUSE)
-			{
+		for (Building building : EntityInfoCollector.getInstance(EntityInfoCollector.class).getBuildings(BuildingType.WAREHOUSE)) {
+//			if(building.getType() == BuildingType.WAREHOUSE)
+//			{
 				Warehouse warehouse = (Warehouse)building;
 				int stored = warehouse.getStoredResourceAmount(ResourceType.RS_FUR);
 				if(stored > 0)
 				{
 					int decre = Math.min(remainAmount, stored);
 					warehouse.addStoredResource(ResourceType.RS_FUR, -decre, false);
-					float originX = warehouse.getAABBWorld(QuadTreeType.DRAW).getCenterX();
-					float originY = warehouse.getAABBWorld(QuadTreeType.DRAW).maxY + Settings.UNIT * 0.6f + TipsBillborad.getTipsHeight();
+					float originX = this.getAABBWorld(QuadTreeType.DRAW).getCenterX();
+					float originY = this.getAABBWorld(QuadTreeType.DRAW).maxY + Settings.UNIT * 0.6f + TipsBillborad.getTipsHeight();
 					Color color = Color.RED;
 					TipsBillborad.showTips(
-							ResourceType.RS_FUR + " - " + amount,
+							ResourceType.RS_FUR + " - " + decre,
 							originX,
 							originY, color);
 					remainAmount -= decre;
 					
 					if(remainAmount <= 0)
 						return;
-				}
+//				}
 			}
 		}
 	}
@@ -66,7 +71,7 @@ public class CoatFactory extends WorkableBuilding{
 	{
 		int furAmount = ResourceInfoCollector.getInstance(ResourceInfoCollector.class)
 							.getResourceAmount(ResourceType.RS_FUR);
-		if( furAmount <= 0 )
+		if( furAmount <= PRODUCE_FUR_PER_COAT )
 			return;
 		
 		produceAccum += deltaTime;
@@ -75,11 +80,15 @@ public class CoatFactory extends WorkableBuilding{
 			produceAccum -= PRODUCE_INTERVAL_TIME;
 			Warehouse warehouse = EntityInfoCollector.getInstance(EntityInfoCollector.class)
 									.findNearestWareHouse(mPosXWorld, mPosYWorld);
-			int produceAmount = Math.min(furAmount, PRODUCE_AMOUNT * curWorkerCnt);
-			decreFurResource(produceAmount);
+			int produceAmount = Math.min(furAmount / PRODUCE_FUR_PER_COAT, PRODUCE_COAT_AMOUNT * curWorkerCnt);
+			
+			if(produceAmount <= 0 )
+				continue;
+			
+			decreFurResource(produceAmount * PRODUCE_FUR_PER_COAT);
 			warehouse.addStoredResource(ResourceType.RS_COAT, produceAmount, false);
-			float originX = warehouse.getAABBWorld(QuadTreeType.DRAW).getCenterX();
-			float originY = warehouse.getAABBWorld(QuadTreeType.DRAW).maxY + Settings.UNIT * 0.4f;
+			float originX = this.getAABBWorld(QuadTreeType.DRAW).getCenterX();
+			float originY = this.getAABBWorld(QuadTreeType.DRAW).maxY + Settings.UNIT * 0.4f;
 			Color color = Color.WHITE;
 			TipsBillborad.showTips(
 					ResourceType.RS_COAT + " + " + produceAmount,
@@ -87,7 +96,7 @@ public class CoatFactory extends WorkableBuilding{
 					originY, color);
 		}
 	}
-
+	
 	@Override
 	public void setState(State state) {
 		super.setState(state);
@@ -99,11 +108,25 @@ public class CoatFactory extends WorkableBuilding{
 
 				@Override
 				public void update(float deltaTime) {
+					if(EntityInfoCollector.getInstance(EntityInfoCollector.class)
+							.getBuildings(BuildingType.POWER_STATION).size <= 0)
+					{
+						workTipsWindow.setTips("Need Power Station");
+						return;
+					}	
+					
 					produce(deltaTime);
 				}
 				
 			});
 		}
+	}
+
+	@Override
+	protected WorkableViewWindow createWorkableWindow() {
+		workTipsWindow = UIManager.getInstance(UIManager.class).getGameUI()
+							.createWorkableWithTipsWindow(buildingType, getMaxJobCnt());
+		return workTipsWindow;
 	}
 	
 	

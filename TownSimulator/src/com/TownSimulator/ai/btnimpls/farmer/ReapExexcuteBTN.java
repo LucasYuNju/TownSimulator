@@ -12,7 +12,7 @@ import com.TownSimulator.entity.building.FarmLand;
 import com.TownSimulator.entity.building.Warehouse;
 import com.TownSimulator.utility.quadtree.QuadTreeType;
 
-public class ReapExexcuteBTN implements ActionNode{
+public class ReapExexcuteBTN extends ActionNode{
 	private Man man;
 	private static final float REAP_TIME_PER_LAND = 2.0f;
 	private float timeAccum = 0.0f;
@@ -36,10 +36,10 @@ public class ReapExexcuteBTN implements ActionNode{
 	{
 		double minDest = Double.MAX_VALUE;
 		Warehouse result = null;
-		for( Building building : EntityInfoCollector.getInstance(EntityInfoCollector.class).getAllBuildings() )
+		for( Building building : EntityInfoCollector.getInstance(EntityInfoCollector.class).getBuildings(BuildingType.WAREHOUSE) )
 		{
-			if(building.getType() == BuildingType.WAREHOUSE)
-			{
+//			if(building.getType() == BuildingType.WAREHOUSE)
+//			{
 				Warehouse warehouse = (Warehouse)building;
 				double dest = Math.pow(warehouse.getPositionXWorld() - man.getPositionXWorld(), 2)
 							+ Math.pow(warehouse.getPositionYWorld() - man.getPositionYWorld(), 2);
@@ -48,7 +48,7 @@ public class ReapExexcuteBTN implements ActionNode{
 					minDest = dest;
 					result = warehouse;
 				}
-			}
+//			}
 		}
 		return result;
 	}

@@ -17,7 +17,7 @@ public class FactoryWorkerBTN extends SelectorNode{
 	private void init() {
 		
 		this.addNode(new GeneralBTN(man))
-			.addNode(new ProducingBTN(man));
+			.addNode(new FactoryProducingBTN(man));
 	}
 	
 	

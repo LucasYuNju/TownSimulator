@@ -6,6 +6,7 @@ public enum ResourceType {
 	RS_STONE("stone", false),
 	RS_WHEAT("wheat", true),
 	RS_CORN("corn", true),
+	RS_MEAT("meat", true),
 	RS_FUR("fur", false),
 	RS_COAT("coat", false);
 	

@@ -5,7 +5,7 @@ import com.TownSimulator.ai.btnimpls.general.RandomMoveBTN;
 import com.TownSimulator.entity.Man;
 
 public class FarmerBTN extends SelectorNode{
-private Man mMan;
+	private Man mMan;
 	
 	public FarmerBTN(Man man) {
 		this.mMan = man;

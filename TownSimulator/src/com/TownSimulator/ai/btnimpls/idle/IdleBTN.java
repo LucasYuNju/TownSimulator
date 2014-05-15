@@ -17,8 +17,8 @@ public class IdleBTN extends SelectorNode{
 
 	protected void init() {
 		this.addNode(new GeneralBTN(man))
-			.addNode(new FindJobBTN(man))
 			.addNode(new ConstructionBTN(man))
+			.addNode(new FindJobBTN(man))
 			.addNode(new RandomMoveBTN(man));
 	}
 

@@ -5,15 +5,14 @@ import com.TownSimulator.ai.behaviortree.ExecuteResult;
 import com.TownSimulator.ai.btnimpls.construct.ConstructionProject.State;
 import com.TownSimulator.entity.Man;
 import com.TownSimulator.entity.ManAnimeType;
-import com.TownSimulator.entity.building.Building;
 import com.TownSimulator.utility.quadtree.QuadTreeType;
 import com.badlogic.gdx.math.Vector2;
 
-public class ConstructionExecuteBTN implements ActionNode{
-	public static final int		BUILD_CONTRIBUTE_SPPED = 5;
-	public static final float	BUILD_CONTRIBUTE_INTERVAL = 2.0f;
+public class ConstructionExecuteBTN extends ActionNode{
+	public static final float		BUILD_CONTRIBUTE_SPPED = 0.4f;
+	//public static final float	BUILD_CONTRIBUTE_INTERVAL = 2.0f;
 	//private ConstructionInfo		mMan.getInfo().constructionInfo;
-	private float				mBuildContribueTimeAccum;
+	//private float				mBuildContribueTimeAccum;
 	private Man			mMan;
 	
 	public ConstructionExecuteBTN(Man man) {
@@ -75,20 +74,22 @@ public class ConstructionExecuteBTN implements ActionNode{
 		if(mMan.getInfo().constructionInfo.proj.isFinished())
 			return ExecuteResult.TRUE;
 		
-		mBuildContribueTimeAccum += deltaTime;
-		int cnt = 0;
-		while(mBuildContribueTimeAccum >= BUILD_CONTRIBUTE_INTERVAL)
-		{
-			mBuildContribueTimeAccum -= BUILD_CONTRIBUTE_INTERVAL;
-			cnt++;
-		}
+//		mBuildContribueTimeAccum += deltaTime;
+//		int cnt = 0;
+//		while(mBuildContribueTimeAccum >= BUILD_CONTRIBUTE_INTERVAL)
+//		{
+//			mBuildContribueTimeAccum -= BUILD_CONTRIBUTE_INTERVAL;
+//			cnt++;
+//		}
+//		
+//		if(cnt > 0)
+//		{
+//			mMan.getInfo().constructionInfo.proj.getBuilding().doConstructionWork(cnt * BUILD_CONTRIBUTE_SPPED);
+//			//Building building = mMan.getInfo().constructionInfo.proj.getBuilding();
+//			//System.out.println("Build " + building.getFinishedConstructionWork() + "/" + building.getUnfinishedConstructionWork() + building.getFinishedConstructionWork());
+//		}
 		
-		if(cnt > 0)
-		{
-			mMan.getInfo().constructionInfo.proj.getBuilding().doConstructionWork(cnt * BUILD_CONTRIBUTE_SPPED);
-			Building building = mMan.getInfo().constructionInfo.proj.getBuilding();
-			System.out.println("Build " + building.getFinishedConstructionWork() + "/" + building.getUnfinishedConstructionWork() + building.getFinishedConstructionWork());
-		}
+		mMan.getInfo().constructionInfo.proj.getBuilding().doConstructionWork(deltaTime * BUILD_CONTRIBUTE_SPPED);
 		
 		if(mMan.getInfo().constructionInfo.proj.getBuilding().isConstructionFinished())
 		{

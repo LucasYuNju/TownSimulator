@@ -1,5 +1,8 @@
 package com.TownSimulator.ui;
 
+import com.TownSimulator.entity.EntityInfoCollector;
+import com.TownSimulator.entity.ResourceInfoCollector;
+import com.TownSimulator.entity.World;
 import com.TownSimulator.ui.building.view.UndockedWindow;
 import com.TownSimulator.utility.ResourceManager;
 import com.TownSimulator.utility.Settings;
@@ -16,63 +19,98 @@ import com.badlogic.gdx.scenes.scene2d.utils.Align;
 /**
  * labels:
  * 
+ * season	| date
  * food		| numFood
  * people	| numPeople
  *
  */
 public class StateBar extends Group{
-	private static final float LABEL_WIDTH = Settings.LABEL_WIDTH;
+	private static final float LABEL_WIDTH = Settings.LABEL_WIDTH * 1.2f;
 	private static final float LABEL_HEIGHT = Settings.LABEL_HEIGHT;
-	private static final float MARGIN = UndockedWindow.MARGIN * 0.6f;
+	private static final float MARGIN = UndockedWindow.MARGIN * 0.3f;
+	
+	private int line = 3;
+	private int column = 2;
 	
 	private TextureRegion background;
+	private Label seasonLabel;
+	private Label dateLabel;
 	private Label numFoodLabel;
 	private Label numPeopleLabel;
 	
-	public StateBar(int numPeople, int numFood) {
+	public StateBar() {
 		super();
-		background = Singleton.getInstance(ResourceManager.class).findTextureRegion("background");
-		setSize(MARGIN * 2 + LABEL_WIDTH * 2, MARGIN * 2 + LABEL_HEIGHT * 2);
+		background = Singleton.getInstance(ResourceManager.class).createTextureRegion("background");
+		setSize( (MARGIN + LABEL_WIDTH) * column + MARGIN, (MARGIN + LABEL_HEIGHT) * line + MARGIN);
 		setPosition(0, Gdx.graphics.getHeight() - getHeight());
 		initLabels();
-		update(numPeople, numFood);
+		
+		setColor(1.0f, 1.0f, 1.0f, Settings.UI_ALPHA);
 	}
 	
-	public StateBar() {
-		this(0, 0);
-	}
+//	public StateBar() {
+//		this();
+//	}
 	
 	private void initLabels() {
 		LabelStyle labelStyle = new LabelStyle();
 		labelStyle.font = ResourceManager.getInstance(ResourceManager.class).getFont((int) (Settings.UNIT * 0.3f));
 		labelStyle.fontColor = Color.WHITE;
-
-		Label foodLabel = new Label("Food", labelStyle);
-		foodLabel.setSize(LABEL_WIDTH, LABEL_HEIGHT);
-		foodLabel.setPosition(MARGIN, MARGIN);
-		foodLabel.setAlignment(Align.left);
-		addActor(foodLabel);
 		
-		numFoodLabel = new Label("", labelStyle);
-		numFoodLabel.setSize(LABEL_WIDTH, LABEL_HEIGHT);
-		numFoodLabel.setPosition(MARGIN * 2.0f + LABEL_WIDTH, MARGIN);
-		numFoodLabel.setAlignment(Align.left);
-		addActor(numFoodLabel);
+		float x = MARGIN;
+		float y = MARGIN;
 		
 		Label peopleLabel = new Label("People", labelStyle);
 		peopleLabel.setSize(LABEL_WIDTH, LABEL_HEIGHT);
-		peopleLabel.setPosition(MARGIN, MARGIN + LABEL_HEIGHT);
+		peopleLabel.setPosition(x, y);
 		peopleLabel.setAlignment(Align.left);
 		addActor(peopleLabel);
 		
+		x += LABEL_WIDTH + MARGIN;
 		numPeopleLabel = new Label("", labelStyle);
 		numPeopleLabel.setSize(LABEL_WIDTH, LABEL_HEIGHT);
-		numPeopleLabel.setPosition(MARGIN * 2.0f + LABEL_WIDTH, MARGIN + LABEL_HEIGHT);
+		numPeopleLabel.setPosition(x, y);
 		numPeopleLabel.setAlignment(Align.left);
 		addActor(numPeopleLabel);
+		
+		x = MARGIN;
+		y += LABEL_HEIGHT + MARGIN;
+		Label foodLabel = new Label("Food", labelStyle);
+		foodLabel.setSize(LABEL_WIDTH, LABEL_HEIGHT);
+		foodLabel.setPosition(x, y);
+		foodLabel.setAlignment(Align.left);
+		addActor(foodLabel);
+		
+		x += LABEL_WIDTH + MARGIN;
+		numFoodLabel = new Label("", labelStyle);
+		numFoodLabel.setSize(LABEL_WIDTH, LABEL_HEIGHT);
+		numFoodLabel.setPosition(x, y);
+		numFoodLabel.setAlignment(Align.left);
+		addActor(numFoodLabel);
+		
+		x = MARGIN;
+		y += LABEL_HEIGHT + MARGIN;
+		seasonLabel = new Label("", labelStyle);
+		seasonLabel.setSize(LABEL_WIDTH, LABEL_HEIGHT);
+		seasonLabel.setPosition(x, y);
+		seasonLabel.setAlignment(Align.left);
+		addActor(seasonLabel);
+		
+		x += LABEL_WIDTH + MARGIN;
+		dateLabel = new Label("", labelStyle);
+		dateLabel.setSize(LABEL_WIDTH, LABEL_HEIGHT);
+		dateLabel.setPosition(x, y);
+		dateLabel.setAlignment(Align.left);
+		addActor(dateLabel);
+		
 	}
 	
-	public void update(int numPeople, int numFood) {
+	public void update() {
+		World world = World.getInstance(World.class);
+		seasonLabel.setText(  world.getCurSeason().toString() );
+		dateLabel.setText(world.getCurYear() + "/" + world.getCurMonth() + "/" + world.getCurDay());
+		int numPeople = EntityInfoCollector.getInstance(EntityInfoCollector.class).getAllMan().size;
+		int numFood = ResourceInfoCollector.getInstance(ResourceInfoCollector.class).getFoodAmount();
 		numPeopleLabel.setText(numPeople + "");
 		numFoodLabel.setText(numFood + "");
 	}

@@ -11,9 +11,9 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector3;
-import com.badlogic.gdx.scenes.scene2d.Event;
-import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.Group;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
@@ -35,27 +35,43 @@ public class UndockedWindow extends Group{
 	public static final float ICON_WIDTH = Settings.LABEL_WIDTH;
 	protected BuildingType buildingType;
 	protected TextureRegion background;
-	private Button closeButton;
-	private Label headerLabel;
+	protected Button closeButton;
+	protected Label headerLabel;
 	
 	public UndockedWindow(BuildingType buildingType) {
 		super();
-		background = Singleton.getInstance(ResourceManager.class).findTextureRegion("background");
+		background = Singleton.getInstance(ResourceManager.class).createTextureRegion("background");
 		this.buildingType = buildingType;
 		initCameraListener();
+		
+		setColor(1.0f, 1.0f, 1.0f, Settings.UI_ALPHA);
 	}
 	
 	protected void addCloseButton() {
 		if(closeButton == null) {
 			closeButton = new FlipButton("button_cancel", "button_cancel", null);
-			closeButton.setSize(MARGIN, MARGIN);
+			closeButton.setSize(LABEL_HEIGHT, LABEL_HEIGHT);
 			closeButton.setPosition(getWidth() - closeButton.getWidth(), getHeight() - closeButton.getHeight());
-			closeButton.addListener(new EventListener() {
+			closeButton.addListener(new InputListener()
+			{
+				float touchDownX = 0.0f;
+				float touchDownY = 0.0f;
+				
 				@Override
-				public boolean handle(Event event) {
-					UndockedWindow.this.setVisible(false);
-					return false;
+				public boolean touchDown(InputEvent event, float x, float y,
+						int pointer, int button) {
+					touchDownX = x;
+					touchDownY = y;
+					return true;
 				}
+
+				@Override
+				public void touchUp(InputEvent event, float x, float y,
+						int pointer, int button) {
+					if(touchDownX == x && touchDownY == y)
+						UndockedWindow.this.setVisible(false);
+				}
+				
 			});
 			addActor(closeButton);
 		}
@@ -68,7 +84,7 @@ public class UndockedWindow extends Group{
 		if(headerLabel == null) {
 			LabelStyle labelStyle = new LabelStyle();
 			labelStyle.font = ResourceManager.getInstance(ResourceManager.class).getFont((int) (Settings.UNIT * 0.3f));
-			labelStyle.fontColor = Color.WHITE;
+			labelStyle.fontColor = Color.ORANGE;
 			headerLabel = new Label(buildingType.toString(), labelStyle);
 			headerLabel.setSize(LABEL_WIDTH, LABEL_HEIGHT);
 			headerLabel.setPosition(MARGIN, getHeight() - LABEL_HEIGHT);
@@ -80,6 +96,11 @@ public class UndockedWindow extends Group{
 		}
 	}
 
+	protected void updateLayout()
+	{
+		closeButton.setPosition(getWidth() - closeButton.getWidth(), getHeight() - closeButton.getHeight());
+		headerLabel.setPosition(MARGIN, getHeight() - LABEL_HEIGHT);
+	}
 	
 	protected void initCameraListener()
 	{

@@ -7,6 +7,7 @@ import com.TownSimulator.driver.DriverListener;
 import com.TownSimulator.driver.DriverListenerBaseImpl;
 import com.TownSimulator.utility.GameMath;
 import com.TownSimulator.utility.Settings;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 
 
@@ -27,6 +28,13 @@ public class Tree extends MapEntity{
 	private float health;
 	private boolean bActive = false;
 	private DriverListener driverListener;
+	private boolean bCutting = false;
+	private boolean bShake = false;
+	private int shakeCntRemain = 0;
+	private float shakeAngle = 0.0f;
+	private static final int SHAKE_CNT = 3;
+	private static final float SHAKE_ANGLE = (float) (Math.PI * 0.01f);
+	private float shakeSpeed = SHAKE_ANGLE * 30.0f;
 	
 	private static final Random rand = new Random(System.nanoTime());
 	
@@ -38,12 +46,22 @@ public class Tree extends MapEntity{
 
 			@Override
 			public void update(float deltaTime) {
-				grow(deltaTime);
+				Tree.this.update(deltaTime);
 			}
 			
 		};
 		
 		growToMaxTime = GROW_TO_MAX_TIME_BASE * ( 1.0f + rand.nextFloat() * 0.5f);
+	}
+	
+	public void setCutting(boolean value)
+	{
+		bCutting = value;
+	}
+	
+	public boolean isCutting()
+	{
+		return bCutting;
 	}
 	
 	public void setActive(boolean value)
@@ -54,6 +72,13 @@ public class Tree extends MapEntity{
 		if(bActive == true && value == false)
 			Driver.getInstance(Driver.class).removeListener(driverListener);
 		bActive = value;
+	}
+	
+	public void shake()
+	{
+		bShake = true;
+		shakeCntRemain = SHAKE_CNT;
+		shakeAngle = -SHAKE_ANGLE;
 	}
 	
 	public void setScale(float s)
@@ -93,6 +118,30 @@ public class Tree extends MapEntity{
 		}
 	}
 	
+	private void updateShake(float deltaTime)
+	{
+		shakeAngle += shakeSpeed * deltaTime;
+		if(Math.abs(shakeAngle) > SHAKE_ANGLE )
+		{
+			shakeAngle = SHAKE_ANGLE * Math.signum(shakeAngle);
+			shakeSpeed = shakeSpeed * -1.0f;
+			shakeCntRemain --;
+		}
+		
+		if(shakeCntRemain == 0)
+		{
+			shakeAngle = 0.0f;
+			bShake = false;
+		}
+	}
+	
+	private void update(float deltaTime)
+	{
+		if(bShake)
+			updateShake(deltaTime);
+		grow(deltaTime);
+	}
+	
 	private void grow(float deltaTime)
 	{
 		if(scale < MAX_SCALE)
@@ -119,6 +168,25 @@ public class Tree extends MapEntity{
 			doGrowAnime(deltaTime);
 	}
 	
+	@Override
+	public void drawSelf(SpriteBatch batch) {
+		mSprite.setOrigin(mSprite.getWidth() * 0.5f, 0.0f);
+		mSprite.setRotation( (float) (shakeAngle / Math.PI * 180.0f) );
+		super.drawSelf(batch);
+	}
+	
+	
+
+//	@Override
+//	public boolean detectTouchDown() {
+//		return true;
+//	}
+//
+//	@Override
+//	public void detectTapped() {
+//		shake();
+//	}
+
 	private void resetSize()
 	{
 		float width = MAX_WIDTH * scale;
