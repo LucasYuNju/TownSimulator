@@ -45,7 +45,7 @@ public class GameScreenUI extends ScreenUIBase{
 		
 		stateBar = new StateBar();
 		stateBar.setVisible(true);
-		//mStage.addActor(stateBar);
+		mStage.addActor(stateBar);
 	}
 	
 	public BuildingAdjustGroup getBuildAjustUI()

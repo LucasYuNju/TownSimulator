@@ -15,6 +15,8 @@ public class ManInfo {
 	public JobType 			job;
 	public WorkableBuilding 	workingBuilding;
 	public LivingHouse 		home;
+	public static final float MAX_WORKEFFICENCY=2.0f;
+	
 	public static final float HUNGER_POINTS_MAX = 300.0f;
 	public static final float HUNGER_POINTS_FIND_FOOD = 100.0f;
 	public static final float HUNGER_POINTS_MIN = 0.0f; // die!
@@ -23,7 +25,11 @@ public class ManInfo {
 	public boolean			isDead = false;
 	
 	private static final int MAX_AGE = 100;
-	private static final int ADULT_AGE = 10;
+	private static final int ADULT_AGE = 18;
+
+	public static final int MAX_STUDENT_AGE=ADULT_AGE;
+	public static final int MIN_STUDENT_AGE=MAX_STUDENT_AGE-10;
+	
 	private static List<String> namePool;
 	private Gender gender;
 	private String name;
@@ -50,6 +56,31 @@ public class ManInfo {
 	
 	public int getAge() {
 		return age;
+	}
+	
+	public void setAge(int newAge){
+		age=newAge;
+	}
+	
+	public boolean isOldEnough(int age){
+		return age>MAX_AGE;
+	}
+	
+	public void setIsDead(boolean isdead){
+		isDead=isdead;
+	}
+	
+	public float getWorkEfficency(){
+		return workEfficency;
+	}
+	
+	
+	public void growWorkEfficency(float increaseNum){
+		this.workEfficency=Math.min(MAX_WORKEFFICENCY, workEfficency+increaseNum);
+	}
+	
+	public boolean isWorkEffiencyMax(){
+		return this.workEfficency==MAX_WORKEFFICENCY;
 	}
 	
 	public String getName() {

@@ -6,7 +6,9 @@ public enum BuildingType {
 	FARM_HOUSE("Farm"),
 	FELLING_HOUSE("Felling"),
 	POWER_STATION("PowerStation"),
-	COAT_FACTORY("CoatFactory");
+	COAT_FACTORY("CoatFactory"),
+	SCHOOL("School"),
+	WELL("Well");
 	
 	private String name;
 	private BuildingType(String name) {

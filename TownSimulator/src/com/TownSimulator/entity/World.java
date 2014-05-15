@@ -4,6 +4,7 @@ import java.util.Calendar;
 
 import com.TownSimulator.driver.Driver;
 import com.TownSimulator.driver.DriverListenerBaseImpl;
+import com.TownSimulator.entity.building.School;
 import com.TownSimulator.utility.Singleton;
 
 public class World extends Singleton {
@@ -13,6 +14,9 @@ public class World extends Singleton {
 	private Calendar calendar;
 	private float secondPerDay;
 	private float secondDuringLastDay;
+	private boolean isSchoolConstructed;
+	private int maxStudentAmount;
+//	private int currentStudentNum;
 	
 	public enum SeasonType{
 		Spring,Summer,Autumn,Winter
@@ -29,6 +33,10 @@ public class World extends Singleton {
 		calendar.set(2014, 6, 1);//设置初始日期
 		secondPerDay = SecondPerYear / 365.0f;
 		secondDuringLastDay = 0f;
+		
+		isSchoolConstructed=false;
+		maxStudentAmount=0;
+		//currentStudentNum=0;
 		
 		Driver.getInstance(Driver.class).addListener(new DriverListenerBaseImpl(){
 
@@ -47,6 +55,32 @@ public class World extends Singleton {
 		});
 	}
 	
+	/**
+	 * 当这个世界有新学校建好，更新容纳学生信息
+	 */
+	public void updateSchoolInfo(){
+		if(!this.isSchoolConstructed){
+			this.isSchoolConstructed=true;
+		}
+		this.maxStudentAmount+=School.SingleSchoolStudentNum;			
+	}
+	
+	public boolean isSchoolConstructed() {
+		return isSchoolConstructed;
+	}
+
+	public int getMaxStudentAmount() {
+		return maxStudentAmount;
+	}
+	
+//	public int getCurrentStudentNum() {
+//		return currentStudentNum;
+//	}
+//
+//	public void growCurrentStudentNum() {
+//		this.currentStudentNum ++;
+//	}
+
 	/**
 	 * 获取年份
 	 * @return

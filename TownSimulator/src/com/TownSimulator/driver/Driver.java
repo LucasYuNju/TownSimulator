@@ -21,6 +21,7 @@ import com.TownSimulator.entity.building.CoatFactory;
 import com.TownSimulator.entity.building.PowerStation;
 import com.TownSimulator.entity.building.Warehouse;
 import com.TownSimulator.io.InputMgr;
+import com.TownSimulator.io.InputMgrListenerBaseImpl;
 import com.TownSimulator.map.Map;
 import com.TownSimulator.render.Renderer;
 import com.TownSimulator.ui.UIManager;
@@ -28,6 +29,7 @@ import com.TownSimulator.utility.AxisAlignedBoundingBox;
 import com.TownSimulator.utility.ResourceManager;
 import com.TownSimulator.utility.Settings;
 import com.TownSimulator.utility.SingletonPublisher;
+import com.TownSimulator.utility.VoicePlayer;
 import com.TownSimulator.utility.quadtree.QuadTreeType;
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
@@ -97,12 +99,18 @@ public class Driver extends SingletonPublisher<DriverListener> implements Applic
 		CollisionDetector.getInstance(CollisionDetector.class).attachCollisionDetection(powerStation);
 		Renderer.getInstance(Renderer.class).attachDrawScissor(powerStation);
 
-//		
-//		farmHouse.setSowCropType(CropType.Wheat);
-//		
-//		for (FarmLand land : ((FarmHouse)farmHouse).getFarmLands()) {
-//			Renderer.getInstance(Renderer.class).attachDrawScissor(land);
-//		}
+		FarmHouse farmHouse=(FarmHouse)EntityFactory.createBuilding(BuildingType.FARM_HOUSE);
+		farmHouse.setState(Building.State.Constructed);
+		farmHouse.setPositionWorld(originPosX, originPoxY - 3 * Settings.UNIT);
+		EntityInfoCollector.getInstance(EntityInfoCollector.class).addBuilding(farmHouse);
+		CollisionDetector.getInstance(CollisionDetector.class).attachCollisionDetection(farmHouse);
+		Renderer.getInstance(Renderer.class).attachDrawScissor(farmHouse);
+		
+		farmHouse.setSowCropType(CropType.Wheat);
+		
+		for (FarmLand land : ((FarmHouse)farmHouse).getFarmLands()) {
+			Renderer.getInstance(Renderer.class).attachDrawScissor(land);
+		}
 		
 //		InputMgr.getInstance(InputMgr.class).addListener(new InputMgrListenerBaseImpl()
 //		{

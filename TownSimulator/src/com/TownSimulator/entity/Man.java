@@ -25,6 +25,7 @@ public class Man extends Entity{
 	private					DriverListener				mDriverListener;
 	private					ManInfo						mInfo;
 	private					BehaviorTreeNode			mBehavior;
+	private                 float                       tempAcountTime=0.0f;
 	
 	public enum State
 	{
@@ -56,8 +57,10 @@ public class Man extends Entity{
 					if(dieAccum >= dieElapseTime)
 						Renderer.getInstance(Renderer.class).dettachDrawScissor(Man.this);;
 				}
-				else
+				else{
 					updateManPoints(deltaTime);
+					updateAge(deltaTime);
+				}
 				
 				if(mBehavior != null)
 					mBehavior.execute(deltaTime);
@@ -79,8 +82,8 @@ public class Man extends Entity{
 	
 	private void initAnimes()
 	{
-		mAnimesMap = new HashMap<ManAnimeType, Animation>();
-		mAnimesMapFlipped = new HashMap<ManAnimeType, Animation>();
+		mAnimesMap = new HashMap<ManAnimeType, Animation>();//正走
+		mAnimesMapFlipped = new HashMap<ManAnimeType, Animation>();//逆走
 		
 		Animation standAnime = new Animation(0.0f);
 		standAnime.addSprite(ResourceManager.getInstance(ResourceManager.class).createSprite("pixar_man_1"));
@@ -117,6 +120,17 @@ public class Man extends Entity{
 			die();
 		
 		//System.out.println(mInfo.hungerPoints);
+	}
+	
+	public void updateAge(float deltaTime){
+		tempAcountTime+=deltaTime;
+		if(tempAcountTime>=World.SecondPerYear){
+			mInfo.setAge(mInfo.getAge()+1);
+			if(mInfo.isOldEnough(mInfo.getAge())){
+				mInfo.setIsDead(true);
+			}
+			tempAcountTime-=World.SecondPerYear;
+		}
 	}
 	
 	public void die()
