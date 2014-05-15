@@ -46,11 +46,13 @@ public class LivingHouse extends Building{
 	public List<List<String>> getViewData() {
 		List<List<String>> list = new ArrayList<List<String>>();
 		for(ManInfo resident : residents) {
-			list.add(resident.toStringList());
+			list.add(resident.toResidentStringList());
+		}
+		if (list.isEmpty()) {
+			list.add(ManInfo.getEmptyResidentStringList());
 		}
 		return list;
 	}
-
 	
 	/*
 	 * 将数据更新到viewWindow

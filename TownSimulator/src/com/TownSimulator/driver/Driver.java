@@ -146,12 +146,14 @@ public class Driver extends SingletonPublisher<DriverListener> implements Applic
 			Renderer.getInstance(Renderer.class).attachDrawScissor(land);
 			CollisionDetector.getInstance(CollisionDetector.class).attachCollisionDetection(land);
 		}
-		
-		for (int i = 0; i < initPepleCnt; i++) {
+
+		for (int i = 0; i < initPepleCnt * 5; i++) {
 			float randX = (rand.nextFloat() - 0.5f) * Settings.UNIT * 6;
 			float ranxY = (rand.nextFloat() - 0.5f) * Settings.UNIT * 6;
 			Man man = new Man();
 			man.setPositionWorld(originPosX + randX, originPoxY + ranxY);
+//			man.getInfo().setHappinessPoints(ManInfo.HAPPINESS_POINTS_DEPRESSED - i + initPepleCnt * 4);
+//			man.getInfo().setHealthyPoints(ManInfo.HEALTH_POINTS_SICK);
 			EntityInfoCollector.getInstance(EntityInfoCollector.class).addMan(man);
 			
 			Renderer.getInstance(Renderer.class).attachDrawScissor(man);
@@ -209,5 +211,4 @@ public class Driver extends SingletonPublisher<DriverListener> implements Applic
 			mListeners.get(i).resume();
 		}
 	}
-
 }

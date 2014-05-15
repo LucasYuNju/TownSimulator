@@ -190,10 +190,9 @@ public class Man extends Entity{
 	}
 	
 	/**
-	 * Man move.
 	 * @param deltaTime
-	 * @return if man moved return true else return false 
-	 *  return true when reach the destination
+	 * @return return false when man stop
+	 *  <p>and it happens when man reach destination 
 	 */
 	public boolean move(float deltaTime) {
 		if(mMoveTime <= 0)

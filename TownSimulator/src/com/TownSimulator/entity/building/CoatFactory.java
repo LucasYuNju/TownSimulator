@@ -80,7 +80,7 @@ public class CoatFactory extends WorkableBuilding{
 			produceAccum -= PRODUCE_INTERVAL_TIME;
 			Warehouse warehouse = EntityInfoCollector.getInstance(EntityInfoCollector.class)
 									.findNearestWareHouse(mPosXWorld, mPosYWorld);
-			int produceAmount = Math.min(furAmount / PRODUCE_FUR_PER_COAT, PRODUCE_COAT_AMOUNT * curWorkerCnt);
+			int produceAmount = Math.min(furAmount / PRODUCE_FUR_PER_COAT, PRODUCE_COAT_AMOUNT * workers.size);
 			
 			if(produceAmount <= 0 )
 				continue;

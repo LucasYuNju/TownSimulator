@@ -105,15 +105,15 @@ public class FarmHouse extends WorkableBuilding implements SelectBoxListener
 	
 	private void cropGrow(float deltaTime)
 	{
-		if(curWorkerCnt == 0)
+		if(workers.size == 0)
 			return;
 		float efficiency = 0.0f;
 		for (Man man : workers) {
 			efficiency += man.getInfo().workEfficency;
 		}
-		efficiency /= curWorkerCnt;
+		efficiency /= workers.size;
 		float timeSpeed = 365.0f / World.SecondPerYear;// day/second
-		float fullNeedDays = GameMath.lerp(12.0f * 30.0f, 6.0f * 30.0f, curWorkerCnt / maxJobCnt);
+		float fullNeedDays = GameMath.lerp(12.0f * 30.0f, 6.0f * 30.0f, workers.size / maxJobCnt);
 		float speed = FarmLand.MAX_CROP_AMOUNT / (fullNeedDays / timeSpeed );
 		for (FarmLand land : farmLands) {
 			land.addCropAmount(speed * efficiency * deltaTime);

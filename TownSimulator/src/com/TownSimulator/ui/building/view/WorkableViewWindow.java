@@ -3,12 +3,9 @@ package com.TownSimulator.ui.building.view;
 import com.TownSimulator.entity.building.BuildingType;
 
 /**
- * 
  * 	支持WorkerGroupWindow及监听
- *
  */
 public class WorkableViewWindow extends UndockedWindow{
-
 	protected WorkerGroup workerGroup;
 	
 	public WorkableViewWindow(BuildingType buildingType, int numAllowedWorker) {
@@ -22,6 +19,7 @@ public class WorkableViewWindow extends UndockedWindow{
 		
 		float width = Math.max(workerGroup.getWidth(),
 				headerLabel.getStyle().font.getBounds(headerLabel.getText()).width + closeButton.getWidth() + MARGIN);
+		width = Math.max(width, MIN_WIDTH);
 		setSize(width + MARGIN * 2, workerGroup.getHeight() + MARGIN * 2);
 		updateLayout();
 	}

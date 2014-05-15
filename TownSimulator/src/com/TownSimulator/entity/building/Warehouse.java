@@ -13,6 +13,7 @@ import com.TownSimulator.ui.building.view.ScrollViewWindow;
 import com.TownSimulator.ui.building.view.UndockedWindow;
 import com.TownSimulator.utility.ResourceManager;
 import com.TownSimulator.utility.Settings;
+import com.TownSimulator.utility.Singleton;
 import com.TownSimulator.utility.TipsBillborad;
 import com.TownSimulator.utility.quadtree.QuadTreeType;
 import com.badlogic.gdx.graphics.Color;
@@ -23,7 +24,6 @@ public class Warehouse extends Building {
 	
 	public Warehouse() {
 		super(ResourceManager.getInstance(ResourceManager.class).createSprite("building_warehouse"), BuildingType.WAREHOUSE);
-		
 		storedResources = new LinkedList<Resource>();
 	}
 	
@@ -53,7 +53,6 @@ public class Warehouse extends Building {
 	{
 		addStoredResource(type, amount, true);
 	}
-	
 
 	public Iterator<Resource> getStoredResource()
 	{
@@ -66,26 +65,43 @@ public class Warehouse extends Building {
 			return storedResources.get(storedResources.indexOf(new Resource(type))).getAmount();
 		return -1;
 	}
-		
 	
 	public List<List<String>> getViewData() {
 		List<List<String>> list = new ArrayList<List<String>>();
 		for(Resource resource : storedResources) {
 			list.add(resource.toStringList());
 		}
+		if(list.isEmpty())
+			list.add(Resource.getEmptyStringList());
 		return list;
 	}
 	
 	protected void updateViewWindow() {
-		//if(undockedWindow instanceof ScrollViewWindow) {
-		//	ScrollViewWindow scrollViewWindow = (ScrollViewWindow) undockedWindow;
 		scrollWindow.updateData(getViewData());
-		//}
 	}
 
 	@Override
 	protected UndockedWindow createUndockedWindow() {
 		scrollWindow = UIManager.getInstance(UIManager.class).getGameUI().createScrollViewWindow(buildingType);
 		return scrollWindow;
+	}
+	
+	public boolean isWheatAbundant() {
+		return true;
+	}
+	
+	public int requestWheat(int requiredAmount) {
+		if(!storedResources.contains(new Resource(ResourceType.RS_WHEAT)))
+			return 0;
+		Resource wheat = storedResources.get(storedResources.indexOf(new Resource(ResourceType.RS_WHEAT)));
+		if(wheat.getAmount() >= requiredAmount) {
+			wheat.addAmount(-requiredAmount);
+			Singleton.getInstance(ResourceInfoCollector.class).addResourceAmount(ResourceType.RS_WHEAT, -requiredAmount);
+			return requiredAmount;
+		}
+		int resWheatAmount = wheat.getAmount();
+		wheat.addAmount(-resWheatAmount);
+		Singleton.getInstance(ResourceInfoCollector.class).addResourceAmount(ResourceType.RS_WHEAT, -resWheatAmount);
+		return resWheatAmount;
 	}
 }

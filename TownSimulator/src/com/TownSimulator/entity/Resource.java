@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 重写了equals(Object object)和toString()方法，以简化collection操作
- * 为了判断collection是否包含某个类型的Resource，可以写成collection.contains(new Resource(desiredType))
+ * 重写了equals(Object object)和hashCode()方法，以简化collection操作
+ * <p>为了判断collection是否包含某个类型的Resource，可以写成collection.contains(new Resource(desiredType))
  * 
  */
 public class Resource {
@@ -47,6 +47,8 @@ public class Resource {
 	
 	public void addAmount(int increment) {
 		amount += increment;
+		if(amount < 0)
+			amount = 0;
 	}
 	
 	public boolean isSufficient() {
@@ -82,4 +84,12 @@ public class Resource {
 		list.add(getAmount() + "");
 		return list;
 	}
+	
+	public static List<String> getEmptyStringList() {
+		List<String> list = new ArrayList<String>();
+		list.add("");
+		list.add("");
+		return list;
+	}
+	
 }

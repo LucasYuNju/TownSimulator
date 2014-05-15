@@ -98,22 +98,22 @@ public class Ranch extends WorkableBuilding{
 			Warehouse warehouse = EntityInfoCollector.getInstance(EntityInfoCollector.class)
 									.findNearestWareHouse(mPosXWorld, mPosYWorld);
 			
-			if(curWorkerCnt <= 0)
+			if(workers.size <= 0)
 				continue;
 			
-			warehouse.addStoredResource(ResourceType.RS_MEAT, PRODUCE_MEAT_AMOUNT * curWorkerCnt, false);
+			warehouse.addStoredResource(ResourceType.RS_MEAT, PRODUCE_MEAT_AMOUNT * workers.size, false);
 			float originX = this.getAABBWorld(QuadTreeType.DRAW).getCenterX();
 			float originY = this.getAABBWorld(QuadTreeType.DRAW).maxY + Settings.UNIT * 0.6f + TipsBillborad.getTipsHeight();
 			Color color = Color.WHITE;
 			TipsBillborad.showTips(
-					ResourceType.RS_MEAT + " + " + PRODUCE_MEAT_AMOUNT * curWorkerCnt,
+					ResourceType.RS_MEAT + " + " + PRODUCE_MEAT_AMOUNT * workers.size,
 					originX,
 					originY, color);
 			
-			warehouse.addStoredResource(ResourceType.RS_FUR, PRODUCE_FUR_AMOUNT * curWorkerCnt, false);
+			warehouse.addStoredResource(ResourceType.RS_FUR, PRODUCE_FUR_AMOUNT * workers.size, false);
 			originY = this.getAABBWorld(QuadTreeType.DRAW).maxY + Settings.UNIT * 0.4f;
 			TipsBillborad.showTips(
-					ResourceType.RS_FUR + " + " + PRODUCE_FUR_AMOUNT * curWorkerCnt,
+					ResourceType.RS_FUR + " + " + PRODUCE_FUR_AMOUNT * workers.size,
 					originX,
 					originY, color);
 		}

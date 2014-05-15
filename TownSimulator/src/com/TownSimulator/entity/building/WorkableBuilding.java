@@ -20,7 +20,6 @@ public abstract class WorkableBuilding extends Building
 {
 	protected int maxJobCnt;
 	protected int openJobCnt;
-	protected int curWorkerCnt;
 	protected JobType jobType;
 	protected Array<Man> workers;
 	private WorkableViewWindow workableWindow;
@@ -71,7 +70,6 @@ public abstract class WorkableBuilding extends Building
 			worker.getInfo().workingBuilding = null;
 			worker.setBehavior(new IdleBTN(worker));
 		}
-		curWorkerCnt -= cnt;
 	}
 
 //	public int getMaxJobCnt() {
@@ -83,14 +81,14 @@ public abstract class WorkableBuilding extends Building
 	}
 
 	public void setOpenJobCnt(int openJobCnt) {
-		if(curWorkerCnt > openJobCnt)
-			fireWorker(curWorkerCnt - openJobCnt);
+		if(workers.size > openJobCnt)
+			fireWorker(workers.size - openJobCnt);
 		
 		this.openJobCnt = openJobCnt;
 	}
 
 	public int getCurWorkerCnt() {
-		return curWorkerCnt;
+		return workers.size;
 	}
 
 	public JobType getJobType() {
@@ -105,11 +103,10 @@ public abstract class WorkableBuilding extends Building
 	
 	public void addWorker(Man man)
 	{
-		if(curWorkerCnt >= openJobCnt)
+		if(workers.size >= openJobCnt)
 			return;
 		
 		workers.add(man);
-		curWorkerCnt ++;
 		man.getInfo().job = jobType;
 		man.getInfo().workingBuilding = this;
 		man.setBehavior(createBehavior(man));
@@ -120,7 +117,6 @@ public abstract class WorkableBuilding extends Building
 	{
 		if( workers.removeValue(man, false) )
 		{
-			curWorkerCnt--;
 			man.getInfo().job = null;
 			man.getInfo().workingBuilding = null;
 			updateViewWindow();
@@ -144,18 +140,6 @@ public abstract class WorkableBuilding extends Building
 	}
 	
 	public void updateViewWindow() {
-		/**
-		 * !FIXME
-		 */
-//		if(viewWindow instanceof FarmViewWindow) {
-//			FarmViewWindow farmViewWindow = (FarmViewWindow) viewWindow;
-//			farmViewWindow.addWorker();
-//		}
-//		else {
-//			WorkableViewWindow workableViewWindow = (WorkableViewWindow) viewWindow;
-//			workableViewWindow.addWorker();
-//		}
-//		WorkableViewWindow workableViewWindow = (WorkableViewWindow) undockedWindow;
 		workableWindow.addWorker();
 		System.out.println("Add Worker");
 	}
