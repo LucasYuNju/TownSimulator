@@ -12,7 +12,7 @@ public class IconButton extends FlipButton{
 	
 	public IconButton(String textureName) {
 		super("button_up", "button_down", null);
-		mIcon 		= ResourceManager.getInstance(ResourceManager.class).findTextureRegion(textureName);
+		mIcon 		= ResourceManager.getInstance(ResourceManager.class).createTextureRegion(textureName);
 	}
 	
 	@Override

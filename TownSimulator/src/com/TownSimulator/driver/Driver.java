@@ -8,15 +8,20 @@ import com.TownSimulator.collision.CollisionDetector;
 import com.TownSimulator.entity.EntityFactory;
 import com.TownSimulator.entity.EntityInfoCollector;
 import com.TownSimulator.entity.Man;
-import com.TownSimulator.entity.ManInfo;
 import com.TownSimulator.entity.ResourceInfoCollector;
 import com.TownSimulator.entity.ResourceType;
 import com.TownSimulator.entity.building.Bar;
 import com.TownSimulator.entity.building.Building;
 import com.TownSimulator.entity.building.BuildingType;
 import com.TownSimulator.entity.building.CoatFactory;
+//github.com/LuciusYu/TownSimulator.git
+import com.TownSimulator.entity.building.FarmHouse;
+import com.TownSimulator.entity.building.FarmLand;
 import com.TownSimulator.entity.building.FellingHouse;
 import com.TownSimulator.entity.building.Hospital;
+import com.TownSimulator.entity.building.PowerStation;
+import com.TownSimulator.entity.building.Ranch;
+import com.TownSimulator.entity.building.RanchLand;
 import com.TownSimulator.entity.building.Warehouse;
 import com.TownSimulator.io.InputMgr;
 import com.TownSimulator.map.Map;
@@ -31,11 +36,6 @@ import com.TownSimulator.utility.quadtree.QuadTreeType;
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
-//github.com/LuciusYu/TownSimulator.git
-import com.TownSimulator.entity.building.FarmHouse;
-import com.TownSimulator.entity.building.FarmLand;
-import com.TownSimulator.entity.building.Ranch;
-import com.TownSimulator.entity.building.RanchLand;
 
 public class Driver extends SingletonPublisher<DriverListener> implements ApplicationListener{
 	private Driver()
@@ -81,7 +81,7 @@ public class Driver extends SingletonPublisher<DriverListener> implements Applic
 		
 		FellingHouse fellingHouse = (FellingHouse)EntityFactory.createBuilding(BuildingType.FELLING_HOUSE);
 		fellingHouse.setState(Building.State.Constructed);
-		fellingHouse.setPositionWorld(originPosX - 12 * Settings.UNIT, originPoxY - 8 * Settings.UNIT);
+		fellingHouse.setPositionWorld(originPosX - 12 * Settings.UNIT, originPoxY - 12 * Settings.UNIT);
 		EntityInfoCollector.getInstance(EntityInfoCollector.class).addBuilding(fellingHouse);
 		CollisionDetector.getInstance(CollisionDetector.class).attachCollisionDetection(fellingHouse);
 		Renderer.getInstance(Renderer.class).attachDrawScissor(fellingHouse);
@@ -108,12 +108,25 @@ public class Driver extends SingletonPublisher<DriverListener> implements Applic
 		CollisionDetector.getInstance(CollisionDetector.class).attachCollisionDetection(coatFactory);
 		Renderer.getInstance(Renderer.class).attachDrawScissor(coatFactory);
 		
-//		PowerStation powerStation = (PowerStation)EntityFactory.createBuilding(BuildingType.POWER_STATION);
-//		powerStation.setState(Building.State.Constructed);
-//		powerStation.setPositionWorld(originPosX, originPoxY - 5 * Settings.UNIT);
-//		EntityInfoCollector.getInstance(EntityInfoCollector.class).addBuilding(powerStation);
-//		CollisionDetector.getInstance(CollisionDetector.class).attachCollisionDetection(powerStation);
-//		Renderer.getInstance(Renderer.class).attachDrawScissor(powerStation);
+
+		PowerStation powerStation = (PowerStation)EntityFactory.createBuilding(BuildingType.POWER_STATION);
+		powerStation.setState(Building.State.Constructed);
+		powerStation.setPositionWorld(originPosX, originPoxY - 5 * Settings.UNIT);
+		EntityInfoCollector.getInstance(EntityInfoCollector.class).addBuilding(powerStation);
+		CollisionDetector.getInstance(CollisionDetector.class).attachCollisionDetection(powerStation);
+		Renderer.getInstance(Renderer.class).attachDrawScissor(powerStation);
+
+		FarmHouse farmHouse=(FarmHouse)EntityFactory.createBuilding(BuildingType.FARM_HOUSE);
+		farmHouse.setState(Building.State.Constructed);
+		farmHouse.setPositionWorld(originPosX, originPoxY - 3 * Settings.UNIT);
+		EntityInfoCollector.getInstance(EntityInfoCollector.class).addBuilding(farmHouse);
+		CollisionDetector.getInstance(CollisionDetector.class).attachCollisionDetection(farmHouse);
+		Renderer.getInstance(Renderer.class).attachDrawScissor(farmHouse);
+		
+		
+		for (FarmLand land : ((FarmHouse)farmHouse).getFarmLands()) {
+			Renderer.getInstance(Renderer.class).attachDrawScissor(land);
+		}
 		
 		Ranch ranch = (Ranch)EntityFactory.createBuilding(BuildingType.RANCH);
 		ranch.setPositionWorld(originPosX - 8 * Settings.UNIT, originPoxY + 2 * Settings.UNIT);
@@ -125,71 +138,18 @@ public class Driver extends SingletonPublisher<DriverListener> implements Applic
 			Renderer.getInstance(Renderer.class).attachDrawScissor(land);
 			CollisionDetector.getInstance(CollisionDetector.class).attachCollisionDetection(land);
 		}
-		//ranch.setType(RanchAnimalType.COW);
-		
-		FarmHouse farmHouse = (FarmHouse)EntityFactory.createBuilding(BuildingType.FARM_HOUSE);
-		farmHouse.setPositionWorld(originPosX, originPoxY + 8 * Settings.UNIT);
-		farmHouse.setState(Building.State.Constructed);
-		EntityInfoCollector.getInstance(EntityInfoCollector.class).addBuilding(farmHouse);
-		CollisionDetector.getInstance(CollisionDetector.class).attachCollisionDetection(farmHouse);
-		Renderer.getInstance(Renderer.class).attachDrawScissor(farmHouse);
-//		farmHouse.setSowCropType(CropType.WHEAT);
-		
-		for (FarmLand land : ((FarmHouse)farmHouse).getFarmLands()) {
-			Renderer.getInstance(Renderer.class).attachDrawScissor(land);
-		}
-		
-//		InputMgr.getInstance(InputMgr.class).addListener(new InputMgrListenerBaseImpl()
-//		{
-//
-//			@Override
-//			public boolean touchDown(float screenX, float screenY, int pointer,
-//					int button) {
-//				UIManager.getInstance(UIManager.class).getGameUI().getMessageBoard().showMessage("Hello Wolrd!");
-//				return true;
-//			}
-//		});
-		
+
 		for (int i = 0; i < initPepleCnt * 5; i++) {
 			float randX = (rand.nextFloat() - 0.5f) * Settings.UNIT * 6;
 			float ranxY = (rand.nextFloat() - 0.5f) * Settings.UNIT * 6;
 			Man man = new Man();
 			man.setPositionWorld(originPosX + randX, originPoxY + ranxY);
-			man.getInfo().setHappinessPoints(ManInfo.HAPPINESS_POINTS_DEPRESSED - i + initPepleCnt * 4);
-			man.getInfo().setHealthyPoints(ManInfo.HEALTH_POINTS_SICK);
-//			man.getInfo().setHungryPoints(ManInfo.HEALTH_POINTS_SICK);
-			//fellingHouse.addWorker(man);
-			//man.setBehavior(new FellingBTN(man));
-//			farmHouse.addWorker(man);
-//			man.setBehavior(new FarmerBTN(man));
+//			man.getInfo().setHappinessPoints(ManInfo.HAPPINESS_POINTS_DEPRESSED - i + initPepleCnt * 4);
+//			man.getInfo().setHealthyPoints(ManInfo.HEALTH_POINTS_SICK);
 			EntityInfoCollector.getInstance(EntityInfoCollector.class).addMan(man);
 			
 			Renderer.getInstance(Renderer.class).attachDrawScissor(man);
 		}
-		
-//		InputMgr.getInstance(InputMgr.class).addListener(new InputMgrListenerBaseImpl()
-//		{
-//
-//			@Override
-//			public boolean touchDown(float screenX, float screenY, int pointer,
-//					int button) {
-//				VoicePlayer.getInstance(VoicePlayer.class).playSound("cave3.wav");
-//				return true;
-//			}
-//			
-//		});
-		
-//		for (int i = 0; i < initPepleCnt; i++) {
-//			float randX = (rand.nextFloat() - 0.5f) * Settings.UNIT * 6;
-//			float ranxY = (rand.nextFloat() - 0.5f) * Settings.UNIT * 6;
-//			Man man = new Man();
-//			man.setPositionWorld(originPosX + randX, originPoxY + ranxY);
-//			//fellingHouse.addWorker(man);
-//			//man.setBehavior(new FellingBTN(man));
-//			EntityInfoCollector.getInstance(EntityInfoCollector.class).addMan(man);
-//			
-//			Renderer.getInstance(Renderer.class).attachDrawScissor(man);
-//		}
 	}
 	
 	@Override
@@ -243,5 +203,4 @@ public class Driver extends SingletonPublisher<DriverListener> implements Applic
 			mListeners.get(i).resume();
 		}
 	}
-
 }

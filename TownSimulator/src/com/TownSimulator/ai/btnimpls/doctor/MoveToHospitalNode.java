@@ -6,7 +6,7 @@ import com.TownSimulator.entity.Man;
 import com.TownSimulator.entity.ManAnimeType;
 import com.TownSimulator.utility.quadtree.QuadTreeType;
 
-public class MoveToHospitalNode implements ActionNode{
+public class MoveToHospitalNode extends ActionNode{
 	private Man man;
 	
 	public MoveToHospitalNode(Man man) {

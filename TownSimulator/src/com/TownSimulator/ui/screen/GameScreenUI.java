@@ -53,6 +53,7 @@ public class GameScreenUI extends ScreenUIBase{
 		
 		messageBoard = new MessageBoard();
 		mStage.addActor(messageBoard);
+
 	}
 	
 	public BuildingAdjustGroup getBuildAjustUI()

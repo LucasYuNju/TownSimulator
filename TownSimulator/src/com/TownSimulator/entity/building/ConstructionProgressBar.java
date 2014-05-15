@@ -13,8 +13,8 @@ import com.badlogic.gdx.utils.Array;
 
 public class ConstructionProgressBar implements Drawable{
 	
-	private static TextureRegion spBackgroud = ResourceManager.getInstance(ResourceManager.class).findTextureRegion("background");
-	private static TextureRegion spBar = ResourceManager.getInstance(ResourceManager.class).findTextureRegion("process_bar");
+	private static TextureRegion spBackgroud = ResourceManager.getInstance(ResourceManager.class).createTextureRegion("background");
+	private static TextureRegion spBar = ResourceManager.getInstance(ResourceManager.class).createTextureRegion("process_bar");
 	private static Array<ConstructionProgressBar> barsAlloced = new Array<ConstructionProgressBar>();
 	private static Array<ConstructionProgressBar> barsFree = new Array<ConstructionProgressBar>();
 	private Building building;

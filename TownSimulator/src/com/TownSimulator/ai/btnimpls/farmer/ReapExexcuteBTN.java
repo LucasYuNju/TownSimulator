@@ -12,7 +12,7 @@ import com.TownSimulator.entity.building.FarmLand;
 import com.TownSimulator.entity.building.Warehouse;
 import com.TownSimulator.utility.quadtree.QuadTreeType;
 
-public class ReapExexcuteBTN implements ActionNode{
+public class ReapExexcuteBTN extends ActionNode{
 	private Man man;
 	private static final float REAP_TIME_PER_LAND = 2.0f;
 	private float timeAccum = 0.0f;

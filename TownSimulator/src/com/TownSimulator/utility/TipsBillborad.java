@@ -43,7 +43,7 @@ public class TipsBillborad {
 		public TextureRegion alloc()
 		{
 			if(allocIndex >= draws.size)
-				draws.add(ResourceManager.getInstance(ResourceManager.class).findTextureRegion(textureName));
+				draws.add(ResourceManager.getInstance(ResourceManager.class).createTextureRegion(textureName));
 			
 			return draws.get(allocIndex++);
 		}

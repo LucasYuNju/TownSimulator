@@ -5,14 +5,12 @@ import com.TownSimulator.ai.behaviortree.ExecuteResult;
 import com.TownSimulator.entity.Man;
 import com.TownSimulator.entity.building.Bar;
 
-public class BarExecuteBTN implements ActionNode{
-	private Man man;
+public class BarExecuteBTN extends ActionNode{
 	private Bar bar;
 	private float accumulatedTime;
 	private static final float TIME_PER_WINE = 10f;
 	
 	public BarExecuteBTN(Man man) {
-		this.man = man;
 		bar = (Bar) man.getInfo().workingBuilding;
 	}
 	

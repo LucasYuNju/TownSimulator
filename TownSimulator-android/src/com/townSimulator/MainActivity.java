@@ -13,6 +13,8 @@ public class MainActivity extends AndroidApplication {
         
         AndroidApplicationConfiguration cfg = new AndroidApplicationConfiguration();
         cfg.useGLSurfaceView20API18 = false;
+        cfg.useAccelerometer=false;
+        cfg.useCompass=false;
         
         Driver d = Driver.getInstance(Driver.class);
         System.out.println(d);

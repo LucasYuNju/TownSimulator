@@ -48,7 +48,7 @@ public class Bar extends WorkableBuilding{
 	}
 	
 	private void makeWine() {
-		@SuppressWarnings("unchecked")
+		@SuppressWarnings({ "unchecked", "rawtypes" })
 		Array<Warehouse> warehouses = (Array)Singleton.getInstance(EntityInfoCollector.class).getBuildings(BuildingType.WAREHOUSE);
 		for(Warehouse warehouse : warehouses) {
 			if(warehouse.isWheatAbundant()) {

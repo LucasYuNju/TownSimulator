@@ -5,13 +5,15 @@ public enum BuildingType {
 	APARTMENT("apartment"),
 	WAREHOUSE("Warehouse"), 
 	FARM_HOUSE("Farm"),
-	FELLING_HOUSE("Felling House"),
-	POWER_STATION("Power Station"),
-	COAT_FACTORY("Coat Factory"),
-	RANCH("ranch"),
-	School("school"),
+	FELLING_HOUSE("Felling"),
+	POWER_STATION("PowerStation"),
+	COAT_FACTORY("CoatFactory"),
+	SCHOOL("School"),
+	WELL("Well"),
 	Hospital("hospital"),
-	Bar("bar");
+	Bar("bar"),
+	RANCH("Ranch");
+
 	
 	private String name;
 	private BuildingType(String name) {

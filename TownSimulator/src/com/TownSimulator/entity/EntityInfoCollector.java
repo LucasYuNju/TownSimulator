@@ -5,6 +5,7 @@ import java.util.HashMap;
 import com.TownSimulator.ai.btnimpls.construct.ConstructionProject;
 import com.TownSimulator.entity.building.Building;
 import com.TownSimulator.entity.building.BuildingType;
+import com.TownSimulator.entity.building.School;
 import com.TownSimulator.entity.building.Warehouse;
 import com.TownSimulator.utility.Singleton;
 import com.badlogic.gdx.utils.Array;
@@ -158,12 +159,66 @@ public class EntityInfoCollector extends Singleton{
 				{
 					dstMin = dst;
 					result.wareHouse = wareHouse;
-					result.amount = wareHouse.getStoredResourceAmount(type);;
+					result.amount = wareHouse.getStoredResourceAmount(type);
 				}
 			}
 		}
 		
 		return result;
+	}
+	
+	public class BuildingFindResult{
+		public BuildingType buildingType;
+		public Building building;
+	}
+	
+	public BuildingFindResult findNearestBuilding(BuildingType buildingType,float x, float y)
+	{
+		double dstMin = -1.0f;
+		BuildingFindResult buildingFindResult=new BuildingFindResult();
+		for (Building building : buildingsList) {
+			if(building.getType() == buildingType)
+			{
+				double dst = 	Math.pow(building.getPositionXWorld() - x, 2)
+							+	Math.pow(building.getPositionYWorld() - y, 2);
+				
+				if(dstMin == -1.0f || dst < dstMin)
+				{
+					dstMin = dst;
+					buildingFindResult.building=building;
+				}
+			}
+		}
+		buildingFindResult.buildingType=buildingType;
+		
+		return buildingFindResult;
+	}
+	
+	public School findNearestSchool(float x, float y)
+	{
+		double dstMin = -1.0f;
+		School school=null;
+		for (Building building : buildingsList) {
+			if(building.getType() == BuildingType.SCHOOL)
+			{
+				School tempSchool=(School)building;
+				if(!tempSchool.isTeacherWork()){
+					continue;
+				}
+				if(tempSchool.getCurrentStudentNum()>=School.SingleSchoolStudentNum){
+					continue;
+				}
+				double dst = 	Math.pow(building.getPositionXWorld() - x, 2)
+							+	Math.pow(building.getPositionYWorld() - y, 2);
+				
+				if(dstMin == -1.0f || dst < dstMin)
+				{
+					dstMin = dst;
+					school=(School)building;
+				}
+			}
+		}
+		return school;
 	}
 	
 }

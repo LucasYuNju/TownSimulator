@@ -16,6 +16,15 @@ public abstract class CompositeNode implements BehaviorTreeNode{
 		return this;
 	}
 	
+	
+	
+	@Override
+	public void destroy() {
+		for (BehaviorTreeNode node : mChildren) {
+			node.destroy();
+		}
+	}
+
 	@Override
 	abstract public ExecuteResult execute(float deltaTime);
 

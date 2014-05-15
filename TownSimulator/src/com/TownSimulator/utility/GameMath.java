@@ -1,5 +1,7 @@
 package com.TownSimulator.utility;
 
+import com.badlogic.gdx.graphics.Color;
+
 
 public class GameMath {
 	public static float lerp(float v0, float v1, float x)
@@ -23,5 +25,16 @@ public class GameMath {
 			return false;
 		else
 			return true;
+	}
+	
+	public static Color rgbaIntToColor(int r, int g, int b, int a)
+	{
+		Color c = new Color();
+		c.r = (float)r / 255.0f;
+		c.g = (float)g / 255.0f;
+		c.b = (float)b / 255.0f;
+		c.a = (float)a / 255.0f;
+		
+		return c;
 	}
 }

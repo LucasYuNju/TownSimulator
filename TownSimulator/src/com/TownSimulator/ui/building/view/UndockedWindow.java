@@ -39,7 +39,7 @@ public class UndockedWindow extends Group{
 	
 	public UndockedWindow(BuildingType buildingType) {
 		super();
-		background = Singleton.getInstance(ResourceManager.class).findTextureRegion("background");
+		background = Singleton.getInstance(ResourceManager.class).createTextureRegion("background");
 		this.buildingType = buildingType;
 		initCameraListener();
 		

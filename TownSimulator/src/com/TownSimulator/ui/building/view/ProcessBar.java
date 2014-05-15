@@ -23,8 +23,8 @@ public class ProcessBar extends Actor{
 	public ProcessBar(float width) {
 		this.width = width;
 		setSize(width, HEIGHT);
-		processBar = Singleton.getInstance(ResourceManager.class).findTextureRegion("process_bar");
-		blackFrame = Singleton.getInstance(ResourceManager.class).findTextureRegion("frame_black");
+		processBar = Singleton.getInstance(ResourceManager.class).createTextureRegion("process_bar");
+		blackFrame = Singleton.getInstance(ResourceManager.class).createTextureRegion("frame_black");
 	}
 	
 	@Override
