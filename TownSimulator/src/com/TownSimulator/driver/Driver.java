@@ -8,9 +8,7 @@ import com.TownSimulator.collision.CollisionDetector;
 import com.TownSimulator.entity.EntityFactory;
 import com.TownSimulator.entity.EntityInfoCollector;
 import com.TownSimulator.entity.Man;
-import com.TownSimulator.entity.ResourceInfoCollector;
 import com.TownSimulator.entity.ResourceType;
-import com.TownSimulator.entity.building.Bar;
 import com.TownSimulator.entity.building.Building;
 import com.TownSimulator.entity.building.BuildingType;
 import com.TownSimulator.entity.building.CoatFactory;
@@ -47,17 +45,17 @@ public class Driver extends SingletonPublisher<DriverListener> implements Applic
 	public void init()
 	{
 		Random rand = new Random(System.currentTimeMillis());
-		int initPepleCnt = 5;
+		int initPepleCnt = 15;
 		float originPosX = CameraController.getInstance(CameraController.class).getX();
 		float originPoxY = CameraController.getInstance(CameraController.class).getY();
 		
-		ResourceInfoCollector.getInstance(ResourceInfoCollector.class).addResourceAmount(ResourceType.RS_WOOD, 100);
-		ResourceInfoCollector.getInstance(ResourceInfoCollector.class).addResourceAmount(ResourceType.RS_STONE, 50);
+		//ResourceInfoCollector.getInstance(ResourceInfoCollector.class).addResourceAmount(ResourceType.RS_WOOD, 100);
+		//ResourceInfoCollector.getInstance(ResourceInfoCollector.class).addResourceAmount(ResourceType.RS_STONE, 50);
 		
 		Warehouse wareHouse = (Warehouse) EntityFactory.createBuilding(BuildingType.WAREHOUSE);
-		wareHouse.addStoredResource(ResourceType.RS_WOOD, 100);
-		wareHouse.addStoredResource(ResourceType.RS_STONE, 50);
-		wareHouse.addStoredResource(ResourceType.RS_WHEAT, 2000);
+		wareHouse.addStoredResource(ResourceType.RS_WOOD, 2300);
+		//wareHouse.addStoredResource(ResourceType.RS_STONE, 50);
+		wareHouse.addStoredResource(ResourceType.RS_WHEAT, 20000);
 		wareHouse.addStoredResource(ResourceType.RS_FUR, 200);
 		wareHouse.setState(Building.State.Constructed);
 		wareHouse.setPositionWorld(originPosX - 2 * Settings.UNIT, originPoxY - 8 * Settings.UNIT);
@@ -147,7 +145,7 @@ public class Driver extends SingletonPublisher<DriverListener> implements Applic
 			CollisionDetector.getInstance(CollisionDetector.class).attachCollisionDetection(land);
 		}
 
-		for (int i = 0; i < initPepleCnt * 5; i++) {
+		for (int i = 0; i < initPepleCnt; i++) {
 			float randX = (rand.nextFloat() - 0.5f) * Settings.UNIT * 6;
 			float ranxY = (rand.nextFloat() - 0.5f) * Settings.UNIT * 6;
 			Man man = new Man();
@@ -187,7 +185,7 @@ public class Driver extends SingletonPublisher<DriverListener> implements Applic
 		
 		float deltaTime = Gdx.graphics.getDeltaTime();
 		for (int i = 0; i < mListeners.size; i++) {
-			mListeners.get(i).update(deltaTime);
+			mListeners.get(i).update(deltaTime * Settings.gameSpeed);
 		}
 	}
 

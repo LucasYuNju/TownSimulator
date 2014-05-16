@@ -29,6 +29,9 @@ public class Warehouse extends Building {
 	
 	public void addStoredResource(ResourceType type, int amount, boolean showTips)
 	{
+		if(amount == 0)
+			return;
+		
 		if(storedResources.contains(new Resource(type))) 
 			storedResources.get(storedResources.indexOf(new Resource(type))).addAmount(amount);
 		else

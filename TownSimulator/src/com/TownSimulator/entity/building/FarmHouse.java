@@ -6,6 +6,7 @@ import com.TownSimulator.driver.Driver;
 import com.TownSimulator.driver.DriverListenerBaseImpl;
 import com.TownSimulator.entity.JobType;
 import com.TownSimulator.entity.Man;
+import com.TownSimulator.entity.ManInfo;
 import com.TownSimulator.entity.World;
 import com.TownSimulator.entity.World.SeasonType;
 import com.TownSimulator.ui.UIManager;
@@ -20,7 +21,8 @@ import com.badlogic.gdx.utils.Array;
 
 public class FarmHouse extends WorkableBuilding implements SelectBoxListener
 {
-	private static final int MAX_JOB_CNT = 4;
+	private static final int MAX_JOB_CNT = 3;
+	private static final float MAN_EFFICENT_TRANS = 0.75f;
 	private CropType curCropType;
 	private CropType sowCropType;
 	private boolean bSowStart = false;
@@ -61,12 +63,6 @@ public class FarmHouse extends WorkableBuilding implements SelectBoxListener
 	protected BehaviorTreeNode createBehavior(Man man) {
 		return new FarmerBTN(man);
 	}
-	
-//	@Override
-//	public void addWorker(Man man) {
-//		super.addWorker(man);
-//		man.setBehavior(new FarmerBTN(man));
-//	}
 
 	private void initFarmLands()
 	{
@@ -84,12 +80,6 @@ public class FarmHouse extends WorkableBuilding implements SelectBoxListener
 		int index = 0;
 		float posY = mPosYWorld - Settings.UNIT;
 		float posX = mPosXWorld;
-//		for (float y = mPosYWorld - Settings.UNIT; y >= mPosYWorld - 3 * Settings.UNIT; y -= Settings.UNIT) {
-//			for (float x = mPosXWorld; x <= mPosXWorld + 2 * Settings.UNIT; x += Settings.UNIT) {
-//				farmLands.get(i).setPositionWorld(x, y);
-//				i++;
-//			}
-//		}
 		
 		for (int i = 0; i < 3; i++) {
 			for (int j = 0; j < 3; j++) {
@@ -107,13 +97,15 @@ public class FarmHouse extends WorkableBuilding implements SelectBoxListener
 	{
 		if(workers.size == 0)
 			return;
+		
 		float efficiency = 0.0f;
 		for (Man man : workers) {
 			efficiency += man.getInfo().workEfficency;
 		}
 		efficiency /= workers.size;
+		efficiency = ManInfo.BASE_WORKEFFICIENCY + (efficiency - ManInfo.BASE_WORKEFFICIENCY) * MAN_EFFICENT_TRANS;
 		float timeSpeed = 365.0f / World.SecondPerYear;// day/second
-		float fullNeedDays = GameMath.lerp(12.0f * 30.0f, 6.0f * 30.0f, workers.size / maxJobCnt);
+		float fullNeedDays = GameMath.lerp(9.0f * 30.0f, 6.0f * 30.0f, getCurWorkerCnt() / maxJobCnt);
 		float speed = FarmLand.MAX_CROP_AMOUNT / (fullNeedDays / timeSpeed );
 		for (FarmLand land : farmLands) {
 			land.addCropAmount(speed * efficiency * deltaTime);

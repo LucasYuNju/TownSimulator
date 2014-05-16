@@ -14,8 +14,8 @@ import com.TownSimulator.utility.quadtree.QuadTreeType;
 import com.badlogic.gdx.math.Vector2;
 
 public class FellingExecuteBTN extends ActionNode{
-	public static float FELLING_INTERVAL = 2.0f;
 	public static int FELLING_CNT = 4;// 每砍FELLING_CNT次获取一次木材
+	public float fellingInterval = 2.0f;
 	public float fellingAccum = 0.0f;
 	public int felllingCntAccum = 0;
 	private Man man;
@@ -31,7 +31,7 @@ public class FellingExecuteBTN extends ActionNode{
 			
 			@Override
 			public void frameChanged(int curFrameIndex) {
-				if(curFrameIndex == 1)
+				if(curFrameIndex == 1 && FellingExecuteBTN.this.fellingInfo.fellingTree != null)
 				{
 					FellingExecuteBTN.this.fellingInfo.fellingTree.shake();
 					jetParticles();
@@ -40,6 +40,8 @@ public class FellingExecuteBTN extends ActionNode{
 		};
 		man.getAnimation(ManAnimeType.WORK, true).addListener(workAnimeListener);
 		man.getAnimation(ManAnimeType.WORK, false).addListener(workAnimeListener);
+		
+		fellingInterval = man.getAnimation(ManAnimeType.WORK, false).getLength();
 	}
 	
 	@Override
@@ -63,9 +65,9 @@ public class FellingExecuteBTN extends ActionNode{
 	private void doFelling(float deltaTime)
 	{
 		fellingAccum += deltaTime;
-		while(fellingAccum >= FELLING_INTERVAL)
+		while(fellingAccum >= fellingInterval)
 		{
-			fellingAccum -= FELLING_INTERVAL;
+			fellingAccum -= fellingInterval;
 			felllingCntAccum ++;
 			
 			if(felllingCntAccum >= FELLING_CNT)

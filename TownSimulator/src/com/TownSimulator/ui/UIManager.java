@@ -12,6 +12,7 @@ import com.TownSimulator.ui.screen.LoadingScreenUI.LoadingUIListener;
 import com.TownSimulator.ui.screen.StartScreenUI;
 import com.TownSimulator.ui.screen.StartScreenUI.StartUIListener;
 import com.TownSimulator.utility.Singleton;
+import com.badlogic.gdx.Gdx;
 
 public class UIManager extends Singleton implements StartUIListener{
 	private StartScreenUI 	mStartUI;
@@ -42,7 +43,7 @@ public class UIManager extends Singleton implements StartUIListener{
 		{
 			@Override
 			public void update(float deltaTime) {
-				mCurScreenUI.update(deltaTime);
+				mCurScreenUI.update(Gdx.graphics.getDeltaTime());
 			}
 
 			@Override
