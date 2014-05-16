@@ -85,7 +85,6 @@ public class School extends WorkableBuilding{
 		for(Man man:mansArray){
 			School school=EntityInfoCollector.getInstance(EntityInfoCollector.class).
 					   findNearestSchool( man.getPositionXWorld(), man.getPositionYWorld());
-			System.err.println("aaa");
 			if(!checkAgeInSchool(man.getInfo().getAge())){
 				continue;
 			}
@@ -94,7 +93,6 @@ public class School extends WorkableBuilding{
 			}
 			if(school.equals(School.this)){
 				this.currentStudentNum++;
-				System.out.println("cuurentStudentNum"+currentStudentNum);
 				man.getInfo().setSchool(school);
 			}
 		}
