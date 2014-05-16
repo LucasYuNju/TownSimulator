@@ -39,8 +39,8 @@ public class UIManager extends Singleton implements StartUIListener{
 		mGameUI = new GameScreenUI();
 		
 		mCurScreenUI = mStartUI;
-		VoicePlayer.getInstance(VoicePlayer.class).playSound("loop01.wav");
-		//VoicePlayer.getInstance(VoicePlayer.class).playSound("loop01.wav", 60.0f);
+		VoicePlayer.getInstance(VoicePlayer.class).playBgmMusic("start.mp3");
+		VoicePlayer.getInstance(VoicePlayer.class).playMusicForDuringTime("rain.mp3", 60.0f);
 		
 		Driver.getInstance(Driver.class).addListener(new DriverListenerBaseImpl()
 		{
