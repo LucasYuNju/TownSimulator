@@ -16,7 +16,7 @@ import com.TownSimulator.utility.Settings;
 import com.badlogic.gdx.math.Vector2;
 
 public class Man extends Entity{
-	private static final 	float 						MOVE_SPEED = 20.0f;
+	private static final 	float 						MOVE_SPEED = Settings.UNIT;
 	private 				HashMap<ManAnimeType, Animation> 	mAnimesMap;
 	private 				HashMap<ManAnimeType, Animation> 	mAnimesMapFlipped;
 	private 				Vector2						mMoveDir;

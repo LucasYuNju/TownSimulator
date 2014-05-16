@@ -4,7 +4,6 @@ import com.TownSimulator.ai.behaviortree.ActionNode;
 import com.TownSimulator.ai.behaviortree.ConditionNode;
 import com.TownSimulator.ai.behaviortree.ExecuteResult;
 import com.TownSimulator.ai.behaviortree.SequenceNode;
-import com.TownSimulator.entity.EntityInfoCollector;
 import com.TownSimulator.entity.Man;
 import com.TownSimulator.entity.ManAnimeType;
 import com.TownSimulator.entity.ManInfo;

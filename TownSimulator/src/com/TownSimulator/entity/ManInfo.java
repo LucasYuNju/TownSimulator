@@ -8,25 +8,22 @@ import com.TownSimulator.entity.building.LivingHouse;
 import com.TownSimulator.entity.building.School;
 import com.TownSimulator.entity.building.WorkableBuilding;
 
-/**
- * 全public大丈夫T T
- * 
- */
 public class ManInfo {
 	public ManAnimeType 	animeType = ManAnimeType.STANDING;
 	public boolean 			animeFlip = false;
 	public ConstructionInfo constructionInfo = new ConstructionInfo();
-	public float 			workEfficency = 1.0f;
 	public JobType 			job;
 	public WorkableBuilding 	workingBuilding;
 	private School         school; 
 	public LivingHouse 		home;
-	public static final float MAX_WORKEFFICENCY=2.0f;
+	public float 			workEfficency = BASE_WORKEFFICIENCY;
+	public static final float BASE_WORKEFFICIENCY = 1.0f;
+	public static final float MAX_WORKEFFICENCY = 2.0f;
 	
 	public static final float HUNGER_POINTS_MAX = 300.0f;
 	public static final float HUNGER_POINTS_FIND_FOOD = 100.0f;
 	public static final float HUNGER_POINTS_MIN = 0.0f; // die!
-	public static final float HUNGER_DECRE_SPEED = HUNGER_POINTS_MAX / (World.SecondPerYear * 0.3f); //per second
+	public static final float HUNGER_DECRE_SPEED = HUNGER_POINTS_MAX / (World.SecondPerYear * 0.25f); //per second
 	public float			hungerPoints = HUNGER_POINTS_MAX;
 	public boolean			isDead = false;
 	

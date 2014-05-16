@@ -1,6 +1,7 @@
 package com.TownSimulator.ai.btnimpls.lumerjack;
 
 import com.TownSimulator.ai.behaviortree.SelectorNode;
+import com.TownSimulator.ai.btnimpls.general.GeneralBTN;
 import com.TownSimulator.ai.btnimpls.general.RandomMoveBTN;
 import com.TownSimulator.entity.Man;
 
@@ -13,7 +14,8 @@ public class LumerJackBTN extends SelectorNode{
 	}
 
 	protected void init() {
-		this.addNode(new FellingBTN(mMan))
+		this.addNode(new GeneralBTN(mMan))
+			.addNode(new FellingBTN(mMan))
 			.addNode(new RandomMoveBTN(mMan));
 	}
 }

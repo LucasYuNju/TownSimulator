@@ -17,7 +17,7 @@ public class TransportWoodBTN extends ActionNode{
 	private Man man;
 	private FellingInfo fellingInfo;
 	//private Warehouse warehouse;
-	private static final int FELLING_WOOD_AMOUNT = 30;
+	private static final int FELLING_WOOD_AMOUNT = 40;
 	
 	public TransportWoodBTN(Man man, FellingInfo fellingInfo)
 	{

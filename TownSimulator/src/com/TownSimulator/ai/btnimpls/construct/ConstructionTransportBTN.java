@@ -11,7 +11,7 @@ import com.TownSimulator.entity.building.Building;
 import com.TownSimulator.entity.building.Warehouse;
 
 public class ConstructionTransportBTN extends ActionNode{
-	public static final int		MAX_TRANSPORT_RS_AMOUNT = 5;
+	public static final int		MAX_TRANSPORT_RS_AMOUNT = 500;
 	private State				mCurState;
 	//private ConstructionInfo		mMan.getInfo().constructionInfo;
 	private Man mMan;
@@ -31,8 +31,9 @@ public class ConstructionTransportBTN extends ActionNode{
 	{
 		int availableAmount = mMan.getInfo().constructionInfo.transportWareHouse.getStoredResourceAmount(mMan.getInfo().constructionInfo.transportRSType);
 		int takeAmount = Math.min(availableAmount, mMan.getInfo().constructionInfo.transportNeededAmount - mMan.getInfo().constructionInfo.curRSAmount);
-		mMan.getInfo().constructionInfo.transportWareHouse.addConstructionResource(mMan.getInfo().constructionInfo.transportRSType, -takeAmount);
+		mMan.getInfo().constructionInfo.transportWareHouse.addStoredResource(mMan.getInfo().constructionInfo.transportRSType, -takeAmount);
 		mMan.getInfo().constructionInfo.curRSAmount += takeAmount;
+		System.out.println(takeAmount);
 		
 		ResourceInfoCollector.getInstance(ResourceInfoCollector.class)
 		.addResourceAmount(mMan.getInfo().constructionInfo.transportRSType, -takeAmount);
@@ -61,33 +62,44 @@ public class ConstructionTransportBTN extends ActionNode{
 		if(mMan.getInfo().constructionInfo.transportNeededAmount == 0)
 		{
 			mMan.getInfo().constructionInfo.proj.allocateTransport(mMan.getInfo().constructionInfo);
-			findWareHouse();
-			if(mMan.getInfo().constructionInfo.transportWareHouse == null)
-				mCurState = State.CONSTRUCT_TRANSPORT_NO_RESOURCE;
+//			findWareHouse();
+//			if(mMan.getInfo().constructionInfo.transportWareHouse == null)
+//				mCurState = State.CONSTRUCT_TRANSPORT_NO_RESOURCE;
 		}
 		
 		switch (mCurState) {
 		case CONSTRUCT_TRANSPORT_TO_WAREHOUSR:
 			Warehouse wareHouse = mMan.getInfo().constructionInfo.transportWareHouse;
+			if(wareHouse == null)
+			{
+				findWareHouse();
+				if(wareHouse == null)
+					return ExecuteResult.RUNNING;
+			}
+			
 			mMan.setMoveDestination(wareHouse.getPositionXWorld(), wareHouse.getPositionYWorld());
 			mMan.getInfo().animeType = ManAnimeType.MOVE;
 			
 			if( !mMan.move(deltaTime) )
 			{
 				fetchResource();
-				if(mMan.getInfo().constructionInfo.curRSAmount < mMan.getInfo().constructionInfo.transportNeededAmount)
+				mMan.getInfo().constructionInfo.transportWareHouse = null;
+				System.out.println(mMan.getInfo().constructionInfo.curRSAmount + "  " + mMan.getInfo().constructionInfo.transportNeededAmount);
+				if(mMan.getInfo().constructionInfo.curRSAmount >= mMan.getInfo().constructionInfo.transportNeededAmount)
 				{
-					findWareHouse();
-					if(mMan.getInfo().constructionInfo.transportWareHouse == null)
-					{
-						mCurState = State.CONSTRUCT_TRANSPORT_NO_RESOURCE;
-						mMan.getInfo().animeType = ManAnimeType.STANDING;
-					}
-					//else
-					//	mMan.setMoveDestination(mMan.getInfo().constructionInfo.transportWareHouse.getPositionXWorld(), mMan.getInfo().constructionInfo.transportWareHouse.getPositionYWorld());
-				}
-				else
 					mCurState = State.CONSTRUCT_TRANSPORT_TO_BUILDING;
+				}
+//				{
+//					findWareHouse();
+//					if(mMan.getInfo().constructionInfo.transportWareHouse == null)
+//					{
+//						mCurState = State.CONSTRUCT_TRANSPORT_NO_RESOURCE;
+//						mMan.getInfo().animeType = ManAnimeType.STANDING;
+//					}
+//					//else
+//					//	mMan.setMoveDestination(mMan.getInfo().constructionInfo.transportWareHouse.getPositionXWorld(), mMan.getInfo().constructionInfo.transportWareHouse.getPositionYWorld());
+//				}
+//				else
 			}
 			break;
 			
@@ -104,6 +116,7 @@ public class ConstructionTransportBTN extends ActionNode{
 				mMan.getInfo().constructionInfo.transportWareHouse = null;
 				mMan.getInfo().constructionInfo.transportRSType = null;
 				mMan.getInfo().constructionInfo.transportNeededAmount = 0;
+				mMan.getInfo().constructionInfo.curRSAmount = 0;
 				mMan.getInfo().constructionInfo.proj.transportFinsihed();
 				
 				mCurState = State.CONSTRUCT_TRANSPORT_TO_WAREHOUSR;
