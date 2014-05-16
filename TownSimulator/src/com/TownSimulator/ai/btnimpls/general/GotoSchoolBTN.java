@@ -36,28 +36,30 @@ public class GotoSchoolBTN extends SequenceNode{
 			}
 		};
 		
-		ConditionNode judgeSchoolConstructNode=new ConditionNode() {
+		ConditionNode judgeSchoolInfoNode=new ConditionNode() {
 			
 			@Override
 			public ExecuteResult execute(float deltaTime) {
 				// TODO Auto-generated method stub
-				if((!World.getInstance(World.class).isSchoolConstructed())){
+				if(man.getInfo().getSchool()==null){
 					return ExecuteResult.FALSE;
 				}
 				return ExecuteResult.TRUE;
 			}
 		};
 		
-		//判读老师和学生放在寻找建筑里做，只用做一次
-//		ConditionNode judgeTeacherAndStudentLimitConditionNode=new ConditionNode() {
-//			
-//			@Override
-//			public ExecuteResult execute(float deltaTime) {
-//				// TODO Auto-generated method stub
-//				
-//				return ExecuteResult.TRUE;
-//			}
-//		};
+		//判读老师
+		ConditionNode judgeTeacherNode=new ConditionNode() {
+			
+			@Override
+			public ExecuteResult execute(float deltaTime) {
+				// TODO Auto-generated method stub
+				if(!man.getInfo().getSchool().isTeacherWork()){
+					return ExecuteResult.FALSE;
+				}
+				return ExecuteResult.TRUE;
+			}
+		};
 		
 		ActionNode gotoSchoolNode=new ActionNode() {
 			
@@ -70,17 +72,16 @@ public class GotoSchoolBTN extends SequenceNode{
 		};
 		
 		this.addNode(judgeAgeNode)
-		    .addNode(judgeSchoolConstructNode)
+		    .addNode(judgeSchoolInfoNode)
+		    .addNode(judgeTeacherNode)
 		    .addNode(gotoSchoolNode);
 	}
 	
 	public void gotoSchool(float deltaTime){
-		School school=EntityInfoCollector.getInstance(EntityInfoCollector.class).
-				findNearestSchool( man.getPositionXWorld(), man.getPositionYWorld());
+		School school=man.getInfo().getSchool();
 		if(school==null){
 			return;
 		}
-		school.growCurrentStudentNum();
 		man.setMoveDestination(school.getPositionXWorld(), school.getPositionYWorld());
 		if(man.move(deltaTime)){
 			man.getInfo().animeType=ManAnimeType.MOVE;

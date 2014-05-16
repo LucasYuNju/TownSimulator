@@ -3,6 +3,7 @@ package com.TownSimulator.driver;
 
 import java.util.Random;
 
+import com.TownSimulator.ai.btnimpls.teacher.TeachworkBTN;
 import com.TownSimulator.camera.CameraController;
 import com.TownSimulator.collision.CollisionDetector;
 import com.TownSimulator.entity.EntityFactory;
@@ -24,6 +25,7 @@ import com.TownSimulator.entity.building.Ranch;
 import com.TownSimulator.entity.building.RanchLand;
 import com.TownSimulator.entity.building.School;
 import com.TownSimulator.entity.building.Warehouse;
+import com.TownSimulator.entity.building.Well;
 import com.TownSimulator.io.InputMgr;
 import com.TownSimulator.map.Map;
 import com.TownSimulator.render.Renderer;
@@ -94,19 +96,26 @@ public class Driver extends SingletonPublisher<DriverListener> implements Applic
 		Singleton.getInstance(CollisionDetector.class).attachCollisionDetection(hospital);
 		Singleton.getInstance(Renderer.class).attachDrawScissor(hospital);
 
-//		Bar bar = (Bar)EntityFactory.createBuilding(BuildingType.Bar);
-//		bar.setState(Building.State.Constructed);
-//		bar.setPositionWorld(originPosX - 20 * Settings.UNIT, originPoxY - 8 * Settings.UNIT);
-//		Singleton.getInstance(EntityInfoCollector.class).addBuilding(bar);
-//		Singleton.getInstance(CollisionDetector.class).attachCollisionDetection(bar);
-//		Singleton.getInstance(Renderer.class).attachDrawScissor(bar);
+		Bar bar = (Bar)EntityFactory.createBuilding(BuildingType.Bar);
+		bar.setState(Building.State.Constructed);
+		bar.setPositionWorld(originPosX - 20 * Settings.UNIT, originPoxY - 8 * Settings.UNIT);
+		Singleton.getInstance(EntityInfoCollector.class).addBuilding(bar);
+		Singleton.getInstance(CollisionDetector.class).attachCollisionDetection(bar);
+		Singleton.getInstance(Renderer.class).attachDrawScissor(bar);
 		
 		School school=(School)EntityFactory.createBuilding(BuildingType.SCHOOL);
-		school.setState(Building.State.Constructed);
-		school.setPositionWorld(originPosX - 20 * Settings.UNIT, originPoxY - 8 * Settings.UNIT);
+		//school.setState(Building.State.Constructed);
+		school.setPositionWorld(originPosX - 25 * Settings.UNIT, originPoxY - 8 * Settings.UNIT);
 		Singleton.getInstance(EntityInfoCollector.class).addBuilding(school);
 		Singleton.getInstance(CollisionDetector.class).attachCollisionDetection(school);
 		Singleton.getInstance(Renderer.class).attachDrawScissor(school);
+		
+		Well well=(Well)EntityFactory.createBuilding(BuildingType.WELL);
+		well.setState(Building.State.Constructed);
+		well.setPositionWorld(originPosX - 30 * Settings.UNIT, originPoxY - 8 * Settings.UNIT);
+		Singleton.getInstance(EntityInfoCollector.class).addBuilding(well);
+		Singleton.getInstance(CollisionDetector.class).attachCollisionDetection(well);
+		Singleton.getInstance(Renderer.class).attachDrawScissor(well);
 		
 		
 		CoatFactory coatFactory = (CoatFactory)EntityFactory.createBuilding(BuildingType.COAT_FACTORY);
@@ -147,17 +156,22 @@ public class Driver extends SingletonPublisher<DriverListener> implements Applic
 			CollisionDetector.getInstance(CollisionDetector.class).attachCollisionDetection(land);
 		}
 
-		for (int i = 0; i < initPepleCnt * 5; i++) {
+		for (int i = 0; i < 25; i++) {
 			float randX = (rand.nextFloat() - 0.5f) * Settings.UNIT * 6;
 			float ranxY = (rand.nextFloat() - 0.5f) * Settings.UNIT * 6;
 			Man man = new Man();
 			man.setPositionWorld(originPosX + randX, originPoxY + ranxY);
 //			man.getInfo().setHappinessPoints(ManInfo.HAPPINESS_POINTS_DEPRESSED - i + initPepleCnt * 4);
 //			man.getInfo().setHealthyPoints(ManInfo.HEALTH_POINTS_SICK);
+			if(i%5==0){
+				man.getInfo().setAge(10);				
+			}
 			EntityInfoCollector.getInstance(EntityInfoCollector.class).addMan(man);
 			
 			Renderer.getInstance(Renderer.class).attachDrawScissor(man);
 		}
+		
+		school.setState(Building.State.Constructed);//测试时，学校需要在初始的人确定之后，初始化学生列表
 	}
 	
 	@Override

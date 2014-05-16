@@ -141,7 +141,7 @@ public abstract class WorkableBuilding extends Building
 	
 	public void updateViewWindow() {
 		workableWindow.addWorker();
-		System.out.println("Add Worker");
+		//System.out.println("Add Worker");
 	}
 	
 	/*
