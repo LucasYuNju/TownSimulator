@@ -2,14 +2,15 @@ package com.TownSimulator.entity.building;
 
 import com.TownSimulator.ai.behaviortree.BehaviorTreeNode;
 import com.TownSimulator.ai.btnimpls.teacher.TeacherBTN;
-import com.TownSimulator.driver.Driver;
-import com.TownSimulator.driver.DriverListenerBaseImpl;
+import com.TownSimulator.entity.EntityInfoCollector;
 import com.TownSimulator.entity.JobType;
 import com.TownSimulator.entity.Man;
+import com.TownSimulator.entity.ManInfo;
 import com.TownSimulator.entity.World;
 import com.TownSimulator.ui.UIManager;
 import com.TownSimulator.ui.building.view.SchoolViewWindow;
 import com.TownSimulator.ui.building.view.WorkableViewWindow;
+import com.badlogic.gdx.utils.Array;
 
 public class School extends WorkableBuilding{
 	
@@ -65,16 +66,40 @@ public class School extends WorkableBuilding{
 		
 		if(state==Building.State.Constructed){
 			World.getInstance(World.class).updateSchoolInfo();
-			Driver.getInstance(Driver.class).addListener(new DriverListenerBaseImpl(){
-
-				@Override
-				public void update(float deltaTime) {
-					// TODO Auto-generated method stub
-					School.this.currentStudentNum=0;
-				}
-				
-			});
+			initStudentNum();
+//			Driver.getInstance(Driver.class).addListener(new DriverListenerBaseImpl(){
+//
+//				@Override
+//				public void update(float deltaTime) {
+//					// TODO Auto-generated method stub
+//				}
+//				
+//			});
 		}
+	}
+	
+	public void initStudentNum(){
+		Array<Man> mansArray=EntityInfoCollector.getInstance(EntityInfoCollector.class).getAllMan();
+		for(Man man:mansArray){
+			School school=EntityInfoCollector.getInstance(EntityInfoCollector.class).
+					   findNearestSchool( man.getPositionXWorld(), man.getPositionYWorld());
+//			System.err.println("aaa");
+			if(!checkAgeInSchool(man.getInfo().getAge())){
+				continue;
+			}
+			if(school==null){
+				continue;
+			}
+			if(school.equals(School.this)){
+				this.currentStudentNum++;
+//				System.out.println("cuurentStudentNum"+currentStudentNum);
+				man.getInfo().setSchool(school);
+			}
+		}
+	}
+	
+	public boolean checkAgeInSchool(int age){
+		return (ManInfo.MIN_STUDENT_AGE<=age)&&(age<ManInfo.ADULT_AGE);
 	}
 	
 	
@@ -82,20 +107,21 @@ public class School extends WorkableBuilding{
 	@Override
 	protected WorkableViewWindow createWorkableWindow() {
 		// TODO Auto-generated method stub
-		return UIManager.getInstance(UIManager.class).getGameUI().createSchoolViewWindow(getMaxJobCnt());
+		return UIManager.getInstance(UIManager.class).getGameUI().createSchoolViewWindow(getMaxJobCnt(),currentStudentNum);
 	}
 
 	@Override
 	public void updateViewWindow() {
 		// TODO Auto-generated method stub
-		schoolViewWindow.updateStudentNum();
+		super.updateViewWindow();
+		schoolViewWindow.updateStudentNum(this.currentStudentNum);
 	}
 
 	public int getCurrentStudentNum() {
 		return currentStudentNum;
 	}
 
-	public void growCurrentStudentNum() {
+	public void changeCurrentStudentNum(int num) {
 		this.currentStudentNum++;
 		updateViewWindow();
 	}

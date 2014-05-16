@@ -12,6 +12,7 @@ import com.TownSimulator.entity.building.PowerStation;
 import com.TownSimulator.entity.building.Ranch;
 import com.TownSimulator.entity.building.School;
 import com.TownSimulator.entity.building.Warehouse;
+import com.TownSimulator.entity.building.Well;
 //github.com/LuciusYu/TownSimulator.git
 import com.TownSimulator.utility.ResourceManager;
 import com.TownSimulator.utility.Settings;
@@ -120,6 +121,13 @@ public class EntityFactory {
 			building.setNeededConstructionResource(ResourceType.RS_WOOD, 5000);
 			building.setNeededConstructionWork(50);
 			break;
+		case WELL:
+			xGridSize=1;
+			yGridSize=1;
+			yDrawScale=1.5f;
+			building=new Well();
+			building.setNeededConstructionResource(ResourceType.RS_WOOD, 2000);
+			building.setNeededConstructionWork(20);
 		default:
 			break;
 		}

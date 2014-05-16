@@ -8,6 +8,7 @@ import com.TownSimulator.ai.btnimpls.idle.IdleBTN;
 import com.TownSimulator.driver.Driver;
 import com.TownSimulator.driver.DriverListener;
 import com.TownSimulator.driver.DriverListenerBaseImpl;
+import com.TownSimulator.entity.building.School;
 import com.TownSimulator.render.Renderer;
 import com.TownSimulator.utility.Animation;
 import com.TownSimulator.utility.ResourceManager;
@@ -130,7 +131,9 @@ public class Man extends Entity{
 	public void updateAge(float deltaTime){
 		tempAcountTime+=deltaTime;
 		if(tempAcountTime>=World.SecondPerYear){
-			mInfo.setAge(mInfo.getAge()+1);
+			int newAge=mInfo.getAge()+1;
+			mInfo.setAge(newAge);
+			checkAgeEvent(newAge);
 			if(mInfo.isOldEnough(mInfo.getAge())){
 				mInfo.setIsDead(true);
 			}
@@ -138,6 +141,31 @@ public class Man extends Entity{
 		}
 	}
 	
+	private void checkAgeEvent(int newAge) {
+		// TODO Auto-generated method stub
+		switch (newAge) {
+		case 5:
+			School school=EntityInfoCollector.getInstance(EntityInfoCollector.class).
+			          findNearestSchool(getPositionXWorld(),getPositionYWorld());
+			if(school==null){
+				break;
+			}
+			school.changeCurrentStudentNum(1);
+			mInfo.setSchool(school);
+			break;
+		case 15:
+			if(mInfo.getSchool()==null){
+				break;
+			}
+			mInfo.getSchool().changeCurrentStudentNum(-1);
+			mInfo.setSchool(null);
+			break;
+
+		default:
+			break;
+		}
+	}
+
 	public void die()
 	{
 		if(mInfo.home != null)

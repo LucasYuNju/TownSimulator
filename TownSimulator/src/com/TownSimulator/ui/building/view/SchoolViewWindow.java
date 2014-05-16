@@ -16,13 +16,14 @@ public class SchoolViewWindow extends WorkableViewWindow{
 	private float width;
 	private float height;
 
-	public SchoolViewWindow(int numAllowedWorker) {
+	public SchoolViewWindow(int numAllowedWorker,int currentStudentNum) {
 		super(BuildingType.SCHOOL, numAllowedWorker);
 		// TODO Auto-generated constructor stub
 		width = UndockedWindow.LABEL_WIDTH*2 + UndockedWindow.MARGIN * 2;
 		height = UndockedWindow.LABEL_HEIGHT * 2+ WorkerGroup.HEIGHT + MARGIN * 2;
 		setSize(width, height);
 		maxStudentNum=School.SingleSchoolStudentNum;
+		this.currentStudentNum=currentStudentNum;
 		
 		addLabel();
 		updateLayout();
@@ -39,13 +40,9 @@ public class SchoolViewWindow extends WorkableViewWindow{
 		addActor(studentNumLabel);
 	}
 	
-	public void updateStudentNum(){
-		if(currentStudentNum<maxStudentNum){
-			updateStudentLabel();
-		}
-	}
-	
-	private void updateStudentLabel(){
+	public void updateStudentNum(int changeStudentNum){
+		currentStudentNum=changeStudentNum;
+		currentStudentNum=Math.min(currentStudentNum, maxStudentNum);
 		studentNumLabel.setText(getStudentLabelString());
 	}
 	

@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.TownSimulator.ai.btnimpls.construct.ConstructionInfo;
 import com.TownSimulator.entity.building.LivingHouse;
+import com.TownSimulator.entity.building.School;
 import com.TownSimulator.entity.building.WorkableBuilding;
 
 public class ManInfo {
@@ -13,6 +14,7 @@ public class ManInfo {
 	public ConstructionInfo constructionInfo = new ConstructionInfo();
 	public JobType 			job;
 	public WorkableBuilding 	workingBuilding;
+	private School         school; 
 	public LivingHouse 		home;
 	public float 			workEfficency = BASE_WORKEFFICIENCY;
 	public static final float BASE_WORKEFFICIENCY = 1.0f;
@@ -55,6 +57,7 @@ public class ManInfo {
 		this.age = age;
 		this.gender = gender;
 		name = getRandomName();
+		school=null;
 		
 		healthPoints = HEALTH_POINTS_MAX;
 		happinessPoints = HAPPINESS_POINTS_MAX;
@@ -222,6 +225,14 @@ public class ManInfo {
 		list.add("");
 		list.add("");
 		return list;		
+	}
+
+	public School getSchool() {
+		return school;
+	}
+
+	public void setSchool(School school) {
+		this.school = school;
 	}
 
 	static {

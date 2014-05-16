@@ -55,7 +55,7 @@ public class ResourceManager extends Singleton{
 				mSoundsMap.clear();
 				mFontGenerator.dispose();
 				
-				mInstaceMap.clear();
+				
 			}
 
 			@Override

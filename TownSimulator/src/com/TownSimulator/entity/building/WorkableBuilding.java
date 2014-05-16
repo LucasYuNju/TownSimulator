@@ -63,7 +63,7 @@ public abstract class WorkableBuilding extends Building
 
 	private void fireWorker(int cnt)
 	{
-		System.out.println("Fire Worker " + cnt);
+//		System.out.println("Fire Worker " + cnt);
 		for (int i = 0; i < cnt; i++) {
 			Man worker = workers.pop();
 			worker.getInfo().job = null;
@@ -141,7 +141,7 @@ public abstract class WorkableBuilding extends Building
 	
 	public void updateViewWindow() {
 		workableWindow.addWorker();
-		System.out.println("Add Worker");
+		//System.out.println("Add Worker");
 	}
 	
 	/*
