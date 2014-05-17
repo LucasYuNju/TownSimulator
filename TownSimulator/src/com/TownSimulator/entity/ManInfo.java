@@ -38,6 +38,8 @@ public class ManInfo {
 	private static final float HEALTH_POINTS_HEALTHY = 70;			//出院
 	private static final float HEALTH_POINTS_INCREMENT = 0.005f;
 
+	//一年掉120幸福度，多消耗600粮食
+	//
 	private static final float HAPPINESS_POINTS_MAX = 100;
 	public static final float HAPPINESS_POINTS_DEPRESSED = 50;		//去酒吧
 	private static final float HAPPINESS_POINTS_PER_WINE = 10;
