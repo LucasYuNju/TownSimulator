@@ -60,6 +60,7 @@ public class Man extends Entity{
 				else{
 					updateManPoints(deltaTime);
 					updateAge(deltaTime);
+					mInfo.hpDrawHealthLottery(deltaTime);
 				}
 				
 				if(mBehavior != null)
@@ -260,5 +261,4 @@ public class Man extends Entity{
 		anime.update(deltaTime);
 		setSprite(anime.getCurSprite());
 	}
-
 }

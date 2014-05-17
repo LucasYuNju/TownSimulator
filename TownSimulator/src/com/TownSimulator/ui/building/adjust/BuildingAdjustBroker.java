@@ -15,7 +15,6 @@ import com.TownSimulator.entity.building.FarmHouse;
 import com.TownSimulator.entity.building.FarmLand;
 import com.TownSimulator.entity.building.Ranch;
 import com.TownSimulator.entity.building.RanchLand;
-import com.TownSimulator.map.Map;
 import com.TownSimulator.render.Renderer;
 import com.TownSimulator.ui.UIManager;
 import com.TownSimulator.ui.building.adjust.BuildingAdjustGroup.BuildAjustUIListener;
@@ -136,8 +135,8 @@ public class BuildingAdjustBroker extends Singleton implements EntityListener, C
 						CollisionDetector.getInstance(CollisionDetector.class).attachCollisionDetection(land);
 					}
 				
-				AxisAlignedBoundingBox aabb = mCurBuilding.getAABBWorld(QuadTreeType.COLLISION);
-				Map.getInstance(Map.class).setGroundTexture("map_soil", aabb.minX, aabb.minY, aabb.maxX, aabb.maxY);
+//				AxisAlignedBoundingBox aabb = mCurBuilding.getAABBWorld(QuadTreeType.COLLISION);
+//				Map.getInstance(Map.class).setGroundTexture("map_soil", aabb.minX, aabb.minY, aabb.maxX, aabb.maxY);
 				
 				Renderer.getInstance(Renderer.class).setDrawGrid(false);
 				mCurBuilding.setListener(null);

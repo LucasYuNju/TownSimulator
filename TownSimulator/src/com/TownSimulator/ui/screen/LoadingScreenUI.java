@@ -76,6 +76,7 @@ public class LoadingScreenUI extends ScreenUIBase{
 			World.getInstance(World.class).init();
 			Renderer.getInstance(Renderer.class).setRenderScene(true);
 			
+			Settings.backgroundColor = Settings.gameGroundColor.cpy();
 			//if(listener != null)
 			listener.loadingFinish();
 		}
