@@ -1,8 +1,5 @@
 package com.TownSimulator.render;
 
-import java.util.HashMap;
-import java.util.Iterator;
-
 import com.TownSimulator.camera.CameraController;
 import com.TownSimulator.collision.CollisionDetector;
 import com.TownSimulator.driver.Driver;
@@ -23,7 +20,7 @@ public class Renderer extends SingletonPublisher<RendererListener>{
 	private RenderBatch		   		mRenderBatch;
 	private	QuadTree				mDrawScissor;
 	private	Array<Grid> 			mGridIdleList;
-	private HashMap<String, GroundDrawContainer> mGroundDrawMap;
+//	private HashMap<String, GroundDrawContainer> mGroundDrawMap;
 	private boolean 				mbDrawGrid = false;
 	private	int						allocIndex = 0;
 	private boolean					mbRenderScene = false;
@@ -33,7 +30,7 @@ public class Renderer extends SingletonPublisher<RendererListener>{
 		mRenderBatch = new RenderBatch();
 		mDrawScissor = new QuadTree(QuadTreeType.DRAW, 0.0f, 0.0f, Map.MAP_WIDTH * Settings.UNIT, Map.MAP_HEIGHT * Settings.UNIT);
 		mGridIdleList = new Array<Grid>();
-		mGroundDrawMap = new HashMap<String, GroundDrawContainer>();
+//		mGroundDrawMap = new HashMap<String, GroundDrawContainer>();
 		
 		Driver.getInstance(Driver.class).addListener(new DriverListenerBaseImpl()
 		{
@@ -91,12 +88,12 @@ public class Renderer extends SingletonPublisher<RendererListener>{
 		mRenderBatch.doRender();
 		
 		allocIndex = 0;
-		Iterator<String> itr = mGroundDrawMap.keySet().iterator();
-		while(itr.hasNext())
-		{
-			String key = itr.next();
-			mGroundDrawMap.get(key).reset();
-		}
+//		Iterator<String> itr = mGroundDrawMap.keySet().iterator();
+//		while(itr.hasNext())
+//		{
+//			String key = itr.next();
+//			mGroundDrawMap.get(key).reset();
+//		}
 		
 		for (int i = 0; i < mListeners.size; i++) {
 			mListeners.get(i).renderEnded();
@@ -113,7 +110,7 @@ public class Renderer extends SingletonPublisher<RendererListener>{
 	
 	private void renderScene()
 	{
-		renderGround();
+		//renderGround();
 		
 		Array<QuadTreeManageble> renderList = new Array<QuadTreeManageble>();
 		mDrawScissor.detectIntersection(CameraController.getInstance(CameraController.class).getCameraViewAABB(), renderList);
@@ -172,34 +169,34 @@ public class Renderer extends SingletonPublisher<RendererListener>{
 		
 	}
 	
-	private GroundDraw allocGroundDraw(String textureName)
-	{
-		if( !mGroundDrawMap.containsKey(textureName) )
-			mGroundDrawMap.put(textureName, new GroundDrawContainer(textureName));
-		
-		return mGroundDrawMap.get(textureName).alloc();	
-	}
+//	private GroundDraw allocGroundDraw(String textureName)
+//	{
+//		if( !mGroundDrawMap.containsKey(textureName) )
+//			mGroundDrawMap.put(textureName, new GroundDrawContainer(textureName));
+//		
+//		return mGroundDrawMap.get(textureName).alloc();	
+//	}
 	
-	private void renderGround()
-	{
-		
-		
-		AxisAlignedBoundingBox scissor = CameraController.getInstance(CameraController.class).getCameraViewAABB();
-		int l = Math.max( 0, (int)(scissor.minX / Settings.UNIT) );
-		int r = Math.min( Map.MAP_WIDTH - 1, (int)(scissor.maxX / Settings.UNIT) );
-		int b = Math.max( 0, (int)(scissor.minY / Settings.UNIT) );
-		int u = Math.min( Map.MAP_HEIGHT - 1, (int)(scissor.maxY / Settings.UNIT) );
-		for (int x = l; x <= (r); x ++) {
-			for (int y = b; y <= (u); y ++) {
-				String textureName = Map.getInstance(Map.class).getGroundMap()[x][y];
-				GroundDraw draw = allocGroundDraw(textureName);
-				draw.setGridPos(x, y);
-				draw(draw);
-			}
-		}
-		
-		
-	}
+//	private void renderGround()
+//	{
+//		
+//		
+//		AxisAlignedBoundingBox scissor = CameraController.getInstance(CameraController.class).getCameraViewAABB();
+//		int l = Math.max( 0, (int)(scissor.minX / Settings.UNIT) );
+//		int r = Math.min( Map.MAP_WIDTH - 1, (int)(scissor.maxX / Settings.UNIT) );
+//		int b = Math.max( 0, (int)(scissor.minY / Settings.UNIT) );
+//		int u = Math.min( Map.MAP_HEIGHT - 1, (int)(scissor.maxY / Settings.UNIT) );
+//		for (int x = l; x <= (r); x ++) {
+//			for (int y = b; y <= (u); y ++) {
+//				String textureName = Map.getInstance(Map.class).getGroundMap()[x][y];
+//				GroundDraw draw = allocGroundDraw(textureName);
+//				draw.setGridPos(x, y);
+//				draw(draw);
+//			}
+//		}
+//		
+//		
+//	}
 	
 	class GroundDrawContainer
 	{

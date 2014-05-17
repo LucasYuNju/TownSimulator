@@ -4,9 +4,7 @@ import com.TownSimulator.driver.Driver;
 import com.TownSimulator.driver.DriverListenerBaseImpl;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
-import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.utils.Array;
-import com.sun.org.apache.bcel.internal.generic.NEW;
 
 public class VoicePlayer extends Singleton{
 	private static Music bgmmusic;
@@ -81,7 +79,7 @@ public class VoicePlayer extends Singleton{
 	private void update(float deltaTime){
 		for(MusicPlayItem musicPlayItem:musicsList){
 			musicPlayItem.duringTime-=deltaTime;
-			System.out.println("time!!"+musicPlayItem.duringTime);
+//			System.out.println("time!!"+musicPlayItem.duringTime);
 			if(musicPlayItem.duringTime<=0){
 				musicPlayItem.music.stop();
 				if(musicPlayItem.music!=null){

@@ -6,6 +6,7 @@ import java.util.Random;
 import com.TownSimulator.camera.CameraController;
 import com.TownSimulator.camera.CameraListener;
 import com.TownSimulator.collision.CollisionDetector;
+import com.TownSimulator.entity.Grass;
 import com.TownSimulator.entity.Tree;
 import com.TownSimulator.render.Renderer;
 import com.TownSimulator.utility.AxisAlignedBoundingBox;
@@ -19,7 +20,7 @@ public class Map extends Singleton{
 	public static final int				MAP_HEIGHT = 256;
 	private float[][] 					mNoiseMap;
 	//private MapEntity[][] 				mObjsMap;
-	private String[][]					mGroundMap;
+//	private String[][]					mGroundMap;
 	private float[] 					mTreeScaleMap = { 1.0f, 0.8f, 0.6f, 0.0f, 0.0f, 0.0f };
 	private int							loadX;
 	private int							loadY;
@@ -101,13 +102,24 @@ public class Map extends Singleton{
 			}
 		}
 		
-		//Ground
-		String textureName = null;
-		if(value < 0.5f)
-			textureName = "map_grass";
-		else
-			textureName = "map_soil";
-		mGroundMap[loadX][loadY] = textureName;
+		if(rand.nextFloat() <= 0.03)
+		{
+			float randX = (rand.nextFloat() - 0.5f) * Settings.UNIT ;
+			float randY = (rand.nextFloat() - 0.5f) * Settings.UNIT ;
+			int grassIndex = rand.nextInt(3);
+			Grass grass = new Grass("grass_" + grassIndex);
+			grass.setPositionWorld(	Settings.UNIT * loadX + Settings.UNIT * 0.5f + randX,
+									Settings.UNIT * loadY + Settings.UNIT * 0.5f + randY);
+			Renderer.getInstance(Renderer.class).attachDrawScissor(grass);
+		}
+		
+//		//Ground
+//		String textureName = null;
+//		if(value < 0.5f)
+//			textureName = "map_grass";
+//		else
+//			textureName = "map_soil";
+//		mGroundMap[loadX][loadY] = textureName;
 		
 		loadY++;
 		if(loadY >= MAP_HEIGHT)
@@ -140,7 +152,7 @@ public class Map extends Singleton{
 	public void init(int seed)
 	{
 		mNoiseMap = new float[MAP_WIDTH][MAP_HEIGHT];
-		mGroundMap = new String[MAP_WIDTH][MAP_HEIGHT];
+		//mGroundMap = new String[MAP_WIDTH][MAP_HEIGHT];
 		noiseGenerator = new SimplexNoise(128, 0.5, seed);
 		loadX = 0;
 		loadY = 0;
@@ -196,27 +208,27 @@ public class Map extends Singleton{
 //		}
 	}
 	
-	public String[][] getGroundMap()
-	{
-		return mGroundMap;
-	}
-	
-	public void setGroundTexture(String textureName, int x, int y)
-	{
-		mGroundMap[x][y] = textureName;
-	}
-	
-	public void setGroundTexture(String textureName, float minX, float minY, float maxX, float maxY)
-	{
-		int l = (int)(minX / Settings.UNIT);
-		int r = (int)(maxX / Settings.UNIT);
-		int b = (int)(minY / Settings.UNIT);
-		int u = (int)(maxY / Settings.UNIT);
-		
-		for (int x = l; x <= r; x ++) {
-			for (int y = b; y <= u; y ++) {
-				mGroundMap[x][y] = textureName;
-			}
-		}
-	}
+//	public String[][] getGroundMap()
+//	{
+//		return mGroundMap;
+//	}
+//	
+//	public void setGroundTexture(String textureName, int x, int y)
+//	{
+//		mGroundMap[x][y] = textureName;
+//	}
+//	
+//	public void setGroundTexture(String textureName, float minX, float minY, float maxX, float maxY)
+//	{
+//		int l = (int)(minX / Settings.UNIT);
+//		int r = (int)(maxX / Settings.UNIT);
+//		int b = (int)(minY / Settings.UNIT);
+//		int u = (int)(maxY / Settings.UNIT);
+//		
+//		for (int x = l; x <= r; x ++) {
+//			for (int y = b; y <= u; y ++) {
+//				mGroundMap[x][y] = textureName;
+//			}
+//		}
+//	}
 }
