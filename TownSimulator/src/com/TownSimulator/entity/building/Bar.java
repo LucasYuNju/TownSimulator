@@ -12,9 +12,11 @@ import com.TownSimulator.utility.Singleton;
 import com.badlogic.gdx.utils.Array;
 
 public class Bar extends WorkableBuilding{
+	//一年掉120幸福度，多消耗600粮食
+	public static final int HAPPINESS_POINTS_PER_WINE = 10;
+	private static final int WHEAT_PER_WINE = 50;
 	private static final int MAX_WINE_STORAGE = 10;
 	private static final int NUM_ALLOWED_WORKER = 2;
-	private static final int WHEAT_PER_WINE = 3;
 	private BarViewWindow barViewWindow;
 	private int wineStorage;
 	private int wheatStorage;
