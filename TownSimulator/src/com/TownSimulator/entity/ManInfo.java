@@ -7,10 +7,6 @@ import com.TownSimulator.ai.btnimpls.construct.ConstructionInfo;
 import com.TownSimulator.entity.building.LivingHouse;
 import com.TownSimulator.entity.building.WorkableBuilding;
 
-/**
- * 全public大丈夫T T
- * 
- */
 public class ManInfo {
 	public ManAnimeType 	animeType = ManAnimeType.STANDING;
 	public boolean 			animeFlip = false;
@@ -24,7 +20,7 @@ public class ManInfo {
 	public static final float HUNGER_POINTS_MAX = 300.0f;
 	public static final float HUNGER_POINTS_FIND_FOOD = 100.0f;
 	public static final float HUNGER_POINTS_MIN = 0.0f; // die!
-	public static final float HUNGER_DECRE_SPEED = HUNGER_POINTS_MAX / (World.SecondPerYear * 0.3f); //per second
+	public static final float HUNGER_DECRE_SPEED = HUNGER_POINTS_MAX / (World.SecondPerYear * 0.25f); //per second
 	public float			hungerPoints = HUNGER_POINTS_MAX;
 	public boolean			isDead = false;
 	
@@ -40,6 +36,8 @@ public class ManInfo {
 	private static final float HEALTH_POINTS_HEALTHY = 70;			//出院
 	private static final float HEALTH_POINTS_INCREMENT = 0.005f;
 
+	//一年掉120幸福度，多消耗600粮食
+	//
 	private static final float HAPPINESS_POINTS_MAX = 100;
 	public static final float HAPPINESS_POINTS_DEPRESSED = 50;		//去酒吧
 	private static final float HAPPINESS_POINTS_PER_WINE = 10;
