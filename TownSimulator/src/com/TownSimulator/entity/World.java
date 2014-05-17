@@ -14,7 +14,6 @@ public class World extends Singleton {
 	private Calendar calendar;
 	private float secondPerDay;
 	private float secondDuringLastDay;
-	private boolean isSchoolConstructed;
 	private int maxStudentAmount;
 //	private int currentStudentNum;
 	
@@ -34,7 +33,6 @@ public class World extends Singleton {
 		secondPerDay = SecondPerYear / 365.0f;
 		secondDuringLastDay = 0f;
 		
-		isSchoolConstructed=false;
 		maxStudentAmount=0;
 		//currentStudentNum=0;
 		
@@ -59,14 +57,7 @@ public class World extends Singleton {
 	 * 当这个世界有新学校建好，更新容纳学生信息
 	 */
 	public void updateSchoolInfo(){
-		if(!this.isSchoolConstructed){
-			this.isSchoolConstructed=true;
-		}
 		this.maxStudentAmount+=School.SingleSchoolStudentNum;			
-	}
-	
-	public boolean isSchoolConstructed() {
-		return isSchoolConstructed;
 	}
 
 	public int getMaxStudentAmount() {

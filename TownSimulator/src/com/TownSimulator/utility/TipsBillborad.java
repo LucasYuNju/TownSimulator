@@ -22,10 +22,10 @@ public class TipsBillborad {
 	private static Array<TipsBillborad> tipsActiveList = new Array<TipsBillborad>();
 	private static Array<TipsBillborad> tipsInActiveList = new Array<TipsBillborad>();
 	//private static int tipsAllocIndex = 0;
-	private static BitmapFont font = ResourceManager.getInstance(ResourceManager.class).getFont( (int)(Settings.UNIT * 0.6f) );
+	private static BitmapFont font;
 	//private static final float PAD = Settings.UNIT * 0.1f;
-	private static SpriteBatch spriteBatch = new SpriteBatch();
-	private static HashMap<String, TextureRegionAllocContainer> textureMap = new HashMap<String, TextureRegionAllocContainer>();
+	private static SpriteBatch spriteBatch;
+	private static HashMap<String, TextureRegionAllocContainer> textureMap = new HashMap<String, TipsBillborad.TextureRegionAllocContainer>();
 	//private static OrthographicCamera screenCamera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 	
 	static class TextureRegionAllocContainer
@@ -54,15 +54,62 @@ public class TipsBillborad {
 		}
 	}
 	
-	static
+//	static
+//	{
+////		System.out.println("AAAAAAAAAAAAAAAAA");
+//		Driver.getInstance(Driver.class).addListener(new DriverListenerBaseImpl()
+//		{
+//			
+//			@Override
+//			public void update(float deltaTime) {
+//				updateTips(deltaTime);
+//			}
+//
+//			@Override
+//			public void dispose() {
+//				spriteBatch.dispose();
+//				
+//			}
+//			
+//			
+//			
+//		});
+//		
+//		Renderer.getInstance(Renderer.class).addListener(new RendererListener() {
+//			
+//			@Override
+//			public void renderEnded() {
+//				renderTips();
+//			}
+//			
+//			@Override
+//			public void renderBegined() {
+//			}
+//		});
+//		
+//		//screenCamera.setToOrtho(false);
+//	}
+	
+	public static void init()
 	{
+		font = ResourceManager.getInstance(ResourceManager.class).getFont( (int)(Settings.UNIT * 0.6f) );
+		spriteBatch = new SpriteBatch();
+		textureMap.clear();
+		
 		Driver.getInstance(Driver.class).addListener(new DriverListenerBaseImpl()
 		{
-
+			
 			@Override
 			public void update(float deltaTime) {
 				updateTips(deltaTime);
-			}		
+			}
+
+			@Override
+			public void dispose() {
+				spriteBatch.dispose();
+				tipsActiveList.clear();
+				tipsInActiveList.clear();
+			}
 			
 		});
 		
@@ -77,9 +124,8 @@ public class TipsBillborad {
 			public void renderBegined() {
 			}
 		});
-		
-		//screenCamera.setToOrtho(false);
 	}
+	
 	
 	private static void updateTips(float deltaTime)
 	{

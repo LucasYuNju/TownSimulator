@@ -5,6 +5,8 @@ import com.badlogic.gdx.Gdx;
 public class Settings {
 	public static float UNIT = Gdx.graphics.getWidth() / 15.0f;
 	
+	public static int gameSpeed = 5;
+	
 	/*
 	 * UI Settings
 	 */
@@ -18,5 +20,5 @@ public class Settings {
 	public static final float UI_ALPHA = 0.7f;
 	
 	public static final float GRAVITY_X = 0.0f;
-	public static final float GRAVITY_Y = UNIT * -6.0f; 
+	public static final float GRAVITY_Y = UNIT * -6.0f;
 }

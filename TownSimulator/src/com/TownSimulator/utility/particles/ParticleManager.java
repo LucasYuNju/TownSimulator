@@ -15,8 +15,12 @@ public class ParticleManager extends AllocManaged{
 		return ParticleManager.class;
 	}
 	
-	static
+	public static void init()
 	{
+		Particle.init();
+		BounceParticle.init();
+		RandomJetBounceParticleSystem.init();
+		
 		Driver.getInstance(Driver.class).addListener(new DriverListenerBaseImpl()
 		{
 
@@ -28,6 +32,11 @@ public class ParticleManager extends AllocManaged{
 							p.update(deltaTime);
 						}
 				}
+			}
+
+			@Override
+			public void dispose() {
+				classTypes.clear();
 			}
 			
 		});

@@ -12,6 +12,9 @@ import com.TownSimulator.ui.screen.LoadingScreenUI.LoadingUIListener;
 import com.TownSimulator.ui.screen.StartScreenUI;
 import com.TownSimulator.ui.screen.StartScreenUI.StartUIListener;
 import com.TownSimulator.utility.Singleton;
+import com.TownSimulator.utility.VoicePlayer;
+import com.badlogic.gdx.Gdx;
+
 
 public class UIManager extends Singleton implements StartUIListener{
 	private StartScreenUI 	mStartUI;
@@ -36,13 +39,14 @@ public class UIManager extends Singleton implements StartUIListener{
 		mGameUI = new GameScreenUI();
 		
 		mCurScreenUI = mStartUI;
-		//VoicePlayer.playMusic("start.mp3");
+		VoicePlayer.getInstance(VoicePlayer.class).playBgmMusic("start.mp3");
+		VoicePlayer.getInstance(VoicePlayer.class).playMusicForDuringTime("rain.mp3", 60.0f);
 		
 		Driver.getInstance(Driver.class).addListener(new DriverListenerBaseImpl()
 		{
 			@Override
 			public void update(float deltaTime) {
-				mCurScreenUI.update(deltaTime);
+				mCurScreenUI.update(Gdx.graphics.getDeltaTime());
 			}
 
 			@Override
@@ -103,7 +107,7 @@ public class UIManager extends Singleton implements StartUIListener{
 //		Driver.getInstance(Driver.class).init();
 //		World.getInstance(World.class).init();
 		
-		//VoicePlayer.playMusic("game.mp3");
+		//VoicePlayer.getInstance(VoicePlayer.class).playMusic("game.mp3");
 
 
 	}

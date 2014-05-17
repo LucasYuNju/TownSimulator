@@ -14,7 +14,12 @@ public class RandomJetBounceParticleSystem {
 	private static final float SIZE_X = Settings.UNIT * 0.2f;
 	private static final float SIZE_Y = Settings.UNIT * 0.2f;
 	//private static final float LIFE = 5.0f;
-	private static final TextureRegion rectTex = ResourceManager.getInstance(ResourceManager.class).createTextureRegion("particle_rect");
+	private static TextureRegion rectTex;
+	
+	public static void init()
+	{
+		rectTex = ResourceManager.getInstance(ResourceManager.class).createTextureRegion("particle_rect");
+	}
 	
 	public static void create(Vector2 pos, float jetAngleStart, float jetAngleEnd, float speedMin, float speedMax, Color color, float life, float bounceY, int jetCnt, TextureRegion texture)
 	{

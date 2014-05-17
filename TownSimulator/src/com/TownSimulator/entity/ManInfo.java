@@ -5,17 +5,20 @@ import java.util.List;
 
 import com.TownSimulator.ai.btnimpls.construct.ConstructionInfo;
 import com.TownSimulator.entity.building.LivingHouse;
+import com.TownSimulator.entity.building.School;
 import com.TownSimulator.entity.building.WorkableBuilding;
 
 public class ManInfo {
 	public ManAnimeType 	animeType = ManAnimeType.STANDING;
 	public boolean 			animeFlip = false;
 	public ConstructionInfo constructionInfo = new ConstructionInfo();
-	public float 			workEfficency = 1.0f;
 	public JobType 			job;
 	public WorkableBuilding 	workingBuilding;
+	private School         school; 
 	public LivingHouse 		home;
-	public static final float MAX_WORKEFFICENCY=2.0f;
+	public float 			workEfficency = BASE_WORKEFFICIENCY;
+	public static final float BASE_WORKEFFICIENCY = 1.0f;
+	public static final float MAX_WORKEFFICENCY = 2.0f;
 	
 	public static final float HUNGER_POINTS_MAX = 300.0f;
 	public static final float HUNGER_POINTS_FIND_FOOD = 100.0f;
@@ -25,10 +28,9 @@ public class ManInfo {
 	public boolean			isDead = false;
 	
 	
-	private static final int MAX_AGE = 100;
-	private static final int ADULT_AGE = 10;
-	public static final int MAX_STUDENT_AGE=ADULT_AGE;
-	public static final int MIN_STUDENT_AGE=MAX_STUDENT_AGE-10;
+	private static final int MAX_AGE = 50;
+	public static final int ADULT_AGE = 15;
+	public static final int MIN_STUDENT_AGE=ADULT_AGE-10;
 
 	
 	private static final float HEALTH_POINTS_MAX = 100;
@@ -57,6 +59,8 @@ public class ManInfo {
 		this.age = age;
 		this.gender = gender;
 		name = getRandomName();
+		school=null;
+		
 		healthPoints = HEALTH_POINTS_MAX;
 		happinessPoints = HAPPINESS_POINTS_MAX;
 	}
@@ -223,6 +227,14 @@ public class ManInfo {
 		list.add("");
 		list.add("");
 		return list;		
+	}
+
+	public School getSchool() {
+		return school;
+	}
+
+	public void setSchool(School school) {
+		this.school = school;
 	}
 
 	static {

@@ -18,7 +18,7 @@ public class FindJobBTN extends ActionNode{
 	
 	@Override
 	public ExecuteResult execute(float deltaTime) {
-		if(!(man.getInfo().getAge()>=ManInfo.MAX_STUDENT_AGE)){
+		if(!(man.getInfo().getAge()>=ManInfo.ADULT_AGE)){
 			return ExecuteResult.FALSE;
 		}
 		for (Building buidling : EntityInfoCollector.getInstance(EntityInfoCollector.class).getAllBuildings()) {

@@ -16,7 +16,9 @@ public class BarViewWindow extends WorkableViewWindow{
 	public BarViewWindow(int numAllowedWorker, int maxWineStorage) {
 		super(BuildingType.Bar, numAllowedWorker);
 		this.maxWineStorage = maxWineStorage;
+		
 		setSize(getWidth(), getHeight() + LABEL_HEIGHT);
+		
 		addLabel();
 		updateLayout();
 	}

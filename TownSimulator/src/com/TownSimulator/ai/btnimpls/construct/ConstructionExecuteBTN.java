@@ -10,13 +10,9 @@ import com.badlogic.gdx.math.Vector2;
 
 public class ConstructionExecuteBTN extends ActionNode{
 	public static final float		BUILD_CONTRIBUTE_SPPED = 0.4f;
-	//public static final float	BUILD_CONTRIBUTE_INTERVAL = 2.0f;
-	//private ConstructionInfo		mMan.getInfo().constructionInfo;
-	//private float				mBuildContribueTimeAccum;
 	private Man			mMan;
 	
 	public ConstructionExecuteBTN(Man man) {
-//		mMan.getInfo().constructionInfo = constructInfo;
 		mMan = man;
 	}
 	
@@ -55,12 +51,10 @@ public class ConstructionExecuteBTN extends ActionNode{
 	private void finished()
 	{
 		mMan.getInfo().constructionInfo.proj = null;
-		//mMan.getInfo().bIdle = true;
 	}
 	
 	@Override
 	public ExecuteResult execute(float deltaTime) {
-		//System.out.println("Execute");
 		
 		if(!isAroundBuilding())
 		{
@@ -73,21 +67,6 @@ public class ConstructionExecuteBTN extends ActionNode{
 		
 		if(mMan.getInfo().constructionInfo.proj.isFinished())
 			return ExecuteResult.TRUE;
-		
-//		mBuildContribueTimeAccum += deltaTime;
-//		int cnt = 0;
-//		while(mBuildContribueTimeAccum >= BUILD_CONTRIBUTE_INTERVAL)
-//		{
-//			mBuildContribueTimeAccum -= BUILD_CONTRIBUTE_INTERVAL;
-//			cnt++;
-//		}
-//		
-//		if(cnt > 0)
-//		{
-//			mMan.getInfo().constructionInfo.proj.getBuilding().doConstructionWork(cnt * BUILD_CONTRIBUTE_SPPED);
-//			//Building building = mMan.getInfo().constructionInfo.proj.getBuilding();
-//			//System.out.println("Build " + building.getFinishedConstructionWork() + "/" + building.getUnfinishedConstructionWork() + building.getFinishedConstructionWork());
-//		}
 		
 		mMan.getInfo().constructionInfo.proj.getBuilding().doConstructionWork(deltaTime * BUILD_CONTRIBUTE_SPPED);
 		

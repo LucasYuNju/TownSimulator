@@ -194,6 +194,7 @@ public class EntityInfoCollector extends Singleton{
 		return buildingFindResult;
 	}
 	
+	//只找到还能放学生的最近学校
 	public School findNearestSchool(float x, float y)
 	{
 		double dstMin = -1.0f;
@@ -202,9 +203,9 @@ public class EntityInfoCollector extends Singleton{
 			if(building.getType() == BuildingType.SCHOOL)
 			{
 				School tempSchool=(School)building;
-				if(!tempSchool.isTeacherWork()){
-					continue;
-				}
+//				if(!tempSchool.isTeacherWork()){
+//					continue;
+//				}
 				if(tempSchool.getCurrentStudentNum()>=School.SingleSchoolStudentNum){
 					continue;
 				}
