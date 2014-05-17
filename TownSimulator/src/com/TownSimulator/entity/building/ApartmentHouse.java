@@ -1,13 +1,15 @@
 package com.TownSimulator.entity.building;
 
+import com.TownSimulator.driver.DriverListener;
 import com.TownSimulator.entity.EntityInfoCollector;
 import com.TownSimulator.entity.Man;
 
-public class ApartmentHouse extends LivingHouse{
+public class ApartmentHouse extends LivingHouse implements DriverListener{
 
 	
 	private int persentage = 0;
 	private int increasePerMonth = 10;
+	private float time;
 	
 	
 	public ApartmentHouse() {
@@ -27,6 +29,47 @@ public class ApartmentHouse extends LivingHouse{
 				EntityInfoCollector.getInstance(EntityInfoCollector.class).addMan(man);
 				persentage = 0;
 			}
+		}
+	}
+
+
+	@Override
+	public void dispose() {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void resize(int width, int height) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void pause() {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void resume() {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	/**
+	 * 每过一个月，调用一次增加人口
+	 */
+	@Override
+	public void update(float deltaTime) {
+		time += deltaTime;
+		if(time >= LowCostHouse.SecondPerMonth){
+			increasePopulation();
+			time = 0;
 		}
 	}
 

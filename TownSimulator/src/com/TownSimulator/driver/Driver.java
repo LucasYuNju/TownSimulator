@@ -75,6 +75,8 @@ public class Driver extends SingletonPublisher<DriverListener> implements Applic
 		CollisionDetector.getInstance(CollisionDetector.class).attachCollisionDetection(lowCostHouse);
 		Renderer.getInstance(Renderer.class).attachDrawScissor(lowCostHouse);
 		
+		Driver.getInstance(Driver.class).addListener((DriverListener) lowCostHouse);
+		
 		AxisAlignedBoundingBox aabb = null;
 		aabb = wareHouse.getAABBWorld(QuadTreeType.COLLISION);
 		Map.getInstance(Map.class).setGroundTexture("map_soil", aabb.minX, aabb.minY, aabb.maxX, aabb.maxY);
