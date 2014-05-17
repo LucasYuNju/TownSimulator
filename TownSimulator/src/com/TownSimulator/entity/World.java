@@ -9,7 +9,7 @@ import com.TownSimulator.utility.Singleton;
 
 public class World extends Singleton {
 	
-	public static final float SecondPerYear=600;
+	public static final float SecondPerYear = 600;
 	
 	private Calendar calendar;
 	private float secondPerDay;

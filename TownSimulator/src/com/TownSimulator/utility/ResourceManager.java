@@ -96,7 +96,7 @@ public class ResourceManager extends Singleton{
 	private void preLoadSounds(){
 		loadSound("voice/sound/cave3.wav");
 		loadSound("voice/sound/game.mp3");
-		loadSound("voice/sound/rain.mp3");
+		//loadSound("voice/sound/rain.mp3");
 		loadSound("voice/sound/loop01.wav");
 	}
 	

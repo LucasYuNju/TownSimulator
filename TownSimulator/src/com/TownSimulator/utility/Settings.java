@@ -1,12 +1,15 @@
 package com.TownSimulator.utility;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 
 public class Settings {
 	public static float UNIT = Gdx.graphics.getWidth() / 15.0f;
 	
 	public static int gameSpeed = 5;
+	public static Color backgroundColor = new Color(Color.BLACK);
 	
+	public static Color gameGroundColor = GameMath.rgbaIntToColor(205, 163, 95, 255);
 	/*
 	 * UI Settings
 	 */

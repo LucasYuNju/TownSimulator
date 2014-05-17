@@ -25,17 +25,14 @@ import com.TownSimulator.entity.building.School;
 import com.TownSimulator.entity.building.Warehouse;
 import com.TownSimulator.entity.building.Well;
 import com.TownSimulator.io.InputMgr;
-import com.TownSimulator.map.Map;
 import com.TownSimulator.render.Renderer;
 import com.TownSimulator.ui.UIManager;
-import com.TownSimulator.utility.AxisAlignedBoundingBox;
 import com.TownSimulator.utility.ResourceManager;
 import com.TownSimulator.utility.Settings;
 import com.TownSimulator.utility.Singleton;
 import com.TownSimulator.utility.SingletonPublisher;
 import com.TownSimulator.utility.TipsBillborad;
 import com.TownSimulator.utility.particles.ParticleManager;
-import com.TownSimulator.utility.quadtree.QuadTreeType;
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
@@ -75,12 +72,12 @@ public class Driver extends SingletonPublisher<DriverListener> implements Applic
 		CollisionDetector.getInstance(CollisionDetector.class).attachCollisionDetection(lowCostHouse);
 		Renderer.getInstance(Renderer.class).attachDrawScissor(lowCostHouse);
 		
-		AxisAlignedBoundingBox aabb = null;
-		aabb = wareHouse.getAABBWorld(QuadTreeType.COLLISION);
-		Map.getInstance(Map.class).setGroundTexture("map_soil", aabb.minX, aabb.minY, aabb.maxX, aabb.maxY);
-		
-		aabb = lowCostHouse.getAABBWorld(QuadTreeType.COLLISION);
-		Map.getInstance(Map.class).setGroundTexture("map_soil", aabb.minX, aabb.minY, aabb.maxX, aabb.maxY);
+//		AxisAlignedBoundingBox aabb = null;
+//		aabb = wareHouse.getAABBWorld(QuadTreeType.COLLISION);
+//		Map.getInstance(Map.class).setGroundTexture("map_soil", aabb.minX, aabb.minY, aabb.maxX, aabb.maxY);
+//		
+//		aabb = lowCostHouse.getAABBWorld(QuadTreeType.COLLISION);
+//		Map.getInstance(Map.class).setGroundTexture("map_soil", aabb.minX, aabb.minY, aabb.maxX, aabb.maxY);
 		
 		FellingHouse fellingHouse = (FellingHouse)EntityFactory.createBuilding(BuildingType.FELLING_HOUSE);
 		fellingHouse.setState(Building.State.Constructed);
@@ -128,7 +125,7 @@ public class Driver extends SingletonPublisher<DriverListener> implements Applic
 
 		PowerStation powerStation = (PowerStation)EntityFactory.createBuilding(BuildingType.POWER_STATION);
 		powerStation.setState(Building.State.Constructed);
-		powerStation.setPositionWorld(originPosX, originPoxY - 5 * Settings.UNIT);
+		powerStation.setPositionWorld(originPosX + 5 * Settings.UNIT, originPoxY - 5 * Settings.UNIT);
 		EntityInfoCollector.getInstance(EntityInfoCollector.class).addBuilding(powerStation);
 		CollisionDetector.getInstance(CollisionDetector.class).attachCollisionDetection(powerStation);
 		Renderer.getInstance(Renderer.class).attachDrawScissor(powerStation);
@@ -195,7 +192,7 @@ public class Driver extends SingletonPublisher<DriverListener> implements Applic
 
 	@Override
 	public void render() {	
-		Gdx.gl.glClearColor(0, 0, 0, 1);
+		Gdx.gl.glClearColor(Settings.backgroundColor.r, Settings.backgroundColor.g, Settings.backgroundColor.b, Settings.backgroundColor.a);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		
 		Renderer.getInstance(Renderer.class).render();
