@@ -22,7 +22,7 @@ public class School extends WorkableBuilding{
 	private SchoolViewWindow schoolViewWindow;
 	
 	public School(){
-		super("building_bar", BuildingType.SCHOOL,JobType.TEACHER);
+		super("building_school", BuildingType.SCHOOL,JobType.TEACHER);
 		currentStudentNum=0;
 		schoolViewWindow=(SchoolViewWindow)undockedWindow;
 	}

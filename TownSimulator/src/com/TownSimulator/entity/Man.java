@@ -87,12 +87,15 @@ public class Man extends Entity{
 		mAnimesMapFlipped = new HashMap<ManAnimeType, Animation>();//逆走
 		
 		Animation standAnime = new Animation();
-		standAnime.addFrame("pixar_man_1", 0.0f);
+		standAnime.addFrame("man_stand", 0.0f);
 		mAnimesMap.put(ManAnimeType.STANDING, standAnime);
 		
 		Animation moveAnime = new Animation();
-		moveAnime.addFrame("pixar_man_1", 0.1f);
-		moveAnime.addFrame("pixar_man_2", 1.0f);
+		moveAnime.addFrame("man_run1", 1.0f);
+		moveAnime.addFrame("man_run2", 1.0f);
+		moveAnime.addFrame("man_run3", 1.0f);
+		moveAnime.addFrame("man_run4", 1.0f);
+		moveAnime.addFrame("man_run5", 1.0f);
 		mAnimesMap.put(ManAnimeType.MOVE, moveAnime);
 		
 		Animation dieAnime = new Animation();
