@@ -13,10 +13,16 @@ import com.TownSimulator.render.Renderer;
 import com.TownSimulator.utility.Animation;
 import com.TownSimulator.utility.ResourceManager;
 import com.TownSimulator.utility.Settings;
+import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 
 public class Man extends Entity{
 	private static final 	float 						MOVE_SPEED = Settings.UNIT;
+	private static final 	float						STATE_ICON_WIDTH = Settings.UNIT * 0.4f;
+	private static final 	float						STATE_ICON_HEIGHT = Settings.UNIT * 0.4f;
+	private static final 	float						STATE_ICON_UP_OFFSET = Settings.UNIT * 0.2f;
+	private					HashMap<ManStateType, Sprite> 		mStatesIcons;
 	private 				HashMap<ManAnimeType, Animation> 	mAnimesMap;
 	private 				HashMap<ManAnimeType, Animation> 	mAnimesMapFlipped;
 	private 				Vector2						mMoveDir;
@@ -42,6 +48,7 @@ public class Man extends Entity{
 		mMoveTime = 0.0f;
 		mBehavior = new IdleBTN(this);
 		initInfo();
+		initStatesIcons();
 		initAnimes();
 		
 		mDriverListener = new DriverListenerBaseImpl()
@@ -61,17 +68,33 @@ public class Man extends Entity{
 					updateManPoints(deltaTime);
 					updateAge(deltaTime);
 					mInfo.hpDrawHealthLottery(deltaTime);
+					
+					updateStatesIcon();
 				}
 				
 				if(mBehavior != null)
 					mBehavior.execute(deltaTime);
 				updateSprite(deltaTime);
 			}
+
+			
 		};
 		Driver.getInstance(Driver.class).addListener(mDriverListener);
 		
 	}
 	
+	@Override
+	public void drawSelf(SpriteBatch batch) {
+		super.drawSelf(batch);
+		Sprite stateIcon = mStatesIcons.get(mInfo.manState);
+		if(stateIcon != null)
+		{
+			stateIcon.setBounds(mDrawAABBWorld.getCenterX() - STATE_ICON_WIDTH * 0.5f,
+					mDrawAABBWorld.maxY + STATE_ICON_UP_OFFSET, STATE_ICON_WIDTH, STATE_ICON_HEIGHT);
+			stateIcon.draw(batch);
+		}
+	}
+
 	@SuppressWarnings("deprecation")
 	private void initInfo()
 	{
@@ -80,7 +103,15 @@ public class Man extends Entity{
 		//mInfo.animeFlip = false;
 	}
 	
-	
+	private void initStatesIcons()
+	{
+		mStatesIcons = new HashMap<ManStateType, Sprite>();
+		
+		for(ManStateType state : ManStateType.values() )
+		{
+			mStatesIcons.put(state, ResourceManager.getInstance(ResourceManager.class).createSprite(state.getIconTex()));
+		}
+	}
 	
 	private void initAnimes()
 	{
@@ -120,9 +151,21 @@ public class Man extends Entity{
 		}
 	}
 	
+	private void updateStatesIcon() {
+		if(mInfo.hungerPoints <= ManInfo.HUNGER_POINTS_FIND_FOOD)
+			mInfo.manState = ManStateType.Hungry;
+		
+		if(mInfo.isSick())
+			mInfo.manState = ManStateType.Sick;
+		
+		if(mInfo.isDepressed())
+			mInfo.manState = ManStateType.Depressed;
+	}
+	
 	private void updateManPoints(float deltaTime)
 	{
 		mInfo.hungerPoints -= ManInfo.HUNGER_DECRE_SPEED * deltaTime;
+		
 		if(mInfo.hungerPoints <= ManInfo.HUNGER_POINTS_MIN)
 			die();
 		

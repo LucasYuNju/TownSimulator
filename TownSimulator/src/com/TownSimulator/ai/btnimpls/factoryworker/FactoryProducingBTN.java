@@ -5,6 +5,7 @@ import com.TownSimulator.ai.behaviortree.ExecuteResult;
 import com.TownSimulator.ai.behaviortree.SequenceNode;
 import com.TownSimulator.entity.Man;
 import com.TownSimulator.entity.ManAnimeType;
+import com.TownSimulator.entity.ManStateType;
 import com.TownSimulator.utility.quadtree.QuadTreeType;
 
 public class FactoryProducingBTN extends SequenceNode{
@@ -38,6 +39,7 @@ public class FactoryProducingBTN extends SequenceNode{
 				float destX = man.getInfo().workingBuilding.getAABBWorld(QuadTreeType.COLLISION).getCenterX();
 				float destY = man.getInfo().workingBuilding.getAABBWorld(QuadTreeType.COLLISION).getCenterY();
 				man.setMoveDestination(destX, destY);
+				man.getInfo().manState = ManStateType.Working;
 				
 				if( !man.move(deltaTime) )
 				{

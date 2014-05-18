@@ -12,6 +12,7 @@ import com.TownSimulator.entity.building.WorkableBuilding;
 public class ManInfo {
 	public ManAnimeType 	animeType = ManAnimeType.STANDING;
 	public boolean 			animeFlip = false;
+	public ManStateType		manState;
 	public ConstructionInfo constructionInfo = new ConstructionInfo();
 	public JobType 			job;
 	public WorkableBuilding 	workingBuilding;

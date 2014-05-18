@@ -6,6 +6,7 @@ import com.TownSimulator.entity.EntityInfoCollector;
 import com.TownSimulator.entity.EntityInfoCollector.WareHouseFindResult;
 import com.TownSimulator.entity.Man;
 import com.TownSimulator.entity.ManAnimeType;
+import com.TownSimulator.entity.ManStateType;
 import com.TownSimulator.entity.ResourceInfoCollector;
 import com.TownSimulator.entity.building.Building;
 import com.TownSimulator.entity.building.Warehouse;
@@ -69,6 +70,8 @@ public class ConstructionTransportBTN extends ActionNode{
 		
 		switch (mCurState) {
 		case CONSTRUCT_TRANSPORT_TO_WAREHOUSR:
+			mMan.getInfo().manState = ManStateType.Working;
+			
 			Warehouse wareHouse = mMan.getInfo().constructionInfo.transportWareHouse;
 			if(wareHouse == null)
 			{
@@ -104,6 +107,7 @@ public class ConstructionTransportBTN extends ActionNode{
 			break;
 			
 		case CONSTRUCT_TRANSPORT_TO_BUILDING:
+			mMan.getInfo().manState = ManStateType.Working;
 			Building building = mMan.getInfo().constructionInfo.transportBuilding;
 			mMan.setMoveDestination(building.getPositionXWorld(), building.getPositionYWorld());
 			mMan.getInfo().animeType = ManAnimeType.MOVE;

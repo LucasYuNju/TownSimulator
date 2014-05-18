@@ -10,7 +10,7 @@ public class BuildComsButton extends IconLabelButton{
 	private BuildingType buildingType;
 	
 	public BuildComsButton(String textureName, String labelText, BuildingType buildingType) {
-		super(textureName, labelText, (int)BuildComsUI.BUTTON_TOP_LABEL_HEIGHT);
+		super(textureName, labelText, (int)BuildComsUI.BUTTON_TOP_MARGIN);
 		setSize(BuildComsUI.BUTTON_WIDTH, BuildComsUI.BUTTON_WIDTH);
 		
 		this.buildingType = buildingType;
