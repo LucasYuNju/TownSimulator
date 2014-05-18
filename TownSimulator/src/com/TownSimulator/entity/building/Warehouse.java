@@ -5,6 +5,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
+import com.TownSimulator.entity.EntityInfoCollector;
 import com.TownSimulator.entity.Resource;
 import com.TownSimulator.entity.ResourceInfoCollector;
 import com.TownSimulator.entity.ResourceType;
@@ -27,6 +28,21 @@ public class Warehouse extends Building {
 		storedResources = new LinkedList<Resource>();
 	}
 	
+	
+	
+	@Override
+	public void destroy() {
+		super.destroy();
+		
+		Warehouse warehouse = EntityInfoCollector.getInstance(EntityInfoCollector.class).findNearestWareHouse(mPosXWorld, mPosYWorld);
+		if(warehouse != null)
+		{
+			for (Resource r : storedResources) {
+				warehouse.addStoredResource(r.getType(), r.getAmount(), false);
+			}
+		}
+	}
+
 	public void addStoredResource(ResourceType type, int amount, boolean showTips)
 	{
 		if(amount == 0)
@@ -51,6 +67,7 @@ public class Warehouse extends Building {
 					originY, color);
 		}
 	}
+	
 	
 	public void addStoredResource(ResourceType type, int amount)
 	{

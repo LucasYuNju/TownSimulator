@@ -6,13 +6,17 @@ import java.util.List;
 import java.util.Set;
 
 import com.TownSimulator.ai.btnimpls.construct.ConstructionProject;
+import com.TownSimulator.collision.CollisionDetector;
 import com.TownSimulator.entity.Entity;
+import com.TownSimulator.entity.EntityInfoCollector;
 import com.TownSimulator.entity.Resource;
 import com.TownSimulator.entity.ResourceType;
+import com.TownSimulator.render.Renderer;
 import com.TownSimulator.ui.UIManager;
 import com.TownSimulator.ui.building.construction.ConstructionWindow;
 import com.TownSimulator.ui.building.construction.ConstructionWindowListener;
 import com.TownSimulator.ui.building.view.UndockedWindow;
+import com.TownSimulator.ui.building.view.UndockedWindow.UndockedWindowListener;
 import com.TownSimulator.ui.building.view.WorkerGroupListener;
 import com.TownSimulator.utility.quadtree.QuadTreeType;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -31,6 +35,7 @@ public abstract class Building extends Entity
 	private   ConstructionWindow		constructionWindow;
 	private	  ConstructionProgressBar	constructionProgressBar;
 	private   int 						numAllowedBuilder = 3;
+	private   boolean					bDestroyable = true;
 	
 	public enum State
 	{
@@ -59,13 +64,49 @@ public abstract class Building extends Entity
 		constructionWindow.setConstructionListener(this);
 		undockedWindow = createUndockedWindow();
 		if(undockedWindow != null)
+		{
 			undockedWindow.setVisible(false);
-//		if(viewWindow == null) {
-//			throw new NullPointerException("failed to create view window");
-//		}
+			undockedWindow.setUndockedWindowListener(new UndockedWindowListener() {
+				
+				@Override
+				public void dynamiteButtonClicked() {
+					destroy();
+				}
+			});
+		}
 	}
 	
 	abstract protected UndockedWindow createUndockedWindow();
+	
+	public void setDestroyable(boolean v)
+	{
+		this.bDestroyable = v;
+		if(undockedWindow != null)
+			undockedWindow.setShowDynamiteButton(v);
+	}
+	
+	public void destroy()
+	{
+		if(bDestroyable == false)
+			return;
+		
+		if(undockedWindow != null)
+		{
+			undockedWindow.setVisible(false);
+			undockedWindow = null;
+		}
+		
+		if(selectedEntity == this)
+		{
+			selectedEntity = null;
+			isSelected = false;
+		}
+		
+		System.out.println("Destroy");
+		EntityInfoCollector.getInstance(EntityInfoCollector.class).removeBuilding(this);
+		Renderer.getInstance(Renderer.class).dettachDrawScissor(this);
+		CollisionDetector.getInstance(CollisionDetector.class).dettachCollisionDetection(this);
+	}
 	
 	@Override
 	public void setPositionWorld(float x, float y) {

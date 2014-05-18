@@ -71,10 +71,18 @@ public abstract class WorkableBuilding extends Building
 			worker.setBehavior(new IdleBTN(worker));
 		}
 	}
+	
+	
 
 //	public int getMaxJobCnt() {
 //		return maxJobCnt;
 //	}
+
+	@Override
+	public void destroy() {
+		super.destroy();
+		fireWorker(workers.size);
+	}
 
 	public int getOpenJobCnt() {
 		return openJobCnt;

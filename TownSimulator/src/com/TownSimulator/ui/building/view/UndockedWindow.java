@@ -23,6 +23,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.Align;
  * 能跟随地图移动
  * <p>添加关闭按钮
  * <p>添加建筑名
+ * <p>添加拆除按钮
  */
 public class UndockedWindow extends Group{
 	protected float buildingPosXWorld;
@@ -35,7 +36,14 @@ public class UndockedWindow extends Group{
 	protected BuildingType buildingType;
 	protected TextureRegion background;
 	protected Button closeButton;
+	protected Button dynamiteButton;
 	protected Label headerLabel;
+	private UndockedWindowListener listener;
+	
+	public interface UndockedWindowListener
+	{
+		public void dynamiteButtonClicked();
+	}
 	
 	public UndockedWindow(BuildingType buildingType) {
 		super();
@@ -44,6 +52,8 @@ public class UndockedWindow extends Group{
 		initCameraListener();
 		
 		setColor(1.0f, 1.0f, 1.0f, Settings.UI_ALPHA);
+		
+		addDynamiteButton();
 	}
 	
 	protected void addCloseButton() {
@@ -95,6 +105,46 @@ public class UndockedWindow extends Group{
 		}
 	}
 	
+	protected void addDynamiteButton()
+	{
+		dynamiteButton = new FlipButton("button_dynamite", "button_dynamite", null);
+		dynamiteButton.setSize(LABEL_HEIGHT * 1.5f, LABEL_HEIGHT * 1.5f);
+		dynamiteButton.setPosition(getWidth() - dynamiteButton.getWidth(), 0.0f);
+		dynamiteButton.addListener(new InputListener()
+		{
+			float touchDownX = 0.0f;
+			float touchDownY = 0.0f;
+			
+			@Override
+			public boolean touchDown(InputEvent event, float x, float y,
+					int pointer, int button) {
+				touchDownX = x;
+				touchDownY = y;
+				return true;
+			}
+
+			@Override
+			public void touchUp(InputEvent event, float x, float y,
+					int pointer, int button) {
+				if(touchDownX == x && touchDownY == y)
+				{
+					if(listener != null)
+						listener.dynamiteButtonClicked();
+				}
+			}
+			
+		});
+		addActor(dynamiteButton);
+	}
+	
+	public void setShowDynamiteButton(boolean v)
+	{
+		if(v)
+			dynamiteButton.setVisible(true);
+		else
+			dynamiteButton.setVisible(false);
+	}
+	
 	/**
 	 * 更新组件位置
 	 */
@@ -102,6 +152,7 @@ public class UndockedWindow extends Group{
 	{
 		closeButton.setPosition(getWidth() - closeButton.getWidth(), getHeight() - closeButton.getHeight());
 		headerLabel.setPosition(MARGIN, getHeight() - LABEL_HEIGHT);
+		dynamiteButton.setPosition(getWidth() - dynamiteButton.getWidth(), 0.0f);
 	}
 	
 	protected void initCameraListener()
@@ -120,6 +171,11 @@ public class UndockedWindow extends Group{
 					updatePosition();
 			}
 		});
+	}
+	
+	public void setUndockedWindowListener(UndockedWindowListener listener)
+	{
+		this.listener = listener;
 	}
 	
 	@Override

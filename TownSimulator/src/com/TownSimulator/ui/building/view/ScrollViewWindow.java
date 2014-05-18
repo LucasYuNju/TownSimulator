@@ -41,6 +41,8 @@ public class ScrollViewWindow extends UndockedWindow{
 		addLabels();
 		addCloseButton();
 		addHeader();
+		
+		updateLayout();
 	}
 	
 	public void addLabels() {
