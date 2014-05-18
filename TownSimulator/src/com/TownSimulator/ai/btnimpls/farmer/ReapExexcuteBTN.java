@@ -10,7 +10,10 @@ import com.TownSimulator.entity.building.BuildingType;
 import com.TownSimulator.entity.building.FarmHouse;
 import com.TownSimulator.entity.building.FarmLand;
 import com.TownSimulator.entity.building.Warehouse;
+import com.TownSimulator.utility.Settings;
+import com.TownSimulator.utility.TipsBillborad;
 import com.TownSimulator.utility.quadtree.QuadTreeType;
+import com.badlogic.gdx.graphics.Color;
 
 public class ReapExexcuteBTN extends ActionNode{
 	private Man man;
@@ -70,11 +73,17 @@ public class ReapExexcuteBTN extends ActionNode{
 			
 			FarmLand land = farmHouse.getFarmLands().get(landIndex);
 			float reappedAmount = land.getCurCropAmount();
-			System.out.println(reappedAmount);
+//			System.out.println(reappedAmount);
 			land.addCropAmount(-reappedAmount);
 			land.updateView();
 			
-			warehouse.addStoredResource(farmHouse.getCurCropType().getResourceType(), (int)reappedAmount);
+			warehouse.addStoredResource(farmHouse.getCurCropType().getResourceType(), (int)reappedAmount, false);
+			float originX = farmHouse.getAABBWorld(QuadTreeType.DRAW).getCenterX();
+			float originY = farmHouse.getAABBWorld(QuadTreeType.DRAW).maxY + Settings.UNIT * 0.4f;
+			TipsBillborad.showTips(
+					farmHouse.getCurCropType() + " + " + (int)reappedAmount,
+					originX,
+					originY, Color.WHITE);
 			
 			if( farmHouse.getReappedLandCnt() >= farmHouse.getFarmLands().size )
 				reapFinish();

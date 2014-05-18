@@ -6,7 +6,7 @@ import com.TownSimulator.ui.building.view.UndockedWindow;
 public class Well extends Building{
 	
 	public Well() {
-		super("building_bar",BuildingType.WELL);
+		super("building_well",BuildingType.WELL);
 		// TODO Auto-generated constructor stub
 	}
 

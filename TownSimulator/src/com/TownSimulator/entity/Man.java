@@ -60,6 +60,7 @@ public class Man extends Entity{
 				else{
 					updateManPoints(deltaTime);
 					updateAge(deltaTime);
+					mInfo.hpDrawHealthLottery(deltaTime);
 				}
 				
 				if(mBehavior != null)
@@ -91,7 +92,7 @@ public class Man extends Entity{
 		mAnimesMap.put(ManAnimeType.STANDING, standAnime);
 		
 		Animation moveAnime = new Animation();
-		moveAnime.addFrame("pixar_man_1", 0.1f);
+		moveAnime.addFrame("pixar_man_1", 1.0f);
 		moveAnime.addFrame("pixar_man_2", 1.0f);
 		mAnimesMap.put(ManAnimeType.MOVE, moveAnime);
 		
@@ -257,5 +258,4 @@ public class Man extends Entity{
 		anime.update(deltaTime);
 		setSprite(anime.getCurSprite());
 	}
-
 }

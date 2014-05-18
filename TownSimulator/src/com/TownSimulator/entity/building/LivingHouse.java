@@ -29,6 +29,16 @@ public class LivingHouse extends Building{
 		return false;
 	}
 	
+	@Override
+	public void destroy() {
+		super.destroy();
+		
+		ArrayList<ManInfo> infos = new ArrayList<ManInfo>(residents);
+		for (ManInfo m : infos) {
+			removeResident(m);
+		}
+	}
+
 	public void removeResident(ManInfo resident)
 	{
 		if(residents.remove(resident)) {

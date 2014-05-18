@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.TownSimulator.ai.btnimpls.construct.ConstructionInfo;
+import com.TownSimulator.entity.building.Bar;
 import com.TownSimulator.entity.building.LivingHouse;
 import com.TownSimulator.entity.building.School;
 import com.TownSimulator.entity.building.WorkableBuilding;
@@ -38,11 +39,9 @@ public class ManInfo {
 	private static final float HEALTH_POINTS_HEALTHY = 70;			//出院
 	private static final float HEALTH_POINTS_INCREMENT = 0.005f;
 
-	//一年掉120幸福度，多消耗600粮食
-	//
 	private static final float HAPPINESS_POINTS_MAX = 100;
-	public static final float HAPPINESS_POINTS_DEPRESSED = 50;		//去酒吧
-	private static final float HAPPINESS_POINTS_PER_WINE = 10;
+	public static final float HAPPINESS_POINTS_DEPRESSED = 40;		//去酒吧
+	private static final float HAPPINESS_POINTS_PER_WINE = Bar.HAPPINESS_POINTS_PER_WINE;
 	private static List<String> namePool;
 	private Gender gender;
 	private String name;
@@ -75,12 +74,6 @@ public class ManInfo {
 	
 	public boolean isDepressed() {
 		return happinessPoints <= HAPPINESS_POINTS_DEPRESSED;
-	}
-	
-	public void drinkWine() {
-		happinessPoints += HAPPINESS_POINTS_PER_WINE;
-		if(happinessPoints > HAPPINESS_POINTS_MAX)
-			happinessPoints = HAPPINESS_POINTS_MAX;
 	}
 	
 	//healthDeredd转化成0~5
@@ -237,6 +230,62 @@ public class ManInfo {
 		this.school = school;
 	}
 
+	public void drinkWine() {
+		happinessPoints += HAPPINESS_POINTS_PER_WINE;
+		if(happinessPoints > HAPPINESS_POINTS_MAX)
+			happinessPoints = HAPPINESS_POINTS_MAX;
+	}
+	
+	private static final float HP_DECRE_PER_WORKLESS_SECOND = 75 / World.SecondPerYear;
+	/**
+	 * 调整幸福度的全部方法
+	 */
+	public void hpHomeless(float timeDelta) {
+		happinessPoints -= HP_DECRE_PER_WORKLESS_SECOND * timeDelta;
+		if (happinessPoints < 0) {
+			happinessPoints = 0;
+		}
+	}
+
+	public void hpWorkless(float timeDelta) {
+		hpHomeless(timeDelta);
+	}
+
+	public void hpFindSomeHouse() {
+		happinessPoints += HAPPINESS_POINTS_PER_WINE / 2;
+		if(happinessPoints > HAPPINESS_POINTS_MAX)
+			happinessPoints = HAPPINESS_POINTS_MAX;		
+	}
+	
+	public void hpResideInLowCostHouse(float timeDelta) {
+		hpHomeless(timeDelta/3);
+	}
+	
+	public void hpResideInApartment(float timeDelta) {
+		happinessPoints += HP_DECRE_PER_WORKLESS_SECOND * timeDelta / 3;
+		if (happinessPoints > HAPPINESS_POINTS_MAX) {
+			happinessPoints = HAPPINESS_POINTS_MAX;
+		}
+	}
+	
+	public void hpColdWinter(float timeDelta) {
+		hpHomeless(timeDelta);
+	}
+	
+	/**
+	 * 每个月一次抽奖，生病的概率为1/24
+	 */
+	private float healthLotteryTime = 0;
+	public void hpDrawHealthLottery(float timeDelta) {
+		healthLotteryTime += timeDelta;
+		if(healthLotteryTime > World.SecondPerYear / 24) {
+			healthLotteryTime = 0;
+			if(Math.random() < 1/24f && !isHealthy()) {
+				healthPoints = HEALTH_POINTS_SICK;
+			}
+		}
+	}
+	
 	static {
 		initNamePool();
 	}

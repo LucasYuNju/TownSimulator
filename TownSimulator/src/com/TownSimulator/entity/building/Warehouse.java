@@ -5,6 +5,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
+import com.TownSimulator.entity.EntityInfoCollector;
 import com.TownSimulator.entity.Resource;
 import com.TownSimulator.entity.ResourceInfoCollector;
 import com.TownSimulator.entity.ResourceType;
@@ -27,6 +28,21 @@ public class Warehouse extends Building {
 		storedResources = new LinkedList<Resource>();
 	}
 	
+	
+	
+	@Override
+	public void destroy() {
+		super.destroy();
+		
+		Warehouse warehouse = EntityInfoCollector.getInstance(EntityInfoCollector.class).findNearestWareHouse(mPosXWorld, mPosYWorld);
+		if(warehouse != null)
+		{
+			for (Resource r : storedResources) {
+				warehouse.addStoredResource(r.getType(), r.getAmount(), false);
+			}
+		}
+	}
+
 	public void addStoredResource(ResourceType type, int amount, boolean showTips)
 	{
 		if(amount == 0)
@@ -46,11 +62,12 @@ public class Warehouse extends Building {
 			float originY = getAABBWorld(QuadTreeType.DRAW).maxY + Settings.UNIT * 0.4f;
 			Color color = amount > 0 ? Color.WHITE : Color.RED;
 			TipsBillborad.showTips(
-					type + (amount > 0 ? " + " : " - ") + amount,
+					type + (amount > 0 ? " + " : " - ") + Math.abs(amount),
 					originX,
 					originY, color);
 		}
 	}
+	
 	
 	public void addStoredResource(ResourceType type, int amount)
 	{

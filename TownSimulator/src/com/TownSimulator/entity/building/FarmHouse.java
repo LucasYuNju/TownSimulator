@@ -38,7 +38,7 @@ public class FarmHouse extends WorkableBuilding implements SelectBoxListener
 	public FarmHouse() {
 		super("building_farm_house", BuildingType.FARM_HOUSE, JobType.FARMER);
 		//undockedWindow.setSelectBoxListener(this);
-		setSowCropType(CropType.Wheat);
+//		setSowCropType(CropType.Wheat);
 		initFarmLands();
 		
 		collisionAABBLocalWithLands = new AxisAlignedBoundingBox();

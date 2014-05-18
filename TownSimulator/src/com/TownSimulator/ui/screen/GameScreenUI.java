@@ -68,29 +68,6 @@ public class GameScreenUI extends ScreenUIBase{
 		return messageBoard;
 	}
 	
-//	public ListenableViewWindow createViewWindow(BuildingType type) {
-//		ListenableViewWindow window = null;
-//		switch (type) {
-//		case WAREHOUSE:
-//			window = createScrollViewWindow(type);
-//			break;
-//		case LOW_COST_HOUSE:
-//			window = createScrollViewWindow(type);
-//			break;
-//		case FARM_HOUSE:
-//			window = createFarmViewWindow();
-//			break;
-//		case FELLING_HOUSE:
-//			window = createWorkableViewWindow(type, FellingHouse.MAX_WORKER_CNT);
-//			break;
-//		default:
-//			break;
-//		}
-//		if(window != null)
-//			windows.add(window);
-//		return window;
-//	}
-	
 	public ConstructionWindow createConstructionWindow(BuildingType buildingType, List<Resource> resouces, int numAllowedBuilder) {
 		ConstructionWindow constructionWindow = new ConstructionWindow(buildingType, resouces, numAllowedBuilder);
 		constructionWindow.setVisible(false);
@@ -113,6 +90,7 @@ public class GameScreenUI extends ScreenUIBase{
 			}
 		});
 		mStage.addActor(scrollPane);
+		windows.add(window);
 		return window;
 	}
 	
