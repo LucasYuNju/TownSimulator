@@ -1,5 +1,6 @@
 package com.TownSimulator.entity;
 
+import com.TownSimulator.entity.building.ApartmentHouse;
 import com.TownSimulator.entity.building.Bar;
 import com.TownSimulator.entity.building.Building;
 import com.TownSimulator.entity.building.BuildingType;
@@ -41,6 +42,14 @@ public class EntityFactory {
 		float yDrawScale = 1.0f;
 		
 		switch (buildingType) {
+		case APARTMENT:
+			xGridSize = 2;
+			yGridSize = 2;
+			yDrawScale = 1.0f;
+			building = new ApartmentHouse();
+			building.setNeededConstructionResource(ResourceType.RS_WOOD, 2000);
+			building.setNeededConstructionWork(20);
+			break;
 		case LOW_COST_HOUSE:
 			xGridSize = 2;
 			yGridSize = 2;

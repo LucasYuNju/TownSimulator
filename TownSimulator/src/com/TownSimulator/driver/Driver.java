@@ -72,8 +72,18 @@ public class Driver extends SingletonPublisher<DriverListener> implements Applic
 		CollisionDetector.getInstance(CollisionDetector.class).attachCollisionDetection(lowCostHouse);
 		Renderer.getInstance(Renderer.class).attachDrawScissor(lowCostHouse);
 		
-
 		Driver.getInstance(Driver.class).addListener((DriverListener) lowCostHouse);
+		
+		
+		Building apartmentHouse = EntityFactory.createBuilding(BuildingType.APARTMENT);
+		apartmentHouse.setState(Building.State.Constructed);
+		apartmentHouse.setPositionWorld(originPosX + 5 * Settings.UNIT, originPoxY);
+		EntityInfoCollector.getInstance(EntityInfoCollector.class).addBuilding(apartmentHouse);
+		CollisionDetector.getInstance(CollisionDetector.class).attachCollisionDetection(apartmentHouse);
+		Renderer.getInstance(Renderer.class).attachDrawScissor(apartmentHouse);
+		
+		Driver.getInstance(Driver.class).addListener((DriverListener) apartmentHouse);
+		
 //		
 //		AxisAlignedBoundingBox aabb = null;
 //		aabb = wareHouse.getAABBWorld(QuadTreeType.COLLISION);

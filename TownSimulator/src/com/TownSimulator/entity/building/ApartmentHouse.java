@@ -13,7 +13,7 @@ public class ApartmentHouse extends LivingHouse implements DriverListener{
 	
 	
 	public ApartmentHouse() {
-		super("building_low_cost_house", BuildingType.LOW_COST_HOUSE);
+		super("building_apartment_house", BuildingType.APARTMENT);
 	}
 	
 	
