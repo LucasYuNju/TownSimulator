@@ -34,7 +34,7 @@ public class UndockedWindow extends Group{
 	public static final float MARGIN = Settings.MARGIN;
 	public static final float LABEL_WIDTH = Settings.LABEL_WIDTH;
 	public static final float LABEL_HEIGHT = Settings.LABEL_HEIGHT;
-	public static final float ICON_WIDTH = Settings.LABEL_WIDTH;
+	public static final float ICON_WIDTH = Settings.UNIT;
 	public static final float MIN_WIDTH = LABEL_WIDTH * 2.5f;
 	protected BuildingType buildingType;
 	protected transient TextureRegion background;

@@ -26,7 +26,7 @@ public class WorkableWithTipsWindow extends WorkableViewWindow {
 		labelStyle.font = ResourceManager.getInstance(ResourceManager.class).getFont((int)(LABEL_HEIGHT * 0.7f));
 		labelStyle.fontColor = Color.RED;
 		tipsLabel = new Label("", labelStyle);
-		tipsLabel.setSize(getWidth(), LABEL_HEIGHT);
+		tipsLabel.setSize(getWidth() - dynamiteButton.getWidth(), LABEL_HEIGHT);
 		tipsLabel.setPosition(0.0f, MARGIN);
 		tipsLabel.setAlignment(Align.center);
 		addActor(tipsLabel);

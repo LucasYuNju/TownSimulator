@@ -107,6 +107,12 @@ public class ConstructionTransportBTN extends ActionNode{
 			break;
 			
 		case CONSTRUCT_TRANSPORT_TO_BUILDING:
+			if(mMan.getInfo().constructionInfo.curRSAmount < mMan.getInfo().constructionInfo.transportNeededAmount)
+			{
+				mCurState = State.CONSTRUCT_TRANSPORT_TO_WAREHOUSR;
+				break;
+			}
+			
 			mMan.getInfo().manState = ManStateType.Working;
 			Building building = mMan.getInfo().constructionInfo.transportBuilding;
 			mMan.setMoveDestination(building.getPositionXWorld(), building.getPositionYWorld());

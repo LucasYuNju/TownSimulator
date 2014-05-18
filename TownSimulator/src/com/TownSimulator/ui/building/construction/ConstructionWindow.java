@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.TownSimulator.entity.Resource;
+import com.TownSimulator.entity.ResourceType;
 import com.TownSimulator.entity.building.BuildingType;
 import com.TownSimulator.ui.base.FlipButton;
 import com.TownSimulator.ui.building.view.ProcessBar;
@@ -34,7 +35,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.Align;
  * 					  margin
  */
 public class ConstructionWindow extends UndockedWindow{
-	private static final int NUM_PAIR = 3;
+//	private static final int NUM_PAIR = 1;
 	
 	//window去掉margin后的宽度和高度
 	private float windowWidth;
@@ -43,6 +44,7 @@ public class ConstructionWindow extends UndockedWindow{
 	private ProcessBar processBar;
 
 	private List<Resource> resources;
+	private List<Button> resourceIcons;
 	private List<Label> resourceLabels;
 	private WorkerGroup builderGroup;
 	
@@ -57,33 +59,53 @@ public class ConstructionWindow extends UndockedWindow{
 		addActor(builderGroup);
 		addPairs();
 		
-		//2
-		float pairsWidth = LABEL_WIDTH * NUM_PAIR;
-		windowWidth = pairsWidth > builderGroup.getWidth() ? pairsWidth : builderGroup.getWidth();
-		windowHeight = ProcessBar.HEIGHT + WorkerGroup.HEIGHT + LABEL_HEIGHT + ICON_WIDTH;
-		setSize(windowWidth+MARGIN * 2, windowHeight + MARGIN * 2);
-		setPosition( (Gdx.graphics.getWidth() - getWidth())/2, 
-				(Gdx.graphics.getHeight() - getHeight())/2 );
-
 		//3
-		processBar = new ProcessBar(windowWidth);
+		processBar = new ProcessBar();
 		processBar.setPosition(MARGIN, MARGIN);
 		addActor(processBar);
 		addHeader();
 		addCloseButton();
+		
+		//2
+		float pairsWidth = ICON_WIDTH * resources.size();
+		windowWidth = Math.max(pairsWidth, builderGroup.getWidth());
+		windowWidth = Math.max(windowWidth, headerLabel.getStyle().font.getBounds(headerLabel.getText()).width + closeButton.getWidth() + MARGIN);
+		windowWidth += Settings.MARGIN * 2;
+		windowHeight = ProcessBar.HEIGHT + WorkerGroup.HEIGHT + LABEL_HEIGHT + ICON_WIDTH;
+		setSize(windowWidth + MARGIN * 2, windowHeight + MARGIN * 2);
+		setPosition( (Gdx.graphics.getWidth() - getWidth())/2, 
+						(Gdx.graphics.getHeight() - getHeight())/2 );
+		processBar.setSize(windowWidth - MARGIN * 2, ProcessBar.HEIGHT);
+		
+		updateLayout();
 	}
 	
+	public void resetResourcesViews()
+	{
+		for (Button icon : resourceIcons) {
+			removeActor(icon);
+		}
+		
+		for (Label label : resourceLabels) {
+			removeActor(label);
+		}
+		
+		addPairs();
+	}
 	
 	private void addPairs() {
 		// initialize icon button and label
 		resourceLabels = new ArrayList<Label>();
-		for (int i = 0; i < NUM_PAIR; i++) {
+		resourceIcons = new ArrayList<Button>();
+		for (int i = 0; i < resources.size(); i++) {
 			Button btn;
-			if(i == 0)
-				btn = new FlipButton("button_build_food", "button_build_food", null);
-			else 
-				btn = new FlipButton("button_build_house", "button_build", null);
-			btn.setSize(LABEL_WIDTH, LABEL_WIDTH);
+			ResourceType type = resources.get(i).getType();
+			btn = new FlipButton(type.getTextureName(), type.getTextureName(), null);
+//			if(i == 0)
+//				btn = new FlipButton("re", "button_build_food", null);
+//			else 
+//				btn = new FlipButton("button_build_house", "button_build", null);
+			btn.setSize(ICON_WIDTH, ICON_WIDTH);
 			btn.setPosition(LABEL_WIDTH * i + MARGIN, MARGIN + ProcessBar.HEIGHT + WorkerGroup.HEIGHT + LABEL_HEIGHT);
 			btn.addListener(new EventListener() {
 				@Override
@@ -91,6 +113,7 @@ public class ConstructionWindow extends UndockedWindow{
 					return false;
 				}
 			});
+			resourceIcons.add(btn);
 			addActor(btn);
 
 			LabelStyle labelStyle = new LabelStyle();

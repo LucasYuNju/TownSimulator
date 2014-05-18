@@ -25,6 +25,16 @@ public class Hospital extends WorkableBuilding{
 		patients = new ArrayList<Man>();
 		updateHospitalViewWindow();
 	}
+	
+	@Override
+	public void destroy() {
+		super.destroy();
+		ArrayList<Man> patientsCpy = new ArrayList<Man>(patients);
+		for (Man man : patientsCpy)
+		{
+			removePatient(man);
+		}
+	}
 
 	public boolean addPatient(Man man) {
 		if(hasCapacity() && man.getInfo().isSick()) {

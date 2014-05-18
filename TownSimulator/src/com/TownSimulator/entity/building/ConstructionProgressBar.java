@@ -63,6 +63,8 @@ public class ConstructionProgressBar implements Drawable{
 	{
 		if( barsAlloced.remove(this) )
 			barsFree.add(this);
+		
+		setProgress(0.0f);
 	}
 	
 	public static ConstructionProgressBar create(Building building)

@@ -148,6 +148,7 @@ public class GameScreenUI extends ScreenUIBase{
 			}
 		});
 		mStage.addActor(scrollPane);
+		window.initUI();
 		windows.add(window);
 		return window;
 	}
