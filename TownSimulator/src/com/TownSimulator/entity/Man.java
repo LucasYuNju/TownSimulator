@@ -1,5 +1,7 @@
 package com.TownSimulator.entity;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -18,8 +20,8 @@ import com.badlogic.gdx.math.Vector2;
 public class Man extends Entity{
 	private static final long serialVersionUID = -2009342658748170922L;
 	private static final 	float 						MOVE_SPEED = Settings.UNIT;
-	private 				Map<ManAnimeType, Animation> 	mAnimesMap;
-	private 				Map<ManAnimeType, Animation> 	mAnimesMapFlipped;
+	private transient 		Map<ManAnimeType, Animation> 	mAnimesMap;
+	private transient		Map<ManAnimeType, Animation> 	mAnimesMapFlipped;
 	private 				Vector2						mMoveDir;
 	private 				Vector2						mDestination;
 	private					float						mMoveTime;
@@ -82,8 +84,6 @@ public class Man extends Entity{
 		//mInfo.animeFlip = false;
 	}
 	
-	
-	
 	private void initAnimes()
 	{
 		mAnimesMap = new HashMap<ManAnimeType, Animation>();//正走
@@ -112,12 +112,6 @@ public class Man extends Entity{
 		{
 			ManAnimeType key = itr.next();
 			Animation anime = mAnimesMap.get(key);
-//			Animation animeFlip = new Animation();
-//			for (AnimeFrame frame : anime.getFrames()) {
-//				Sprite spFlip = new Sprite(sp);
-//				spFlip.flip(true, false);
-//				animeFlip.addFrame(spFlip);
-//			}
 			mAnimesMapFlipped.put(key, anime.flip());
 		}
 	}
@@ -145,7 +139,6 @@ public class Man extends Entity{
 	}
 	
 	private void checkAgeEvent(int newAge) {
-		// TODO Auto-generated method stub
 		switch (newAge) {
 		case 5:
 			School school=EntityInfoCollector.getInstance(EntityInfoCollector.class).
@@ -259,5 +252,11 @@ public class Man extends Entity{
 			anime = mAnimesMap.get(mInfo.animeType);
 		anime.update(deltaTime);
 		setSprite(anime.getCurSprite());
+	}
+	
+	@Override
+	protected void readObject(ObjectInputStream s) throws ClassNotFoundException, IOException {
+		super.readObject(s);
+		initAnimes();
 	}
 }

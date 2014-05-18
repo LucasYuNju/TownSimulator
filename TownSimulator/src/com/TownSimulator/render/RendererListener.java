@@ -1,6 +1,8 @@
 package com.TownSimulator.render;
 
-public interface RendererListener {
+import java.io.Serializable;
+
+public interface RendererListener extends Serializable{
 	public void renderBegined();
 	public void renderEnded();
 }

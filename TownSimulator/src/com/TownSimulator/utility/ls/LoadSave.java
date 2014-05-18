@@ -7,8 +7,6 @@ import java.io.IOException;
 import java.io.ObjectOutputStream;
 
 import com.TownSimulator.entity.EntityInfoCollector;
-import com.TownSimulator.entity.ResourceInfoCollector;
-import com.TownSimulator.map.Map;
 import com.TownSimulator.utility.Singleton;
 
 /**

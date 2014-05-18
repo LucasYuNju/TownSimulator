@@ -14,9 +14,7 @@ public class WorkableWithTipsWindow extends WorkableViewWindow {
 	public WorkableWithTipsWindow(BuildingType buildingType,
 			int numAllowedWorker) {
 		super(buildingType, numAllowedWorker);
-		
 		setSize(getWidth(), getHeight() + LABEL_HEIGHT + MARGIN);
-		
 		init();
 	}
 	
@@ -39,7 +37,5 @@ public class WorkableWithTipsWindow extends WorkableViewWindow {
 	public void setTips(String tips)
 	{
 		tipsLabel.setText(tips);
-//		tipsLabel.setSize(tipsLabel.getStyle().font.getBounds(tips).width, LABEL_HEIGHT);
 	}
-
 }

@@ -24,7 +24,7 @@ public class CoatFactory extends WorkableBuilding{
 	private static final int 	PRODUCE_FUR_PER_COAT = 4;
 	private static final int 	PRODUCE_COAT_AMOUNT = 1;
 	private float produceAccum = 0.0f;
-	private WorkableWithTipsWindow	workTipsWindow;
+	private transient WorkableWithTipsWindow	workTipsWindow;
 	
 	public CoatFactory() {
 		super("building_coat_factory", BuildingType.COAT_FACTORY, JobType.FACTORY_WORKER);
@@ -81,7 +81,7 @@ public class CoatFactory extends WorkableBuilding{
 			produceAccum -= PRODUCE_INTERVAL_TIME;
 			Warehouse warehouse = EntityInfoCollector.getInstance(EntityInfoCollector.class)
 									.findNearestWareHouse(mPosXWorld, mPosYWorld);
-			int produceAmount = Math.min(furAmount / PRODUCE_FUR_PER_COAT, PRODUCE_COAT_AMOUNT * workers.size);
+			int produceAmount = Math.min(furAmount / PRODUCE_FUR_PER_COAT, PRODUCE_COAT_AMOUNT * workers.size());
 			
 			if(produceAmount <= 0 )
 				continue;

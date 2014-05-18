@@ -1,5 +1,7 @@
 package com.TownSimulator.ui.screen;
 
+import java.io.Serializable;
+
 import com.TownSimulator.driver.Driver;
 import com.TownSimulator.entity.World;
 import com.TownSimulator.map.Map;
@@ -13,7 +15,8 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
-public class LoadingScreenUI extends ScreenUIBase{
+public class LoadingScreenUI extends ScreenUIBase implements Serializable{
+	private static final long serialVersionUID = 1L;
 	private LoadingUIListener 	listener;
 	private float				LABEL_HEIGHT = Settings.LABEL_HEIGHT;
 	private float				BAR_HEIGHT = LABEL_HEIGHT * 0.8f;

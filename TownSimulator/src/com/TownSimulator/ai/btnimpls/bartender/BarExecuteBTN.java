@@ -6,6 +6,7 @@ import com.TownSimulator.entity.Man;
 import com.TownSimulator.entity.building.Bar;
 
 public class BarExecuteBTN extends ActionNode{
+	private static final long serialVersionUID = 1L;
 	private Bar bar;
 	private float accumulatedTime;
 	private static final float TIME_PER_WINE = 10f;

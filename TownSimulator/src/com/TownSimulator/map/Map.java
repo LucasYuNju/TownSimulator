@@ -20,8 +20,8 @@ import com.TownSimulator.utility.Singleton;
 import com.TownSimulator.utility.quadtree.QuadTreeManageble;
 import com.TownSimulator.utility.simplex.SimplexNoise;
 
-public class Map extends Singleton {
-//	private static final long serialVersionUID = 6800548250214016876L;
+public class Map extends Singleton implements Serializable{
+	private static final long serialVersionUID = 6800548250214016876L;
 	public static final int				MAP_WIDTH = 256;
 	public static final int				MAP_HEIGHT = 256;
 	private float[][] 					mNoiseMap;

@@ -8,6 +8,7 @@ import com.TownSimulator.entity.ManAnimeType;
 import com.TownSimulator.utility.quadtree.QuadTreeType;
 
 public class FactoryProducingBTN extends SequenceNode{
+	private static final long serialVersionUID = 1L;
 	private Man man;
 	
 	public FactoryProducingBTN(Man man)
@@ -18,20 +19,9 @@ public class FactoryProducingBTN extends SequenceNode{
 	}
 
 	private void init() {
-//		ConditionNode isNotAroundFactory = new ConditionNode() {
-//			
-//			@Override
-//			public ExecuteResult execute(float deltaTime) {
-//				float x = man.getPositionXWorld();
-//				float y = man.getPositionYWorld();
-//				if( man.getInfo().workingBuilding.isAround(x, y) )
-//					return ExecuteResult.FALSE;
-//				else
-//					return ExecuteResult.TRUE;
-//			}
-//		};
 		
 		ActionNode moveToFactory = new ActionNode() {
+			private static final long serialVersionUID = 1L;
 			
 			@Override
 			public ExecuteResult execute(float deltaTime) {
@@ -45,12 +35,6 @@ public class FactoryProducingBTN extends SequenceNode{
 				}
 				else
 					man.getInfo().animeType = ManAnimeType.MOVE;
-//				float x = man.getPositionXWorld();
-//				float y = man.getPositionYWorld();
-//				if( man.getInfo().workingBuilding.isAround(x, y) )
-//				{
-//					
-//				}
 				
 				return ExecuteResult.TRUE;
 			}

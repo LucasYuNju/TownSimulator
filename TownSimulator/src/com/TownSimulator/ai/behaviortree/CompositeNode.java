@@ -1,13 +1,15 @@
 package com.TownSimulator.ai.behaviortree;
 
-import com.badlogic.gdx.utils.Array;
+import java.util.ArrayList;
+import java.util.List;
 
 public abstract class CompositeNode implements BehaviorTreeNode{
-	protected Array<BehaviorTreeNode> mChildren;
+	private static final long serialVersionUID = 1L;
+	protected List<BehaviorTreeNode> mChildren;
 	
 	public CompositeNode()
 	{
-		mChildren = new Array<BehaviorTreeNode>();
+		mChildren = new ArrayList<BehaviorTreeNode>();
 	}
 	
 	public CompositeNode addNode(BehaviorTreeNode node)

@@ -8,6 +8,7 @@ import com.TownSimulator.entity.ManAnimeType;
 import com.TownSimulator.utility.quadtree.QuadTreeType;
 
 public class GrazingBTN extends SequenceNode{
+	private static final long serialVersionUID = 833590892672891622L;
 	private Man man;
 	
 	public GrazingBTN(Man man)
@@ -20,7 +21,8 @@ public class GrazingBTN extends SequenceNode{
 	private void init()
 	{
 		ActionNode moveToRanch = new ActionNode() {
-			
+			private static final long serialVersionUID = 6917962253492059743L;
+
 			@Override
 			public ExecuteResult execute(float deltaTime) {
 				float destX = man.getInfo().workingBuilding.getAABBWorld(QuadTreeType.COLLISION).getCenterX();

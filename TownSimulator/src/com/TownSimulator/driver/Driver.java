@@ -36,6 +36,7 @@ import com.TownSimulator.utility.particles.ParticleManager;
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.utils.Array;
 
 public class Driver extends SingletonPublisher<DriverListener> implements ApplicationListener{
 	private Driver()
@@ -91,22 +92,7 @@ public class Driver extends SingletonPublisher<DriverListener> implements Applic
 		Renderer.getInstance(Renderer.class).attachDrawScissor(apartmentHouse);
 		
 		Driver.getInstance(Driver.class).addListener((DriverListener) apartmentHouse);
-		
-//		
-//		AxisAlignedBoundingBox aabb = null;
-//		aabb = wareHouse.getAABBWorld(QuadTreeType.COLLISION);
-//		Map.getInstance(Map.class).setGroundTexture("map_soil", aabb.minX, aabb.minY, aabb.maxX, aabb.maxY);
-//		
-//		aabb = lowCostHouse.getAABBWorld(QuadTreeType.COLLISION);
-//		Map.getInstance(Map.class).setGroundTexture("map_soil", aabb.minX, aabb.minY, aabb.maxX, aabb.maxY);
-
-//		AxisAlignedBoundingBox aabb = null;
-//		aabb = wareHouse.getAABBWorld(QuadTreeType.COLLISION);
-//		Map.getInstance(Map.class).setGroundTexture("map_soil", aabb.minX, aabb.minY, aabb.maxX, aabb.maxY);
-//		
-//		aabb = lowCostHouse.getAABBWorld(QuadTreeType.COLLISION);
-//		Map.getInstance(Map.class).setGroundTexture("map_soil", aabb.minX, aabb.minY, aabb.maxX, aabb.maxY);
-		
+				
 		FellingHouse fellingHouse = (FellingHouse)EntityFactory.createBuilding(BuildingType.FELLING_HOUSE);
 		fellingHouse.setState(Building.State.Constructed);
 		fellingHouse.setPositionWorld(originPosX - 12 * Settings.UNIT, originPoxY - 12 * Settings.UNIT);
@@ -212,7 +198,7 @@ public class Driver extends SingletonPublisher<DriverListener> implements Applic
 
 	@Override
 	public void dispose() {
-		for (int i = 0; i < mListeners.size; i++) {
+		for (int i = 0; i < mListeners.size(); i++) {
 			mListeners.get(i).dispose();
 		}
 		Singleton.clearInstanceMap();
@@ -227,28 +213,28 @@ public class Driver extends SingletonPublisher<DriverListener> implements Applic
 		UIManager.getInstance(UIManager.class).render();
 		
 		float deltaTime = Gdx.graphics.getDeltaTime();
-		for (int i = 0; i < mListeners.size; i++) {
+		for (int i = 0; i < mListeners.size(); i++) {
 			mListeners.get(i).update(deltaTime * Settings.gameSpeed);
 		}
 	}
 
 	@Override
 	public void resize(int width, int height) {
-		for (int i = 0; i < mListeners.size; i++) {
+		for (int i = 0; i < mListeners.size(); i++) {
 			mListeners.get(i).resize(width, height);
 		}
 	}
 
 	@Override
 	public void pause() {
-		for (int i = 0; i < mListeners.size; i++) {
+		for (int i = 0; i < mListeners.size(); i++) {
 			mListeners.get(i).pause();
 		}
 	}
 
 	@Override
 	public void resume() {
-		for (int i = 0; i < mListeners.size; i++) {
+		for (int i = 0; i < mListeners.size(); i++) {
 			mListeners.get(i).resume();
 		}
 	}

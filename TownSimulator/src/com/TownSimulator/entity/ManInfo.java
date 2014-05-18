@@ -1,5 +1,6 @@
 package com.TownSimulator.entity;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,7 +11,8 @@ import com.TownSimulator.entity.building.School;
 import com.TownSimulator.entity.building.WorkableBuilding;
 import com.badlogic.gdx.Gdx;
 
-public class ManInfo {
+public class ManInfo implements Serializable{
+	private static final long serialVersionUID = 6185641512377240722L;
 	public ManAnimeType 	animeType = ManAnimeType.STANDING;
 	public boolean 			animeFlip = false;
 	public ConstructionInfo constructionInfo = new ConstructionInfo();

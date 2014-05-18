@@ -8,6 +8,7 @@ import com.TownSimulator.entity.ManAnimeType;
 import com.TownSimulator.utility.quadtree.QuadTreeType;
 
 public class BarTendingBTN extends SequenceNode{
+	private static final long serialVersionUID = 1L;
 	private Man man;
 	
 	public BarTendingBTN(Man man) {
@@ -17,6 +18,7 @@ public class BarTendingBTN extends SequenceNode{
 	
 	private void initSubNodes() {
 		ActionNode moveToBarNode = new ActionNode() {
+			private static final long serialVersionUID = 1L;
 			@Override
 			public ExecuteResult execute(float deltaTime) {
 				float destX = man.getInfo().workingBuilding.getAABBWorld(QuadTreeType.COLLISION).getCenterX();

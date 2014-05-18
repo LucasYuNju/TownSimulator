@@ -4,6 +4,7 @@ import com.TownSimulator.ai.behaviortree.SelectorNode;
 import com.TownSimulator.entity.Man;
 
 public class GeneralBTN extends SelectorNode{
+	private static final long serialVersionUID = 4402146961270887927L;
 	public Man man;
 	
 	public GeneralBTN(Man man)

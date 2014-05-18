@@ -1,9 +1,10 @@
 package com.TownSimulator.utility;
 
-import com.badlogic.gdx.utils.Array;
+import java.util.ArrayList;
+import java.util.List;
 
 public class SingletonPublisher<T> extends Singleton{
-	protected Array<T> mListeners = new Array<T>();
+	protected List<T> mListeners = new ArrayList<T>();
 	
 	public void addListener(T value)
 	{
@@ -12,6 +13,6 @@ public class SingletonPublisher<T> extends Singleton{
 	
 	public void removeListener(T value)
 	{
-		mListeners.removeValue(value, false);
+		mListeners.remove(value);
 	}
 }

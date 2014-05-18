@@ -8,6 +8,7 @@ import com.TownSimulator.entity.ManAnimeType;
 import com.TownSimulator.utility.quadtree.QuadTreeType;
 
 public class TeachworkBTN extends SequenceNode{
+	private static final long serialVersionUID = 1L;
 	private Man man;
 	
 	public TeachworkBTN(Man man){
@@ -17,10 +18,10 @@ public class TeachworkBTN extends SequenceNode{
 	
 	public void init(){
 		ActionNode moveToSchoolNode=new ActionNode() {
-			
+			private static final long serialVersionUID = -1630089335151546638L;
+
 			@Override
 			public ExecuteResult execute(float deltaTime) {
-				// TODO Auto-generated method stub
 				moveToSchool(deltaTime);
 				return ExecuteResult.TRUE;
 			}

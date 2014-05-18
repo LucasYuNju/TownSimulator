@@ -1,5 +1,8 @@
 package com.TownSimulator.entity.building;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.TownSimulator.ai.behaviortree.BehaviorTreeNode;
 import com.TownSimulator.ai.btnimpls.idle.IdleBTN;
 import com.TownSimulator.entity.JobType;
@@ -8,7 +11,6 @@ import com.TownSimulator.ui.UIManager;
 import com.TownSimulator.ui.building.view.UndockedWindow;
 import com.TownSimulator.ui.building.view.WorkableViewWindow;
 import com.TownSimulator.ui.building.view.WorkerGroupListener;
-import com.badlogic.gdx.utils.Array;
 
 /**
  * 可以在里面工作的建筑 
@@ -16,19 +18,18 @@ import com.badlogic.gdx.utils.Array;
 public abstract class WorkableBuilding extends Building
 	implements WorkerGroupListener
 {
-	private static final long serialVersionUID = 6233306744812110453L;
 	protected int maxJobCnt;
 	protected int openJobCnt;
 	protected JobType jobType;
-	protected Array<Man> workers;
-	private WorkableViewWindow workableWindow;
+	protected List<Man> workers;
+	private transient WorkableViewWindow workableWindow;
 	
 	public WorkableBuilding(String textureName, BuildingType type, JobType jobType) {
 		super(textureName, type);
 		this.jobType = jobType;
 		this.maxJobCnt = getMaxJobCnt();
 		this.openJobCnt = maxJobCnt;//(int)(maxJobCnt * 0.5f);
-		workers = new Array<Man>();
+		workers = new ArrayList<Man>();
 	}
 	
 	@Override
@@ -50,7 +51,7 @@ public abstract class WorkableBuilding extends Building
 	{
 //		System.out.println("Fire Worker " + cnt);
 		for (int i = 0; i < cnt; i++) {
-			Man worker = workers.pop();
+			Man worker = workers.get(workers.size() - 1);
 			worker.getInfo().job = null;
 			worker.getInfo().workingBuilding = null;
 			worker.setBehavior(new IdleBTN(worker));
@@ -64,7 +65,7 @@ public abstract class WorkableBuilding extends Building
 	@Override
 	public void destroy() {
 		super.destroy();
-		fireWorker(workers.size);
+		fireWorker(workers.size());
 	}
 
 	public int getOpenJobCnt() {
@@ -72,14 +73,14 @@ public abstract class WorkableBuilding extends Building
 	}
 
 	public void setOpenJobCnt(int openJobCnt) {
-		if(workers.size > openJobCnt)
-			fireWorker(workers.size - openJobCnt);
+		if(workers.size() > openJobCnt)
+			fireWorker(workers.size() - openJobCnt);
 		
 		this.openJobCnt = openJobCnt;
 	}
 
 	public int getCurWorkerCnt() {
-		return workers.size;
+		return workers.size();
 	}
 
 	public JobType getJobType() {
@@ -94,7 +95,7 @@ public abstract class WorkableBuilding extends Building
 	
 	public void addWorker(Man man)
 	{
-		if(workers.size >= openJobCnt)
+		if(workers.size() >= openJobCnt)
 			return;
 		
 		workers.add(man);
@@ -106,7 +107,7 @@ public abstract class WorkableBuilding extends Building
 	
 	public void removeWorker(Man man)
 	{
-		if( workers.removeValue(man, false) )
+		if( workers.remove(man))
 		{
 			man.getInfo().job = null;
 			man.getInfo().workingBuilding = null;

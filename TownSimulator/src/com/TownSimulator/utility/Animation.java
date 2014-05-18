@@ -7,8 +7,8 @@ import java.util.List;
 import com.TownSimulator.utility.Animation.AnimationListener;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 
-public class Animation extends Publisher<AnimationListener> implements Serializable{
-	private static final long serialVersionUID = 4858690892710452870L;
+public class Animation extends Publisher<AnimationListener> {
+	private static final long serialVersionUID = -2237534684219221135L;
 	private List<AnimeFrame> 	mSprites;
 	private float			mTimeAccum = 0.0f;
 	private int				mSpriteIndex = 0;
@@ -20,7 +20,7 @@ public class Animation extends Publisher<AnimationListener> implements Serializa
 		public float interval;
 	}
 	
-	public interface AnimationListener
+	public interface AnimationListener extends Serializable
 	{
 		public void frameChanged(int curFrameIndex);
 	}

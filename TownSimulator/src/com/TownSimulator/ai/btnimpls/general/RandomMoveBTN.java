@@ -11,6 +11,7 @@ import com.TownSimulator.utility.GameMath;
 import com.TownSimulator.utility.Settings;
 
 public class RandomMoveBTN extends ActionNode{
+	private static final long serialVersionUID = -342847042866728337L;
 	private static final 	float	STADING_MAX_TIME = 5.0f;
 	private static final 	float	STADING_MIN_TIME = 1.0f;
 	private static			Random 	mRand = new Random(System.nanoTime());

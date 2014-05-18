@@ -7,6 +7,7 @@ import com.TownSimulator.entity.ManAnimeType;
 import com.TownSimulator.utility.quadtree.QuadTreeType;
 
 public class MoveToHospitalNode extends ActionNode{
+	private static final long serialVersionUID = 1L;
 	private Man man;
 	
 	public MoveToHospitalNode(Man man) {

@@ -11,6 +11,7 @@ import com.TownSimulator.entity.building.Building;
 import com.TownSimulator.entity.building.Warehouse;
 
 public class ConstructionTransportBTN extends ActionNode{
+	private static final long serialVersionUID = 1L;
 	public static final int		MAX_TRANSPORT_RS_AMOUNT = 500;
 	private State				mCurState;
 	//private ConstructionInfo		mMan.getInfo().constructionInfo;

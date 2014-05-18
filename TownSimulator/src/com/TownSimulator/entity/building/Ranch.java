@@ -1,5 +1,8 @@
 package com.TownSimulator.entity.building;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.TownSimulator.ai.behaviortree.BehaviorTreeNode;
 import com.TownSimulator.ai.btnimpls.grazier.GrazierBTN;
 import com.TownSimulator.driver.Driver;
@@ -20,7 +23,6 @@ import com.TownSimulator.utility.TipsBillborad;
 import com.TownSimulator.utility.quadtree.QuadTreeType;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.utils.Array;
 
 public class Ranch extends WorkableBuilding{
 	private static final long serialVersionUID = -5200249977002038249L;
@@ -31,10 +33,10 @@ public class Ranch extends WorkableBuilding{
 	private float					produceAccum;
 	private AxisAlignedBoundingBox 	collisionAABBLocalWithLands;
 	private AxisAlignedBoundingBox 	collisionAABBWorldWithLands;
-	private Array<RanchLand>		ranchLands;
-	private Array<RanchAnimal>		ranchAnimals;
+	private List<RanchLand>		ranchLands;
+	private List<RanchAnimal>		ranchAnimals;
 	private RanchAnimalType			ranchAnimalType;
-	private RanchViewWindow			ranchWindow;
+	private transient RanchViewWindow			ranchWindow;
 	
 	public Ranch() {
 		super("building_ranch", BuildingType.RANCH, JobType.GRAZIER);
@@ -47,7 +49,7 @@ public class Ranch extends WorkableBuilding{
 	
 	private void initLands()
 	{
-		ranchLands = new Array<RanchLand>();
+		ranchLands = new ArrayList<RanchLand>();
 		for (int i = 0; i < 25; i++) {
 			RanchLand ranchLand = new RanchLand();
 			ranchLands.add(ranchLand);
@@ -70,7 +72,7 @@ public class Ranch extends WorkableBuilding{
 	
 	private void initAnimals()
 	{
-		ranchAnimals = new Array<RanchAnimal>();
+		ranchAnimals = new ArrayList<RanchAnimal>();
 		
 		for (int i = 0; i < 6; i++) {
 			RanchAnimal animal = new RanchAnimal();
@@ -99,22 +101,22 @@ public class Ranch extends WorkableBuilding{
 			Warehouse warehouse = EntityInfoCollector.getInstance(EntityInfoCollector.class)
 									.findNearestWareHouse(mPosXWorld, mPosYWorld);
 			
-			if(workers.size <= 0)
+			if(workers.size() <= 0)
 				continue;
 			
-			warehouse.addStoredResource(ResourceType.RS_MEAT, PRODUCE_MEAT_AMOUNT * workers.size, false);
+			warehouse.addStoredResource(ResourceType.RS_MEAT, PRODUCE_MEAT_AMOUNT * workers.size(), false);
 			float originX = this.getAABBWorld(QuadTreeType.DRAW).getCenterX();
 			float originY = this.getAABBWorld(QuadTreeType.DRAW).maxY + Settings.UNIT * 0.6f + TipsBillborad.getTipsHeight();
 			Color color = Color.WHITE;
 			TipsBillborad.showTips(
-					ResourceType.RS_MEAT + " + " + PRODUCE_MEAT_AMOUNT * workers.size,
+					ResourceType.RS_MEAT + " + " + PRODUCE_MEAT_AMOUNT * workers.size(),
 					originX,
 					originY, color);
 			
-			warehouse.addStoredResource(ResourceType.RS_FUR, PRODUCE_FUR_AMOUNT * workers.size, false);
+			warehouse.addStoredResource(ResourceType.RS_FUR, PRODUCE_FUR_AMOUNT * workers.size(), false);
 			originY = this.getAABBWorld(QuadTreeType.DRAW).maxY + Settings.UNIT * 0.4f;
 			TipsBillborad.showTips(
-					ResourceType.RS_FUR + " + " + PRODUCE_FUR_AMOUNT * workers.size,
+					ResourceType.RS_FUR + " + " + PRODUCE_FUR_AMOUNT * workers.size(),
 					originX,
 					originY, color);
 		}
@@ -229,7 +231,7 @@ public class Ranch extends WorkableBuilding{
 		}
 	}
 	
-	public Array<RanchLand> getRanchLands()
+	public List<RanchLand> getRanchLands()
 	{
 		return ranchLands;
 	}

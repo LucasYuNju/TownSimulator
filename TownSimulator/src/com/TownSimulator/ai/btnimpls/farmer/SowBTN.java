@@ -10,6 +10,7 @@ import com.TownSimulator.entity.World.SeasonType;
 import com.TownSimulator.entity.building.FarmHouse;
 
 public class SowBTN extends SequenceNode{
+	private static final long serialVersionUID = 1L;
 	private Man man;
 	
 	public SowBTN(Man man){
@@ -20,10 +21,10 @@ public class SowBTN extends SequenceNode{
 	private void init(){
 		
 		ConditionNode isSowStart=new ConditionNode() {
+			private static final long serialVersionUID = 1L;
 			
 			@Override
 			public ExecuteResult execute(float deltaTime) {
-				// TODO Auto-generated method stub
 				FarmHouse farmHouse=(FarmHouse)man.getInfo().workingBuilding;
 				if(!farmHouse.isSowStart())//未播种
 					return ExecuteResult.TRUE;
@@ -32,10 +33,10 @@ public class SowBTN extends SequenceNode{
 		};
 		
 		ConditionNode judgeTimeSuitable=new ConditionNode() {
+			private static final long serialVersionUID = 1L;
 			
 			@Override
 			public ExecuteResult execute(float deltaTime) {
-				// TODO Auto-generated method stub
 				if(World.getInstance(World.class).getCurSeason()==SeasonType.Winter)
 					return ExecuteResult.FALSE;
 				return ExecuteResult.TRUE;
@@ -43,10 +44,10 @@ public class SowBTN extends SequenceNode{
 		};
 		
 		ConditionNode judgeRoomEnough=new ConditionNode() {
+			private static final long serialVersionUID = 1L;
 			
 			@Override
 			public ExecuteResult execute(float deltaTime) {
-				// TODO Auto-generated method stub
 				FarmHouse farmHouse = ((FarmHouse)man.getInfo().workingBuilding);
 				if(farmHouse.isSowed()){
 					return ExecuteResult.FALSE;
@@ -56,6 +57,7 @@ public class SowBTN extends SequenceNode{
 		};
 		
 		ConditionNode judgeCropSelect=new ConditionNode() {
+			private static final long serialVersionUID = 1L;
 			
 			@Override
 			public ExecuteResult execute(float deltaTime) {
