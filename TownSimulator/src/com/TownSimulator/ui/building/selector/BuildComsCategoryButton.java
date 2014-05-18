@@ -2,35 +2,40 @@ package com.TownSimulator.ui.building.selector;
 
 import com.TownSimulator.entity.building.BuildingType;
 import com.TownSimulator.ui.base.IconLabelButton;
+import com.TownSimulator.utility.GdxInputListnerEx;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.InputListener;
 
 public class BuildComsCategoryButton extends IconLabelButton{
 	private 		BuildComsButtonsGroup mButtonsGroup;
 	private static 	BuildComsButtonsGroup mCurVisibleGroup;
+	private BuildComsCategoryButtonListener listener;
+	
+	public interface BuildComsCategoryButtonListener
+	{
+		public void clicked();
+	}
+	
+	public static void hideBuildButtonsGroup()
+	{
+		if(mCurVisibleGroup != null)
+		{
+			mCurVisibleGroup.setVisible(false);
+			mCurVisibleGroup = null;
+		}
+	}
 	
 	public BuildComsCategoryButton(String textureName, String labelText) {
-		super(textureName, labelText, (int)BuildComsUI.BUTTON_TOP_LABEL_HEIGHT);
+		super(textureName, labelText, (int)BuildComsUI.BUTTON_TOP_MARGIN);
 		setSize(BuildComsUI.BUTTON_WIDTH, BuildComsUI.BUTTON_WIDTH);
 		
 		mButtonsGroup = new BuildComsButtonsGroup();
 		mButtonsGroup.setVisible(false);
-		addListener(getListener());
-		addActor(mButtonsGroup);
-	}	
-	
-	protected InputListener getListener() {
-		return new InputListener()
+		addListener(new GdxInputListnerEx()
 		{
 			@Override
-			public boolean touchDown(InputEvent event, float x, float y,
+			public void tapped(InputEvent event, float x, float y,
 					int pointer, int button) {
-				return true;
-			}
-			
-			@Override
-			public void touchUp(InputEvent event, float x, float y,
-					int pointer, int button) {
+				listener.clicked();
 				mButtonsGroup.updateLayout();
 				if(mCurVisibleGroup != null)
 					mCurVisibleGroup.setVisible(false);
@@ -43,7 +48,14 @@ public class BuildComsCategoryButton extends IconLabelButton{
 					mCurVisibleGroup = mButtonsGroup;
 				}
 			}
-		};
+			
+		});
+		addActor(mButtonsGroup);
+	}
+	
+	public void setListener(BuildComsCategoryButtonListener l)
+	{
+		this.listener = l;
 	}
 	
 	public void addBuild(String textureName, String labelText, BuildingType buildingType)

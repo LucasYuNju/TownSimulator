@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.Map;
 
 import com.TownSimulator.ai.behaviortree.BehaviorTreeNode;
 import com.TownSimulator.ai.btnimpls.idle.IdleBTN;
@@ -14,14 +13,21 @@ import com.TownSimulator.driver.DriverListenerBaseImpl;
 import com.TownSimulator.entity.building.School;
 import com.TownSimulator.render.Renderer;
 import com.TownSimulator.utility.Animation;
+import com.TownSimulator.utility.ResourceManager;
 import com.TownSimulator.utility.Settings;
+import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 
 public class Man extends Entity{
 	private static final long serialVersionUID = -2009342658748170922L;
 	private static final 	float 						MOVE_SPEED = Settings.UNIT;
-	private transient 		Map<ManAnimeType, Animation> 	mAnimesMap;
-	private transient		Map<ManAnimeType, Animation> 	mAnimesMapFlipped;
+	private static final 	float						STATE_ICON_WIDTH = Settings.UNIT * 0.4f;
+	private static final 	float						STATE_ICON_HEIGHT = Settings.UNIT * 0.4f;
+	private static final 	float						STATE_ICON_UP_OFFSET = Settings.UNIT * 0.2f;
+	private	transient		HashMap<ManStateType, Sprite> 		mStatesIcons;
+	private transient		HashMap<ManAnimeType, Animation> 	mAnimesMap;
+	private transient		HashMap<ManAnimeType, Animation> 	mAnimesMapFlipped;
 	private 				Vector2						mMoveDir;
 	private 				Vector2						mDestination;
 	private					float						mMoveTime;
@@ -45,6 +51,7 @@ public class Man extends Entity{
 		mMoveTime = 0.0f;
 		mBehavior = new IdleBTN(this);
 		initInfo();
+		initStatesIcons();
 		initAnimes();
 		
 		mDriverListener = new DriverListenerBaseImpl()
@@ -65,23 +72,46 @@ public class Man extends Entity{
 					updateManPoints(deltaTime);
 					updateAge(deltaTime);
 					mInfo.hpDrawHealthLottery(deltaTime);
+					
+					updateStatesIcon();
 				}
 				
 				if(mBehavior != null)
 					mBehavior.execute(deltaTime);
 				updateSprite(deltaTime);
 			}
+
+			
 		};
 		Driver.getInstance(Driver.class).addListener(mDriverListener);
 		
 	}
 	
+	@Override
+	public void drawSelf(SpriteBatch batch) {
+		super.drawSelf(batch);
+		Sprite stateIcon = mStatesIcons.get(mInfo.manState);
+		if(stateIcon != null)
+		{
+			stateIcon.setBounds(mDrawAABBWorld.getCenterX() - STATE_ICON_WIDTH * 0.5f,
+					mDrawAABBWorld.maxY + STATE_ICON_UP_OFFSET, STATE_ICON_WIDTH, STATE_ICON_HEIGHT);
+			stateIcon.draw(batch);
+		}
+	}
+
 	@SuppressWarnings("deprecation")
 	private void initInfo()
 	{
 		mInfo = new ManInfo();
-		//mInfo.animeType = ManAnimeType.STANDING;
-		//mInfo.animeFlip = false;
+	}
+	
+	private void initStatesIcons()
+	{
+		mStatesIcons = new HashMap<ManStateType, Sprite>();
+		for(ManStateType state : ManStateType.values() )
+		{
+			mStatesIcons.put(state, ResourceManager.getInstance(ResourceManager.class).createSprite(state.getIconTex()));
+		}
 	}
 	
 	private void initAnimes()
@@ -116,9 +146,21 @@ public class Man extends Entity{
 		}
 	}
 	
+	private void updateStatesIcon() {
+		if(mInfo.hungerPoints <= ManInfo.HUNGER_POINTS_FIND_FOOD)
+			mInfo.manState = ManStateType.Hungry;
+		
+		if(mInfo.isSick())
+			mInfo.manState = ManStateType.Sick;
+		
+		if(mInfo.isDepressed())
+			mInfo.manState = ManStateType.Depressed;
+	}
+	
 	private void updateManPoints(float deltaTime)
 	{
 		mInfo.hungerPoints -= ManInfo.HUNGER_DECRE_SPEED * deltaTime;
+		
 		if(mInfo.hungerPoints <= ManInfo.HUNGER_POINTS_MIN)
 			die();
 		
@@ -257,6 +299,7 @@ public class Man extends Entity{
 	@Override
 	protected void readObject(ObjectInputStream s) throws ClassNotFoundException, IOException {
 		super.readObject(s);
+		initStatesIcons();
 		initAnimes();
 	}
 }

@@ -5,9 +5,11 @@ import com.TownSimulator.entity.EntityInfoCollector;
 import com.TownSimulator.entity.Man;
 
 public class ApartmentHouse extends LivingHouse implements DriverListener{
+
+	public static final  int INCREASEPERMONTH = LowCostHouse.INCREASEPERMONTH*2;				//每人每个月增加的几率
+	
 	private static final long serialVersionUID = 7436059925334394911L;
 	private int persentage = 0;
-	private int increasePerMonth = 10;
 	private float time;
 	
 	public ApartmentHouse() {
@@ -15,11 +17,11 @@ public class ApartmentHouse extends LivingHouse implements DriverListener{
 	}
 	
 	/**
-	 * 随机增加人口，每个月概率增加10，成功后变为0
+	 * 随机增加人口，每个月概率增加2*人数，成功后变为0
 	 */
 	public void increasePopulation(){
 		if(residents.size() != 0){
-			persentage += increasePerMonth;
+			persentage += INCREASEPERMONTH*residents.size();
 			int p = (int) (Math.random()*240);
 			if(p <= persentage){
 				Man man = new Man();

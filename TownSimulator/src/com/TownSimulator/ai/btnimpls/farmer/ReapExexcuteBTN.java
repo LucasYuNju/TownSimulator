@@ -5,6 +5,7 @@ import com.TownSimulator.ai.behaviortree.ExecuteResult;
 import com.TownSimulator.entity.EntityInfoCollector;
 import com.TownSimulator.entity.Man;
 import com.TownSimulator.entity.ManAnimeType;
+import com.TownSimulator.entity.ManStateType;
 import com.TownSimulator.entity.building.Building;
 import com.TownSimulator.entity.building.BuildingType;
 import com.TownSimulator.entity.building.FarmHouse;
@@ -100,6 +101,7 @@ public class ReapExexcuteBTN extends ActionNode{
 		float destY = middleFarmLand.getAABBWorld(QuadTreeType.COLLISION).getCenterY();
 		man.setMoveDestination(destX, destY);
 		man.getInfo().animeType = ManAnimeType.MOVE;
+		man.getInfo().manState = ManStateType.Working;
 		
 		if( !man.move(deltaTime) )
 		{

@@ -7,6 +7,7 @@ import com.TownSimulator.ai.behaviortree.SequenceNode;
 import com.TownSimulator.entity.Man;
 import com.TownSimulator.entity.ManAnimeType;
 import com.TownSimulator.entity.ManInfo;
+import com.TownSimulator.entity.ManStateType;
 import com.TownSimulator.entity.World;
 import com.TownSimulator.entity.building.School;
 
@@ -84,6 +85,8 @@ public class GotoSchoolBTN extends SequenceNode{
 			return;
 		}
 		man.setMoveDestination(school.getPositionXWorld(), school.getPositionYWorld());
+		man.getInfo().manState = ManStateType.Study;
+		
 		if(man.move(deltaTime)){
 			man.getInfo().animeType=ManAnimeType.MOVE;
 		}

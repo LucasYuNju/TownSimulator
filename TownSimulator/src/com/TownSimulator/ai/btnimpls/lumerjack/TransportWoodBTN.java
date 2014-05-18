@@ -5,6 +5,7 @@ import com.TownSimulator.ai.behaviortree.ExecuteResult;
 import com.TownSimulator.entity.EntityInfoCollector;
 import com.TownSimulator.entity.Man;
 import com.TownSimulator.entity.ManAnimeType;
+import com.TownSimulator.entity.ManStateType;
 import com.TownSimulator.entity.ResourceType;
 import com.TownSimulator.entity.building.Warehouse;
 import com.TownSimulator.entity.building.WorkableBuilding;
@@ -41,6 +42,7 @@ public class TransportWoodBTN extends ActionNode{
 //		}
 		
 		man.setMoveDestination(house.getPositionXWorld(), house.getPositionYWorld());
+		man.getInfo().manState = ManStateType.Working;
 		
 		if( !man.move(deltaTime) )
 		{

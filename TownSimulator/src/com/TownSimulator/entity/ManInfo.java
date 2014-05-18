@@ -15,6 +15,7 @@ public class ManInfo implements Serializable{
 	private static final long serialVersionUID = 6185641512377240722L;
 	public ManAnimeType 	animeType = ManAnimeType.STANDING;
 	public boolean 			animeFlip = false;
+	public ManStateType		manState;
 	public ConstructionInfo constructionInfo = new ConstructionInfo();
 	public JobType 			job;
 	public WorkableBuilding 	workingBuilding;

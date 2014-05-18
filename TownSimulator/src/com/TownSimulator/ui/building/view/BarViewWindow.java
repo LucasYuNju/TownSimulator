@@ -1,7 +1,5 @@
 package com.TownSimulator.ui.building.view;
 
-import java.io.Serializable;
-
 import com.TownSimulator.entity.building.BuildingType;
 import com.TownSimulator.utility.ResourceManager;
 import com.TownSimulator.utility.Settings;

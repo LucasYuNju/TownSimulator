@@ -4,6 +4,7 @@ import com.TownSimulator.ai.behaviortree.ActionNode;
 import com.TownSimulator.ai.behaviortree.ExecuteResult;
 import com.TownSimulator.entity.Man;
 import com.TownSimulator.entity.ManAnimeType;
+import com.TownSimulator.entity.ManStateType;
 import com.TownSimulator.entity.Tree;
 import com.TownSimulator.utility.Animation.AnimationListener;
 import com.TownSimulator.utility.AxisAlignedBoundingBox;
@@ -92,6 +93,7 @@ public class FellingExecuteBTN extends ActionNode{
 	private void felling(float deltaTime)
 	{
 		man.setMoveDestination(fellingInfo.fellingTree.getPositionXWorld(), fellingInfo.fellingTree.getPositionYWorld());
+		man.getInfo().manState = ManStateType.Working;
 		
 		if( !man.move(deltaTime) )
 		{
