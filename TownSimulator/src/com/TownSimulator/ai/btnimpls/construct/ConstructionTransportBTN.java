@@ -35,7 +35,6 @@ public class ConstructionTransportBTN extends ActionNode{
 		int takeAmount = Math.min(availableAmount, mMan.getInfo().constructionInfo.transportNeededAmount - mMan.getInfo().constructionInfo.curRSAmount);
 		mMan.getInfo().constructionInfo.transportWareHouse.addStoredResource(mMan.getInfo().constructionInfo.transportRSType, -takeAmount);
 		mMan.getInfo().constructionInfo.curRSAmount += takeAmount;
-		System.out.println(takeAmount);
 		
 		ResourceInfoCollector.getInstance(ResourceInfoCollector.class)
 		.addResourceAmount(mMan.getInfo().constructionInfo.transportRSType, -takeAmount);
@@ -71,7 +70,7 @@ public class ConstructionTransportBTN extends ActionNode{
 		
 		switch (mCurState) {
 		case CONSTRUCT_TRANSPORT_TO_WAREHOUSR:
-			mMan.getInfo().manState = ManStateType.Working;
+			mMan.getInfo().manStates.add( ManStateType.Working );
 			
 			Warehouse wareHouse = mMan.getInfo().constructionInfo.transportWareHouse;
 			if(wareHouse == null)
@@ -114,7 +113,7 @@ public class ConstructionTransportBTN extends ActionNode{
 				break;
 			}
 			
-			mMan.getInfo().manState = ManStateType.Working;
+			mMan.getInfo().manStates.add( ManStateType.Working );
 			Building building = mMan.getInfo().constructionInfo.transportBuilding;
 			mMan.setMoveDestination(building.getPositionXWorld(), building.getPositionYWorld());
 			mMan.getInfo().animeType = ManAnimeType.MOVE;

@@ -36,7 +36,6 @@ import com.TownSimulator.utility.particles.ParticleManager;
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.utils.Array;
 
 public class Driver extends SingletonPublisher<DriverListener> implements ApplicationListener{
 	private Driver()
@@ -47,7 +46,7 @@ public class Driver extends SingletonPublisher<DriverListener> implements Applic
 	public void init()
 	{
 		Random rand = new Random(System.currentTimeMillis());
-		int initPepleCnt = 5;
+		int initPepleCnt = 15;
 		float originPosX = CameraController.getInstance(CameraController.class).getX();
 		float originPoxY = CameraController.getInstance(CameraController.class).getY();
 		
@@ -56,9 +55,8 @@ public class Driver extends SingletonPublisher<DriverListener> implements Applic
 		
 		Warehouse wareHouse = (Warehouse) EntityFactory.createBuilding(BuildingType.WAREHOUSE);
 		wareHouse.addStoredResource(ResourceType.RS_WOOD, 2300);
-		//wareHouse.addStoredResource(ResourceType.RS_STONE, 50);
+		wareHouse.addStoredResource(ResourceType.RS_COAT, 1200);
 		wareHouse.addStoredResource(ResourceType.RS_WHEAT, 20000);
-		wareHouse.addStoredResource(ResourceType.RS_FUR, 200);
 		wareHouse.setState(Building.State.Constructed);
 		wareHouse.setPositionWorld(originPosX - 2 * Settings.UNIT, originPoxY - 8 * Settings.UNIT);
 		wareHouse.setDestroyable(false);
@@ -171,6 +169,7 @@ public class Driver extends SingletonPublisher<DriverListener> implements Applic
 			float randX = (rand.nextFloat() - 0.5f) * Settings.UNIT * 6;
 			float ranxY = (rand.nextFloat() - 0.5f) * Settings.UNIT * 6;
 			Man man = new Man();
+			man.getInfo().workEfficency = 2.0f;
 			man.setPositionWorld(originPosX + randX, originPoxY + ranxY);
 //			if(i%12==0){
 //				man.getInfo().setAge(10);				

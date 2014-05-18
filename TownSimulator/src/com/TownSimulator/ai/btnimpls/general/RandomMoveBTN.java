@@ -7,7 +7,6 @@ import com.TownSimulator.ai.behaviortree.ExecuteResult;
 import com.TownSimulator.entity.Man;
 import com.TownSimulator.entity.ManAnimeType;
 import com.TownSimulator.entity.ManInfo;
-import com.TownSimulator.entity.ManStateType;
 import com.TownSimulator.utility.GameMath;
 import com.TownSimulator.utility.Settings;
 
@@ -26,8 +25,6 @@ public class RandomMoveBTN extends ActionNode{
 	
 	@Override
 	public ExecuteResult execute(float deltaTime) {
-		mMan.getInfo().manState = ManStateType.Normal;
-		
 		if( mMan.move(deltaTime) )
 			return ExecuteResult.RUNNING;
 		else

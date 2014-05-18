@@ -10,6 +10,7 @@ import com.TownSimulator.ai.btnimpls.idle.IdleBTN;
 import com.TownSimulator.driver.Driver;
 import com.TownSimulator.driver.DriverListener;
 import com.TownSimulator.driver.DriverListenerBaseImpl;
+import com.TownSimulator.entity.World.SeasonType;
 import com.TownSimulator.entity.building.School;
 import com.TownSimulator.render.Renderer;
 import com.TownSimulator.utility.Animation;
@@ -69,7 +70,8 @@ public class Man extends Entity{
 						Renderer.getInstance(Renderer.class).dettachDrawScissor(Man.this);;
 				}
 				else{
-					updateManPoints(deltaTime);
+					updateHungerPoints(deltaTime);
+					updateTemparaturePoints(deltaTime);
 					updateAge(deltaTime);
 					mInfo.hpDrawHealthLottery(deltaTime);
 					
@@ -90,13 +92,22 @@ public class Man extends Entity{
 	@Override
 	public void drawSelf(SpriteBatch batch) {
 		super.drawSelf(batch);
-		Sprite stateIcon = mStatesIcons.get(mInfo.manState);
-		if(stateIcon != null)
-		{
-			stateIcon.setBounds(mDrawAABBWorld.getCenterX() - STATE_ICON_WIDTH * 0.5f,
-					mDrawAABBWorld.maxY + STATE_ICON_UP_OFFSET, STATE_ICON_WIDTH, STATE_ICON_HEIGHT);
-			stateIcon.draw(batch);
+		
+		float width = STATE_ICON_WIDTH * mInfo.manStates.size() + Settings.MARGIN * (mInfo.manStates.size() - 1 );
+		float x = mDrawAABBWorld.getCenterX() - width * 0.5f;
+		float y = mDrawAABBWorld.maxY + STATE_ICON_UP_OFFSET;
+//		System.out.println(mInfo.manStates.size());
+		for (ManStateType state : mInfo.manStates) {
+			Sprite stateIcon = mStatesIcons.get(state);
+			if(stateIcon != null)
+			{
+				stateIcon.setBounds(x, y, STATE_ICON_WIDTH, STATE_ICON_HEIGHT);
+				stateIcon.draw(batch);
+				
+				x += STATE_ICON_WIDTH + Settings.MARGIN;
+			}
 		}
+		
 	}
 
 	@SuppressWarnings("deprecation")
@@ -147,24 +158,39 @@ public class Man extends Entity{
 	}
 	
 	private void updateStatesIcon() {
+		mInfo.manStates.clear();
+		
 		if(mInfo.hungerPoints <= ManInfo.HUNGER_POINTS_FIND_FOOD)
-			mInfo.manState = ManStateType.Hungry;
+			mInfo.manStates.add( ManStateType.Hungry );
+		
+		if(mInfo.temperature <= ManInfo.TEMPERATURE_POINTS_FIND_COAT)
+			mInfo.manStates.add( ManStateType.Cold );
 		
 		if(mInfo.isSick())
-			mInfo.manState = ManStateType.Sick;
+			mInfo.manStates.add( ManStateType.Sick );
 		
 		if(mInfo.isDepressed())
-			mInfo.manState = ManStateType.Depressed;
+			mInfo.manStates.add( ManStateType.Depressed );
 	}
 	
-	private void updateManPoints(float deltaTime)
+	private void updateHungerPoints(float deltaTime)
 	{
 		mInfo.hungerPoints -= ManInfo.HUNGER_DECRE_SPEED * deltaTime;
 		
 		if(mInfo.hungerPoints <= ManInfo.HUNGER_POINTS_MIN)
 			die();
+	}
+	
+	private void updateTemparaturePoints(float deltaTime) {
+		if(World.getInstance(World.class).getCurSeason() == SeasonType.Winter)
+		{
+			mInfo.temperature -= ManInfo.TEMPERATURE_DECRE_SPEED * deltaTime;
 		
-		//System.out.println(mInfo.hungerPoints);
+			if(mInfo.temperature <= ManInfo.TEMPERATURE_POINTS_MIN)
+				die();
+		}
+		else
+			mInfo.temperature = ManInfo.TEMPERATURE_POINTS_MAX;
 	}
 	
 	public void updateAge(float deltaTime){

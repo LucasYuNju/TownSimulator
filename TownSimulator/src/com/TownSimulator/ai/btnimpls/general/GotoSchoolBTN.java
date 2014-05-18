@@ -85,7 +85,7 @@ public class GotoSchoolBTN extends SequenceNode{
 			return;
 		}
 		man.setMoveDestination(school.getPositionXWorld(), school.getPositionYWorld());
-		man.getInfo().manState = ManStateType.Study;
+		man.getInfo().manStates.add( ManStateType.Working );
 		
 		if(man.move(deltaTime)){
 			man.getInfo().animeType=ManAnimeType.MOVE;

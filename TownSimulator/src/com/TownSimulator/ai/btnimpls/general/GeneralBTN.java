@@ -15,10 +15,11 @@ public class GeneralBTN extends SelectorNode{
 	
 	private void init()
 	{
-		addNode( new FindHomeBTN(man));
-		addNode( new FindFoodBTN(man));
-		addNode(new GotoSchoolBTN(man));
-		addNode(new SeeADoctorBTN(man));
-		addNode(new DrinkBTN(man));
+		addNode( new FindHomeBTN(man) );
+		addNode( new FindFoodBTN(man) );
+		addNode( new FindCoatBTN(man) );
+		addNode( new SeeADoctorBTN(man) );
+		addNode( new DrinkBTN(man) );
+		addNode( new GotoSchoolBTN(man) );
 	}
 }

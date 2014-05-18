@@ -36,6 +36,21 @@ public class WorkableWithTipsWindow extends WorkableViewWindow {
 	
 	public void setTips(String tips)
 	{
+		float width = tipsLabel.getStyle().font.getBounds(tips).width + dynamiteButton.getWidth() + MARGIN * 2;
+		setSize(Math.max(getWidth(), width), getHeight());
+		tipsLabel.setSize(getWidth() - dynamiteButton.getWidth(), LABEL_HEIGHT);
 		tipsLabel.setText(tips);
+		
+		updateLayout();
 	}
+
+	@Override
+	protected void updateLayout() {
+		super.updateLayout();
+		
+		if(workerGroup != null && tipsLabel != null)
+			workerGroup.setPosition(MARGIN, MARGIN + tipsLabel.getHeight());
+	}
+	
+	
 }

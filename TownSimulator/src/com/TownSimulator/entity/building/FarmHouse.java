@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.TownSimulator.ai.behaviortree.BehaviorTreeNode;
 import com.TownSimulator.ai.btnimpls.farmer.FarmerBTN;
+import com.TownSimulator.collision.CollisionDetector;
 import com.TownSimulator.driver.Driver;
 import com.TownSimulator.driver.DriverListenerBaseImpl;
 import com.TownSimulator.entity.JobType;
@@ -12,6 +13,7 @@ import com.TownSimulator.entity.Man;
 import com.TownSimulator.entity.ManInfo;
 import com.TownSimulator.entity.World;
 import com.TownSimulator.entity.World.SeasonType;
+import com.TownSimulator.render.Renderer;
 import com.TownSimulator.ui.UIManager;
 import com.TownSimulator.ui.building.view.FarmViewWindow;
 import com.TownSimulator.ui.building.view.SelectBoxListener;
@@ -54,6 +56,15 @@ public class FarmHouse extends WorkableBuilding implements SelectBoxListener
 	}
 
 	
+
+	@Override
+	public void destroy() {
+		super.destroy();
+		for (FarmLand land : farmLands) {
+			Renderer.getInstance(Renderer.class).dettachDrawScissor(land);
+			CollisionDetector.getInstance(CollisionDetector.class).dettachCollisionDetection(land);
+		}
+	}
 
 	@Override
 	protected int getMaxJobCnt() {

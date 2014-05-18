@@ -42,7 +42,7 @@ public class TransportWoodBTN extends ActionNode{
 //		}
 		
 		man.setMoveDestination(house.getPositionXWorld(), house.getPositionYWorld());
-		man.getInfo().manState = ManStateType.Working;
+		man.getInfo().manStates.add( ManStateType.Working );
 		
 		if( !man.move(deltaTime) )
 		{
@@ -51,12 +51,14 @@ public class TransportWoodBTN extends ActionNode{
 									.findNearestWareHouse(man.getPositionXWorld(), man.getPositionYWorld());
 			if(warehouse != null)
 			{
-				warehouse.addStoredResource(ResourceType.RS_WOOD, FELLING_WOOD_AMOUNT, false);
+				float efficency = man.getInfo().workEfficency;
+				int amount = (int)(FELLING_WOOD_AMOUNT * efficency);
+				warehouse.addStoredResource(ResourceType.RS_WOOD, amount, false);
 				float originX = house.getAABBWorld(QuadTreeType.DRAW).getCenterX();
 				float originY = house.getAABBWorld(QuadTreeType.DRAW).maxY + Settings.UNIT * 0.4f;
 				Color color = Color.WHITE;
 				TipsBillborad.showTips(
-						ResourceType.RS_WOOD + " + " + FELLING_WOOD_AMOUNT,
+						ResourceType.RS_WOOD + " + " + amount,
 						originX,
 						originY, color);
 			}

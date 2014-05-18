@@ -20,7 +20,8 @@ public class ConstructionBTN extends SequenceNode{
 	private void init()
 	{
 		ConditionNode judgeAge = new ConditionNode() {
-			
+			private static final long serialVersionUID = 1L;
+
 			@Override
 			public ExecuteResult execute(float deltaTime) {
 				if(mMan.getInfo().getAge() >= ManInfo.ADULT_AGE)

@@ -49,9 +49,9 @@ public abstract class WorkableBuilding extends Building
 
 	private void fireWorker(int cnt)
 	{
-//		System.out.println("Fire Worker " + cnt);
+		System.out.println("Fire Worker " + cnt);
 		for (int i = 0; i < cnt; i++) {
-			Man worker = workers.get(workers.size() - 1);
+			Man worker = workers.remove(workers.size() - 1);
 			worker.getInfo().job = null;
 			worker.getInfo().workingBuilding = null;
 			worker.setBehavior(new IdleBTN(worker));

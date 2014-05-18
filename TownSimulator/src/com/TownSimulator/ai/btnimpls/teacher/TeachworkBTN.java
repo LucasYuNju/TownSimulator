@@ -35,7 +35,7 @@ public class TeachworkBTN extends SequenceNode{
 		float destX = man.getInfo().workingBuilding.getAABBWorld(QuadTreeType.COLLISION).getCenterX();
 		float destY = man.getInfo().workingBuilding.getAABBWorld(QuadTreeType.COLLISION).getCenterY();
 		man.setMoveDestination(destX, destY);
-		man.getInfo().manState = ManStateType.Working;
+		man.getInfo().manStates.add( ManStateType.Working );
 		
 		if( !man.move(deltaTime) )
 		{

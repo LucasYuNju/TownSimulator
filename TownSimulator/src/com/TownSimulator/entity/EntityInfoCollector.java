@@ -12,7 +12,6 @@ import com.TownSimulator.entity.building.BuildingType;
 import com.TownSimulator.entity.building.School;
 import com.TownSimulator.entity.building.Warehouse;
 import com.TownSimulator.utility.Singleton;
-import com.badlogic.gdx.utils.Array;
 
 public class EntityInfoCollector extends Singleton 
 	implements Serializable

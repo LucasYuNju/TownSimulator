@@ -93,7 +93,7 @@ public class FellingExecuteBTN extends ActionNode{
 	private void felling(float deltaTime)
 	{
 		man.setMoveDestination(fellingInfo.fellingTree.getPositionXWorld(), fellingInfo.fellingTree.getPositionYWorld());
-		man.getInfo().manState = ManStateType.Working;
+		man.getInfo().manStates.add( ManStateType.Working );
 		
 		if( !man.move(deltaTime) )
 		{

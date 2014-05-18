@@ -39,7 +39,7 @@ public class SeeADoctorBTN extends SequenceNode{
 							float destX = hospital.getAABBWorld(QuadTreeType.COLLISION).getCenterX();
 							float destY = hospital.getAABBWorld(QuadTreeType.COLLISION).getCenterY();
 							man.setMoveDestination(destX, destY);
-							man.getInfo().manState = ManStateType.Sick;
+							man.getInfo().manStates.add( ManStateType.Working );
 							
 							if( !man.move(deltaTime) )
 							{
@@ -66,7 +66,7 @@ public class SeeADoctorBTN extends SequenceNode{
 						float destX = hospital.getAABBWorld(QuadTreeType.COLLISION).getCenterX();
 						float destY = hospital.getAABBWorld(QuadTreeType.COLLISION).getCenterY();
 						man.setMoveDestination(destX, destY);
-						man.getInfo().manState = ManStateType.Sick;
+						man.getInfo().manStates.add( ManStateType.Sick );
 						
 						if( !man.move(deltaTime) )
 						{

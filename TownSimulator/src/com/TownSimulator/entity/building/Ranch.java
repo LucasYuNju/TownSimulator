@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.TownSimulator.ai.behaviortree.BehaviorTreeNode;
 import com.TownSimulator.ai.btnimpls.grazier.GrazierBTN;
+import com.TownSimulator.collision.CollisionDetector;
 import com.TownSimulator.driver.Driver;
 import com.TownSimulator.driver.DriverListenerBaseImpl;
 import com.TownSimulator.entity.EntityInfoCollector;
@@ -27,9 +28,9 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 public class Ranch extends WorkableBuilding{
 	private static final long serialVersionUID = -5200249977002038249L;
 	private static final int 		MAX_JOB_CNT = 4;
-	private static final float 		PRODUCE_INTERVAL = 27.0f;
+	private static final float 		PRODUCE_INTERVAL = 20.0f;
 	private static final int		PRODUCE_MEAT_AMOUNT = 50;
-	private static final int		PRODUCE_FUR_AMOUNT = 1;
+	private static final int		PRODUCE_FUR_AMOUNT = 40;
 	private float					produceAccum;
 	private AxisAlignedBoundingBox 	collisionAABBLocalWithLands;
 	private AxisAlignedBoundingBox 	collisionAABBWorldWithLands;
@@ -104,19 +105,26 @@ public class Ranch extends WorkableBuilding{
 			if(workers.size() <= 0)
 				continue;
 			
-			warehouse.addStoredResource(ResourceType.RS_MEAT, PRODUCE_MEAT_AMOUNT * workers.size(), false);
+			int meatAmount = 0;
+			int furAmount = 0;
+			for (Man man : workers) {
+				meatAmount += man.getInfo().workEfficency * PRODUCE_MEAT_AMOUNT;
+				furAmount += man.getInfo().workEfficency * PRODUCE_FUR_AMOUNT;
+			}
+			
+			warehouse.addStoredResource(ResourceType.RS_MEAT, meatAmount, false);
 			float originX = this.getAABBWorld(QuadTreeType.DRAW).getCenterX();
 			float originY = this.getAABBWorld(QuadTreeType.DRAW).maxY + Settings.UNIT * 0.6f + TipsBillborad.getTipsHeight();
 			Color color = Color.WHITE;
 			TipsBillborad.showTips(
-					ResourceType.RS_MEAT + " + " + PRODUCE_MEAT_AMOUNT * workers.size(),
+					ResourceType.RS_MEAT + " + " + meatAmount,
 					originX,
 					originY, color);
 			
-			warehouse.addStoredResource(ResourceType.RS_FUR, PRODUCE_FUR_AMOUNT * workers.size(), false);
+			warehouse.addStoredResource(ResourceType.RS_FUR, furAmount, false);
 			originY = this.getAABBWorld(QuadTreeType.DRAW).maxY + Settings.UNIT * 0.4f;
 			TipsBillborad.showTips(
-					ResourceType.RS_FUR + " + " + PRODUCE_FUR_AMOUNT * workers.size(),
+					ResourceType.RS_FUR + " + " + furAmount,
 					originX,
 					originY, color);
 		}
@@ -155,6 +163,17 @@ public class Ranch extends WorkableBuilding{
 				}
 				
 			});
+		}
+	}
+	
+	
+
+	@Override
+	public void destroy() {
+		super.destroy();
+		for (RanchLand land : ranchLands) {
+			Renderer.getInstance(Renderer.class).dettachDrawScissor(land);
+			CollisionDetector.getInstance(CollisionDetector.class).dettachCollisionDetection(land);
 		}
 	}
 

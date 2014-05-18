@@ -1,8 +1,8 @@
 package com.TownSimulator.entity;
 
 public enum ManStateType {
-	Normal(null),
 	Hungry("man_state_hungry"),
+	Cold("man_state_cold"),
 	Sick("man_state_sick"),
 	Depressed("man_state_depressed"),
 	Working("man_state_working"),

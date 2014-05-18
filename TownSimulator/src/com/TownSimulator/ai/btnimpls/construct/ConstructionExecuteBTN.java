@@ -57,7 +57,7 @@ public class ConstructionExecuteBTN extends ActionNode{
 	
 	@Override
 	public ExecuteResult execute(float deltaTime) {
-		mMan.getInfo().manState = ManStateType.Working;
+		mMan.getInfo().manStates.add( ManStateType.Working );
 		
 		if(!isAroundBuilding())
 		{

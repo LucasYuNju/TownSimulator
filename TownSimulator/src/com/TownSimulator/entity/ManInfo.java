@@ -2,7 +2,9 @@ package com.TownSimulator.entity;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import com.TownSimulator.ai.btnimpls.construct.ConstructionInfo;
 import com.TownSimulator.entity.building.Bar;
@@ -15,7 +17,7 @@ public class ManInfo implements Serializable{
 	private static final long serialVersionUID = 6185641512377240722L;
 	public ManAnimeType 	animeType = ManAnimeType.STANDING;
 	public boolean 			animeFlip = false;
-	public ManStateType		manState;
+	public Set<ManStateType>		manStates = new HashSet<ManStateType>();
 	public ConstructionInfo constructionInfo = new ConstructionInfo();
 	public JobType 			job;
 	public WorkableBuilding 	workingBuilding;
@@ -24,6 +26,12 @@ public class ManInfo implements Serializable{
 	public float 			workEfficency = BASE_WORKEFFICIENCY;
 	public static final float BASE_WORKEFFICIENCY = 1.0f;
 	public static final float MAX_WORKEFFICENCY = 2.0f;
+	
+	public static final float TEMPERATURE_POINTS_MAX = 300.0f;
+	public static final float TEMPERATURE_POINTS_FIND_COAT = 100.0f;
+	public static final float TEMPERATURE_POINTS_MIN = 0.0f; // die!
+	public static final float TEMPERATURE_DECRE_SPEED = TEMPERATURE_POINTS_MAX / (World.SecondPerYear * 0.2f); //per second
+	public float			temperature = TEMPERATURE_POINTS_MAX;
 	
 	public static final float HUNGER_POINTS_MAX = 300.0f;
 	public static final float HUNGER_POINTS_FIND_FOOD = 100.0f;

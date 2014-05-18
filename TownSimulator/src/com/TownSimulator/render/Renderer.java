@@ -18,7 +18,6 @@ import com.TownSimulator.utility.quadtree.QuadTreeManageble;
 import com.TownSimulator.utility.quadtree.QuadTreeType;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.utils.Array;
 
 public class Renderer extends SingletonPublisher<RendererListener>{
 	private RenderBatch		   		mRenderBatch;
