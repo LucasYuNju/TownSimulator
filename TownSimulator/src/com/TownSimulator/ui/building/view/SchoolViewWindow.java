@@ -1,5 +1,7 @@
 package com.TownSimulator.ui.building.view;
 
+import java.io.Serializable;
+
 import com.TownSimulator.entity.building.BuildingType;
 import com.TownSimulator.entity.building.School;
 import com.TownSimulator.utility.ResourceManager;
@@ -9,7 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.Align;
 
-public class SchoolViewWindow extends WorkableViewWindow{
+public class SchoolViewWindow extends WorkableViewWindow {
 	private int currentStudentNum;
 	private int maxStudentNum;
 	private Label studentNumLabel;

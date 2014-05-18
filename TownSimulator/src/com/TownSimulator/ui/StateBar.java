@@ -48,10 +48,6 @@ public class StateBar extends Group{
 		setColor(1.0f, 1.0f, 1.0f, Settings.UI_ALPHA);
 	}
 	
-//	public StateBar() {
-//		this();
-//	}
-	
 	private void initLabels() {
 		LabelStyle labelStyle = new LabelStyle();
 		labelStyle.font = ResourceManager.getInstance(ResourceManager.class).getFont((int) (Settings.UNIT * 0.3f));
@@ -109,7 +105,7 @@ public class StateBar extends Group{
 		World world = World.getInstance(World.class);
 		seasonLabel.setText(  world.getCurSeason().toString() );
 		dateLabel.setText(world.getCurYear() + "/" + world.getCurMonth() + "/" + world.getCurDay());
-		int numPeople = EntityInfoCollector.getInstance(EntityInfoCollector.class).getAllMan().size;
+		int numPeople = EntityInfoCollector.getInstance(EntityInfoCollector.class).getAllMan().size();
 		int numFood = ResourceInfoCollector.getInstance(ResourceInfoCollector.class).getFoodAmount();
 		numPeopleLabel.setText(numPeople + "");
 		numFoodLabel.setText(numFood + "");

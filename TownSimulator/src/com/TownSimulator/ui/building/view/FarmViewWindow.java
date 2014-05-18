@@ -30,7 +30,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
  * workers
  * 
  */
-public class FarmViewWindow extends WorkableViewWindow{
+public class FarmViewWindow extends WorkableViewWindow {
 	private SelectBox<String> dropDown;
 	private ProcessBar processBar;
 	private TextureRegion buttonBackground;

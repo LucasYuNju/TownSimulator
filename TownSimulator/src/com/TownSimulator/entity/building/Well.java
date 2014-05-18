@@ -4,22 +4,18 @@ import com.TownSimulator.ui.UIManager;
 import com.TownSimulator.ui.building.view.UndockedWindow;
 
 public class Well extends Building{
-	
+	private static final long serialVersionUID = -5096398900245896495L;
+
 	public Well() {
 		super("building_well",BuildingType.WELL);
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override
 	protected UndockedWindow createUndockedWindow() {
-		// TODO Auto-generated method stub
 		return UIManager.getInstance(UIManager.class).getGameUI().createWellViewWindow();
 	}
 
 	@Override
 	protected void updateViewWindow() {
-		// TODO Auto-generated method stub
-		
 	}
-
 }

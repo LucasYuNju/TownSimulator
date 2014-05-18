@@ -14,9 +14,8 @@ import com.TownSimulator.entity.building.Ranch;
 import com.TownSimulator.entity.building.School;
 import com.TownSimulator.entity.building.Warehouse;
 import com.TownSimulator.entity.building.Well;
-//github.com/LuciusYu/TownSimulator.git
-import com.TownSimulator.utility.ResourceManager;
 import com.TownSimulator.utility.Settings;
+//github.com/LuciusYu/TownSimulator.git
 
 public class EntityFactory {
 	
@@ -25,7 +24,7 @@ public class EntityFactory {
 		MapEntity obj = null;
 		switch (objType) {
 		case TREE:
-			obj = new MapEntity(ResourceManager.getInstance(ResourceManager.class).createSprite("map_tree"));
+			obj = new MapEntity("map_tree");
 			break;
 			
 		default:

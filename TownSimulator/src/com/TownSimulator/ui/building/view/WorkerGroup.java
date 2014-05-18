@@ -1,5 +1,6 @@
 package com.TownSimulator.ui.building.view;
 
+import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -12,7 +13,8 @@ import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 
-public class WorkerGroup extends Group{
+public class WorkerGroup extends Group implements Serializable{
+	private static final long serialVersionUID = -3520897902134549914L;
 	public static final float WORKER_WIDTH = Settings.WORKER_WIDTH;
 	private static final float WORKER_HEIGHT = Settings.WORKER_HEIGHT;
 	public static final float HEIGHT = WORKER_HEIGHT * 1.6f;

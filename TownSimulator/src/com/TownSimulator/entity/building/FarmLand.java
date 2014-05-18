@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 
 public class FarmLand extends Entity{
+	private static final long serialVersionUID = 6682695158834552106L;
 	public static final float MAX_CROP_AMOUNT = 2000.0f;
 	//private CropType cropType;
 	private float curCropAmount;
@@ -19,7 +20,7 @@ public class FarmLand extends Entity{
 	//private float cropStartDieAmount = 0.0f;
 	
 	public FarmLand() {
-		super((Sprite)null);
+		super(null);
 		
 		float pad = Settings.UNIT * 0.1f;
 		setDrawAABBLocal(pad, pad, Settings.UNIT - pad, Settings.UNIT - pad);

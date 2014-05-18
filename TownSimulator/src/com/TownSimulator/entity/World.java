@@ -48,8 +48,6 @@ public class World extends Singleton {
 //					System.out.println(getCurYear()+"/"+getCurMonth()+"/"+getCurDay());
 				}
 			}
-			
-			
 		});
 	}
 	

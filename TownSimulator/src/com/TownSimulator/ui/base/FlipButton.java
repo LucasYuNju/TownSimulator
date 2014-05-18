@@ -15,7 +15,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.Align;
  * Customized button that allows to switch image when clicked
  *
  */
-public class FlipButton extends Button{
+public class FlipButton extends Button {
 	private Label 			mTextLabel;
 	private TextureRegion	mImgUp;
 	private TextureRegion	mImgDown;

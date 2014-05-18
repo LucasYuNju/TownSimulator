@@ -1,5 +1,7 @@
 package com.TownSimulator.entity.building;
 
+import java.util.List;
+
 import com.TownSimulator.ai.behaviortree.BehaviorTreeNode;
 import com.TownSimulator.ai.btnimpls.teacher.TeacherBTN;
 import com.TownSimulator.entity.EntityInfoCollector;
@@ -10,10 +12,9 @@ import com.TownSimulator.entity.World;
 import com.TownSimulator.ui.UIManager;
 import com.TownSimulator.ui.building.view.SchoolViewWindow;
 import com.TownSimulator.ui.building.view.WorkableViewWindow;
-import com.badlogic.gdx.utils.Array;
 
 public class School extends WorkableBuilding{
-	
+	private static final long serialVersionUID = 5070279529268945444L;
 	public static final float WORKEFFIENCY_GROW_SPEED_PERYEAR=0.1f;
 	//public boolean isSchoolConstruct=false;
 	private boolean isTeacherWork;
@@ -29,30 +30,24 @@ public class School extends WorkableBuilding{
 
 	@Override
 	protected int getMaxJobCnt() {
-		// TODO Auto-generated method stub
 		return 1;
 	}
 
 	@Override
 	protected BehaviorTreeNode createBehavior(Man man) {
-		// TODO Auto-generated method stub
 		return new TeacherBTN(man);
 	}
 	
-	
-
 	@Override
 	public void addWorker(Man man) {
-		// TODO Auto-generated method stub
 		super.addWorker(man);
 		this.isTeacherWork=true;
-		initStudents();
+//		initStudents();
 		updateStudentNum();
 	}
 
 	@Override
 	public void removeWorker(Man man) {
-		// TODO Auto-generated method stub
 		super.removeWorker(man);
 		this.isTeacherWork=false;
 		removeStudents();
@@ -65,7 +60,6 @@ public class School extends WorkableBuilding{
 
 	@Override
 	public void setState(State state) {
-		// TODO Auto-generated method stub
 		super.setState(state);
 		
 		if(state==Building.State.Constructed){
@@ -75,15 +69,13 @@ public class School extends WorkableBuilding{
 //
 //				@Override
 //				public void update(float deltaTime) {
-//					// TODO Auto-generated method stub
 //				}
-//				
 //			});
 		}
 	}
 	
-	public void initStudents(){
-		Array<Man> mansArray=EntityInfoCollector.getInstance(EntityInfoCollector.class).getAllMan();
+	public void initStudentNum(){
+		List<Man> mansArray=EntityInfoCollector.getInstance(EntityInfoCollector.class).getAllMan();
 		for(Man man:mansArray){
 			School school=EntityInfoCollector.getInstance(EntityInfoCollector.class).
 					   findNearestSchool( man.getPositionXWorld(), man.getPositionYWorld());
@@ -101,7 +93,7 @@ public class School extends WorkableBuilding{
 	}
 	
 	public void removeStudents(){
-		Array<Man> mansArray=EntityInfoCollector.getInstance(EntityInfoCollector.class).getAllMan();
+		List<Man> mansArray=EntityInfoCollector.getInstance(EntityInfoCollector.class).getAllMan();
 		for(Man man:mansArray){
 			if(man.getInfo().getSchool()==null){
 				continue;
@@ -117,17 +109,13 @@ public class School extends WorkableBuilding{
 		return (ManInfo.MIN_STUDENT_AGE<=age)&&(age<ManInfo.ADULT_AGE);
 	}
 	
-	
-
 	@Override
 	protected WorkableViewWindow createWorkableWindow() {
-		// TODO Auto-generated method stub
 		return UIManager.getInstance(UIManager.class).getGameUI().createSchoolViewWindow(getMaxJobCnt(),currentStudentNum);
 	}
 
 	@Override
 	public void updateViewWindow() {
-		// TODO Auto-generated method stub
 		super.updateViewWindow();
 		schoolViewWindow.updateStudentNum(this.currentStudentNum);
 	}
@@ -147,20 +135,14 @@ public class School extends WorkableBuilding{
 
 	@Override
 	public void setOpenJobCnt(int openJobCnt) {
-		// TODO Auto-generated method stub
 		super.setOpenJobCnt(openJobCnt);	
 	}
 
 	@Override
 	protected void workerLimitChanged(int limit) {
-		// TODO Auto-generated method stub
 		super.workerLimitChanged(limit);
 		this.isTeacherWork=false;
 		removeStudents();
 		updateStudentNum();	
 	}
-	
-	
-	
-
 }

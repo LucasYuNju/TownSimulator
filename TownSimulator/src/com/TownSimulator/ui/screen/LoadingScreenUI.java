@@ -15,8 +15,6 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 public class LoadingScreenUI extends ScreenUIBase{
 	private LoadingUIListener 	listener;
-	//private Object				lockObj;
-	//private boolean				bLoadFinish = false;
 	private float				LABEL_HEIGHT = Settings.LABEL_HEIGHT;
 	private float				BAR_HEIGHT = LABEL_HEIGHT * 0.8f;
 	private BitmapFont			loadingTextFont = ResourceManager.getInstance(ResourceManager.class).getFont((int)LABEL_HEIGHT);
@@ -28,11 +26,6 @@ public class LoadingScreenUI extends ScreenUIBase{
 		public void loadingFinish();
 	}
 	
-	public LoadingScreenUI()
-	{
-		//lockObj = new Object();
-	}
-	
 	public void setListener(LoadingUIListener l)
 	{
 		this.listener = l;
@@ -40,22 +33,6 @@ public class LoadingScreenUI extends ScreenUIBase{
 	
 	public void startLoading()
 	{
-//		new Thread()
-//		{
-//
-//			@Override
-//			public void run() {
-//				Map.getInstance(Map.class).init(100);
-//				Driver.getInstance(Driver.class).init();
-//				World.getInstance(World.class).init();
-//				Renderer.getInstance(Renderer.class).setRenderScene(true);
-//				
-//				synchronized (lockObj) {
-//					bLoadFinish = true;
-//				}
-//			}
-//			
-//		}.start();
 		Map.getInstance(Map.class).init(100);
 	}
 
@@ -63,13 +40,6 @@ public class LoadingScreenUI extends ScreenUIBase{
 	public void update(float deltaTime) {
 		super.update(deltaTime);
 		
-//		boolean finish = false;
-//		synchronized (lockObj) {
-//			finish = bLoadFinish;
-//		}
-//		
-//		if(finish && listener != null)
-//			listener.loadingFinish();
 		if( !Map.getInstance(Map.class).load() )
 		{
 			Driver.getInstance(Driver.class).init();
@@ -80,7 +50,6 @@ public class LoadingScreenUI extends ScreenUIBase{
 			//if(listener != null)
 			listener.loadingFinish();
 		}
-		
 	}
 
 	@Override
@@ -110,6 +79,4 @@ public class LoadingScreenUI extends ScreenUIBase{
 		
 		batch.end();
 	}
-	
-	
 }

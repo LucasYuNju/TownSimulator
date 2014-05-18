@@ -12,7 +12,6 @@ import com.TownSimulator.entity.ResourceType;
 import com.TownSimulator.ui.UIManager;
 import com.TownSimulator.ui.building.view.ScrollViewWindow;
 import com.TownSimulator.ui.building.view.UndockedWindow;
-import com.TownSimulator.utility.ResourceManager;
 import com.TownSimulator.utility.Settings;
 import com.TownSimulator.utility.Singleton;
 import com.TownSimulator.utility.TipsBillborad;
@@ -20,11 +19,12 @@ import com.TownSimulator.utility.quadtree.QuadTreeType;
 import com.badlogic.gdx.graphics.Color;
 
 public class Warehouse extends Building {
+	private static final long serialVersionUID = -1934873980764058889L;
 	private List<Resource> storedResources;
 	protected ScrollViewWindow scrollWindow;
 	
 	public Warehouse() {
-		super(ResourceManager.getInstance(ResourceManager.class).createSprite("building_warehouse"), BuildingType.WAREHOUSE);
+		super("building_warehouse", BuildingType.WAREHOUSE);
 		storedResources = new LinkedList<Resource>();
 	}
 	

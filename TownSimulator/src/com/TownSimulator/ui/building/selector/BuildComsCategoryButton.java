@@ -15,7 +15,12 @@ public class BuildComsCategoryButton extends IconLabelButton{
 		
 		mButtonsGroup = new BuildComsButtonsGroup();
 		mButtonsGroup.setVisible(false);
-		addListener(new InputListener()
+		addListener(getListener());
+		addActor(mButtonsGroup);
+	}	
+	
+	protected InputListener getListener() {
+		return new InputListener()
 		{
 			@Override
 			public boolean touchDown(InputEvent event, float x, float y,
@@ -37,12 +42,9 @@ public class BuildComsCategoryButton extends IconLabelButton{
 					mButtonsGroup.setVisible(true);
 					mCurVisibleGroup = mButtonsGroup;
 				}
-				
 			}
-			
-		});
-		addActor(mButtonsGroup);
-	}	
+		};
+	}
 	
 	public void addBuild(String textureName, String labelText, BuildingType buildingType)
 	{

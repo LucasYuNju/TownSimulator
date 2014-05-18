@@ -1,5 +1,8 @@
 package com.TownSimulator.ui.building.selector;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.TownSimulator.entity.building.BuildingType;
 import com.TownSimulator.ui.base.IconLabelButton;
 import com.TownSimulator.utility.Settings;
@@ -9,12 +12,12 @@ import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.utils.Array;
 
 public class BuildComsButtonsGroup extends Group{
-	private Array<BuildComsButton> mButtonsList;
+	private List<BuildComsButton> mButtonsList;
 	public static final float GROUP_CATEGORY_MARGIN = Settings.UNIT * 0.1f;
 	
 	public BuildComsButtonsGroup()
 	{
-		mButtonsList = new Array<BuildComsButton>();
+		mButtonsList = new ArrayList<BuildComsButton>();
 	}
 	
 	public void addBuild(String textureName, String labelText, BuildingType buildingType)
@@ -26,7 +29,7 @@ public class BuildComsButtonsGroup extends Group{
 	
 	public void updateLayout()
 	{
-		setSize(mButtonsList.size * BuildComsUI.BUTTON_WIDTH + (mButtonsList.size-1) * BuildComsUI.BUTTONS_H_PAD,
+		setSize(mButtonsList.size() * BuildComsUI.BUTTON_WIDTH + (mButtonsList.size()-1) * BuildComsUI.BUTTONS_H_PAD,
 				BuildComsUI.BUTTON_HEIGHT);
 		Vector2 categoryPos = new Vector2(0.0f, 0.0f);
 		getParent().localToStageCoordinates(categoryPos);
@@ -36,7 +39,7 @@ public class BuildComsButtonsGroup extends Group{
 		setPosition( x + offsetX, BuildComsUI.BUTTON_HEIGHT + BuildComsUI.BUTTON_TOP_LABEL_HEIGHT * 2
 									+ IconLabelButton.LABEL_BUTTON_MARGIN + GROUP_CATEGORY_MARGIN);
 		
-		for (int i = 0; i < mButtonsList.size; i++) {
+		for (int i = 0; i < mButtonsList.size(); i++) {
 			mButtonsList.get(i).setPosition( i * (BuildComsUI.BUTTON_WIDTH + BuildComsUI.BUTTONS_H_PAD), 0.0f);
 		}
 	}

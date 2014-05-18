@@ -21,6 +21,7 @@ import com.badlogic.gdx.utils.Array;
 
 public class FarmHouse extends WorkableBuilding implements SelectBoxListener
 {
+	private static final long serialVersionUID = 6298378858595634746L;
 	private static final int MAX_JOB_CNT = 3;
 	private static final float MAN_EFFICENT_TRANS = 0.75f;
 	private CropType curCropType;
