@@ -73,7 +73,7 @@ public class Driver extends SingletonPublisher<DriverListener> implements Applic
 		Renderer.getInstance(Renderer.class).attachDrawScissor(lowCostHouse);
 		
 
-//		Driver.getInstance(Driver.class).addListener((DriverListener) lowCostHouse);
+		Driver.getInstance(Driver.class).addListener((DriverListener) lowCostHouse);
 //		
 //		AxisAlignedBoundingBox aabb = null;
 //		aabb = wareHouse.getAABBWorld(QuadTreeType.COLLISION);

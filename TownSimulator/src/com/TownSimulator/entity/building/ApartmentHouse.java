@@ -18,7 +18,7 @@ public class ApartmentHouse extends LivingHouse implements DriverListener{
 	
 	
 	/**
-	 * 随机增加人口，每个月概率增加10%，成功后变为0
+	 * 随机增加人口，每个月概率增加10，成功后变为0
 	 */
 	public void increasePopulation(){
 		if(residents.size() != 0){
