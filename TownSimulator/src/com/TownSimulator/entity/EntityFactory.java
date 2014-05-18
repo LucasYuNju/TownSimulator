@@ -43,17 +43,17 @@ public class EntityFactory {
 		
 		switch (buildingType) {
 		case APARTMENT:
-			xGridSize = 2;
+			xGridSize = 3;
 			yGridSize = 2;
-			yDrawScale = 1.0f;
+			yDrawScale = 1.5f;
 			building = new ApartmentHouse();
 			building.setNeededConstructionResource(ResourceType.RS_WOOD, 2000);
 			building.setNeededConstructionWork(20);
 			break;
 		case LOW_COST_HOUSE:
-			xGridSize = 2;
+			xGridSize = 3;
 			yGridSize = 2;
-			yDrawScale = 1.0f;
+			yDrawScale = 1.5f;
 			building = new LowCostHouse();
 			building.setNeededConstructionResource(ResourceType.RS_WOOD, 2000);
 			building.setNeededConstructionWork(20);
