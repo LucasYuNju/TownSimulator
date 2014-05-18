@@ -1,14 +1,19 @@
 package com.TownSimulator.utility.quadtree;
 
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+
 import com.TownSimulator.utility.AxisAlignedBoundingBox;
 import com.TownSimulator.utility.GameMath;
 import com.badlogic.gdx.utils.Array;
 
-public class QuadTreeNode {
+public class QuadTreeNode implements Serializable{
+	private static final long serialVersionUID = -5005395474154683597L;
 	private static final 	int 						LEAF_OBJ_CNT = 100;
 	private 				AxisAlignedBoundingBox 		mAABB;
 	private 				QuadTreeNode[]				mChildren;
-	private					Array<QuadTreeManageble>	mObjs;
+	private					List<QuadTreeManageble>	mObjs;
 	private 				QuadTreeType 				mType;
 	private					QuadTreeNode				mParent;
 	
@@ -18,7 +23,7 @@ public class QuadTreeNode {
 		mAABB = aabb;
 		mParent = parent;
 		mChildren = new QuadTreeNode[4];
-		mObjs = new Array<QuadTreeManageble>();
+		mObjs = new ArrayList<QuadTreeManageble>();
 	}
 	
 	public AxisAlignedBoundingBox getAABB()
@@ -35,7 +40,7 @@ public class QuadTreeNode {
 	{
 		if(mChildren[0] == null)
 		{
-			return mObjs.removeValue(obj, false);
+			return mObjs.remove(obj);
 		}
 		else
 		{
@@ -61,13 +66,13 @@ public class QuadTreeNode {
 		//No slice, it is a leaf
 		if(mChildren[0] == null)
 		{
-			if(!mObjs.contains(obj, false))
+			if(!mObjs.contains(obj))
 			{
 				obj.addContainedQuadTreeNode(mType, this);
 				mObjs.add(obj);
 				result = true;
 			}
-			if(mObjs.size > LEAF_OBJ_CNT)
+			if(mObjs.size() > LEAF_OBJ_CNT)
 			{
 				doQuadSlice();
 			}
@@ -119,7 +124,7 @@ public class QuadTreeNode {
 		//A leaf
 		if( mChildren[0] == null )
 		{
-			for (int i = 0; i < mObjs.size; i++) {
+			for (int i = 0; i < mObjs.size(); i++) {
 				if(excludedObjs != null && excludedObjs.contains(mObjs.get(i), false))
 					continue;
 				
@@ -162,7 +167,7 @@ public class QuadTreeNode {
 		//A leaf
 		if( mChildren[0] == null )
 		{
-			for (int i = 0; i < mObjs.size; i++) {
+			for (int i = 0; i < mObjs.size(); i++) {
 				if(excludedObjs != null && excludedObjs.contains(mObjs.get(i), false))
 					continue;
 				
@@ -195,7 +200,7 @@ public class QuadTreeNode {
 		mChildren[2] = new QuadTreeNode( mType, new AxisAlignedBoundingBox(mAABB.minX, 	 mAABB.minY, centerX, 	 centerY), 		this );
 		mChildren[3] = new QuadTreeNode( mType, new AxisAlignedBoundingBox(centerX, 	 mAABB.minY, mAABB.maxX, centerY),		this );
 		
-		for (int i = 0; i < mObjs.size; i++) {
+		for (int i = 0; i < mObjs.size(); i++) {
 			for (int j = 0; j < mChildren.length; j++) {
 				mChildren[j].addManageble( mObjs.get(i) );
 			}

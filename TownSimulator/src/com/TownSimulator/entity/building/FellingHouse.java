@@ -11,6 +11,7 @@ import com.TownSimulator.render.RendererListener;
 import com.TownSimulator.utility.Settings;
 
 public class FellingHouse extends WorkableBuilding {
+	private static final long serialVersionUID = -8892051075362272386L;
 	public static final int RANGE = 5;
 	public static final int MAX_JOB_CNT = 2;
 	

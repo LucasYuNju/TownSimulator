@@ -1,6 +1,9 @@
 package com.TownSimulator.driver;
 
-public class DriverListenerBaseImpl implements DriverListener{
+import java.io.Serializable;
+
+public class DriverListenerBaseImpl implements DriverListener, Serializable{
+	private static final long serialVersionUID = 4801238306031459187L;
 
 	@Override
 	public void dispose(){

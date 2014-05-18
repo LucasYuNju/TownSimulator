@@ -9,6 +9,7 @@ import com.TownSimulator.ui.building.view.ScrollViewWindow;
 import com.TownSimulator.ui.building.view.UndockedWindow;
 
 public class LivingHouse extends Building{
+	private static final long serialVersionUID = 6577679479943487313L;
 	protected List<ManInfo> residents;
 	protected int capacity;
 	protected ScrollViewWindow scrollWindow;

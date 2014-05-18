@@ -1,5 +1,7 @@
 package com.TownSimulator.ui.building.view;
 
+import java.io.Serializable;
+
 import com.TownSimulator.utility.ResourceManager;
 import com.TownSimulator.utility.Settings;
 import com.TownSimulator.utility.Singleton;
@@ -7,7 +9,8 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
-public class ProcessBar extends Actor{
+public class ProcessBar extends Actor implements Serializable{
+	private static final long serialVersionUID = -172852876036819469L;
 	public static final float PREFERED_WIDTH = Settings.PROCESS_BAR_PREFERED_WIDTH;
 	public static final float HEIGHT = Settings.PROCESS_BAR_HEIGHT;
 	private static final float DRAW_HEIGHT = HEIGHT * 0.7f;

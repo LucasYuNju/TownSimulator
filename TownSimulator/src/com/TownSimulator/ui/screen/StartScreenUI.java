@@ -1,8 +1,10 @@
 package com.TownSimulator.ui.screen;
 
 
+import com.TownSimulator.ui.UIManager;
 import com.TownSimulator.ui.base.FlipButton;
 import com.TownSimulator.ui.base.ScreenUIBase;
+import com.TownSimulator.utility.Singleton;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
@@ -17,25 +19,15 @@ public class StartScreenUI extends ScreenUIBase {
 	private FlipButton		mOptionButton;
 	private FlipButton		mScoreButton;
 	private FlipButton		mQuitButton;
-	private StartUIListener mListner;
-	
-	public interface StartUIListener
-	{
-		public void startGame();
-	}
 	
 	public StartScreenUI()
 	{
+		mButtonList = new Array<FlipButton>();
 		initComponents();
 	}
 	
 	private void initComponents()
 	{
-		mButtonList = new Array<FlipButton>();
-		
-		//TextureRegionDrawable imgUp = new TextureRegionDrawable(ResourceManager.getInstance(ResourceManager.class).findTextureRegion("button_up"));
-		//TextureRegionDrawable imgDown = new TextureRegionDrawable(ResourceManager.getInstance(ResourceManager.class).findTextureRegion("button_down"));
-		
 		mStartButton = new FlipButton("button_up", "button_down", "Start");
 		mStartButton.setSize(mButtonWidth, mButtonHeight );
 		mStartButton.addListener(new InputListener()
@@ -49,10 +41,7 @@ public class StartScreenUI extends ScreenUIBase {
 			@Override
 			public void touchUp(InputEvent event, float x, float y,
 					int pointer, int button) {
-				if(mListner != null)
-				{
-					mListner.startGame();
-				}
+					Singleton.getInstance(UIManager.class).startGame();
 			}
 			
 		});
@@ -90,14 +79,6 @@ public class StartScreenUI extends ScreenUIBase {
 		}
 	}
 	
-	
-	
-//	@Override
-//	public void show() {
-//		super.show();
-//		initComponents();
-//	}
-
 	private void updateLayout()
 	{
 		float centerX = Gdx.graphics.getWidth() * 0.5f;
@@ -110,10 +91,4 @@ public class StartScreenUI extends ScreenUIBase {
 			posY -= dy;
 		}
 	}
-	
-	public void setListner(StartUIListener l)
-	{
-		mListner = l;
-	}
-	
 }

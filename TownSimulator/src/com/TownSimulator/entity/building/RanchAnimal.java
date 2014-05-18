@@ -11,6 +11,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 
 public class RanchAnimal extends Entity{
+	private static final long serialVersionUID = 7682483193432919985L;
 	private static final 	Random 					rand = new Random(System.nanoTime());
 	private static final 	float 					MOVE_SPEED = 20.0f;
 	private static final 	float 					MAX_STAING_TIME = 10.0f;
@@ -27,8 +28,7 @@ public class RanchAnimal extends Entity{
 	private					Sprite					spFlip;
 	
 	public RanchAnimal() {
-		super((Sprite)null);
-		
+		super(null);
 		setDrawAABBLocal(0.0f, 0.0f, Settings.UNIT, Settings.UNIT);
 		moveDest = new Vector2();
 		moveDir = new Vector2();
@@ -144,6 +144,5 @@ public class RanchAnimal extends Entity{
 				isMove = true;
 			}
 		}
-		
 	}
 }

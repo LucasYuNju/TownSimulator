@@ -1,14 +1,15 @@
 package com.TownSimulator.entity;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * 重写了equals(Object object)和hashCode()方法，以简化collection操作
  * <p>为了判断collection是否包含某个类型的Resource，可以写成collection.contains(new Resource(desiredType))
- * 
  */
-public class Resource {
+public class Resource implements Serializable{
+	private static final long serialVersionUID = 8837658085411277729L;
 	private ResourceType type;
 	private int amount;
 	private int neededAmount;

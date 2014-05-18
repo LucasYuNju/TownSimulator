@@ -21,9 +21,7 @@ import com.badlogic.gdx.utils.Array;
 public class TipsBillborad {
 	private static Array<TipsBillborad> tipsActiveList = new Array<TipsBillborad>();
 	private static Array<TipsBillborad> tipsInActiveList = new Array<TipsBillborad>();
-	//private static int tipsAllocIndex = 0;
 	private static BitmapFont font;
-	//private static final float PAD = Settings.UNIT * 0.1f;
 	private static SpriteBatch spriteBatch;
 	private static HashMap<String, TextureRegionAllocContainer> textureMap = new HashMap<String, TipsBillborad.TextureRegionAllocContainer>();
 	//private static OrthographicCamera screenCamera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
@@ -54,9 +52,7 @@ public class TipsBillborad {
 		}
 	}
 	
-//	static
 //	{
-////		System.out.println("AAAAAAAAAAAAAAAAA");
 //		Driver.getInstance(Driver.class).addListener(new DriverListenerBaseImpl()
 //		{
 //			
@@ -70,9 +66,6 @@ public class TipsBillborad {
 //				spriteBatch.dispose();
 //				
 //			}
-//			
-//			
-//			
 //		});
 //		
 //		Renderer.getInstance(Renderer.class).addListener(new RendererListener() {
@@ -98,7 +91,6 @@ public class TipsBillborad {
 		
 		Driver.getInstance(Driver.class).addListener(new DriverListenerBaseImpl()
 		{
-			
 			@Override
 			public void update(float deltaTime) {
 				updateTips(deltaTime);
@@ -110,11 +102,9 @@ public class TipsBillborad {
 				tipsActiveList.clear();
 				tipsInActiveList.clear();
 			}
-			
 		});
 		
 		Renderer.getInstance(Renderer.class).addListener(new RendererListener() {
-			
 			@Override
 			public void renderEnded() {
 				renderTips();
@@ -125,7 +115,6 @@ public class TipsBillborad {
 			}
 		});
 	}
-	
 	
 	private static void updateTips(float deltaTime)
 	{
@@ -155,7 +144,6 @@ public class TipsBillborad {
 	{
 		if( !textureMap.containsKey(textureName) )
 			textureMap.put(textureName, new TextureRegionAllocContainer(textureName));
-		
 		return textureMap.get(textureName).alloc();
 	}
 	
@@ -169,7 +157,6 @@ public class TipsBillborad {
 
 		return tip;
 	}
-	
 	private float livingTime = 5.0f;
 	private float life = 0.0f; 
 	private Vector2 velocity;
@@ -177,7 +164,6 @@ public class TipsBillborad {
 	private float oringinX;
 	private float oringinY;
 	private String text;
-	//private BitmapFont font;
 	
 	private TipsBillborad()
 	{

@@ -2,6 +2,7 @@ package com.TownSimulator.entity;
 
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 
 import com.TownSimulator.ai.behaviortree.BehaviorTreeNode;
 import com.TownSimulator.ai.btnimpls.idle.IdleBTN;
@@ -11,14 +12,14 @@ import com.TownSimulator.driver.DriverListenerBaseImpl;
 import com.TownSimulator.entity.building.School;
 import com.TownSimulator.render.Renderer;
 import com.TownSimulator.utility.Animation;
-import com.TownSimulator.utility.ResourceManager;
 import com.TownSimulator.utility.Settings;
 import com.badlogic.gdx.math.Vector2;
 
 public class Man extends Entity{
+	private static final long serialVersionUID = -2009342658748170922L;
 	private static final 	float 						MOVE_SPEED = Settings.UNIT;
-	private 				HashMap<ManAnimeType, Animation> 	mAnimesMap;
-	private 				HashMap<ManAnimeType, Animation> 	mAnimesMapFlipped;
+	private 				Map<ManAnimeType, Animation> 	mAnimesMap;
+	private 				Map<ManAnimeType, Animation> 	mAnimesMapFlipped;
 	private 				Vector2						mMoveDir;
 	private 				Vector2						mDestination;
 	private					float						mMoveTime;
@@ -33,7 +34,7 @@ public class Man extends Entity{
 	}
 	
 	public Man() {
-		super(ResourceManager.getInstance(ResourceManager.class).createSprite("pixar_man_1"));
+		super("pixar_man_1");
 		setDrawAABBLocal(0.0f, 0.0f, Settings.UNIT, Settings.UNIT);
 		setCollisionAABBLocal(0, 0, 0, 0);
 		
@@ -46,6 +47,7 @@ public class Man extends Entity{
 		
 		mDriverListener = new DriverListenerBaseImpl()
 		{
+			private static final long serialVersionUID = -2810927274650172968L;
 			private float dieElapseTime = 5.0f;
 			private float dieAccum = 0.0f;
 			

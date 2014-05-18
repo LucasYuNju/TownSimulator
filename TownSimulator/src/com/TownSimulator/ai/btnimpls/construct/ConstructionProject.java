@@ -1,27 +1,27 @@
 package com.TownSimulator.ai.btnimpls.construct;
 
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 import com.TownSimulator.entity.EntityInfoCollector;
 import com.TownSimulator.entity.Man;
 import com.TownSimulator.entity.Resource;
 import com.TownSimulator.entity.ResourceType;
 import com.TownSimulator.entity.building.Building;
-import com.badlogic.gdx.utils.Array;
 
-public class ConstructionProject {
+public class ConstructionProject implements Serializable{
+	private static final long serialVersionUID = -4485826516375527453L;
 	private int							mMaxBuildJobCnt;
 	private int							mOpenBuildJobCnt;
 	private int							mCurWorkingManCnt = 0;
 	private State						mCurStage;
 	private Building					mBuilding;
-	private Array<Resource>				mBuildResource;
-	//private Iterator<ResourceType> 		mBuildResourceTypeItr;
+	private List<Resource>				mBuildResource;
 	private Resource					mCurAllocRs;
-	//private ResourceType				mCurAllocRsType;
-	//private int							mCurAllocRsRemainNeedAmount;
 	private boolean						mFinished = false;
-	private Array<Man>					mWorkers;
+	private List<Man>					mWorkers;
 	
 	public enum State
 	{
@@ -35,8 +35,8 @@ public class ConstructionProject {
 		mMaxBuildJobCnt = mBuilding.getMaxAllowdBuilderCnt();
 		mOpenBuildJobCnt = mMaxBuildJobCnt;
 		mBuilding.setConstructionProject(this);
-		mBuildResource = new Array<Resource>();
-		mWorkers = new Array<Man>();
+		mBuildResource = new ArrayList<Resource>();
+		mWorkers = new ArrayList<Man>();
 		
 		EntityInfoCollector.getInstance(EntityInfoCollector.class).addConstructProj(this);
 		
@@ -48,13 +48,13 @@ public class ConstructionProject {
 			mBuildResource.add(new Resource(type, amount));
 		}
 		
-		mCurAllocRs = mBuildResource.pop();
+		mCurAllocRs = mBuildResource.remove(mBuildResource.size() - 1);
 	}
 	
 	private void fireWorker(int cnt)
 	{
 		for (int i = 0; i < cnt; i++) {
-			Man man = mWorkers.pop();
+			Man man = mWorkers.remove(mWorkers.size() - 1);
 			man.getInfo().constructionInfo.bCancel = true;
 		}
 		mCurWorkingManCnt -= cnt;
@@ -100,7 +100,7 @@ public class ConstructionProject {
 	
 	public void removeWorker(Man man)
 	{
-		if(mWorkers.removeValue(man, false))
+		if(mWorkers.remove(man))
 		{
 			man.getInfo().constructionInfo.proj = null;
 			if(man.getInfo().constructionInfo.transportNeededAmount > 0)
@@ -116,7 +116,7 @@ public class ConstructionProject {
 	{
 		//if(mCurAllocRsRemainNeedAmount > 0 || mBuildResourceTypeItr.hasNext())
 		if( (mCurAllocRs != null && mCurAllocRs.getAmount() > 0)
-				|| mBuildResource.size > 0)
+				|| mBuildResource.size() > 0)
 			return true;
 		else
 			return false;
@@ -142,30 +142,12 @@ public class ConstructionProject {
 	
 	public boolean allocateTransport(ConstructionInfo cons)
 	{
-//		if(mCurAllocRsRemainNeedAmount <= 0)
-//		{
-//			if(mBuildResourceTypeItr.hasNext())
-//			{
-//				mCurAllocRsType = mBuildResourceTypeItr.next();
-//				mCurAllocRsRemainNeedAmount = mBuilding.getNeededConstructionResouceAmount(mCurAllocRsType);
-//			}
-//			else
-//				return false;
-//		}
-//
-//		int amount = Math.min(mCurAllocRsRemainNeedAmount, ConstructionTransportBTN.MAX_TRANSPORT_RS_AMOUNT);
-//		cons.transportRSType = mCurAllocRsType;
-//		cons.transportNeededAmount = amount;
-//		cons.transportBuilding = mBuilding;
-//		mCurAllocRsRemainNeedAmount -= amount;
 		
 		if(mCurAllocRs.getAmount() <= 0)
 		{
-			if(mBuildResource.size > 0)
+			if(mBuildResource.size() > 0)
 			{
-//				mCurAllocRsType = mBuildResourceTypeItr.next();
-//				mCurAllocRsRemainNeedAmount = mBuilding.getNeededConstructionResouceAmount(mCurAllocRsType);
-				mCurAllocRs = mBuildResource.pop();
+				mCurAllocRs = mBuildResource.remove(mBuildResource.size() - 1);
 			}
 			else
 				return false;

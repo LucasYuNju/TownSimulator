@@ -8,6 +8,7 @@ import com.TownSimulator.map.Map;
 import com.TownSimulator.utility.AxisAlignedBoundingBox;
 import com.TownSimulator.utility.ResourceManager;
 import com.TownSimulator.utility.Settings;
+import com.TownSimulator.utility.Singleton;
 import com.TownSimulator.utility.SingletonPublisher;
 import com.TownSimulator.utility.quadtree.QuadTree;
 import com.TownSimulator.utility.quadtree.QuadTreeManageble;
@@ -38,9 +39,8 @@ public class Renderer extends SingletonPublisher<RendererListener>{
 			@Override
 			public void dispose() {
 				mRenderBatch.dispose();
-				mInstaceMap.clear();
+				Singleton.clearInstanceMap();
 			}
-			
 		});
 	}
 	

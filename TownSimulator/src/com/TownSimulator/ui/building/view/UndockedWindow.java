@@ -1,5 +1,8 @@
 package com.TownSimulator.ui.building.view;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
+
 import com.TownSimulator.camera.CameraController;
 import com.TownSimulator.camera.CameraListener;
 import com.TownSimulator.entity.building.BuildingType;
@@ -33,13 +36,14 @@ public class UndockedWindow extends Group{
 	public static final float ICON_WIDTH = Settings.LABEL_WIDTH;
 	public static final float MIN_WIDTH = LABEL_WIDTH * 2.5f;
 	protected BuildingType buildingType;
-	protected TextureRegion background;
+	protected transient TextureRegion background;
+	private String bgPath = "background";
 	protected Button closeButton;
 	protected Label headerLabel;
 	
 	public UndockedWindow(BuildingType buildingType) {
 		super();
-		background = Singleton.getInstance(ResourceManager.class).createTextureRegion("background");
+		background = Singleton.getInstance(ResourceManager.class).createTextureRegion(bgPath);
 		this.buildingType = buildingType;
 		initCameraListener();
 		
@@ -155,5 +159,10 @@ public class UndockedWindow extends Group{
 		applyTransform(batch, computeTransform());
 		drawChildren(batch, parentAlpha);
 		resetTransform(batch);
+	}
+	
+	protected void readObject(ObjectInputStream s) throws ClassNotFoundException, IOException {
+		s.defaultReadObject();
+		background = Singleton.getInstance(ResourceManager.class).createTextureRegion(bgPath);
 	}
 }

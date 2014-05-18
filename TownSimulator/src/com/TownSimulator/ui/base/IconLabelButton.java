@@ -12,7 +12,6 @@ import com.badlogic.gdx.utils.Array;
 
 public class IconLabelButton extends IconButton{
 	protected	Array<Label>	labels;
-	//protected	Label			mTextLabel	= null;
 	protected	TextureRegion	mLabelBackgroud;
 	protected	int				mFontSize = 0;
 	protected	String			labelText;

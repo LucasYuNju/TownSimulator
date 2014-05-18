@@ -1,12 +1,15 @@
 package com.TownSimulator.utility;
 
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+
 import com.TownSimulator.utility.Animation.AnimationListener;
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.utils.Array;
 
-public class Animation extends Publisher<AnimationListener>{
-	private Array<AnimeFrame> 	mSprites;
-	//private float			mFrameInterval;
+public class Animation extends Publisher<AnimationListener> implements Serializable{
+	private static final long serialVersionUID = 4858690892710452870L;
+	private List<AnimeFrame> 	mSprites;
 	private float			mTimeAccum = 0.0f;
 	private int				mSpriteIndex = 0;
 	private float			animeLength = 0.0f;
@@ -24,7 +27,7 @@ public class Animation extends Publisher<AnimationListener>{
 	
 	public Animation()
 	{
-		mSprites = new Array<AnimeFrame>();
+		mSprites = new ArrayList<AnimeFrame>();
 		//mFrameInterval = frameInterval;
 	}
 	
@@ -39,7 +42,7 @@ public class Animation extends Publisher<AnimationListener>{
 		animeLength += frameInterval;
 	}
 	
-	public Array<AnimeFrame> getFrames()
+	public List<AnimeFrame> getFrames()
 	{
 		return mSprites;
 	}
@@ -73,7 +76,7 @@ public class Animation extends Publisher<AnimationListener>{
 		if(frame.interval <= 0)
 			return;
 		
-		if(mSprites.size == 0)
+		if(mSprites.size() == 0)
 			return;
 		
 		mTimeAccum += deltaTime;
@@ -81,14 +84,13 @@ public class Animation extends Publisher<AnimationListener>{
 		{
 			mTimeAccum -= frame.interval;
 			mSpriteIndex++;
-			mSpriteIndex = mSpriteIndex % mSprites.size;
+			mSpriteIndex = mSpriteIndex % mSprites.size();
 			frame = mSprites.get(mSpriteIndex);
 			
 			for (AnimationListener l : mListeners) {
 				l.frameChanged(mSpriteIndex);
 			}
 		}
-		//mSpriteIndex = mSpriteIndex % mSprites.size;
 	}
 	
 	public Sprite getCurSprite()

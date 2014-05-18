@@ -5,17 +5,14 @@ import com.TownSimulator.entity.EntityInfoCollector;
 import com.TownSimulator.entity.Man;
 
 public class ApartmentHouse extends LivingHouse implements DriverListener{
-
-	
+	private static final long serialVersionUID = 7436059925334394911L;
 	private int persentage = 0;
 	private int increasePerMonth = 10;
 	private float time;
 	
-	
 	public ApartmentHouse() {
 		super("building_low_cost_house", BuildingType.LOW_COST_HOUSE);
 	}
-	
 	
 	/**
 	 * 随机增加人口，每个月概率增加10%，成功后变为0
@@ -32,34 +29,25 @@ public class ApartmentHouse extends LivingHouse implements DriverListener{
 		}
 	}
 
-
 	@Override
 	public void dispose() {
-		// TODO Auto-generated method stub
 		
 	}
-
 
 	@Override
 	public void resize(int width, int height) {
-		// TODO Auto-generated method stub
 		
 	}
-
 
 	@Override
 	public void pause() {
-		// TODO Auto-generated method stub
 		
 	}
-
 
 	@Override
 	public void resume() {
-		// TODO Auto-generated method stub
 		
 	}
-
 
 	/**
 	 * 每过一个月，调用一次增加人口
@@ -72,5 +60,4 @@ public class ApartmentHouse extends LivingHouse implements DriverListener{
 			time = 0;
 		}
 	}
-
 }

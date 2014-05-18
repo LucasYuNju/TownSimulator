@@ -3,8 +3,7 @@ package com.TownSimulator.utility.simplex;
 import java.util.Random;
 
 public class SimplexNoise {
-
-	SimplexNoise_octave[] octaves;
+	transient SimplexNoise_octave[] octaves;
 	double[] frequencys;
 	double[] amplitudes;
 
@@ -69,6 +68,5 @@ public class SimplexNoise {
 		}
 
 		return result;
-
 	}
 }

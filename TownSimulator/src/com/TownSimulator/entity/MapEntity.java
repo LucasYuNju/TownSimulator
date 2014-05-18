@@ -1,14 +1,9 @@
 package com.TownSimulator.entity;
 
-import com.badlogic.gdx.graphics.g2d.Sprite;
 
 public class MapEntity extends Entity{
-	
-	public MapEntity(Sprite sp)
-	{
-		super(sp);
-	}
-	
+	private static final long serialVersionUID = 3114687959525451898L;
+
 	public MapEntity(String textureName) 
 	{
 		super(textureName);

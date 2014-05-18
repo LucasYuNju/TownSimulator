@@ -1,5 +1,7 @@
 package com.TownSimulator.ai.btnimpls.general;
 
+import java.util.List;
+
 import com.TownSimulator.ai.behaviortree.ActionNode;
 import com.TownSimulator.ai.behaviortree.ExecuteResult;
 import com.TownSimulator.ai.behaviortree.SequenceNode;
@@ -11,7 +13,6 @@ import com.TownSimulator.entity.building.BuildingType;
 import com.TownSimulator.entity.building.Hospital;
 import com.TownSimulator.utility.Singleton;
 import com.TownSimulator.utility.quadtree.QuadTreeType;
-import com.badlogic.gdx.utils.Array;
 
 public class SeeADoctorBTN extends SequenceNode{
 	private Man man;
@@ -30,7 +31,7 @@ public class SeeADoctorBTN extends SequenceNode{
 				if((hospital=getAdmittedHospital()) != null) {
 					if(!man.getInfo().isHealthy()) {
 						if(hospital.getCurWorkerCnt() > 0) {
-							man.getInfo().receiveTreatment();
+							man.getInfo().receiveTreatment(deltaTime);
 							hospital.updateHospitalViewWindow();
 						}
 						return ExecuteResult.RUNNING;
@@ -65,7 +66,7 @@ public class SeeADoctorBTN extends SequenceNode{
 	
 	
 	private Hospital getEmptyHospital() {
-		Array<Building> hospitals = Singleton.getInstance(EntityInfoCollector.class).getBuildings(BuildingType.Hospital);
+		List<Building> hospitals = Singleton.getInstance(EntityInfoCollector.class).getBuildings(BuildingType.Hospital);
 		for(Building building : hospitals) {
 			Hospital hospital = (Hospital) building;
 			if(hospital.hasCapacity())
@@ -79,7 +80,7 @@ public class SeeADoctorBTN extends SequenceNode{
 	 * 	return null 如果man不属于任何医院
 	 */
 	private Hospital getAdmittedHospital() {
-		Array<Building> hospitals = Singleton.getInstance(EntityInfoCollector.class).getBuildings(BuildingType.Hospital);
+		List<Building> hospitals = Singleton.getInstance(EntityInfoCollector.class).getBuildings(BuildingType.Hospital);
 		for(Building building : hospitals) {
 			Hospital hospital = (Hospital) building;
 			if(hospital.containsPatient(man))

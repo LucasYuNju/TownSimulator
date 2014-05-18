@@ -17,7 +17,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
  * <p>已知使用ScrollViewWindow的有:LivingHouse, Warehouse, Hospital
  * <p>ScrollViewWindow的UI初始化会推迟到第一次调用updateData()
  */
-public class ScrollViewWindow extends UndockedWindow{
+public class ScrollViewWindow extends UndockedWindow {
 	private static final int NUM_LABEL_PER_PAGE = 8;
 	List<List<String>> data;
 	List<Label> labels;

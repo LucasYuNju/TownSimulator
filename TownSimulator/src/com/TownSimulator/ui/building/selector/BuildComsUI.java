@@ -3,6 +3,7 @@ package com.TownSimulator.ui.building.selector;
 import com.TownSimulator.entity.building.BuildingType;
 import com.TownSimulator.utility.GameMath;
 import com.TownSimulator.utility.Settings;
+import com.TownSimulator.utility.ls.SaveButton;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
@@ -11,7 +12,7 @@ import com.badlogic.gdx.utils.Array;
 public class BuildComsUI extends Group {
 	public 	static 	float							BUTTON_WIDTH  			= Settings.UNIT;
 	public 	static 	float							BUTTON_HEIGHT 			= Settings.UNIT;
-	public 	static 	float							BUTTON_TOP_LABEL_HEIGHT 	= Settings.UNIT * 0.2f;
+	public 	static 	float							BUTTON_TOP_LABEL_HEIGHT = Settings.UNIT * 0.2f;
 	public 	static 	float							BUTTONS_H_PAD 			= BUTTON_WIDTH * 0.1f;
 	private 		Array<BuildComsCategoryButton> 	mBuildButtonsList;
 	private 		BuildComsCategoryButton			mInitButton;
@@ -20,9 +21,9 @@ public class BuildComsUI extends Group {
 	{
 		FOLD, UNFLODING, UNFLOD, FOLDING
 	}
-	private 		State							mCurState;
-	private 		float							mActionSpeed = 2.0f;
-	private 		float							mLerpParam = 0.0f;
+	private 		State	mCurState;
+	private 		float	mActionSpeed = 2.0f;
+	private 		float	mLerpParam = 0.0f;
 	
 	public BuildComsUI()
 	{
@@ -54,6 +55,10 @@ public class BuildComsUI extends Group {
 		buildInfrastruction.addBuild("button_build_coat_factory", "coat factory", BuildingType.COAT_FACTORY);
 		buildInfrastruction.setVisible(false);
 		mBuildButtonsList.add(buildInfrastruction);
+		
+		BuildComsCategoryButton saveButton = new SaveButton();
+		saveButton.setVisible(false);
+		mBuildButtonsList.add(saveButton);
 		
 		for (int i = 0; i < mBuildButtonsList.size; i++) {
 			mBuildButtonsList.get(i).setColor(1.0f, 1.0f, 1.0f, 0.0f);

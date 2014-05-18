@@ -23,6 +23,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.utils.Array;
 
 public class Ranch extends WorkableBuilding{
+	private static final long serialVersionUID = -5200249977002038249L;
 	private static final int 		MAX_JOB_CNT = 4;
 	private static final float 		PRODUCE_INTERVAL = 27.0f;
 	private static final int		PRODUCE_MEAT_AMOUNT = 50;

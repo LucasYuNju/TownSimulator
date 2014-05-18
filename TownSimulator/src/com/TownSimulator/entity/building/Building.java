@@ -1,5 +1,6 @@
 package com.TownSimulator.entity.building;
 
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
@@ -15,21 +16,20 @@ import com.TownSimulator.ui.building.construction.ConstructionWindowListener;
 import com.TownSimulator.ui.building.view.UndockedWindow;
 import com.TownSimulator.ui.building.view.WorkerGroupListener;
 import com.TownSimulator.utility.quadtree.QuadTreeType;
-import com.badlogic.gdx.graphics.g2d.Sprite;
-
 
 public abstract class Building extends Entity 
-	implements ConstructionWindowListener, WorkerGroupListener{
-	
+	implements ConstructionWindowListener, WorkerGroupListener, Serializable
+{
+	private static final long serialVersionUID = 3141326055708432L;
 	protected List<Resource>			constructionResources;
 	protected float						constructionWork;
 	protected float						finishedConstructionWork;
 	protected State						buildingState;
 	protected BuildingType				buildingType;
-	protected UndockedWindow			undockedWindow;
 	private	  ConstructionProject		constructionProject;
-	private   ConstructionWindow		constructionWindow;
-	private	  ConstructionProgressBar	constructionProgressBar;
+	protected transient UndockedWindow			undockedWindow;
+	private   transient ConstructionWindow		constructionWindow;
+	private	  transient ConstructionProgressBar	constructionProgressBar;
 	private   int 						numAllowedBuilder = 3;
 	
 	public enum State
@@ -43,13 +43,7 @@ public abstract class Building extends Entity
 		this.buildingType = type;
 		init();
 	}
-	
-	public Building(Sprite sp, BuildingType type) {
-		super(sp);
-		this.buildingType = type;
-		init();
-	}
-	
+		
 	private void init()
 	{
 		buildingState = State.PosUnconfirmed;
@@ -206,9 +200,6 @@ public abstract class Building extends Entity
 		}
 	}
 	
-	/**
-	 * 
-	 */
 	abstract protected void updateViewWindow();
 	
 	public void setState(State state)
@@ -246,4 +237,6 @@ public abstract class Building extends Entity
 	public void workerLimitSelected(int limit) {
 		constructionProject.setOpenWorkJobCnt(limit);
 	}
+	
+	
 }

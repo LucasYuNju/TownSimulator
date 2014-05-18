@@ -1,11 +1,15 @@
 package com.TownSimulator.utility;
 
-
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 
 import com.TownSimulator.driver.Driver;
 import com.TownSimulator.driver.DriverListenerBaseImpl;
+import com.TownSimulator.ui.utility.ls.SerializedTextureRegion;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Sound;
@@ -15,26 +19,20 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 
-
-public class ResourceManager extends Singleton{
-	private HashMap<String, Texture>		mTexturesMap;
-	private HashMap<Integer, BitmapFont> 	mFontsMap;
-	private HashMap<String, Sound>          mSoundsMap;
-	private FreeTypeFontGenerator			mFontGenerator;
-	private AssetManager					mAssetsManager;
+public class ResourceManager extends Singleton implements Serializable{
+	private static final long serialVersionUID = -1444327838173945178L;
+	private transient Map<String, Texture>		mTexturesMap;
+	private transient Map<Integer, BitmapFont> 	mFontsMap;
+	private transient Map<String, Sound>        mSoundsMap;
+	private transient FreeTypeFontGenerator			mFontGenerator;
+	private transient AssetManager					mAssetsManager;
 	
 	public ResourceManager()
 	{
-		mTexturesMap = new HashMap<String, Texture>();
-		mSoundsMap=new HashMap<String, Sound>();
-		mAssetsManager = new AssetManager();
-		mFontsMap = new HashMap<Integer, BitmapFont>();
-		mFontGenerator = new FreeTypeFontGenerator(Gdx.files.internal("data/visitor1.ttf"));
+		initialize();
 		preLoadSounds();
-		
 		Driver.getInstance(Driver.class).addListener(new DriverListenerBaseImpl()
 		{
-
 			@Override
 			public void dispose() {
 				mAssetsManager.clear();
@@ -46,7 +44,6 @@ public class ResourceManager extends Singleton{
 					mFontsMap.get(it_font.next()).dispose();
 				}
 				
-				
 				Iterator<String> it_sound = mSoundsMap.keySet().iterator();
 				while(it_sound.hasNext())
 				{
@@ -54,32 +51,27 @@ public class ResourceManager extends Singleton{
 				}
 				mSoundsMap.clear();
 				mFontGenerator.dispose();
-				
-				
 			}
 
 			@Override
 			public void resume() {
 				while( !mAssetsManager.update() );
 			}
-			
 		});
-		
 	}
 	
-//	public void loadResource()
-//	{
-//		mTexturesMap = new HashMap<String, Texture>();
-//		mSoundsMap=new HashMap<String, Sound>();
-//		mAssetsManager = new AssetManager();
-//		mFontsMap = new HashMap<Integer, BitmapFont>();
-//		mFontGenerator = new FreeTypeFontGenerator(Gdx.files.internal("data/visitor1.ttf"));
-//	}
+	private void initialize()
+	{
+		mTexturesMap = new HashMap<String, Texture>();
+		mSoundsMap=new HashMap<String, Sound>();
+		mAssetsManager = new AssetManager();
+		mFontsMap = new HashMap<Integer, BitmapFont>();
+		mFontGenerator = new FreeTypeFontGenerator(Gdx.files.internal("data/visitor1.ttf"));
+	}
 	
 	public void reloadResources()
 	{
 		while( !mAssetsManager.update() );
-
 	}
 	
 	public Sprite createSprite(String textureName)
@@ -113,7 +105,6 @@ public class ResourceManager extends Singleton{
 		return mSoundsMap.get(soundName);
 	}
 	
-	
 	private void loadTexture(String textureName)
 	{
 		System.out.println("Load " + textureName);
@@ -127,7 +118,14 @@ public class ResourceManager extends Singleton{
 		if(!mTexturesMap.containsKey(textureName))
 			loadTexture(textureName);
 			
-		return new TextureRegion(mTexturesMap.get(textureName));
+		return new SerializedTextureRegion(mTexturesMap.get(textureName), textureName);
+	}
+	
+	public void reloadTextureRegion(SerializedTextureRegion textureRegion) {
+		String textureName = textureRegion.getTextureName();
+		if(!mTexturesMap.containsKey(textureName))
+			loadTexture(textureName);
+		textureRegion.setRegion(mTexturesMap.get(textureName));
 	}
 	
 	@SuppressWarnings("deprecation")
@@ -143,10 +141,8 @@ public class ResourceManager extends Singleton{
 		}
 	}
 	
-//	@SuppressWarnings("deprecation")
-//	public BitmapFont getFontNoManaged(int size)
-//	{
-//		return mFontGenerator.generateFont(size);
-//	}
-	
+	private void readObject(ObjectInputStream s) throws ClassNotFoundException, IOException {
+		s.defaultReadObject();
+		initialize();
+	}
 }

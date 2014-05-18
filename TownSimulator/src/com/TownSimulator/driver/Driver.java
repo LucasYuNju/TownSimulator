@@ -1,6 +1,5 @@
 package com.TownSimulator.driver;
 
-
 import java.util.Random;
 
 import com.TownSimulator.camera.CameraController;
@@ -46,7 +45,7 @@ public class Driver extends SingletonPublisher<DriverListener> implements Applic
 	public void init()
 	{
 		Random rand = new Random(System.currentTimeMillis());
-		int initPepleCnt = 15;
+		int initPepleCnt = 5;
 		float originPosX = CameraController.getInstance(CameraController.class).getX();
 		float originPoxY = CameraController.getInstance(CameraController.class).getY();
 		
@@ -168,9 +167,9 @@ public class Driver extends SingletonPublisher<DriverListener> implements Applic
 			float ranxY = (rand.nextFloat() - 0.5f) * Settings.UNIT * 6;
 			Man man = new Man();
 			man.setPositionWorld(originPosX + randX, originPoxY + ranxY);
-			if(i%5==0){
-				man.getInfo().setAge(10);				
-			}
+//			if(i%12==0){
+//				man.getInfo().setAge(10);				
+//			}
 			EntityInfoCollector.getInstance(EntityInfoCollector.class).addMan(man);
 			
 			Renderer.getInstance(Renderer.class).attachDrawScissor(man);
@@ -196,8 +195,7 @@ public class Driver extends SingletonPublisher<DriverListener> implements Applic
 		for (int i = 0; i < mListeners.size; i++) {
 			mListeners.get(i).dispose();
 		}
-		
-		mInstaceMap.clear();
+		Singleton.clearInstanceMap();
 	}
 
 	@Override
