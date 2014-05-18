@@ -44,44 +44,12 @@ public class RanchViewWindow extends WorkableViewWindow implements Serializable{
 		height = LABEL_HEIGHT * 2 + WorkerGroup.HEIGHT + MARGIN * 2;
 		setSize(width, height);
 		addDropDown();
-//		addRowOne();
-//		addRowTwo();
-		
-//		builderGroup = new WorkerGroup(5);
-//		builderGroup.setPosition(MARGIN, MARGIN);
-//		addActor(builderGroup);
 
 		addCloseButton();
 		addHeader();
+		
+		updateLayout();
 	}
-	
-//	private void addRowOne() {
-//		LabelStyle labelStyle = new LabelStyle();
-//		labelStyle.font = ResourceManager.getInstance(ResourceManager.class).getFont((int) (Settings.UNIT * 0.3f));
-//		labelStyle.fontColor = Color.WHITE;
-//		Label label = new Label("state", labelStyle);
-//		label.setSize(LABEL_WIDTH, LABEL_HEIGHT);
-//		label.setPosition(MARGIN, MARGIN + WorkerGroup.HEIGHT + LABEL_WIDTH * 2);
-//		label.setAlignment(Align.left);
-//		addActor(label);
-//		
-////		processBar = new ProcessBar();
-////		processBar.setPosition(MARGIN + LABEL_WIDTH, MARGIN + WorkerGroup.HEIGHT + LABEL_WIDTH * 2);
-////		addActor(processBar);
-//	}
-//	
-//	private void addRowTwo() {
-//		LabelStyle labelStyle = new LabelStyle();
-//		labelStyle.font = ResourceManager.getInstance(ResourceManager.class).getFont((int) (Settings.UNIT * 0.3f));
-//		labelStyle.fontColor = Color.WHITE;
-//		Label label = new Label("curCrop", labelStyle);
-//		label.setSize(LABEL_WIDTH, LABEL_HEIGHT);
-//		label.setPosition(MARGIN, MARGIN + WorkerGroup.HEIGHT + LABEL_WIDTH);
-//		label.setAlignment(Align.left);
-//		addActor(label);
-//
-//		addDropDown();
-//	}
 
 	private void addDropDown() {
 		SelectBoxStyle style = new SelectBoxStyle();

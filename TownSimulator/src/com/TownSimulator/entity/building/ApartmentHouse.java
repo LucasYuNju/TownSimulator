@@ -11,11 +11,11 @@ public class ApartmentHouse extends LivingHouse implements DriverListener{
 	private float time;
 	
 	public ApartmentHouse() {
-		super("building_low_cost_house", BuildingType.LOW_COST_HOUSE);
+		super("building_apartment_house", BuildingType.APARTMENT);
 	}
 	
 	/**
-	 * 随机增加人口，每个月概率增加10%，成功后变为0
+	 * 随机增加人口，每个月概率增加10，成功后变为0
 	 */
 	public void increasePopulation(){
 		if(residents.size() != 0){

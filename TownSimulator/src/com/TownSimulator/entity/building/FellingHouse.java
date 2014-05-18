@@ -14,10 +14,11 @@ public class FellingHouse extends WorkableBuilding {
 	private static final long serialVersionUID = -8892051075362272386L;
 	public static final int RANGE = 5;
 	public static final int MAX_JOB_CNT = 2;
+	private RendererListener renderListener;
 	
 	public FellingHouse() {
 		super("building_felling_house", BuildingType.FELLING_HOUSE, JobType.LUMERJACK);
-		Renderer.getInstance(Renderer.class).addListener(new RendererListener() {
+		renderListener = new RendererListener() {
 			@Override
 			public void renderEnded() {
 			}
@@ -27,9 +28,20 @@ public class FellingHouse extends WorkableBuilding {
 				if(isSelected || getState() == Building.State.PosUnconfirmed)
 					drawRange();
 			}
-		});
+		};
+		Renderer.getInstance(Renderer.class).addListener(renderListener);
 	}
 	
+	
+	
+	@Override
+	public void destroy() {
+		super.destroy();
+		Renderer.getInstance(Renderer.class).removeListener(renderListener);
+	}
+
+
+
 	private void drawRange()
 	{
 		int originGridX = (int)(mCollisionAABBWorld.getCenterX() / Settings.UNIT);

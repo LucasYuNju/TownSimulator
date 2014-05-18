@@ -4,6 +4,7 @@ import java.util.Random;
 
 import com.TownSimulator.camera.CameraController;
 import com.TownSimulator.collision.CollisionDetector;
+import com.TownSimulator.entity.Entity;
 import com.TownSimulator.entity.EntityFactory;
 import com.TownSimulator.entity.EntityInfoCollector;
 import com.TownSimulator.entity.Man;
@@ -59,10 +60,18 @@ public class Driver extends SingletonPublisher<DriverListener> implements Applic
 		wareHouse.addStoredResource(ResourceType.RS_FUR, 200);
 		wareHouse.setState(Building.State.Constructed);
 		wareHouse.setPositionWorld(originPosX - 2 * Settings.UNIT, originPoxY - 8 * Settings.UNIT);
+		wareHouse.setDestroyable(false);
 		EntityInfoCollector.getInstance(EntityInfoCollector.class).addBuilding(wareHouse);
 		CollisionDetector.getInstance(CollisionDetector.class).attachCollisionDetection(wareHouse);
 		Renderer.getInstance(Renderer.class).attachDrawScissor(wareHouse);
 		
+		wareHouse = (Warehouse) EntityFactory.createBuilding(BuildingType.WAREHOUSE);
+		wareHouse.addStoredResource(ResourceType.RS_WOOD, 2300);
+		wareHouse.setState(Building.State.Constructed);
+		wareHouse.setPositionWorld(originPosX - 5 * Settings.UNIT, originPoxY - 8 * Settings.UNIT);
+		EntityInfoCollector.getInstance(EntityInfoCollector.class).addBuilding(wareHouse);
+		CollisionDetector.getInstance(CollisionDetector.class).attachCollisionDetection(wareHouse);
+		Renderer.getInstance(Renderer.class).attachDrawScissor(wareHouse);
 		
 		Building lowCostHouse = EntityFactory.createBuilding(BuildingType.LOW_COST_HOUSE);
 		lowCostHouse.setState(Building.State.Constructed);
@@ -71,8 +80,18 @@ public class Driver extends SingletonPublisher<DriverListener> implements Applic
 		CollisionDetector.getInstance(CollisionDetector.class).attachCollisionDetection(lowCostHouse);
 		Renderer.getInstance(Renderer.class).attachDrawScissor(lowCostHouse);
 		
-
-//		Driver.getInstance(Driver.class).addListener((DriverListener) lowCostHouse);
+		Driver.getInstance(Driver.class).addListener((DriverListener) lowCostHouse);
+		
+		
+		Building apartmentHouse = EntityFactory.createBuilding(BuildingType.APARTMENT);
+		apartmentHouse.setState(Building.State.Constructed);
+		apartmentHouse.setPositionWorld(originPosX + 5 * Settings.UNIT, originPoxY);
+		EntityInfoCollector.getInstance(EntityInfoCollector.class).addBuilding(apartmentHouse);
+		CollisionDetector.getInstance(CollisionDetector.class).attachCollisionDetection(apartmentHouse);
+		Renderer.getInstance(Renderer.class).attachDrawScissor(apartmentHouse);
+		
+		Driver.getInstance(Driver.class).addListener((DriverListener) apartmentHouse);
+		
 //		
 //		AxisAlignedBoundingBox aabb = null;
 //		aabb = wareHouse.getAABBWorld(QuadTreeType.COLLISION);
@@ -186,6 +205,7 @@ public class Driver extends SingletonPublisher<DriverListener> implements Applic
 		CameraController.getInstance(CameraController.class);
 		Renderer.getInstance(Renderer.class);
 		CollisionDetector.getInstance(CollisionDetector.class);
+		Entity.initStatic();
 		TipsBillborad.init();
 		ParticleManager.init();
 	}

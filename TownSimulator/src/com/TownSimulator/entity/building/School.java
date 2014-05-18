@@ -23,7 +23,7 @@ public class School extends WorkableBuilding{
 	private SchoolViewWindow schoolViewWindow;
 	
 	public School(){
-		super("building_bar", BuildingType.SCHOOL,JobType.TEACHER);
+		super("building_school", BuildingType.SCHOOL,JobType.TEACHER);
 		currentStudentNum=0;
 		schoolViewWindow=(SchoolViewWindow)undockedWindow;
 	}
@@ -42,12 +42,16 @@ public class School extends WorkableBuilding{
 	public void addWorker(Man man) {
 		super.addWorker(man);
 		this.isTeacherWork=true;
+//		initStudents();
+		updateStudentNum();
 	}
 
 	@Override
 	public void removeWorker(Man man) {
 		super.removeWorker(man);
 		this.isTeacherWork=false;
+		removeStudents();
+		updateStudentNum();
 	}
 	
 	public boolean isTeacherWork(){
@@ -60,7 +64,13 @@ public class School extends WorkableBuilding{
 		
 		if(state==Building.State.Constructed){
 			World.getInstance(World.class).updateSchoolInfo();
-			initStudentNum();
+//			initStudents();
+//			Driver.getInstance(Driver.class).addListener(new DriverListenerBaseImpl(){
+//
+//				@Override
+//				public void update(float deltaTime) {
+//				}
+//			});
 		}
 	}
 	
@@ -82,6 +92,19 @@ public class School extends WorkableBuilding{
 		}
 	}
 	
+	public void removeStudents(){
+		List<Man> mansArray=EntityInfoCollector.getInstance(EntityInfoCollector.class).getAllMan();
+		for(Man man:mansArray){
+			if(man.getInfo().getSchool()==null){
+				continue;
+			}
+			if(man.getInfo().getSchool().equals(School.this)){
+				this.currentStudentNum--;
+				man.getInfo().setSchool(null);
+			}
+		}
+	}
+	
 	public boolean checkAgeInSchool(int age){
 		return (ManInfo.MIN_STUDENT_AGE<=age)&&(age<ManInfo.ADULT_AGE);
 	}
@@ -96,6 +119,10 @@ public class School extends WorkableBuilding{
 		super.updateViewWindow();
 		schoolViewWindow.updateStudentNum(this.currentStudentNum);
 	}
+	
+	public void updateStudentNum(){
+		schoolViewWindow.updateStudentNum(this.currentStudentNum);
+	}
 
 	public int getCurrentStudentNum() {
 		return currentStudentNum;
@@ -104,5 +131,18 @@ public class School extends WorkableBuilding{
 	public void changeCurrentStudentNum(int num) {
 		this.currentStudentNum++;
 		updateViewWindow();
+	}
+
+	@Override
+	public void setOpenJobCnt(int openJobCnt) {
+		super.setOpenJobCnt(openJobCnt);	
+	}
+
+	@Override
+	protected void workerLimitChanged(int limit) {
+		super.workerLimitChanged(limit);
+		this.isTeacherWork=false;
+		removeStudents();
+		updateStudentNum();	
 	}
 }

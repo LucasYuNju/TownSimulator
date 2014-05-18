@@ -37,14 +37,19 @@ public class Entity implements Drawable, QuadTreeManageble, Serializable{
 
 	protected static Entity selectedEntity = null;
 	protected boolean isSelected = false;
-	static
+	public static void initStatic()
 	{
+		selectedEntity = null;
+		
 		CollisionDetector.getInstance(CollisionDetector.class).addListener(new CollisionDetectorListener() {
 			
 			@Override
 			public void emptyTapped() {
 				if(selectedEntity != null)
+				{
 					selectedEntity.setSelected(false);
+					selectedEntity = null;
+				}
 			}
 		});
 	}
@@ -207,7 +212,7 @@ public class Entity implements Drawable, QuadTreeManageble, Serializable{
 			mListener.objBeTouchDown(this);
 			return true;
 		}
-		return false;
+		return true;
 	}
 	
 	public void detectTouchUp()
@@ -225,8 +230,11 @@ public class Entity implements Drawable, QuadTreeManageble, Serializable{
 	{
 		if(mListener != null)
 			mListener.objBeTapped(this);
-		setSelected(true);
+		
+		if(selectedEntity != null)
+			selectedEntity.setSelected(false);
 		selectedEntity = this;
+		setSelected(true);
 	}
 	
 	public void setCollisionAABBLocal(float minX, float minY, float maxX, float maxY)

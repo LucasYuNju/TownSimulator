@@ -57,6 +57,16 @@ public abstract class WorkableBuilding extends Building
 		}
 	}
 
+//	public int getMaxJobCnt() {
+//		return maxJobCnt;
+//	}
+
+	@Override
+	public void destroy() {
+		super.destroy();
+		fireWorker(workers.size);
+	}
+
 	public int getOpenJobCnt() {
 		return openJobCnt;
 	}

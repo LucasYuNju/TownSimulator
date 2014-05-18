@@ -31,6 +31,8 @@ public class HospitalViewWindow extends WorkableViewWindow {
 		addLabels();
 		addCloseButton();
 		addHeader();
+		
+		updateLayout();
 	}
 	
 	public void addLabels() {
