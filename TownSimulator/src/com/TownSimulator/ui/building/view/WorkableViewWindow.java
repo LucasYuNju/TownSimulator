@@ -1,14 +1,11 @@
 package com.TownSimulator.ui.building.view;
 
-import java.io.Serializable;
-
 import com.TownSimulator.entity.building.BuildingType;
 
 /**
  * 	支持WorkerGroupWindow及监听
  */
-public class WorkableViewWindow extends UndockedWindow implements Serializable{
-	private static final long serialVersionUID = 7232098349892246130L;
+public class WorkableViewWindow extends UndockedWindow {
 	protected WorkerGroup workerGroup;
 	
 	public WorkableViewWindow(BuildingType buildingType, int numAllowedWorker) {

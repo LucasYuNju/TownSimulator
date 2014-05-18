@@ -1,5 +1,8 @@
 package com.TownSimulator.entity.building;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.TownSimulator.ai.behaviortree.BehaviorTreeNode;
 import com.TownSimulator.ai.btnimpls.farmer.FarmerBTN;
 import com.TownSimulator.driver.Driver;
@@ -17,7 +20,6 @@ import com.TownSimulator.utility.AxisAlignedBoundingBox;
 import com.TownSimulator.utility.GameMath;
 import com.TownSimulator.utility.Settings;
 import com.TownSimulator.utility.quadtree.QuadTreeType;
-import com.badlogic.gdx.utils.Array;
 
 public class FarmHouse extends WorkableBuilding implements SelectBoxListener
 {
@@ -31,15 +33,13 @@ public class FarmHouse extends WorkableBuilding implements SelectBoxListener
 	private boolean bReapStart = false; 
 	private int reappedLandCnt;
 	private boolean bSowed;
-	private Array<FarmLand> farmLands;
+	private List<FarmLand> farmLands;
 	private AxisAlignedBoundingBox collisionAABBLocalWithLands;
 	private AxisAlignedBoundingBox collisionAABBWorldWithLands;
-	private FarmViewWindow farmWindow;
+	private transient FarmViewWindow farmWindow;
 	
 	public FarmHouse() {
 		super("building_farm_house", BuildingType.FARM_HOUSE, JobType.FARMER);
-		//undockedWindow.setSelectBoxListener(this);
-//		setSowCropType(CropType.Wheat);
 		initFarmLands();
 		
 		collisionAABBLocalWithLands = new AxisAlignedBoundingBox();
@@ -67,7 +67,7 @@ public class FarmHouse extends WorkableBuilding implements SelectBoxListener
 
 	private void initFarmLands()
 	{
-		farmLands = new Array<FarmLand>();
+		farmLands = new ArrayList<FarmLand>();
 		for (int i = 0; i < 9; i++) {
 			FarmLand farmLand = new FarmLand();
 			farmLands.add(farmLand);
@@ -96,14 +96,14 @@ public class FarmHouse extends WorkableBuilding implements SelectBoxListener
 	
 	private void cropGrow(float deltaTime)
 	{
-		if(workers.size == 0)
+		if(workers.size() == 0)
 			return;
 		
 		float efficiency = 0.0f;
 		for (Man man : workers) {
 			efficiency += man.getInfo().workEfficency;
 		}
-		efficiency /= workers.size;
+		efficiency /= workers.size();
 		efficiency = ManInfo.BASE_WORKEFFICIENCY + (efficiency - ManInfo.BASE_WORKEFFICIENCY) * MAN_EFFICENT_TRANS;
 		float timeSpeed = 365.0f / World.SecondPerYear;// day/second
 		float fullNeedDays = GameMath.lerp(9.0f * 30.0f, 6.0f * 30.0f, getCurWorkerCnt() / maxJobCnt);
@@ -126,7 +126,7 @@ public class FarmHouse extends WorkableBuilding implements SelectBoxListener
 		for (FarmLand land : farmLands) {
 			amount += land.getCurCropAmount();
 		}
-		float process = amount / (FarmLand.MAX_CROP_AMOUNT * farmLands.size);
+		float process = amount / (FarmLand.MAX_CROP_AMOUNT * farmLands.size());
 		farmWindow.updateProcessBar(process);
 	}
 	
@@ -170,7 +170,7 @@ public class FarmHouse extends WorkableBuilding implements SelectBoxListener
 		}
 	}
 
-	public Array<FarmLand> getFarmLands()
+	public List<FarmLand> getFarmLands()
 	{
 		return farmLands;
 	}
@@ -259,7 +259,7 @@ public class FarmHouse extends WorkableBuilding implements SelectBoxListener
 	
 	public void addSowedLand()
 	{
-		sowedLandCnt = Math.min(sowedLandCnt + 1, farmLands.size);
+		sowedLandCnt = Math.min(sowedLandCnt + 1, farmLands.size());
 	}
 	
 	public int getSowedLandCnt()
@@ -285,7 +285,7 @@ public class FarmHouse extends WorkableBuilding implements SelectBoxListener
 	
 	public void addReappedLand()
 	{
-		reappedLandCnt = Math.min(reappedLandCnt + 1, farmLands.size);
+		reappedLandCnt = Math.min(reappedLandCnt + 1, farmLands.size());
 	}
 	
 	public void clearReappedLandCnt()

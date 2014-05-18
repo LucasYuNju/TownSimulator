@@ -16,6 +16,7 @@ import com.TownSimulator.utility.Singleton;
 import com.TownSimulator.utility.quadtree.QuadTreeType;
 
 public class SeeADoctorBTN extends SequenceNode{
+	private static final long serialVersionUID = 7800595047323124796L;
 	private Man man;
 	
 	public SeeADoctorBTN(Man man) {
@@ -25,6 +26,8 @@ public class SeeADoctorBTN extends SequenceNode{
 
 	private void initSubNodes() {		
 		ActionNode seeADoctorNode = new ActionNode() {
+
+			private static final long serialVersionUID = -6422737239494273816L;
 
 			@Override
 			public ExecuteResult execute(float deltaTime) {

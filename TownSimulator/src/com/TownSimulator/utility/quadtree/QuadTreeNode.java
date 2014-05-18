@@ -6,7 +6,6 @@ import java.util.List;
 
 import com.TownSimulator.utility.AxisAlignedBoundingBox;
 import com.TownSimulator.utility.GameMath;
-import com.badlogic.gdx.utils.Array;
 
 public class QuadTreeNode implements Serializable{
 	private static final long serialVersionUID = -5005395474154683597L;
@@ -94,12 +93,12 @@ public class QuadTreeNode implements Serializable{
 		return detectIntersection(obj, null);
 	}
 	
-	public boolean detectIntersection(QuadTreeManageble obj, Array<QuadTreeManageble> collideObjs)
+	public boolean detectIntersection(QuadTreeManageble obj, List<QuadTreeManageble> collideObjs)
 	{
 		return detectIntersection(obj, collideObjs, null);
 	}
 	
-	public boolean detectIntersection(QuadTreeManageble obj, Array<QuadTreeManageble> collideObjs, Array<QuadTreeManageble> excludedObjs)
+	public boolean detectIntersection(QuadTreeManageble obj, List<QuadTreeManageble> collideObjs, List<QuadTreeManageble> excludedObjs)
 	{
 		return detectIntersection(obj.getAABBWorld(mType), collideObjs, excludedObjs);
 	}
@@ -110,12 +109,12 @@ public class QuadTreeNode implements Serializable{
 		return detectIntersection(aabb, null, null);
 	}
 	
-	public boolean detectIntersection(AxisAlignedBoundingBox aabb, Array<QuadTreeManageble> collideObjs)
+	public boolean detectIntersection(AxisAlignedBoundingBox aabb, List<QuadTreeManageble> collideObjs)
 	{
 		return detectIntersection(aabb, collideObjs, null);
 	}
 	
-	public boolean detectIntersection(AxisAlignedBoundingBox aabb, Array<QuadTreeManageble> collideObjs, Array<QuadTreeManageble> excludedObjs)
+	public boolean detectIntersection(AxisAlignedBoundingBox aabb, List<QuadTreeManageble> collideObjs, List<QuadTreeManageble> excludedObjs)
 	{
 		if( !GameMath.intersect(mAABB, aabb) )
 			return false;
@@ -125,12 +124,12 @@ public class QuadTreeNode implements Serializable{
 		if( mChildren[0] == null )
 		{
 			for (int i = 0; i < mObjs.size(); i++) {
-				if(excludedObjs != null && excludedObjs.contains(mObjs.get(i), false))
+				if(excludedObjs != null && excludedObjs.contains(mObjs.get(i)))
 					continue;
 				
 				if( GameMath.intersect(mObjs.get(i).getAABBWorld(mType), aabb) )
 				{
-					if(collideObjs != null && !collideObjs.contains(mObjs.get(i), false))
+					if(collideObjs != null && !collideObjs.contains(mObjs.get(i)))
 						collideObjs.add(mObjs.get(i));
 					bCollide = true;
 				}
@@ -153,12 +152,12 @@ public class QuadTreeNode implements Serializable{
 		return detectIntersection(x, y, null, null);
 	}
 	
-	public boolean detectIntersection(float x, float y, Array<QuadTreeManageble> collideObjs)
+	public boolean detectIntersection(float x, float y, List<QuadTreeManageble> collideObjs)
 	{
 		return detectIntersection(x, y, collideObjs, null);
 	}
 	
-	public boolean detectIntersection(float x, float y, Array<QuadTreeManageble> collideObjs, Array<QuadTreeManageble> excludedObjs)
+	public boolean detectIntersection(float x, float y, List<QuadTreeManageble> collideObjs, List<QuadTreeManageble> excludedObjs)
 	{
 		if( !GameMath.intersect(mAABB, x, y) )
 			return false;
@@ -168,12 +167,12 @@ public class QuadTreeNode implements Serializable{
 		if( mChildren[0] == null )
 		{
 			for (int i = 0; i < mObjs.size(); i++) {
-				if(excludedObjs != null && excludedObjs.contains(mObjs.get(i), false))
+				if(excludedObjs != null && excludedObjs.contains(mObjs.get(i)))
 					continue;
 				
 				if( GameMath.intersect(mObjs.get(i).getAABBWorld(mType), x, y) )
 				{
-					if(collideObjs != null && !collideObjs.contains(mObjs.get(i), false))
+					if(collideObjs != null && !collideObjs.contains(mObjs.get(i)))
 						collideObjs.add(mObjs.get(i));
 					bCollide = true;
 				}

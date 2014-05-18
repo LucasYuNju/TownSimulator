@@ -13,15 +13,14 @@ import com.TownSimulator.ui.building.view.WorkableViewWindow;
 import com.TownSimulator.utility.Singleton;
 
 public class Bar extends WorkableBuilding{
-	private static final long serialVersionUID = -4883075663741171391L;
 	//一年掉120幸福度，多消耗600粮食
 	public static final int HAPPINESS_POINTS_PER_WINE = 10;
 	private static final int WHEAT_PER_WINE = 50;
 	private static final int MAX_WINE_STORAGE = 10;
 	private static final int NUM_ALLOWED_WORKER = 2;
-	private BarViewWindow barViewWindow;
 	private int wineStorage;
 	private int wheatStorage;
+	private transient BarViewWindow barViewWindow;
 	
 	public Bar() {
 		super("building_bar", BuildingType.Bar, JobType.BARTENDER);

@@ -1,6 +1,7 @@
 package com.TownSimulator.ai.behaviortree;
 
 public class SequenceNode extends CompositeNode{
+	private static final long serialVersionUID = 1L;
 
 	@Override
 	public ExecuteResult execute(float deltaTime) {

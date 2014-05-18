@@ -1,7 +1,8 @@
 package com.TownSimulator.utility.quadtree;
 
+import java.util.List;
+
 import com.TownSimulator.utility.AxisAlignedBoundingBox;
-import com.badlogic.gdx.utils.Array;
 
 public class QuadTree {
 	private AxisAlignedBoundingBox	mManagedAABB;
@@ -25,12 +26,12 @@ public class QuadTree {
 		return mRoot.detectIntersection(obj);
 	}
 	
-	public boolean detectIntersection(QuadTreeManageble obj, Array<QuadTreeManageble> collideObjs)
+	public boolean detectIntersection(QuadTreeManageble obj, List<QuadTreeManageble> collideObjs)
 	{
 		return mRoot.detectIntersection(obj, collideObjs);
 	}
 	
-	public boolean detectIntersection(QuadTreeManageble obj, Array<QuadTreeManageble> collideObjs, Array<QuadTreeManageble> excludedObjs)
+	public boolean detectIntersection(QuadTreeManageble obj, List<QuadTreeManageble> collideObjs, List<QuadTreeManageble> excludedObjs)
 	{
 		return mRoot.detectIntersection(obj, collideObjs, excludedObjs);
 	}
@@ -40,12 +41,12 @@ public class QuadTree {
 		return mRoot.detectIntersection(aabb);
 	}
 	
-	public boolean detectIntersection(AxisAlignedBoundingBox aabb, Array<QuadTreeManageble> collideObjs)
+	public boolean detectIntersection(AxisAlignedBoundingBox aabb, List<QuadTreeManageble> collideObjs)
 	{
 		return mRoot.detectIntersection(aabb, collideObjs);
 	}
 	
-	public boolean detectIntersection(AxisAlignedBoundingBox aabb, Array<QuadTreeManageble> collideObjs, Array<QuadTreeManageble> excludedObjs)
+	public boolean detectIntersection(AxisAlignedBoundingBox aabb, List<QuadTreeManageble> collideObjs, List<QuadTreeManageble> excludedObjs)
 	{
 		return mRoot.detectIntersection(aabb, collideObjs, excludedObjs);
 	}
@@ -55,12 +56,12 @@ public class QuadTree {
 		return mRoot.detectIntersection(x, y);
 	}
 	
-	public boolean detectIntersection(float x, float y, Array<QuadTreeManageble> collideObjs)
+	public boolean detectIntersection(float x, float y, List<QuadTreeManageble> collideObjs)
 	{
 		return mRoot.detectIntersection(x, y, collideObjs);
 	}
 	
-	public boolean detectIntersection(float x, float y, Array<QuadTreeManageble> collideObjs, Array<QuadTreeManageble> excludedObjs)
+	public boolean detectIntersection(float x, float y, List<QuadTreeManageble> collideObjs, List<QuadTreeManageble> excludedObjs)
 	{
 		return mRoot.detectIntersection(x, y, collideObjs, excludedObjs);
 	}

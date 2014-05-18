@@ -16,6 +16,7 @@ import com.TownSimulator.utility.Singleton;
 import com.TownSimulator.utility.quadtree.QuadTreeType;
 
 public class DrinkBTN extends SequenceNode{
+	private static final long serialVersionUID = 5130801064184087015L;
 	private Man man;
 	
 	public DrinkBTN(Man man) {
@@ -25,6 +26,8 @@ public class DrinkBTN extends SequenceNode{
 	
 	private void initSubNodes() {
 		ConditionNode judgeDepressedNode = new ConditionNode() {
+			private static final long serialVersionUID = 2299976049705656346L;
+
 			@Override
 			public ExecuteResult execute(float deltaTime) {
 				if(man.getInfo().isDepressed()) {
@@ -35,6 +38,8 @@ public class DrinkBTN extends SequenceNode{
 		};
 		
 		ActionNode headForBarNode = new ActionNode() {
+			private static final long serialVersionUID = 2936435038993189629L;
+
 			@Override
 			public ExecuteResult execute(float deltaTime) {
 				if(man.getInfo().isDepressed()) {

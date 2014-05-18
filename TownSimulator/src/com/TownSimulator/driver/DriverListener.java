@@ -1,7 +1,8 @@
 package com.TownSimulator.driver;
 
+import java.io.Serializable;
 
-public interface DriverListener {
+public interface DriverListener extends Serializable{
 	public void dispose();
 
 	public void resize(int width, int height);

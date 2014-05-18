@@ -1,19 +1,21 @@
 package com.TownSimulator.io;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.TownSimulator.utility.SingletonPublisher;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
-import com.badlogic.gdx.utils.Array;
 
 public class InputMgr extends SingletonPublisher<InputMgrListener> implements InputProcessor{
 	private float 					mPrevDraggedX = 0.0f;
 	private float 					mPrevDraggedY = 0.0f;
-	private Array<InputMgrListener>	mActiveListeners;
+	private List<InputMgrListener>	mActiveListeners;
 	private boolean					mCancelTouchDown = false;
 	
 	private InputMgr() {
 		Gdx.input.setInputProcessor(this);
-		mActiveListeners = new Array<InputMgrListener>();
+		mActiveListeners = new ArrayList<InputMgrListener>();
 	}
 	
 	public void cancelTouchDown()
@@ -26,7 +28,7 @@ public class InputMgr extends SingletonPublisher<InputMgrListener> implements In
 		mActiveListeners.clear();
 		mCancelTouchDown = false;
 		
-		for (int i = 0; i < mListeners.size; i++) {
+		for (int i = 0; i < mListeners.size(); i++) {
 			if(mCancelTouchDown)
 				break;
 			
@@ -40,7 +42,7 @@ public class InputMgr extends SingletonPublisher<InputMgrListener> implements In
 
 	@Override
 	public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-		for (int i = 0; i < mActiveListeners.size; i++) {
+		for (int i = 0; i < mActiveListeners.size(); i++) {
 			mActiveListeners.get(i).touchUp(screenX, screenY, pointer, button);
 		}
 		return true;
@@ -48,7 +50,7 @@ public class InputMgr extends SingletonPublisher<InputMgrListener> implements In
 
 	@Override
 	public boolean touchDragged(int screenX, int screenY, int pointer) {
-		for (int i = 0; i < mActiveListeners.size; i++) {
+		for (int i = 0; i < mActiveListeners.size(); i++) {
 			mActiveListeners.get(i).touchDragged(screenX, screenY, screenX - mPrevDraggedX, screenY - mPrevDraggedY, pointer);
 		}
 		mPrevDraggedX = screenX;
@@ -81,5 +83,4 @@ public class InputMgr extends SingletonPublisher<InputMgrListener> implements In
 	public boolean scrolled(int amount) {
 		return false;
 	}
-
 }

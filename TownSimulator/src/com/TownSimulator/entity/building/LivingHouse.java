@@ -12,7 +12,7 @@ public class LivingHouse extends Building{
 	private static final long serialVersionUID = 6577679479943487313L;
 	protected List<ManInfo> residents;
 	protected int capacity;
-	protected ScrollViewWindow scrollWindow;
+	protected transient ScrollViewWindow scrollWindow;
 	
 	public LivingHouse(String textureName, BuildingType type) {
 		super(textureName, type);

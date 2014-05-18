@@ -131,7 +131,7 @@ public class EntityInfoCollector extends Singleton
 		
 		WareHouseFindResult result = new WareHouseFindResult();
 		List<Building> allBuildings = getBuildings(BuildingType.WAREHOUSE);
-		Array<Warehouse> wareHouseWithRs = new Array<Warehouse>();
+		List<Warehouse> wareHouseWithRs = new ArrayList<Warehouse>();
 		double dstMin = -1.0f;
 		for (int i = 0; i < allBuildings.size(); i++) {
 			Building building = allBuildings.get(i);
@@ -157,7 +157,7 @@ public class EntityInfoCollector extends Singleton
 		dstMin = -1.0f;
 		if(result.wareHouse == null)
 		{
-			for (int i = 0; i < wareHouseWithRs.size; i++) {
+			for (int i = 0; i < wareHouseWithRs.size(); i++) {
 				Warehouse wareHouse = wareHouseWithRs.get(i);
 				double dst = 	Math.pow(wareHouse.getPositionXWorld() - x, 2)
 							+	Math.pow(wareHouse.getPositionYWorld() - y, 2);

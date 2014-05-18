@@ -9,6 +9,7 @@ import com.TownSimulator.entity.building.Building;
 import com.TownSimulator.entity.building.WorkableBuilding;
 
 public class FindJobBTN extends ActionNode{
+	private static final long serialVersionUID = -3603187264907570028L;
 	private Man man;
 	
 	public FindJobBTN(Man man)

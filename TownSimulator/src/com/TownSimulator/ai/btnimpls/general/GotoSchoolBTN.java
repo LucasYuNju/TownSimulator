@@ -12,7 +12,7 @@ import com.TownSimulator.entity.World;
 import com.TownSimulator.entity.building.School;
 
 public class GotoSchoolBTN extends SequenceNode{
-	
+	private static final long serialVersionUID = 680186532221255950L;
 	private Man man;
 	private float acountTime;
 	
@@ -25,7 +25,8 @@ public class GotoSchoolBTN extends SequenceNode{
 	public void init(){
 		
 		ConditionNode judgeAgeNode=new ConditionNode() {
-			
+			private static final long serialVersionUID = 6609696691194948032L;
+
 			@Override
 			public ExecuteResult execute(float deltaTime) {
 				// TODO Auto-generated method stub
@@ -37,10 +38,10 @@ public class GotoSchoolBTN extends SequenceNode{
 		};
 		
 		ConditionNode judgeSchoolInfoNode=new ConditionNode() {
-			
+			private static final long serialVersionUID = 2190149705073170712L;
+
 			@Override
 			public ExecuteResult execute(float deltaTime) {
-				// TODO Auto-generated method stub
 				if(man.getInfo().getSchool()==null){
 					return ExecuteResult.FALSE;
 				}
@@ -50,7 +51,8 @@ public class GotoSchoolBTN extends SequenceNode{
 		
 		//判读老师
 		ConditionNode judgeTeacherNode=new ConditionNode() {
-			
+			private static final long serialVersionUID = -837845211936650938L;
+
 			@Override
 			public ExecuteResult execute(float deltaTime) {
 				// TODO Auto-generated method stub
@@ -62,10 +64,10 @@ public class GotoSchoolBTN extends SequenceNode{
 		};
 		
 		ActionNode gotoSchoolNode=new ActionNode() {
-			
+			private static final long serialVersionUID = -2334260871309999613L;
+
 			@Override
 			public ExecuteResult execute(float deltaTime) {
-				// TODO Auto-generated method stub
 				gotoSchool(deltaTime);
 				return ExecuteResult.TRUE;
 			}

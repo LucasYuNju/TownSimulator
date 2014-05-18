@@ -18,6 +18,7 @@ import com.TownSimulator.entity.building.BuildingType;
 import com.TownSimulator.entity.building.Warehouse;
 
 public class FindFoodBTN extends SequenceNode{
+	private static final long serialVersionUID = -8094438260314688051L;
 	private Man man;
 	private static final float EAT_TIME_INTERVAL = 2.0f;
 	private static final float EAT_HUNGER_INCRE = ManInfo.HUNGER_POINTS_MAX / 3.0f; // points per eat
@@ -109,7 +110,8 @@ public class FindFoodBTN extends SequenceNode{
 	private void init()
 	{
 		ConditionNode judgeHunger = new ConditionNode() {
-			
+			private static final long serialVersionUID = 4240505630853456300L;
+
 			@Override
 			public ExecuteResult execute(float deltaTime) {
 				if(man.getInfo().hungerPoints <= ManInfo.HUNGER_POINTS_FIND_FOOD)
@@ -120,7 +122,8 @@ public class FindFoodBTN extends SequenceNode{
 		};
 		
 		ConditionNode judgeEatStart = new ConditionNode() {
-			
+			private static final long serialVersionUID = 1903131165680558561L;
+
 			@Override
 			public ExecuteResult execute(float deltaTime) {
 				if(eatStart)
@@ -131,7 +134,8 @@ public class FindFoodBTN extends SequenceNode{
 		};
 		
 		ConditionNode judgeFoodEnough = new ConditionNode() {
-			
+			private static final long serialVersionUID = -7214949841590559813L;
+
 			@Override
 			public ExecuteResult execute(float deltaTime) {
 				if(ResourceInfoCollector.getInstance(ResourceInfoCollector.class).getFoodAmount()
@@ -143,7 +147,8 @@ public class FindFoodBTN extends SequenceNode{
 		};
 		
 		ActionNode findFoodExecute = new ActionNode() {
-			
+			private static final long serialVersionUID = -3899259049898646355L;
+
 			@Override
 			public ExecuteResult execute(float deltaTime) {
 				findFood(deltaTime);

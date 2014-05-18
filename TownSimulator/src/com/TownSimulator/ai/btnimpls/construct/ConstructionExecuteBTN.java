@@ -10,6 +10,7 @@ import com.TownSimulator.utility.quadtree.QuadTreeType;
 import com.badlogic.gdx.math.Vector2;
 
 public class ConstructionExecuteBTN extends ActionNode{
+	private static final long serialVersionUID = 1L;
 	public static final float		BUILD_CONTRIBUTE_SPPED = 0.4f;
 	private Man			mMan;
 	

@@ -19,6 +19,8 @@ public class FellingHouse extends WorkableBuilding {
 	public FellingHouse() {
 		super("building_felling_house", BuildingType.FELLING_HOUSE, JobType.LUMERJACK);
 		renderListener = new RendererListener() {
+			private static final long serialVersionUID = 9068085887350831160L;
+
 			@Override
 			public void renderEnded() {
 			}
@@ -32,15 +34,11 @@ public class FellingHouse extends WorkableBuilding {
 		Renderer.getInstance(Renderer.class).addListener(renderListener);
 	}
 	
-	
-	
 	@Override
 	public void destroy() {
 		super.destroy();
 		Renderer.getInstance(Renderer.class).removeListener(renderListener);
 	}
-
-
 
 	private void drawRange()
 	{

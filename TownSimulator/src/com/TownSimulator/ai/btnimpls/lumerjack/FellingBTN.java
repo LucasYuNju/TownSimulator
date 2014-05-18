@@ -1,5 +1,8 @@
 package com.TownSimulator.ai.btnimpls.lumerjack;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.TownSimulator.ai.behaviortree.ConditionNode;
 import com.TownSimulator.ai.behaviortree.ExecuteResult;
 import com.TownSimulator.ai.behaviortree.SelectorNode;
@@ -11,10 +14,10 @@ import com.TownSimulator.entity.building.FellingHouse;
 import com.TownSimulator.utility.AxisAlignedBoundingBox;
 import com.TownSimulator.utility.Settings;
 import com.TownSimulator.utility.quadtree.QuadTreeManageble;
-import com.badlogic.gdx.utils.Array;
 
 
 public class FellingBTN extends SequenceNode{
+	private static final long serialVersionUID = -2615924067064216179L;
 	private Man man;
 	FellingInfo fellingInfo;
 	
@@ -35,7 +38,7 @@ public class FellingBTN extends SequenceNode{
 		range.minY = (originGridY - FellingHouse.RANGE) * Settings.UNIT;
 		range.maxX = (originGridX + FellingHouse.RANGE + 1) * Settings.UNIT;
 		range.maxY = (originGridY + FellingHouse.RANGE + 1) * Settings.UNIT;
-		Array<QuadTreeManageble> objs = new Array<QuadTreeManageble>();
+		List<QuadTreeManageble> objs = new ArrayList<QuadTreeManageble>();
 		CollisionDetector.getInstance(CollisionDetector.class).detect(range, objs);
 		for (QuadTreeManageble obj : objs) {
 			if(obj instanceof Tree)
@@ -56,7 +59,8 @@ public class FellingBTN extends SequenceNode{
 	private void init()
 	{
 		ConditionNode judgeCuttingStart = new ConditionNode() {
-			
+			private static final long serialVersionUID = -3867986924289300438L;
+
 			@Override
 			public ExecuteResult execute(float deltaTime) {
 				if(fellingInfo.fellingTree == null)
@@ -67,7 +71,8 @@ public class FellingBTN extends SequenceNode{
 		};
 		
 		ConditionNode findAvailableTree = new ConditionNode() {
-			
+			private static final long serialVersionUID = 817480927428431505L;
+
 			@Override
 			public ExecuteResult execute(float deltaTime) {
 				fellingInfo.fellingTree = findAvailableTree();

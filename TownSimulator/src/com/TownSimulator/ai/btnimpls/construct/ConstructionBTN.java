@@ -9,6 +9,7 @@ import com.TownSimulator.entity.Man;
 import com.TownSimulator.entity.ManInfo;
 
 public class ConstructionBTN extends SequenceNode{
+	private static final long serialVersionUID = 1L;
 	private Man		mMan;
 	
 	public ConstructionBTN(Man man) {
@@ -30,7 +31,7 @@ public class ConstructionBTN extends SequenceNode{
 		};
 		
 		ConditionNode constructProj = new ConditionNode() {
-			
+			private static final long serialVersionUID = 1L;
 			private ConstructionProject findAvailableProj()
 			{
 				for (ConstructionProject proj : EntityInfoCollector.getInstance(EntityInfoCollector.class).getAllConstructProjs()) {
@@ -61,7 +62,8 @@ public class ConstructionBTN extends SequenceNode{
 		};
 		
 		ConditionNode judgeTransport = new ConditionNode() {
-			
+			private static final long serialVersionUID = 1L;
+
 			@Override
 			public ExecuteResult execute(float deltaTime) {
 				if(mMan.getInfo().constructionInfo.bCancel == false)
@@ -82,7 +84,8 @@ public class ConstructionBTN extends SequenceNode{
 		};
 		
 		ConditionNode judgeUnfinish = new ConditionNode() {
-			
+			private static final long serialVersionUID = 1L;
+	
 			@Override
 			public ExecuteResult execute(float deltaTime) {
 				if(mMan.getInfo().constructionInfo.proj.isFinished() || mMan.getInfo().constructionInfo.bCancel)
@@ -103,20 +106,5 @@ public class ConstructionBTN extends SequenceNode{
 					);
 		
 	}
-	
-	
-	
-//	private void startProj()
-//	{
-//		mMan.getInfo().bIdle = false;
-//	}
-
-//	@Override
-//	public ExcuteResult execute(float deltaTime) {
-//		//if(mMan.getInfo().constructionInfo.proj == null)
-//		//	startProj();
-//		
-//		return super.execute(deltaTime);
-//	}
 
 }

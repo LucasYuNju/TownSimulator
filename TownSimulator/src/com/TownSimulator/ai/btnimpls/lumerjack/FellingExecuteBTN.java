@@ -15,6 +15,7 @@ import com.TownSimulator.utility.quadtree.QuadTreeType;
 import com.badlogic.gdx.math.Vector2;
 
 public class FellingExecuteBTN extends ActionNode{
+	private static final long serialVersionUID = -3010511761059974672L;
 	public static int FELLING_CNT = 4;// 每砍FELLING_CNT次获取一次木材
 	public float fellingInterval = 2.0f;
 	public float fellingAccum = 0.0f;
@@ -29,7 +30,8 @@ public class FellingExecuteBTN extends ActionNode{
 		this.fellingInfo = fellingInfo;
 		
 		workAnimeListener = new AnimationListener() {
-			
+			private static final long serialVersionUID = 2768734776856527791L;
+
 			@Override
 			public void frameChanged(int curFrameIndex) {
 				if(curFrameIndex == 1 && FellingExecuteBTN.this.fellingInfo.fellingTree != null)

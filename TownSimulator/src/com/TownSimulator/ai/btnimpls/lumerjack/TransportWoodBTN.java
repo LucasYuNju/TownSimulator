@@ -15,6 +15,7 @@ import com.TownSimulator.utility.quadtree.QuadTreeType;
 import com.badlogic.gdx.graphics.Color;
 
 public class TransportWoodBTN extends ActionNode{
+	private static final long serialVersionUID = 1L;
 	private Man man;
 	private FellingInfo fellingInfo;
 	//private Warehouse warehouse;

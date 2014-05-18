@@ -20,7 +20,7 @@ public class School extends WorkableBuilding{
 	private boolean isTeacherWork;
 	public static final int SingleSchoolStudentNum=30;
 	private int currentStudentNum;
-	private SchoolViewWindow schoolViewWindow;
+	private transient SchoolViewWindow schoolViewWindow;
 	
 	public School(){
 		super("building_school", BuildingType.SCHOOL,JobType.TEACHER);

@@ -1,5 +1,8 @@
 package com.TownSimulator.ui.building.selector;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.TownSimulator.entity.building.BuildingType;
 import com.TownSimulator.ui.building.selector.BuildComsCategoryButton.BuildComsCategoryButtonListener;
 import com.TownSimulator.ui.screen.GameScreenUI;
@@ -8,14 +11,14 @@ import com.TownSimulator.utility.GameMath;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
-import com.badlogic.gdx.utils.Array;
 
 public class BuildComsUI extends Group {
+
 	public 	static 	float							BUTTON_WIDTH  			= GameScreenUI.BUTTON_WIDTH;
 	public 	static 	float							BUTTON_HEIGHT 			= GameScreenUI.BUTTON_HEIGHT;
 	public 	static 	float							BUTTON_TOP_MARGIN 		= GameScreenUI.BUTTON_LABEL_HEIGHT;
 	public 	static 	float							BUTTONS_H_MARGIN 		= GameScreenUI.BUTTONS_H_MARGIN;
-	private 		Array<BuildComsCategoryButton> 					mBuildButtonsList;
+	private 		List<BuildComsCategoryButton> 					mBuildButtonsList;
 	private 		BuildComsCategoryButton			mInitButton;
 	private			BuildComsUIListener listener;
 	
@@ -34,7 +37,7 @@ public class BuildComsUI extends Group {
 	
 	public BuildComsUI()
 	{
-		mBuildButtonsList = new Array<BuildComsCategoryButton>();
+		mBuildButtonsList = new ArrayList<BuildComsCategoryButton>();
 		mCurState = State.FOLD;
 		initComponents();
 	}
@@ -80,13 +83,13 @@ public class BuildComsUI extends Group {
 //		saveButton.setVisible(false);
 //		mBuildButtonsList.add(saveButton);
 		
-		for (int i = 0; i < mBuildButtonsList.size; i++) {
+		for (int i = 0; i < mBuildButtonsList.size(); i++) {
 			mBuildButtonsList.get(i).setColor(1.0f, 1.0f, 1.0f, 0.0f);
 			addActor(mBuildButtonsList.get(i));
 			mBuildButtonsList.get(i).setListener(catgogryListner);
 		}
 		
-		setSize((mBuildButtonsList.size + 1) * BUTTON_WIDTH + mBuildButtonsList.size * BUTTONS_H_MARGIN, BUTTON_HEIGHT + BUTTON_TOP_MARGIN);
+		setSize((mBuildButtonsList.size() + 1) * BUTTON_WIDTH + mBuildButtonsList.size() * BUTTONS_H_MARGIN, BUTTON_HEIGHT + BUTTON_TOP_MARGIN);
 		mInitButton.setPosition(getWidth() - mInitButton.getWidth(), 0.0f);
 		
 		mInitButton.addListener(new InputListener()
@@ -112,7 +115,7 @@ public class BuildComsUI extends Group {
 				{
 					mCurState = State.UNFLODING;
 					float startPosX = BuildComsUI.this.getWidth() - BUTTON_WIDTH;
-					for (int i = 0; i < mBuildButtonsList.size; i++) {
+					for (int i = 0; i < mBuildButtonsList.size(); i++) {
 						mBuildButtonsList.get(i).setVisible(true);
 						mBuildButtonsList.get(i).setPosition(startPosX, 0.0f);
 					}
@@ -166,7 +169,7 @@ public class BuildComsUI extends Group {
 		float lerpX = GameMath.lerp(startPosX, finalPosX, mLerpParam);
 		mInitButton.setPosition(lerpX, 0.0f);
 		
-		for (int i = 0; i < mBuildButtonsList.size; i++) {
+		for (int i = 0; i < mBuildButtonsList.size(); i++) {
 			startPosX = getWidth() - BUTTON_WIDTH;
 			finalPosX = (i + 1) * (BUTTON_WIDTH + BUTTONS_H_MARGIN);
 			lerpX = GameMath.lerp(startPosX, finalPosX, mLerpParam);

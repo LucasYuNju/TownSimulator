@@ -21,7 +21,7 @@ import com.badlogic.gdx.graphics.Color;
 public class Warehouse extends Building {
 	private static final long serialVersionUID = -1934873980764058889L;
 	private List<Resource> storedResources;
-	protected ScrollViewWindow scrollWindow;
+	protected transient ScrollViewWindow scrollWindow;
 	
 	public Warehouse() {
 		super("building_warehouse", BuildingType.WAREHOUSE);

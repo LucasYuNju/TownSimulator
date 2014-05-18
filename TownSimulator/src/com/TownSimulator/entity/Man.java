@@ -1,5 +1,7 @@
 package com.TownSimulator.entity;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.util.HashMap;
 import java.util.Iterator;
 
@@ -23,9 +25,9 @@ public class Man extends Entity{
 	private static final 	float						STATE_ICON_WIDTH = Settings.UNIT * 0.4f;
 	private static final 	float						STATE_ICON_HEIGHT = Settings.UNIT * 0.4f;
 	private static final 	float						STATE_ICON_UP_OFFSET = Settings.UNIT * 0.2f;
-	private					HashMap<ManStateType, Sprite> 		mStatesIcons;
-	private 				HashMap<ManAnimeType, Animation> 	mAnimesMap;
-	private 				HashMap<ManAnimeType, Animation> 	mAnimesMapFlipped;
+	private	transient		HashMap<ManStateType, Sprite> 		mStatesIcons;
+	private transient		HashMap<ManAnimeType, Animation> 	mAnimesMap;
+	private transient		HashMap<ManAnimeType, Animation> 	mAnimesMapFlipped;
 	private 				Vector2						mMoveDir;
 	private 				Vector2						mDestination;
 	private					float						mMoveTime;
@@ -101,14 +103,11 @@ public class Man extends Entity{
 	private void initInfo()
 	{
 		mInfo = new ManInfo();
-		//mInfo.animeType = ManAnimeType.STANDING;
-		//mInfo.animeFlip = false;
 	}
 	
 	private void initStatesIcons()
 	{
 		mStatesIcons = new HashMap<ManStateType, Sprite>();
-		
 		for(ManStateType state : ManStateType.values() )
 		{
 			mStatesIcons.put(state, ResourceManager.getInstance(ResourceManager.class).createSprite(state.getIconTex()));
@@ -143,12 +142,6 @@ public class Man extends Entity{
 		{
 			ManAnimeType key = itr.next();
 			Animation anime = mAnimesMap.get(key);
-//			Animation animeFlip = new Animation();
-//			for (AnimeFrame frame : anime.getFrames()) {
-//				Sprite spFlip = new Sprite(sp);
-//				spFlip.flip(true, false);
-//				animeFlip.addFrame(spFlip);
-//			}
 			mAnimesMapFlipped.put(key, anime.flip());
 		}
 	}
@@ -188,7 +181,6 @@ public class Man extends Entity{
 	}
 	
 	private void checkAgeEvent(int newAge) {
-		// TODO Auto-generated method stub
 		switch (newAge) {
 		case 5:
 			School school=EntityInfoCollector.getInstance(EntityInfoCollector.class).
@@ -302,5 +294,12 @@ public class Man extends Entity{
 			anime = mAnimesMap.get(mInfo.animeType);
 		anime.update(deltaTime);
 		setSprite(anime.getCurSprite());
+	}
+	
+	@Override
+	protected void readObject(ObjectInputStream s) throws ClassNotFoundException, IOException {
+		super.readObject(s);
+		initStatesIcons();
+		initAnimes();
 	}
 }

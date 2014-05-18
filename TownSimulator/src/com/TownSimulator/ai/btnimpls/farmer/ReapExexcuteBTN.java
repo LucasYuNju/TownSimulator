@@ -17,6 +17,7 @@ import com.TownSimulator.utility.quadtree.QuadTreeType;
 import com.badlogic.gdx.graphics.Color;
 
 public class ReapExexcuteBTN extends ActionNode{
+	private static final long serialVersionUID = 1L;
 	private Man man;
 	private static final float REAP_TIME_PER_LAND = 2.0f;
 	private float timeAccum = 0.0f;
@@ -86,10 +87,9 @@ public class ReapExexcuteBTN extends ActionNode{
 					originX,
 					originY, Color.WHITE);
 			
-			if( farmHouse.getReappedLandCnt() >= farmHouse.getFarmLands().size )
+			if( farmHouse.getReappedLandCnt() >= farmHouse.getFarmLands().size() )
 				reapFinish();
 		}
-		
 	}
 	
 	@Override

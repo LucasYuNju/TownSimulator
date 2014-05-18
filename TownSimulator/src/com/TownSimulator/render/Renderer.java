@@ -1,5 +1,8 @@
 package com.TownSimulator.render;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.TownSimulator.camera.CameraController;
 import com.TownSimulator.collision.CollisionDetector;
 import com.TownSimulator.driver.Driver;
@@ -20,7 +23,7 @@ import com.badlogic.gdx.utils.Array;
 public class Renderer extends SingletonPublisher<RendererListener>{
 	private RenderBatch		   		mRenderBatch;
 	private	QuadTree				mDrawScissor;
-	private	Array<Grid> 			mGridIdleList;
+	private	List<Grid> 			mGridIdleList;
 //	private HashMap<String, GroundDrawContainer> mGroundDrawMap;
 	private boolean 				mbDrawGrid = false;
 	private	int						allocIndex = 0;
@@ -30,7 +33,7 @@ public class Renderer extends SingletonPublisher<RendererListener>{
 	{
 		mRenderBatch = new RenderBatch();
 		mDrawScissor = new QuadTree(QuadTreeType.DRAW, 0.0f, 0.0f, Map.MAP_WIDTH * Settings.UNIT, Map.MAP_HEIGHT * Settings.UNIT);
-		mGridIdleList = new Array<Grid>();
+		mGridIdleList = new ArrayList<Grid>();
 //		mGroundDrawMap = new HashMap<String, GroundDrawContainer>();
 		
 		Driver.getInstance(Driver.class).addListener(new DriverListenerBaseImpl()
@@ -54,9 +57,9 @@ public class Renderer extends SingletonPublisher<RendererListener>{
 		obj.dettachQuadTree(QuadTreeType.DRAW);
 	}
 	
-	public Array<QuadTreeManageble> getVisibleEntities(AxisAlignedBoundingBox scissor)
+	public List<QuadTreeManageble> getVisibleEntities(AxisAlignedBoundingBox scissor)
 	{
-		Array<QuadTreeManageble> entities = new Array<QuadTreeManageble>();
+		List<QuadTreeManageble> entities = new ArrayList<QuadTreeManageble>();
 		mDrawScissor.detectIntersection(scissor, entities);
 		return entities;
 	}
@@ -76,7 +79,7 @@ public class Renderer extends SingletonPublisher<RendererListener>{
 	{
 		CameraController.getInstance(CameraController.class).updateCamera();
 		
-		for (int i = 0; i < mListeners.size; i++) {
+		for (int i = 0; i < mListeners.size(); i++) {
 			mListeners.get(i).renderBegined();
 		}
 	}
@@ -95,7 +98,7 @@ public class Renderer extends SingletonPublisher<RendererListener>{
 //			mGroundDrawMap.get(key).reset();
 //		}
 		
-		for (int i = 0; i < mListeners.size; i++) {
+		for (int i = 0; i < mListeners.size(); i++) {
 			mListeners.get(i).renderEnded();
 		}
 	}
@@ -112,9 +115,9 @@ public class Renderer extends SingletonPublisher<RendererListener>{
 	{
 		//renderGround();
 		
-		Array<QuadTreeManageble> renderList = new Array<QuadTreeManageble>();
+		List<QuadTreeManageble> renderList = new ArrayList<QuadTreeManageble>();
 		mDrawScissor.detectIntersection(CameraController.getInstance(CameraController.class).getCameraViewAABB(), renderList);
-		for (int i = 0; i < renderList.size; i++) {
+		for (int i = 0; i < renderList.size(); i++) {
 			draw((Drawable) renderList.get(i));
 		}
 		
@@ -134,7 +137,7 @@ public class Renderer extends SingletonPublisher<RendererListener>{
 	
 	public Grid allocGrid()
 	{
-		if(allocIndex >= mGridIdleList.size)
+		if(allocIndex >= mGridIdleList.size())
 		{
 			Grid grid = new Grid();
 			mGridIdleList.add( grid );
@@ -200,19 +203,19 @@ public class Renderer extends SingletonPublisher<RendererListener>{
 	
 	class GroundDrawContainer
 	{
-		private Array<GroundDraw> draws;
+		private List<GroundDraw> draws;
 		private int allocIndex = 0;
 		private String textureName;
 		
 		public GroundDrawContainer(String textureName)
 		{
-			draws = new Array<GroundDraw>();
+			draws = new ArrayList<GroundDraw>();
 			this.textureName = textureName;
 		}
 		
 		public GroundDraw alloc()
 		{
-			if(allocIndex >= draws.size)
+			if(allocIndex >= draws.size())
 				draws.add(new GroundDraw(textureName));
 			
 			return draws.get(allocIndex++);

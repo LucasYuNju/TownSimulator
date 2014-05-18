@@ -3,6 +3,7 @@ package com.TownSimulator.map;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
@@ -19,8 +20,8 @@ import com.TownSimulator.utility.Singleton;
 import com.TownSimulator.utility.quadtree.QuadTreeManageble;
 import com.TownSimulator.utility.simplex.SimplexNoise;
 
-public class Map extends Singleton {
-//	private static final long serialVersionUID = 6800548250214016876L;
+public class Map extends Singleton implements Serializable{
+	private static final long serialVersionUID = 6800548250214016876L;
 	public static final int				MAP_WIDTH = 256;
 	public static final int				MAP_HEIGHT = 256;
 	private float[][] 					mNoiseMap;

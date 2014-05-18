@@ -9,7 +9,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.Align;
 
 public class BarViewWindow extends WorkableViewWindow {
-	private static final long serialVersionUID = 51493800503569105L;
 	private Label wineStorageLabel;
 	private int wineStorage;
 	private int maxWineStorage;

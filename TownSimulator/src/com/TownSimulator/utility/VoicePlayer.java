@@ -1,23 +1,27 @@
 package com.TownSimulator.utility;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.TownSimulator.driver.Driver;
 import com.TownSimulator.driver.DriverListenerBaseImpl;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
-import com.badlogic.gdx.utils.Array;
 
 public class VoicePlayer extends Singleton{
 	private static Music bgmmusic;
-	private Array<MusicPlayItem> musicsList;
+	private List<MusicPlayItem> musicsList;
 	
 	private static String musicPath="voice/music/";
 	private static String soundPath="voice/sound/";
 	
 	private VoicePlayer(){
 		//playMusic("start.mp3");
-		musicsList=new Array<MusicPlayItem>();
+		musicsList=new ArrayList<MusicPlayItem>();
 		
 		Driver.getInstance(Driver.class).addListener(new DriverListenerBaseImpl(){
+
+			private static final long serialVersionUID = -8541432301860930074L;
 
 			@Override
 			public void update(float deltaTime) {
@@ -26,7 +30,6 @@ public class VoicePlayer extends Singleton{
 
 			@Override
 			public void dispose() {
-				// TODO Auto-generated method stub
 				VoicePlayer.this.dispose();
 			}
 			
@@ -85,7 +88,7 @@ public class VoicePlayer extends Singleton{
 				if(musicPlayItem.music!=null){
 					musicPlayItem.music.dispose();					
 				}
-				musicsList.removeValue(musicPlayItem, false);
+				musicsList.remove(musicPlayItem);
 			}
 		}
 	}

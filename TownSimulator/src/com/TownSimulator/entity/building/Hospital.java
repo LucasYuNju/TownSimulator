@@ -18,7 +18,7 @@ public class Hospital extends WorkableBuilding{
 	private static final int MAX_JOB_CNT = 2;
 	private static final int CAPACITY = 10;
 	private List<Man> patients;
-	protected HospitalViewWindow hospitalViewWindow;
+	protected transient HospitalViewWindow hospitalViewWindow;
 	
 	public Hospital() {
 		super("building_hospital", BuildingType.Hospital, JobType.BARTENDER);

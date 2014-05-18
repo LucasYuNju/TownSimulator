@@ -1,5 +1,8 @@
 package com.TownSimulator.ui.building.adjust;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.TownSimulator.ai.btnimpls.construct.ConstructionProject;
 import com.TownSimulator.camera.CameraController;
 import com.TownSimulator.camera.CameraListener;
@@ -24,7 +27,6 @@ import com.TownSimulator.utility.Singleton;
 import com.TownSimulator.utility.quadtree.QuadTreeManageble;
 import com.TownSimulator.utility.quadtree.QuadTreeType;
 import com.badlogic.gdx.math.Vector3;
-import com.badlogic.gdx.utils.Array;
 
 /**
  *控制建筑从点击建造图标到确认或取消的过程 
@@ -222,7 +224,7 @@ public class BuildingAdjustBroker extends Singleton implements EntityListener, C
 				destAABB.maxX = collsionAABB.maxX + moveDeltaX;
 				destAABB.maxY = collsionAABB.maxY + moveDeltaY;
 				
-				Array<QuadTreeManageble> excluded = new Array<QuadTreeManageble>();
+				List<QuadTreeManageble> excluded = new ArrayList<QuadTreeManageble>();
 				excluded.add(mCurBuilding);
 				if( !CollisionDetector.getInstance(CollisionDetector.class).detect(destAABB, null, excluded) )
 				{

@@ -1,9 +1,12 @@
 package com.TownSimulator.utility;
 
-import com.badlogic.gdx.utils.Array;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
-public class Publisher<T> {
-	protected Array<T> mListeners = new Array<T>();
+public class Publisher<T> implements Serializable{
+	private static final long serialVersionUID = -329905989975985190L;
+	protected List<T> mListeners = new ArrayList<T>();
 	
 	public void addListener(T value)
 	{
@@ -12,6 +15,6 @@ public class Publisher<T> {
 	
 	public void removeListener(T value)
 	{
-		mListeners.removeValue(value, false);
+		mListeners.remove(value);
 	}
 }

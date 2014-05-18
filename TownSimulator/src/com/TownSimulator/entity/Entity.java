@@ -12,6 +12,7 @@ import com.TownSimulator.render.Drawable;
 import com.TownSimulator.render.Renderer;
 import com.TownSimulator.utility.AxisAlignedBoundingBox;
 import com.TownSimulator.utility.ResourceManager;
+import com.TownSimulator.utility.Singleton;
 import com.TownSimulator.utility.quadtree.QuadTreeManageble;
 import com.TownSimulator.utility.quadtree.QuadTreeNode;
 import com.TownSimulator.utility.quadtree.QuadTreeType;
@@ -259,7 +260,6 @@ public class Entity implements Drawable, QuadTreeManageble, Serializable{
 		resetDrawAABBWorld();
 	}
 	
-	
 	public void translate(float deltaX, float deltaY)
 	{
 		setPositionWorld(mPosXWorld + deltaX, mPosYWorld + deltaY);//(mDrawAABBLocal.minX + deltaX, mDrawAABBLocal.minY + deltaY);
@@ -303,6 +303,8 @@ public class Entity implements Drawable, QuadTreeManageble, Serializable{
 	protected void readObject(ObjectInputStream s) throws ClassNotFoundException, IOException {
 		s.defaultReadObject();
 		Sprite sp = ResourceManager.getInstance(ResourceManager.class).createSprite(textureName);
+		Singleton.getInstance(CollisionDetector.class).attachCollisionDetection(this);
+		Singleton.getInstance(Renderer.class).attachDrawScissor(this);
 		setSprite(sp);
 	}
 }
