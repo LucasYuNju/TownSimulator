@@ -3,6 +3,7 @@ package com.TownSimulator.render;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.List;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Matrix4;
@@ -10,7 +11,7 @@ import com.badlogic.gdx.math.Matrix4;
 public class RenderBatch {
 	private Matrix4					mProjMatrix;
 	private SpriteBatch 			mSpriteBatch;
-	private ArrayList<Drawable> 		mRenderList;
+	private List<Drawable> 		mRenderList;
 	private Comparator<Drawable> 	mSortComparator;
 	
 	public RenderBatch()

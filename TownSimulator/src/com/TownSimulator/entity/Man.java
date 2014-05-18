@@ -18,6 +18,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 
 public class Man extends Entity{
+	private static final long serialVersionUID = -2009342658748170922L;
 	private static final 	float 						MOVE_SPEED = Settings.UNIT;
 	private static final 	float						STATE_ICON_WIDTH = Settings.UNIT * 0.4f;
 	private static final 	float						STATE_ICON_HEIGHT = Settings.UNIT * 0.4f;
@@ -39,7 +40,7 @@ public class Man extends Entity{
 	}
 	
 	public Man() {
-		super(ResourceManager.getInstance(ResourceManager.class).createSprite("pixar_man_1"));
+		super("pixar_man_1");
 		setDrawAABBLocal(0.0f, 0.0f, Settings.UNIT, Settings.UNIT);
 		setCollisionAABBLocal(0, 0, 0, 0);
 		
@@ -53,6 +54,7 @@ public class Man extends Entity{
 		
 		mDriverListener = new DriverListenerBaseImpl()
 		{
+			private static final long serialVersionUID = -2810927274650172968L;
 			private float dieElapseTime = 5.0f;
 			private float dieAccum = 0.0f;
 			

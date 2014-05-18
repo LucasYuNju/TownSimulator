@@ -8,6 +8,7 @@ import com.TownSimulator.entity.building.Bar;
 import com.TownSimulator.entity.building.LivingHouse;
 import com.TownSimulator.entity.building.School;
 import com.TownSimulator.entity.building.WorkableBuilding;
+import com.badlogic.gdx.Gdx;
 
 public class ManInfo {
 	public ManAnimeType 	animeType = ManAnimeType.STANDING;
@@ -38,7 +39,7 @@ public class ManInfo {
 	private static final float HEALTH_POINTS_MAX = 100;
 	public static final float HEALTH_POINTS_SICK = 40;				//住院
 	private static final float HEALTH_POINTS_HEALTHY = 70;			//出院
-	private static final float HEALTH_POINTS_INCREMENT = 0.005f;
+	private static final float HEALTH_POINTS_INCREMENT_PER_SECOND = 30 * 12 / World.SecondPerYear;
 
 	private static final float HAPPINESS_POINTS_MAX = 100;
 	public static final float HAPPINESS_POINTS_DEPRESSED = 40;		//去酒吧
@@ -94,8 +95,8 @@ public class ManInfo {
 		return healthPoints >= HEALTH_POINTS_HEALTHY;
 	}
 	
-	public void receiveTreatment() {
-		healthPoints += HEALTH_POINTS_INCREMENT;
+	public void receiveTreatment(float deltaTime) {
+		healthPoints += HEALTH_POINTS_INCREMENT_PER_SECOND * deltaTime;
 	}
 	
 	//默认减1
@@ -117,6 +118,7 @@ public class ManInfo {
 	
 	public void setAge(int newAge){
 		age=newAge;
+		
 	}
 	
 	public boolean isOldEnough(int age){
@@ -130,7 +132,6 @@ public class ManInfo {
 	public float getWorkEfficency(){
 		return workEfficency;
 	}
-	
 	
 	public void growWorkEfficency(float increaseNum){
 		this.workEfficency=Math.min(MAX_WORKEFFICENCY, workEfficency+increaseNum);
@@ -209,7 +210,7 @@ public class ManInfo {
 		list.add(getName());
 		list.add(getGender().toString());
 		list.add(getAge() + "");
-		list.add(getHealthPoints() + "");
+		list.add((int)getHealthPoints() + "");
 		return list;
 	}	
 	
@@ -235,21 +236,23 @@ public class ManInfo {
 		happinessPoints += HAPPINESS_POINTS_PER_WINE;
 		if(happinessPoints > HAPPINESS_POINTS_MAX)
 			happinessPoints = HAPPINESS_POINTS_MAX;
+		Gdx.app.log("happiness", "drink wine");
 	}
 	
 	private static final float HP_DECRE_PER_WORKLESS_SECOND = 75 / World.SecondPerYear;
 	/**
 	 * 调整幸福度的全部方法
 	 */
-	public void hpHomeless(float timeDelta) {
-		happinessPoints -= HP_DECRE_PER_WORKLESS_SECOND * timeDelta;
+	public void hpHomeless(float deltaTime) {
+		happinessPoints -= HP_DECRE_PER_WORKLESS_SECOND * deltaTime;
 		if (happinessPoints < 0) {
 			happinessPoints = 0;
 		}
+//		Gdx.app.log("happiness info", "hp:" + happinessPoints);
 	}
 
-	public void hpWorkless(float timeDelta) {
-		hpHomeless(timeDelta);
+	public void hpWorkless(float deltaTime) {
+		hpHomeless(deltaTime);
 	}
 
 	public void hpFindSomeHouse() {
@@ -258,31 +261,34 @@ public class ManInfo {
 			happinessPoints = HAPPINESS_POINTS_MAX;		
 	}
 	
-	public void hpResideInLowCostHouse(float timeDelta) {
-		hpHomeless(timeDelta/3);
+	public void hpResideInLowCostHouse(float deltaTime) {
+		hpHomeless(deltaTime/3);
 	}
 	
-	public void hpResideInApartment(float timeDelta) {
-		happinessPoints += HP_DECRE_PER_WORKLESS_SECOND * timeDelta / 3;
+	public void hpResideInApartment(float deltaTime) {
+		happinessPoints += HP_DECRE_PER_WORKLESS_SECOND * deltaTime / 3;
 		if (happinessPoints > HAPPINESS_POINTS_MAX) {
 			happinessPoints = HAPPINESS_POINTS_MAX;
 		}
 	}
 	
-	public void hpColdWinter(float timeDelta) {
-		hpHomeless(timeDelta);
+	//FIXME!
+	//暂时没被调用
+	public void hpColdWinter(float deltaTime) {
+		hpHomeless(deltaTime);
 	}
 	
 	/**
-	 * 每个月一次抽奖，生病的概率为1/24
+	 * 每个月一次抽奖，生病的概率为1/24 
 	 */
 	private float healthLotteryTime = 0;
-	public void hpDrawHealthLottery(float timeDelta) {
-		healthLotteryTime += timeDelta;
+	public void hpDrawHealthLottery(float deltaTime) {
+		healthLotteryTime += deltaTime;
 		if(healthLotteryTime > World.SecondPerYear / 24) {
 			healthLotteryTime = 0;
-			if(Math.random() < 1/24f && !isHealthy()) {
+			if(Math.random() < 1/24f && isHealthy()) {
 				healthPoints = HEALTH_POINTS_SICK;
+				Gdx.app.log("healthInfo", "got lottery! health points:" + healthPoints + " isHealthy:" + isHealthy());
 			}
 		}
 	}

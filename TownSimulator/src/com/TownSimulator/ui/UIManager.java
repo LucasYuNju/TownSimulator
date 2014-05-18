@@ -10,15 +10,14 @@ import com.TownSimulator.ui.screen.GameScreenUI;
 import com.TownSimulator.ui.screen.LoadingScreenUI;
 import com.TownSimulator.ui.screen.LoadingScreenUI.LoadingUIListener;
 import com.TownSimulator.ui.screen.StartScreenUI;
-import com.TownSimulator.ui.screen.StartScreenUI.StartUIListener;
+//github.com/LuciusYu/TownSimulator.git
 import com.TownSimulator.utility.Settings;
 import com.TownSimulator.utility.Singleton;
 import com.TownSimulator.utility.VoicePlayer;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 
-
-public class UIManager extends Singleton implements StartUIListener{
+public class UIManager extends Singleton {
 	private StartScreenUI 	mStartUI;
 	private LoadingScreenUI mLoadingUI;
 	private GameScreenUI	mGameUI;
@@ -27,7 +26,6 @@ public class UIManager extends Singleton implements StartUIListener{
 	private UIManager()
 	{
 		mStartUI = new StartScreenUI();
-		mStartUI.setListner(this);
 		
 		mLoadingUI = new LoadingScreenUI();
 		mLoadingUI.setListener(new LoadingUIListener() {
@@ -56,9 +54,8 @@ public class UIManager extends Singleton implements StartUIListener{
 			public void dispose() {
 				mStartUI.dispose();
 				mGameUI.dispose();
-				mInstaceMap.clear();
+				Singleton.clearInstanceMap();
 			}
-			
 		});
 		
 		InputMgr.getInstance(InputMgr.class).addListener(new InputMgrListenerBaseImpl()
@@ -99,20 +96,11 @@ public class UIManager extends Singleton implements StartUIListener{
 		return mStartUI;
 	}
 
-	@Override
 	public void startGame() 
 	{
 		mLoadingUI.startLoading();
 		mCurScreenUI = mLoadingUI;
-//		mCurScreenUI = mGameUI;
-//		Map.getInstance(Map.class).init(100);
-//		Renderer.getInstance(Renderer.class).setRenderScene(true);
-//		Driver.getInstance(Driver.class).init();
-//		World.getInstance(World.class).init();
-		
-		//VoicePlayer.getInstance(VoicePlayer.class).playMusic("game.mp3");
-
-
+//		VoicePlayer.getInstance(VoicePlayer.class).playMusic("game.mp3");
 	}
 
 	public void render()

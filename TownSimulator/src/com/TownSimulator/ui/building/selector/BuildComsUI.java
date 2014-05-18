@@ -4,6 +4,7 @@ import com.TownSimulator.entity.building.BuildingType;
 import com.TownSimulator.ui.building.selector.BuildComsCategoryButton.BuildComsCategoryButtonListener;
 import com.TownSimulator.ui.screen.GameScreenUI;
 import com.TownSimulator.utility.GameMath;
+//github.com/LuciusYu/TownSimulator.git
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
@@ -74,6 +75,10 @@ public class BuildComsUI extends Group {
 		buildInfrastruction.addBuild("button_build_coat_factory", "coat factory", BuildingType.COAT_FACTORY);
 		buildInfrastruction.setVisible(false);
 		mBuildButtonsList.add(buildInfrastruction);
+		
+//		BuildComsCategoryButton saveButton = new SaveButton();
+//		saveButton.setVisible(false);
+//		mBuildButtonsList.add(saveButton);
 		
 		for (int i = 0; i < mBuildButtonsList.size; i++) {
 			mBuildButtonsList.get(i).setColor(1.0f, 1.0f, 1.0f, 0.0f);

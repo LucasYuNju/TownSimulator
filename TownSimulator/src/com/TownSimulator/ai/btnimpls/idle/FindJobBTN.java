@@ -33,7 +33,7 @@ public class FindJobBTN extends ActionNode{
 				}
 			}
 		}
-		
+		man.getInfo().hpWorkless(deltaTime);
 		return ExecuteResult.FALSE;
 	}
 

@@ -8,16 +8,15 @@ import com.TownSimulator.ui.UIManager;
 import com.TownSimulator.ui.building.view.UndockedWindow;
 import com.TownSimulator.ui.building.view.WorkableViewWindow;
 import com.TownSimulator.ui.building.view.WorkerGroupListener;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.utils.Array;
 
 /**
- * 可以有人工作的建筑 
- *
+ * 可以在里面工作的建筑 
  */
 public abstract class WorkableBuilding extends Building
 	implements WorkerGroupListener
 {
+	private static final long serialVersionUID = 6233306744812110453L;
 	protected int maxJobCnt;
 	protected int openJobCnt;
 	protected JobType jobType;
@@ -30,21 +29,7 @@ public abstract class WorkableBuilding extends Building
 		this.maxJobCnt = getMaxJobCnt();
 		this.openJobCnt = maxJobCnt;//(int)(maxJobCnt * 0.5f);
 		workers = new Array<Man>();
-		//listenToViewWindow();
 	}
-	
-	public WorkableBuilding(Sprite sp, BuildingType type, JobType jobType) {
-		super(sp, type);
-		this.jobType = jobType;
-		this.maxJobCnt = getMaxJobCnt();
-		this.openJobCnt = maxJobCnt;
-		workers = new Array<Man>();
-		//listenToViewWindow();
-	}
-	
-//	private void listenToViewWindow() {
-//		workableWindow.setWorkerGroupListener(this);
-//	}
 	
 	@Override
 	final protected UndockedWindow createUndockedWindow() {
@@ -71,8 +56,6 @@ public abstract class WorkableBuilding extends Building
 			worker.setBehavior(new IdleBTN(worker));
 		}
 	}
-	
-	
 
 //	public int getMaxJobCnt() {
 //		return maxJobCnt;

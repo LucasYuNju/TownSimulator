@@ -9,7 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.Align;
 
-public class SchoolViewWindow extends WorkableViewWindow{
+public class SchoolViewWindow extends WorkableViewWindow {
 	private int currentStudentNum;
 	private int maxStudentNum;
 	private Label studentNumLabel;

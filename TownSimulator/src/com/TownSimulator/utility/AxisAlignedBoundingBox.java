@@ -1,6 +1,9 @@
 package com.TownSimulator.utility;
 
-public class AxisAlignedBoundingBox {
+import java.io.Serializable;
+
+public class AxisAlignedBoundingBox implements Serializable{
+	private static final long serialVersionUID = 2221515927091902881L;
 	public float minX;
 	public float minY;
 	public float maxX;

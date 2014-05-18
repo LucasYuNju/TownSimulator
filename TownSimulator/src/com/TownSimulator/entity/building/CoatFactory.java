@@ -18,6 +18,7 @@ import com.TownSimulator.utility.quadtree.QuadTreeType;
 import com.badlogic.gdx.graphics.Color;
 
 public class CoatFactory extends WorkableBuilding{
+	private static final long serialVersionUID = 5636509488927087926L;
 	private static final int 	MAX_JOB_CNT = 4;
 	private static final float 	PRODUCE_INTERVAL_TIME = 20.0f;
 	private static final int 	PRODUCE_FUR_PER_COAT = 4;
@@ -109,7 +110,7 @@ public class CoatFactory extends WorkableBuilding{
 				@Override
 				public void update(float deltaTime) {
 					if(EntityInfoCollector.getInstance(EntityInfoCollector.class)
-							.getBuildings(BuildingType.POWER_STATION).size <= 0)
+							.getBuildings(BuildingType.POWER_STATION).size() <= 0)
 					{
 						workTipsWindow.setTips("Need Power Station");
 						return;

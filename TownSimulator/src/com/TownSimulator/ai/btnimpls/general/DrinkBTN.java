@@ -1,5 +1,7 @@
 package com.TownSimulator.ai.btnimpls.general;
 
+import java.util.List;
+
 import com.TownSimulator.ai.behaviortree.ActionNode;
 import com.TownSimulator.ai.behaviortree.ConditionNode;
 import com.TownSimulator.ai.behaviortree.ExecuteResult;
@@ -12,7 +14,6 @@ import com.TownSimulator.entity.building.Building;
 import com.TownSimulator.entity.building.BuildingType;
 import com.TownSimulator.utility.Singleton;
 import com.TownSimulator.utility.quadtree.QuadTreeType;
-import com.badlogic.gdx.utils.Array;
 
 public class DrinkBTN extends SequenceNode{
 	private Man man;
@@ -46,7 +47,7 @@ public class DrinkBTN extends SequenceNode{
 						{
 							man.getInfo().animeType = ManAnimeType.STANDING;
 							if(bar.getWine()) {
-								man.getInfo().drinkWine();							
+								man.getInfo().drinkWine();					
 							}
 						}
 						else
@@ -63,7 +64,7 @@ public class DrinkBTN extends SequenceNode{
 	}
 	
 	public Bar getAvailableBar() {
-		Array<Building> bars = Singleton.getInstance(EntityInfoCollector.class).getBuildings(BuildingType.Bar);
+		List<Building> bars = Singleton.getInstance(EntityInfoCollector.class).getBuildings(BuildingType.Bar);
 		for(Building building : bars) {
 			Bar bar = (Bar)building;
 			if (bar.isAvailable()) {

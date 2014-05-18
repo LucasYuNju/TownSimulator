@@ -47,7 +47,6 @@ public class BuildComsCategoryButton extends IconLabelButton{
 					mButtonsGroup.setVisible(true);
 					mCurVisibleGroup = mButtonsGroup;
 				}
-				
 			}
 			
 		});

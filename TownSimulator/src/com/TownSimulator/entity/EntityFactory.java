@@ -1,5 +1,6 @@
 package com.TownSimulator.entity;
 
+import com.TownSimulator.entity.building.ApartmentHouse;
 import com.TownSimulator.entity.building.Bar;
 import com.TownSimulator.entity.building.Building;
 import com.TownSimulator.entity.building.BuildingType;
@@ -13,9 +14,8 @@ import com.TownSimulator.entity.building.Ranch;
 import com.TownSimulator.entity.building.School;
 import com.TownSimulator.entity.building.Warehouse;
 import com.TownSimulator.entity.building.Well;
-//github.com/LuciusYu/TownSimulator.git
-import com.TownSimulator.utility.ResourceManager;
 import com.TownSimulator.utility.Settings;
+//github.com/LuciusYu/TownSimulator.git
 
 public class EntityFactory {
 	
@@ -24,7 +24,7 @@ public class EntityFactory {
 		MapEntity obj = null;
 		switch (objType) {
 		case TREE:
-			obj = new MapEntity(ResourceManager.getInstance(ResourceManager.class).createSprite("map_tree"));
+			obj = new MapEntity("map_tree");
 			break;
 			
 		default:
@@ -41,10 +41,18 @@ public class EntityFactory {
 		float yDrawScale = 1.0f;
 		
 		switch (buildingType) {
-		case LOW_COST_HOUSE:
-			xGridSize = 2;
+		case APARTMENT:
+			xGridSize = 3;
 			yGridSize = 2;
-			yDrawScale = 1.0f;
+			yDrawScale = 1.5f;
+			building = new ApartmentHouse();
+			building.setNeededConstructionResource(ResourceType.RS_WOOD, 2000);
+			building.setNeededConstructionWork(20);
+			break;
+		case LOW_COST_HOUSE:
+			xGridSize = 3;
+			yGridSize = 2;
+			yDrawScale = 1.5f;
 			building = new LowCostHouse();
 			building.setNeededConstructionResource(ResourceType.RS_WOOD, 2000);
 			building.setNeededConstructionWork(20);

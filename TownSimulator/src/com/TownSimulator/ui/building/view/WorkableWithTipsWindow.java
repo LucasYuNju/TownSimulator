@@ -8,7 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.Align;
 
-public class WorkableWithTipsWindow extends WorkableViewWindow{
+public class WorkableWithTipsWindow extends WorkableViewWindow {
 	private Label tipsLabel;
 	
 	public WorkableWithTipsWindow(BuildingType buildingType,

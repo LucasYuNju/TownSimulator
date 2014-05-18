@@ -1,5 +1,7 @@
 package com.TownSimulator.ui.building.view;
 
+import java.io.Serializable;
+
 import com.TownSimulator.camera.CameraController;
 import com.TownSimulator.entity.building.BuildingType;
 import com.TownSimulator.entity.building.RanchAnimalType;
@@ -25,7 +27,8 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
  * workers
  * 
  */
-public class RanchViewWindow extends WorkableViewWindow{
+public class RanchViewWindow extends WorkableViewWindow implements Serializable{
+	private static final long serialVersionUID = -5650616935662255577L;
 	private SelectBox<String> dropDown;
 	//private ProcessBar processBar;
 	private TextureRegion buttonBackground;

@@ -14,6 +14,7 @@ import com.TownSimulator.ui.building.view.WorkableViewWindow;
 import com.TownSimulator.utility.Singleton;
 
 public class Hospital extends WorkableBuilding{
+	private static final long serialVersionUID = -8332826056929917055L;
 	private static final int MAX_JOB_CNT = 2;
 	private static final int CAPACITY = 10;
 	private List<Man> patients;

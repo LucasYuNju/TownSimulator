@@ -1,6 +1,10 @@
 package com.TownSimulator.entity;
 
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import com.TownSimulator.ai.btnimpls.construct.ConstructionProject;
 import com.TownSimulator.entity.building.Building;
@@ -10,18 +14,21 @@ import com.TownSimulator.entity.building.Warehouse;
 import com.TownSimulator.utility.Singleton;
 import com.badlogic.gdx.utils.Array;
 
-public class EntityInfoCollector extends Singleton{
-	private Array<Man> 		manList;
-	private HashMap<BuildingType, Array<Building>> buildingsMap;
-	private Array<Building>	buildingsList;
-	private Array<ConstructionProject> constructProjsList;
+public class EntityInfoCollector extends Singleton 
+	implements Serializable
+{
+	private static final long serialVersionUID = -3062222237607985005L;
+	private List<Man> 							manList;
+	private transient List<Building>						buildingsList;
+	private transient List<ConstructionProject> 			constructProjsList;
+	private transient Map<BuildingType, List<Building>> 	buildingsMap;
 	
 	private EntityInfoCollector()
 	{
-		manList = new Array<Man>();
-		buildingsList = new Array<Building>();
-		buildingsMap = new HashMap<BuildingType, Array<Building>>();
-		constructProjsList = new Array<ConstructionProject>();
+		manList = new ArrayList<Man>();
+		buildingsList = new ArrayList<Building>();
+		buildingsMap = new HashMap<BuildingType, List<Building>>();
+		constructProjsList = new ArrayList<ConstructionProject>();
 	}
 	
 	public void addMan(Man man)
@@ -31,10 +38,10 @@ public class EntityInfoCollector extends Singleton{
 	
 	public void removeMan(Man man)
 	{
-		manList.removeValue(man, false);
+		manList.remove(man);
 	}
 	
-	public Array<Man> getAllMan()
+	public List<Man> getAllMan()
 	{
 		return manList;
 	}
@@ -46,10 +53,10 @@ public class EntityInfoCollector extends Singleton{
 	
 	public void removeConstructProj(ConstructionProject proj)
 	{
-		constructProjsList.removeValue(proj, false);
+		constructProjsList.remove(proj);
 	}
 	
-	public Array<ConstructionProject> getAllConstructProjs()
+	public List<ConstructionProject> getAllConstructProjs()
 	{
 		return constructProjsList;
 	}
@@ -58,7 +65,7 @@ public class EntityInfoCollector extends Singleton{
 	{
 		BuildingType type = building.getType();
 		if( !buildingsMap.containsKey(type) )
-			buildingsMap.put(type, new Array<Building>());
+			buildingsMap.put(type, new ArrayList<Building>());
 		
 		buildingsMap.get(type).add(building);
 		buildingsList.add(building);
@@ -68,20 +75,20 @@ public class EntityInfoCollector extends Singleton{
 	{
 		//buildingList.removeValue(building, false);
 		if(buildingsMap.containsKey(building.getType()))
-			buildingsMap.get(building.getType()).removeValue(building, false);
+			buildingsMap.get(building.getType()).remove(building);
 		
-		buildingsList.removeValue(building, false);
+		buildingsList.remove(building);
 	}
 	
-	public Array<Building> getBuildings(BuildingType type)
+	public List<Building> getBuildings(BuildingType type)
 	{
 		if( !buildingsMap.containsKey(type) )
-			buildingsMap.put(type, new Array<Building>());
+			buildingsMap.put(type, new ArrayList<Building>());
 		
 		return buildingsMap.get(type);
 	}
 	
-	public Array<Building> getAllBuildings()
+	public List<Building> getAllBuildings()
 	{
 		return buildingsList;
 	}
@@ -123,10 +130,10 @@ public class EntityInfoCollector extends Singleton{
 			return null;
 		
 		WareHouseFindResult result = new WareHouseFindResult();
-		Array<Building> allBuildings = getBuildings(BuildingType.WAREHOUSE);
+		List<Building> allBuildings = getBuildings(BuildingType.WAREHOUSE);
 		Array<Warehouse> wareHouseWithRs = new Array<Warehouse>();
 		double dstMin = -1.0f;
-		for (int i = 0; i < allBuildings.size; i++) {
+		for (int i = 0; i < allBuildings.size(); i++) {
 			Building building = allBuildings.get(i);
 			if(building.getType() == BuildingType.WAREHOUSE)
 			{
@@ -221,5 +228,4 @@ public class EntityInfoCollector extends Singleton{
 		}
 		return school;
 	}
-	
 }
