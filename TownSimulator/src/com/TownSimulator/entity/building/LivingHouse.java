@@ -33,7 +33,8 @@ public class LivingHouse extends Building{
 	public void destroy() {
 		super.destroy();
 		
-		for (ManInfo m : residents) {
+		ArrayList<ManInfo> infos = new ArrayList<ManInfo>(residents);
+		for (ManInfo m : infos) {
 			removeResident(m);
 		}
 	}

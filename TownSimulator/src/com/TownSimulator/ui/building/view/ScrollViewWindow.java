@@ -36,7 +36,7 @@ public class ScrollViewWindow extends UndockedWindow{
 		int numLabelPerRow = 2;
 		if(!data.isEmpty())
 			numLabelPerRow = data.get(0).size();
-		setSize(LABEL_WIDTH * numLabelPerRow + MARGIN * 2, LABEL_HEIGHT * numLabel + MARGIN * 2);
+		setSize(LABEL_WIDTH * numLabelPerRow + MARGIN * 2 + dynamiteButton.getWidth(), LABEL_HEIGHT * numLabel + MARGIN * 2);
 		getParent().setSize(getWidth(), getHeight());
 		addLabels();
 		addCloseButton();

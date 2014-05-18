@@ -62,7 +62,7 @@ public class Warehouse extends Building {
 			float originY = getAABBWorld(QuadTreeType.DRAW).maxY + Settings.UNIT * 0.4f;
 			Color color = amount > 0 ? Color.WHITE : Color.RED;
 			TipsBillborad.showTips(
-					type + (amount > 0 ? " + " : " - ") + amount,
+					type + (amount > 0 ? " + " : " - ") + Math.abs(amount),
 					originX,
 					originY, color);
 		}

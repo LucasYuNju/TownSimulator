@@ -11,9 +11,11 @@ import com.TownSimulator.ui.screen.LoadingScreenUI;
 import com.TownSimulator.ui.screen.LoadingScreenUI.LoadingUIListener;
 import com.TownSimulator.ui.screen.StartScreenUI;
 import com.TownSimulator.ui.screen.StartScreenUI.StartUIListener;
+import com.TownSimulator.utility.Settings;
 import com.TownSimulator.utility.Singleton;
 import com.TownSimulator.utility.VoicePlayer;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 
 
 public class UIManager extends Singleton implements StartUIListener{
@@ -39,6 +41,7 @@ public class UIManager extends Singleton implements StartUIListener{
 		mGameUI = new GameScreenUI();
 		
 		mCurScreenUI = mStartUI;
+		Settings.backgroundColor = Color.BLACK.cpy();
 		VoicePlayer.getInstance(VoicePlayer.class).playBgmMusic("start.mp3");
 		VoicePlayer.getInstance(VoicePlayer.class).playMusicForDuringTime("rain.mp3", 60.0f);
 		
