@@ -6,6 +6,7 @@ import java.io.ObjectInputStream;
 import com.TownSimulator.ai.behaviortree.BehaviorTreeNode;
 import com.TownSimulator.ai.btnimpls.factoryworker.FactoryWorkerBTN;
 import com.TownSimulator.driver.Driver;
+import com.TownSimulator.driver.DriverListener;
 import com.TownSimulator.driver.DriverListenerBaseImpl;
 import com.TownSimulator.entity.EntityInfoCollector;
 import com.TownSimulator.entity.JobType;
@@ -28,9 +29,34 @@ public class CoatFactory extends WorkableBuilding{
 	private static final int 	PRODUCE_COAT_AMOUNT = 10;
 	private float produceAccum = 0.0f;
 	private transient WorkableWithTipsWindow	workTipsWindow;
+	private DriverListener driverListener;
 	
 	public CoatFactory() {
 		super("building_coat_factory", BuildingType.COAT_FACTORY, JobType.FACTORY_WORKER);
+		
+		driverListener = new DriverListenerBaseImpl()
+		{
+			private static final long serialVersionUID = -8628748620963794602L;
+
+			@Override
+			public void update(float deltaTime) {
+				if(ResourceInfoCollector.getInstance(ResourceInfoCollector.class).getResourceAmount(ResourceType.RS_FUR) <= 0)
+				{
+					workTipsWindow.setTips("No 'Fur' Resource ( Ranch )");
+					return;
+				}
+				else if(EntityInfoCollector.getInstance(EntityInfoCollector.class)
+						.getBuildings(BuildingType.POWER_STATION).size() <= 0)
+				{
+					workTipsWindow.setTips("Need 'Power Station'");
+					return;
+				}
+				else
+					workTipsWindow.setTips("");
+				
+				produce(deltaTime);
+			}
+		};
 	}
 
 	@Override
@@ -104,35 +130,21 @@ public class CoatFactory extends WorkableBuilding{
 		}
 	}
 	
+	
+	
+	@Override
+	public void destroy() {
+		super.destroy();
+		Driver.getInstance(Driver.class).removeListener(driverListener);
+	}
+
 	@Override
 	public void setState(State state) {
 		super.setState(state);
 		
 		if( state == Building.State.Constructed )
 		{
-			Driver.getInstance(Driver.class).addListener(new DriverListenerBaseImpl()
-			{
-				private static final long serialVersionUID = -8628748620963794602L;
-
-				@Override
-				public void update(float deltaTime) {
-					if(ResourceInfoCollector.getInstance(ResourceInfoCollector.class).getResourceAmount(ResourceType.RS_FUR) <= 0)
-					{
-						workTipsWindow.setTips("No 'Fur' Resource ( Ranch )");
-						return;
-					}
-					else if(EntityInfoCollector.getInstance(EntityInfoCollector.class)
-							.getBuildings(BuildingType.POWER_STATION).size() <= 0)
-					{
-						workTipsWindow.setTips("Need 'Power Station'");
-						return;
-					}
-					else
-						workTipsWindow.setTips("");
-					
-					produce(deltaTime);
-				}
-			});
+			Driver.getInstance(Driver.class).addListener(driverListener);
 		}
 	}
 
