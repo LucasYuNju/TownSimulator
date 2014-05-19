@@ -318,8 +318,10 @@ public class Entity implements Drawable, QuadTreeManageble, Serializable{
 	private void readObject(ObjectInputStream s) throws ClassNotFoundException, IOException {
 //		Gdx.app.log("L/S", "Entity readObj");
 		s.defaultReadObject();
+		setSprite(mSprite);
 		mDrawQuadNodes = new ArrayList<QuadTreeNode>();
 		mCollisionQuadNodes = new ArrayList<QuadTreeNode>();
+//		System.err.println("Entity.mSprite: "+ mSprite.toString());
+		
 	}
-
 }

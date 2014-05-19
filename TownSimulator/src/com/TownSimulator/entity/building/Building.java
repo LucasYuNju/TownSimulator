@@ -321,14 +321,13 @@ public abstract class Building extends Entity
 		if(buildingState == State.UnderConstruction) {
 			constructionProgressBar = ConstructionProgressBar.create(this);
 			constructionProgressBar.setProgress(getProcess());
-			
-			constructionWindow = UIManager.getInstance(UIManager.class).getGameUI().createConstructionWindow(buildingType, constructionResources, numAllowedBuilder);
-			constructionWindow.setVisible(false);
-			constructionWindow.setConstructionListener(this);
-			constructionWindow.refreshResouceLabel();
-			constructionWindow.setProcess(getProcess());
-			constructionWindow.setBuildingPosWorld(getPositionXWorld(), getPositionYWorld());
 		}		
+		constructionWindow = UIManager.getInstance(UIManager.class).getGameUI().createConstructionWindow(buildingType, constructionResources, numAllowedBuilder);
+		constructionWindow.setVisible(false);
+		constructionWindow.setConstructionListener(this);
+		constructionWindow.refreshResouceLabel();
+		constructionWindow.setProcess(getProcess());
+		constructionWindow.setBuildingPosWorld(getPositionXWorld(), getPositionYWorld());
 	}
 	
 	private void readObject(ObjectInputStream s) throws ClassNotFoundException, IOException {

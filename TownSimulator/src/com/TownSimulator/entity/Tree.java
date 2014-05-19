@@ -10,7 +10,6 @@ import com.TownSimulator.utility.Settings;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 
-
 public class Tree extends MapEntity{
 	private static final long serialVersionUID = -8752992565837306424L;
 	public static final float MAX_SCALE = 1.0f;
@@ -156,7 +155,6 @@ public class Tree extends MapEntity{
 				growAnimeAccum = GROW_ANIME_TIME;
 				scaleAccum = 0.0f;
 			}
-			
 		}
 		
 		if(health < MAX_HELTH)

@@ -36,11 +36,11 @@ import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 
 public class GameScreen extends ScreenUIBase{
 	private static final long serialVersionUID = -5791358765820581413L;
-	public 	static 	float							BUTTON_WIDTH  			= Settings.UNIT;
-	public 	static 	float							BUTTON_HEIGHT 			= Settings.UNIT;
-	public 	static 	float							BUTTON_LABEL_HEIGHT 		= Settings.UNIT * 0.2f;
-	public 	static 	float							BUTTONS_H_MARGIN 			= BUTTON_WIDTH * 0.1f;
-	public 	static 	float 							SUBBUTTONS_TO_LABRL_MARGIN = Settings.UNIT * 0.1f;
+	public 	static 	float	BUTTON_WIDTH  			= Settings.UNIT;
+	public 	static 	float	BUTTON_HEIGHT 			= Settings.UNIT;
+	public 	static 	float	BUTTON_LABEL_HEIGHT 		= Settings.UNIT * 0.2f;
+	public 	static 	float	BUTTONS_H_MARGIN 			= BUTTON_WIDTH * 0.1f;
+	public 	static 	float 	SUBBUTTONS_TO_LABRL_MARGIN = Settings.UNIT * 0.1f;
 	private BuildComsUI		mBuildComsUI;
 	private SpeedSettingUI	mSpeedSettingUI;
 	private Button			mSaveButton;

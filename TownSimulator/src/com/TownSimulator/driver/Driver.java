@@ -63,8 +63,8 @@ public class Driver extends SingletonPublisher<DriverListener> implements Applic
 			man.getInfo().setGender(rand.nextFloat() < 0.5f ? Gender.Male : Gender.Female);
 			man.getInfo().hungerPoints = GameMath.lerp(minHunger, maxHunger, rand.nextFloat());
 			man.setPositionWorld(originPosX + randX, originPoxY + ranxY);
-			EntityInfoCollector.getInstance(EntityInfoCollector.class).addMan(man);
 			
+			EntityInfoCollector.getInstance(EntityInfoCollector.class).addMan(man);
 			Renderer.getInstance(Renderer.class).attachDrawScissor(man);
 		}
 		
@@ -78,14 +78,6 @@ public class Driver extends SingletonPublisher<DriverListener> implements Applic
 		EntityInfoCollector.getInstance(EntityInfoCollector.class).addBuilding(wareHouse);
 		CollisionDetector.getInstance(CollisionDetector.class).attachCollisionDetection(wareHouse);
 		Renderer.getInstance(Renderer.class).attachDrawScissor(wareHouse);
-		
-//		wareHouse = (Warehouse) EntityFactory.createBuilding(BuildingType.WAREHOUSE);
-//		wareHouse.addStoredResource(ResourceType.RS_WOOD, 2300);
-//		wareHouse.setState(Building.State.Constructed);
-//		wareHouse.setPositionWorld(originPosX - 5 * Settings.UNIT, originPoxY - 8 * Settings.UNIT);
-//		EntityInfoCollector.getInstance(EntityInfoCollector.class).addBuilding(wareHouse);
-//		CollisionDetector.getInstance(CollisionDetector.class).attachCollisionDetection(wareHouse);
-//		Renderer.getInstance(Renderer.class).attachDrawScissor(wareHouse);
 		
 		Building lowCostHouse = EntityFactory.createBuilding(BuildingType.LOW_COST_HOUSE);
 		lowCostHouse.setState(Building.State.Constructed);
@@ -159,7 +151,6 @@ public class Driver extends SingletonPublisher<DriverListener> implements Applic
 		CollisionDetector.getInstance(CollisionDetector.class).attachCollisionDetection(farmHouse);
 		Renderer.getInstance(Renderer.class).attachDrawScissor(farmHouse);
 		
-		
 		for (FarmLand land : ((FarmHouse)farmHouse).getFarmLands()) {
 			Renderer.getInstance(Renderer.class).attachDrawScissor(land);
 		}
@@ -174,9 +165,6 @@ public class Driver extends SingletonPublisher<DriverListener> implements Applic
 			Renderer.getInstance(Renderer.class).attachDrawScissor(land);
 			CollisionDetector.getInstance(CollisionDetector.class).attachCollisionDetection(land);
 		}
-
-		
-		
 		school.setState(Building.State.Constructed);//测试时，学校需要在初始的人确定之后，初始化学生列表
 	}
 	

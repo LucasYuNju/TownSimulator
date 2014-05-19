@@ -5,7 +5,7 @@ import java.util.List;
 
 import com.TownSimulator.entity.building.BuildingType;
 import com.TownSimulator.ui.building.selector.BuildComsCategoryButton.BuildComsCategoryButtonListener;
-import com.TownSimulator.ui.screen.GameScreenUI;
+import com.TownSimulator.ui.screen.GameScreen;
 import com.TownSimulator.utility.GameMath;
 //github.com/LuciusYu/TownSimulator.git
 import com.badlogic.gdx.scenes.scene2d.Group;
@@ -13,10 +13,10 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 
 public class BuildComsUI extends Group {
-	public 	static 	float							BUTTON_WIDTH  			= GameScreenUI.BUTTON_WIDTH;
-	public 	static 	float							BUTTON_HEIGHT 			= GameScreenUI.BUTTON_HEIGHT;
-	public 	static 	float							BUTTON_TOP_MARGIN 		= GameScreenUI.BUTTON_LABEL_HEIGHT;
-	public 	static 	float							BUTTONS_H_MARGIN 		= GameScreenUI.BUTTONS_H_MARGIN;
+	public 	static 	float							BUTTON_WIDTH  			= GameScreen.BUTTON_WIDTH;
+	public 	static 	float							BUTTON_HEIGHT 			= GameScreen.BUTTON_HEIGHT;
+	public 	static 	float							BUTTON_TOP_MARGIN 		= GameScreen.BUTTON_LABEL_HEIGHT;
+	public 	static 	float							BUTTONS_H_MARGIN 		= GameScreen.BUTTONS_H_MARGIN;
 	private 		List<BuildComsCategoryButton> 					mBuildButtonsList;
 	private 		BuildComsCategoryButton			mInitButton;
 	private			BuildComsUIListener listener;

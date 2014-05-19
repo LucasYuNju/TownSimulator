@@ -24,8 +24,8 @@ public class ResourceManager extends Singleton implements Serializable{
 	private transient Map<String, Texture>		mTexturesMap;
 	private transient Map<Integer, BitmapFont> 	mFontsMap;
 	private transient Map<String, Sound>        mSoundsMap;
-	private transient FreeTypeFontGenerator			mFontGenerator;
-	private transient AssetManager					mAssetsManager;
+	private transient FreeTypeFontGenerator		mFontGenerator;
+	private transient AssetManager				mAssetsManager;
 	
 	public ResourceManager()
 	{
@@ -97,9 +97,15 @@ public class ResourceManager extends Singleton implements Serializable{
 		return new SerializedTextureRegion(mTexturesMap.get(textureName), textureName);
 	}
 	
-	public Texture loadTexture(String textureName)
+	public Texture getTexture(String textureName) {
+		if(!mTexturesMap.containsKey(textureName))
+			loadTexture(textureName);
+		return mTexturesMap.get(textureName);
+	}
+	
+	private Texture loadTexture(String textureName)
 	{
-		System.out.println("Load " + textureName);
+//		System.out.println("Load " + textureName);
 		mAssetsManager.load("data/" + textureName + ".png", Texture.class);
 		mAssetsManager.finishLoading();
 		mTexturesMap.put(textureName, mAssetsManager.get("data/" + textureName + ".png", Texture.class));

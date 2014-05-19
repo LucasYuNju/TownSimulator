@@ -1,27 +1,28 @@
 package com.TownSimulator.utility.quadtree;
 
-import java.io.Serializable;
+import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.util.ArrayList;
 import java.util.List;
 
 import com.TownSimulator.utility.AxisAlignedBoundingBox;
 import com.TownSimulator.utility.GameMath;
 
-public class QuadTreeNode implements Serializable{
-	private static final long serialVersionUID = -5005395474154683597L;
+public class QuadTreeNode {
+//	private static final 	long serialVersionUID = -5005395474154683597L;
 	private static final 	int 						LEAF_OBJ_CNT = 100;
 	private 				AxisAlignedBoundingBox 		mAABB;
-	private 				transient QuadTreeNode[]				mChildren;
-	private					List<QuadTreeManageble>	mObjs;
 	private 				QuadTreeType 				mType;
-	private					QuadTreeNode				mParent;
+	private					List<QuadTreeManageble>		mObjs;
+	private	transient		QuadTreeNode				mParent;
+	private transient 		List<QuadTreeNode>			mChildren;
 	
 	public QuadTreeNode(QuadTreeType type, AxisAlignedBoundingBox aabb, QuadTreeNode parent)
 	{
 		mType = type;
 		mAABB = aabb;
 		mParent = parent;
-		mChildren = new QuadTreeNode[4];
+		mChildren = new ArrayList<QuadTreeNode>();
 		mObjs = new ArrayList<QuadTreeManageble>();
 	}
 	
@@ -37,15 +38,15 @@ public class QuadTreeNode implements Serializable{
 	
 	public boolean removeManageble(QuadTreeManageble obj)
 	{
-		if(mChildren[0] == null)
+		if(mChildren.isEmpty() || mChildren.get(0) == null)
 		{
 			return mObjs.remove(obj);
 		}
 		else
 		{
 			boolean r = false;
-			for (int i = 0; i < mChildren.length; i++) {
-				boolean v = mChildren[i].removeManageble(obj);
+			for (int i = 0; i < mChildren.size(); i++) {
+				boolean v = mChildren.get(i).removeManageble(obj);
 				r = r || v;
 			}
 			
@@ -63,7 +64,7 @@ public class QuadTreeNode implements Serializable{
 		
 		boolean result = false;
 		//No slice, it is a leaf
-		if(mChildren[0] == null)
+		if(mChildren.isEmpty() || mChildren.get(0) == null)
 		{
 			if(!mObjs.contains(obj))
 			{
@@ -79,8 +80,8 @@ public class QuadTreeNode implements Serializable{
 		//Not a leaf
 		else 
 		{
-			for (int i = 0; i < mChildren.length; i++) {
-				boolean bAdded = mChildren[i].addManageble(obj);
+			for (int i = 0; i < mChildren.size(); i++) {
+				boolean bAdded = mChildren.get(i).addManageble(obj);
 				result = result || bAdded;
 			}
 		}
@@ -121,7 +122,7 @@ public class QuadTreeNode implements Serializable{
 		
 		boolean bCollide = false;
 		//A leaf
-		if( mChildren[0] == null )
+		if(mChildren.isEmpty() ||mChildren.get(0) == null)
 		{
 			for (int i = 0; i < mObjs.size(); i++) {
 				if(excludedObjs != null && excludedObjs.contains(mObjs.get(i)))
@@ -138,8 +139,8 @@ public class QuadTreeNode implements Serializable{
 		//Not a leaf
 		else
 		{
-			for (int i = 0; i < mChildren.length; i++) {
-				if( mChildren[i].detectIntersection(aabb, collideObjs, excludedObjs) )
+			for (int i = 0; i < mChildren.size(); i++) {
+				if( mChildren.get(i).detectIntersection(aabb, collideObjs, excludedObjs) )
 					bCollide = true;
 			}
 		}
@@ -164,7 +165,7 @@ public class QuadTreeNode implements Serializable{
 		
 		boolean bCollide = false;
 		//A leaf
-		if( mChildren[0] == null )
+		if(mChildren.isEmpty() || mChildren.get(0) == null)
 		{
 			for (int i = 0; i < mObjs.size(); i++) {
 				if(excludedObjs != null && excludedObjs.contains(mObjs.get(i)))
@@ -181,12 +182,11 @@ public class QuadTreeNode implements Serializable{
 		//Not a leaf
 		else
 		{
-			for (int i = 0; i < mChildren.length; i++) {
-				if( mChildren[i].detectIntersection(x, y, collideObjs, excludedObjs) )
+			for (int i = 0; i < mChildren.size(); i++) {
+				if( mChildren.get(i).detectIntersection(x, y, collideObjs, excludedObjs) )
 					bCollide = true;
 			}
 		}
-		
 		return bCollide;
 	}
 	
@@ -194,18 +194,29 @@ public class QuadTreeNode implements Serializable{
 	{
 		float centerX = (mAABB.minX + mAABB.maxX) * 0.5f;
 		float centerY = (mAABB.minY + mAABB.maxY) * 0.5f;
-		mChildren[0] = new QuadTreeNode( mType, new AxisAlignedBoundingBox(mAABB.minX, 	 centerY, 	 centerX, 	 mAABB.maxY), 	this );
-		mChildren[1] = new QuadTreeNode( mType, new AxisAlignedBoundingBox(centerX, 	 centerY, 	 mAABB.maxX, mAABB.maxY), 	this );
-		mChildren[2] = new QuadTreeNode( mType, new AxisAlignedBoundingBox(mAABB.minX, 	 mAABB.minY, centerX, 	 centerY), 		this );
-		mChildren[3] = new QuadTreeNode( mType, new AxisAlignedBoundingBox(centerX, 	 mAABB.minY, mAABB.maxX, centerY),		this );
+		mChildren.add(0, new QuadTreeNode( mType, new AxisAlignedBoundingBox(mAABB.minX, centerY, 	 centerX, 	 mAABB.maxY), 	this ));
+		mChildren.add(1, new QuadTreeNode( mType, new AxisAlignedBoundingBox(centerX, 	 centerY, 	 mAABB.maxX, mAABB.maxY), 	this ));
+		mChildren.add(2, new QuadTreeNode( mType, new AxisAlignedBoundingBox(mAABB.minX, mAABB.minY, centerX, 	 centerY), 		this ));
+		mChildren.add(3, new QuadTreeNode( mType, new AxisAlignedBoundingBox(centerX, 	 mAABB.minY, mAABB.maxX, centerY),		this ));
 		
 		for (int i = 0; i < mObjs.size(); i++) {
-			for (int j = 0; j < mChildren.length; j++) {
-				mChildren[j].addManageble( mObjs.get(i) );
+			for (int j = 0; j < mChildren.size(); j++) {
+				mChildren.get(j).addManageble( mObjs.get(i) );
 			}
 		}
 		
 		mObjs.clear();
 		mObjs = null;
+	}
+	
+	public void setParent(QuadTreeNode parent) {
+		mParent = parent;
+	}
+	
+	private void readObject(ObjectInputStream s) throws ClassNotFoundException, IOException {
+		s.defaultReadObject();
+		for(QuadTreeNode child : mChildren) {
+			child.setParent(this);
+		}
 	}
 }

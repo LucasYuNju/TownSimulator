@@ -22,8 +22,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 public class Renderer extends SingletonPublisher<RendererListener>{
 	private RenderBatch		   		mRenderBatch;
 	private	QuadTree				mDrawScissor;
-	private	List<Grid> 			mGridIdleList;
-//	private HashMap<String, GroundDrawContainer> mGroundDrawMap;
+	private	List<Grid> 				mGridIdleList;
 	private boolean 				mbDrawGrid = false;
 	private	int						allocIndex = 0;
 	private boolean					mbRenderScene = false;
@@ -117,6 +116,7 @@ public class Renderer extends SingletonPublisher<RendererListener>{
 		
 		List<QuadTreeManageble> renderList = new ArrayList<QuadTreeManageble>();
 		mDrawScissor.detectIntersection(CameraController.getInstance(CameraController.class).getCameraViewAABB(), renderList);
+//		System.err.println("render size: " + renderList.size());
 		for (int i = 0; i < renderList.size(); i++) {
 			draw((Drawable) renderList.get(i));
 		}

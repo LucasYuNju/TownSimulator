@@ -32,7 +32,7 @@ public class SerializedTextureRegion extends TextureRegion implements Serializab
 		}
 		
 		private Object readResolve() {
-			Texture texture = ResourceManager.getInstance(ResourceManager.class).loadTexture(textureName);
+			Texture texture = ResourceManager.getInstance(ResourceManager.class).getTexture(textureName);
 			return new SerializedTextureRegion(texture, textureName);
 		}
 	}

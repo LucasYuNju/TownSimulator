@@ -243,6 +243,7 @@ public class EntityInfoCollector extends Singleton
 	
 	private void readObject(ObjectInputStream s) throws ClassNotFoundException, IOException {
 		s.defaultReadObject();
+		Gdx.app.log("L/S", "entityInfoCollector size: " + manList.size() + ":" + buildingsList.size());
 		for(Man man : manList) {
 			Singleton.getInstance(Renderer.class).attachDrawScissor(man);
 		}

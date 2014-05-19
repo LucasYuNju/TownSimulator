@@ -57,7 +57,10 @@ public class Man extends Entity{
 		initInfo();
 		initStatesIcons();
 		initAnimes();
-		
+		listenToDriver();
+	}
+	
+	public void listenToDriver() {
 		mDriverListener = new DriverListenerBaseImpl()
 		{
 			private static final long serialVersionUID = -2810927274650172968L;
@@ -90,9 +93,7 @@ public class Man extends Entity{
 			
 		};
 		Driver.getInstance(Driver.class).addListener(mDriverListener);
-		
 	}
-	
 
 
 	@Override
@@ -351,6 +352,7 @@ public class Man extends Entity{
 		s.defaultReadObject();
 		initStatesIcons();
 		initAnimes();
+		listenToDriver();
 //		Singleton.getInstance(Renderer.class).attachDrawScissor(this);
 	}
 }

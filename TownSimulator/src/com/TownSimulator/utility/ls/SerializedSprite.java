@@ -25,6 +25,10 @@ public class SerializedSprite extends Sprite
 		return new SerializationProxy(this);
 	}
 	
+	public String toString() {
+		return textureName + " " + getTexture();
+	}
+	
 	private static class SerializationProxy implements Serializable {
 		private static final long serialVersionUID = -1909611270389194363L;
 		private String textureName;
@@ -34,7 +38,7 @@ public class SerializedSprite extends Sprite
 		}
 		
 		private Object readResolve() {
-			Texture texture = ResourceManager.getInstance(ResourceManager.class).loadTexture(textureName);
+			Texture texture = ResourceManager.getInstance(ResourceManager.class).getTexture(textureName);
 			return new SerializedSprite(texture, textureName);
 		}
 	}
