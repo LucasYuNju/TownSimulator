@@ -5,10 +5,12 @@ import com.TownSimulator.ai.behaviortree.ExecuteResult;
 import com.TownSimulator.ai.btnimpls.construct.ConstructionProject.State;
 import com.TownSimulator.entity.Man;
 import com.TownSimulator.entity.ManAnimeType;
+import com.TownSimulator.entity.ManStateType;
 import com.TownSimulator.utility.quadtree.QuadTreeType;
 import com.badlogic.gdx.math.Vector2;
 
 public class ConstructionExecuteBTN extends ActionNode{
+	private static final long serialVersionUID = 1L;
 	public static final float		BUILD_CONTRIBUTE_SPPED = 0.4f;
 	private Man			mMan;
 	
@@ -55,6 +57,7 @@ public class ConstructionExecuteBTN extends ActionNode{
 	
 	@Override
 	public ExecuteResult execute(float deltaTime) {
+		mMan.getInfo().manStates.add( ManStateType.Working );
 		
 		if(!isAroundBuilding())
 		{

@@ -1,5 +1,6 @@
 package com.TownSimulator.entity;
 
+import java.io.Serializable;
 import java.util.Calendar;
 
 import com.TownSimulator.driver.Driver;
@@ -9,10 +10,9 @@ import com.TownSimulator.utility.Settings;
 import com.TownSimulator.utility.Singleton;
 import com.TownSimulator.utility.particle.ParticleControl;
 
-public class World extends Singleton {
-	
+public class World extends Singleton implements Serializable{
+	private static final long serialVersionUID = 1L;
 	public static final float SecondPerYear = 600;
-	
 	private Calendar calendar;
 	private float secondPerDay;
 	private float secondDuringLastDay;
@@ -35,13 +35,12 @@ public class World extends Singleton {
 		secondDuringLastDay = 0f;
 		
 		maxStudentAmount=0;
-		//currentStudentNum=0;
 		
 		Driver.getInstance(Driver.class).addListener(new DriverListenerBaseImpl(){
+			private static final long serialVersionUID = 422688476183877241L;
 
 			@Override
 			public void update(float deltaTime) {
-				// TODO Auto-generated method stub
 				secondDuringLastDay += deltaTime;
 				if(secondDuringLastDay>secondPerDay){
 					calendar.add(Calendar.DATE, 1);
@@ -51,22 +50,9 @@ public class World extends Singleton {
 				if(curSeasonType!=getCurSeason()){
 					ParticleControl.getInstance(ParticleControl.class).reset();
 					curSeasonType=getCurSeason();
-					switch (curSeasonType) {
-					case Winter:
-						Settings.backgroundColor=Settings.gameWinterGroundColor.cpy();
-						break;
-					case Summer:
-						Settings.backgroundColor=Settings.gameSummerGroundColor.cpy();
-						break;
-						
-					default:
-						Settings.backgroundColor=Settings.gameNormalGroundColor.cpy();
-						break;
-					}
+					setGroundColor();
 				}
 			}
-			
-			
 		});
 	}
 	
@@ -80,14 +66,6 @@ public class World extends Singleton {
 	public int getMaxStudentAmount() {
 		return maxStudentAmount;
 	}
-	
-//	public int getCurrentStudentNum() {
-//		return currentStudentNum;
-//	}
-//
-//	public void growCurrentStudentNum() {
-//		this.currentStudentNum ++;
-//	}
 
 	/**
 	 * 获取年份
@@ -140,4 +118,18 @@ public class World extends Singleton {
 		return SeasonType.Spring;
 	}
 	
+	public void setGroundColor(){
+		switch (curSeasonType) {
+		case Winter:
+			Settings.backgroundColor=Settings.gameWinterGroundColor.cpy();
+			break;
+		case Summer:
+			Settings.backgroundColor=Settings.gameSummerGroundColor.cpy();
+			break;
+			
+		default:
+			Settings.backgroundColor=Settings.gameNormalGroundColor.cpy();
+			break;
+		}
+	}
 }

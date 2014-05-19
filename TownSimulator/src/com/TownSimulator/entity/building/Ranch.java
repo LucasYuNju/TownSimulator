@@ -1,12 +1,21 @@
 package com.TownSimulator.entity.building;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.util.ArrayList;
+import java.util.List;
+
 import com.TownSimulator.ai.behaviortree.BehaviorTreeNode;
 import com.TownSimulator.ai.btnimpls.grazier.GrazierBTN;
+import com.TownSimulator.collision.CollisionDetector;
 import com.TownSimulator.driver.Driver;
+import com.TownSimulator.driver.DriverListener;
 import com.TownSimulator.driver.DriverListenerBaseImpl;
 import com.TownSimulator.entity.EntityInfoCollector;
 import com.TownSimulator.entity.JobType;
 import com.TownSimulator.entity.Man;
+import com.TownSimulator.entity.RanchAnimal;
+import com.TownSimulator.entity.RanchAnimalType;
 import com.TownSimulator.entity.ResourceType;
 import com.TownSimulator.render.Renderer;
 import com.TownSimulator.ui.UIManager;
@@ -20,20 +29,21 @@ import com.TownSimulator.utility.TipsBillborad;
 import com.TownSimulator.utility.quadtree.QuadTreeType;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.utils.Array;
 
 public class Ranch extends WorkableBuilding{
+	private static final long 		serialVersionUID = -5200249977002038249L;
 	private static final int 		MAX_JOB_CNT = 4;
-	private static final float 		PRODUCE_INTERVAL = 27.0f;
+	private static final float 		PRODUCE_INTERVAL = 20.0f;
 	private static final int		PRODUCE_MEAT_AMOUNT = 50;
-	private static final int		PRODUCE_FUR_AMOUNT = 1;
+	private static final int		PRODUCE_FUR_AMOUNT = 40;
 	private float					produceAccum;
 	private AxisAlignedBoundingBox 	collisionAABBLocalWithLands;
 	private AxisAlignedBoundingBox 	collisionAABBWorldWithLands;
-	private Array<RanchLand>		ranchLands;
-	private Array<RanchAnimal>		ranchAnimals;
+	private List<RanchLand>			ranchLands;
+	private List<RanchAnimal>		ranchAnimals;
 	private RanchAnimalType			ranchAnimalType;
-	private RanchViewWindow			ranchWindow;
+	private transient RanchViewWindow	ranchWindow;
+	private DriverListener	driverListener;
 	
 	public Ranch() {
 		super("building_ranch", BuildingType.RANCH, JobType.GRAZIER);
@@ -42,11 +52,28 @@ public class Ranch extends WorkableBuilding{
 		collisionAABBWorldWithLands = new AxisAlignedBoundingBox();
 		initLands();
 		initAnimals();
+		
+		driverListener = new DriverListenerBaseImpl()
+		{
+			private static final long serialVersionUID = 8806760497739177385L;
+
+			@Override
+			public void update(float deltaTime) {
+				if(ranchAnimalType == null)
+					return;
+				
+				for (RanchAnimal animal : ranchAnimals) {
+					animal.update(deltaTime);
+				}
+				produce(deltaTime);
+			}
+			
+		};
 	}
 	
 	private void initLands()
 	{
-		ranchLands = new Array<RanchLand>();
+		ranchLands = new ArrayList<RanchLand>();
 		for (int i = 0; i < 25; i++) {
 			RanchLand ranchLand = new RanchLand();
 			ranchLands.add(ranchLand);
@@ -69,7 +96,7 @@ public class Ranch extends WorkableBuilding{
 	
 	private void initAnimals()
 	{
-		ranchAnimals = new Array<RanchAnimal>();
+		ranchAnimals = new ArrayList<RanchAnimal>();
 		
 		for (int i = 0; i < 6; i++) {
 			RanchAnimal animal = new RanchAnimal();
@@ -98,22 +125,29 @@ public class Ranch extends WorkableBuilding{
 			Warehouse warehouse = EntityInfoCollector.getInstance(EntityInfoCollector.class)
 									.findNearestWareHouse(mPosXWorld, mPosYWorld);
 			
-			if(workers.size <= 0)
+			if(workers.size() <= 0)
 				continue;
 			
-			warehouse.addStoredResource(ResourceType.RS_MEAT, PRODUCE_MEAT_AMOUNT * workers.size, false);
+			int meatAmount = 0;
+			int furAmount = 0;
+			for (Man man : workers) {
+				meatAmount += man.getInfo().workEfficency * PRODUCE_MEAT_AMOUNT;
+				furAmount += man.getInfo().workEfficency * PRODUCE_FUR_AMOUNT;
+			}
+			
+			warehouse.addStoredResource(ResourceType.RS_MEAT, meatAmount, false);
 			float originX = this.getAABBWorld(QuadTreeType.DRAW).getCenterX();
 			float originY = this.getAABBWorld(QuadTreeType.DRAW).maxY + Settings.UNIT * 0.6f + TipsBillborad.getTipsHeight();
 			Color color = Color.WHITE;
 			TipsBillborad.showTips(
-					ResourceType.RS_MEAT + " + " + PRODUCE_MEAT_AMOUNT * workers.size,
+					ResourceType.RS_MEAT + " + " + meatAmount,
 					originX,
 					originY, color);
 			
-			warehouse.addStoredResource(ResourceType.RS_FUR, PRODUCE_FUR_AMOUNT * workers.size, false);
+			warehouse.addStoredResource(ResourceType.RS_FUR, furAmount, false);
 			originY = this.getAABBWorld(QuadTreeType.DRAW).maxY + Settings.UNIT * 0.4f;
 			TipsBillborad.showTips(
-					ResourceType.RS_FUR + " + " + PRODUCE_FUR_AMOUNT * workers.size,
+					ResourceType.RS_FUR + " + " + furAmount,
 					originX,
 					originY, color);
 		}
@@ -137,22 +171,21 @@ public class Ranch extends WorkableBuilding{
 				Renderer.getInstance(Renderer.class).attachDrawScissor(animal);
 			}
 			
-			Driver.getInstance(Driver.class).addListener(new DriverListenerBaseImpl()
-			{
-
-				@Override
-				public void update(float deltaTime) {
-					if(ranchAnimalType == null)
-						return;
-					
-					for (RanchAnimal animal : ranchAnimals) {
-						animal.update(deltaTime);
-					}
-					produce(deltaTime);
-				}
-				
-			});
+			Driver.getInstance(Driver.class).addListener(driverListener);
 		}
+	}
+	
+	
+
+	@Override
+	public void destroy() {
+		super.destroy();
+		for (RanchLand land : ranchLands) {
+			Renderer.getInstance(Renderer.class).dettachDrawScissor(land);
+			CollisionDetector.getInstance(CollisionDetector.class).dettachCollisionDetection(land);
+		}
+		
+		Driver.getInstance(Driver.class).removeListener(driverListener);
 	}
 
 	@Override
@@ -203,7 +236,8 @@ public class Ranch extends WorkableBuilding{
 	protected WorkableViewWindow createWorkableWindow() {
 		ranchWindow = UIManager.getInstance(UIManager.class).getGameUI().createRanchViewWindow(getMaxJobCnt());
 		ranchWindow.setSelectBoxListener(new SelectBoxListener() {
-			
+			private static final long serialVersionUID = -2028117783227258435L;
+
 			@Override
 			public void selectBoxSelected(String selectedString) {
 				setType(RanchAnimalType.findWithViewName(selectedString));
@@ -228,7 +262,7 @@ public class Ranch extends WorkableBuilding{
 		}
 	}
 	
-	public Array<RanchLand> getRanchLands()
+	public List<RanchLand> getRanchLands()
 	{
 		return ranchLands;
 	}
@@ -242,5 +276,16 @@ public class Ranch extends WorkableBuilding{
 	protected BehaviorTreeNode createBehavior(Man man) {
 		return new GrazierBTN(man);
 	}
-
+	
+	private void readObject(ObjectInputStream s) throws ClassNotFoundException, IOException {
+		s.defaultReadObject();
+		if(ranchAnimalType != null)
+			ranchWindow.reload(ranchAnimalType);
+	}
+	
+//	@Override
+//	protected void reloadViewWindow() {
+//		super.reloadViewWindow();
+//		ranchWindow.reload(ranchAnimalType);
+//	}
 }

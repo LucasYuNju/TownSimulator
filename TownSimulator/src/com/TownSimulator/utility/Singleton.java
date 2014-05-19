@@ -5,10 +5,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Singleton {
-	protected static Map<Class<? extends Singleton>, Singleton> mInstaceMap = new HashMap<Class<? extends Singleton>, Singleton>();
+	private static Map<Class<? extends Singleton>, Singleton> mInstaceMap = new HashMap<Class<? extends Singleton>, Singleton>();
 		
 	@SuppressWarnings("unchecked")
-	public synchronized static <T extends Singleton> T getInstance(Class<T> classType)
+	public static <T extends Singleton> T getInstance(Class<T> classType)
 	{
 		if( !mInstaceMap.containsKey(classType) )
 		{
@@ -21,5 +21,17 @@ public class Singleton {
 			} 
 		}		
 		return (T)mInstaceMap.get(classType);	
+	}
+	
+	public static <T extends Singleton> void loadInstance(Class<T> clazz, T clazzInstance) {
+		mInstaceMap.put(clazz, clazzInstance);
+	}
+	
+	protected static void clearInstanceMap() {
+		mInstaceMap.clear();
+	}
+	
+	public static void print() {
+		
 	}
 }

@@ -1,14 +1,22 @@
 package com.TownSimulator.entity.building;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.util.ArrayList;
+import java.util.List;
+
 import com.TownSimulator.ai.behaviortree.BehaviorTreeNode;
 import com.TownSimulator.ai.btnimpls.farmer.FarmerBTN;
+import com.TownSimulator.collision.CollisionDetector;
 import com.TownSimulator.driver.Driver;
+import com.TownSimulator.driver.DriverListener;
 import com.TownSimulator.driver.DriverListenerBaseImpl;
 import com.TownSimulator.entity.JobType;
 import com.TownSimulator.entity.Man;
 import com.TownSimulator.entity.ManInfo;
 import com.TownSimulator.entity.SeasonType;
 import com.TownSimulator.entity.World;
+import com.TownSimulator.render.Renderer;
 import com.TownSimulator.ui.UIManager;
 import com.TownSimulator.ui.building.view.FarmViewWindow;
 import com.TownSimulator.ui.building.view.SelectBoxListener;
@@ -17,10 +25,10 @@ import com.TownSimulator.utility.AxisAlignedBoundingBox;
 import com.TownSimulator.utility.GameMath;
 import com.TownSimulator.utility.Settings;
 import com.TownSimulator.utility.quadtree.QuadTreeType;
-import com.badlogic.gdx.utils.Array;
 
 public class FarmHouse extends WorkableBuilding implements SelectBoxListener
 {
+	private static final long serialVersionUID = 6298378858595634746L;
 	private static final int MAX_JOB_CNT = 3;
 	private static final float MAN_EFFICENT_TRANS = 0.75f;
 	private CropType curCropType;
@@ -30,19 +38,46 @@ public class FarmHouse extends WorkableBuilding implements SelectBoxListener
 	private boolean bReapStart = false; 
 	private int reappedLandCnt;
 	private boolean bSowed;
-	private Array<FarmLand> farmLands;
+	private List<FarmLand> farmLands;
 	private AxisAlignedBoundingBox collisionAABBLocalWithLands;
 	private AxisAlignedBoundingBox collisionAABBWorldWithLands;
-	private FarmViewWindow farmWindow;
+	private transient FarmViewWindow farmWindow;
+	private DriverListener driverListener;
 	
 	public FarmHouse() {
 		super("building_farm_house", BuildingType.FARM_HOUSE, JobType.FARMER);
-		//undockedWindow.setSelectBoxListener(this);
-		setSowCropType(CropType.Wheat);
 		initFarmLands();
 		
 		collisionAABBLocalWithLands = new AxisAlignedBoundingBox();
 		collisionAABBWorldWithLands = new AxisAlignedBoundingBox();
+		
+		driverListener = new DriverListenerBaseImpl()
+		{
+			private static final long serialVersionUID = -8286725623019997146L;
+
+			@Override
+			public void update(float deltaTime) {
+				//updateUI();
+				
+				if(bSowed)
+				{
+					if(World.getInstance(World.class).getCurSeason() != SeasonType.Winter && bReapStart == false)
+						cropGrow(deltaTime);
+					else
+					{
+						if(World.getInstance(World.class).getCurMonth() == 12 
+								|| World.getInstance(World.class).getCurMonth() == 1)
+							cropDie(deltaTime);
+					}
+					
+					for (FarmLand land : farmLands) {
+						land.updateView();
+					}
+					
+					updateProcess();
+				}
+			}
+		};
 	}
 
 	@Override
@@ -52,7 +87,16 @@ public class FarmHouse extends WorkableBuilding implements SelectBoxListener
 		return farmWindow;
 	}
 
-	
+	@Override
+	public void destroy() {
+		super.destroy();
+		for (FarmLand land : farmLands) {
+			Renderer.getInstance(Renderer.class).dettachDrawScissor(land);
+			CollisionDetector.getInstance(CollisionDetector.class).dettachCollisionDetection(land);
+		}
+		
+		Driver.getInstance(Driver.class).removeListener(driverListener);
+	}
 
 	@Override
 	protected int getMaxJobCnt() {
@@ -66,7 +110,7 @@ public class FarmHouse extends WorkableBuilding implements SelectBoxListener
 
 	private void initFarmLands()
 	{
-		farmLands = new Array<FarmLand>();
+		farmLands = new ArrayList<FarmLand>();
 		for (int i = 0; i < 9; i++) {
 			FarmLand farmLand = new FarmLand();
 			farmLands.add(farmLand);
@@ -95,15 +139,15 @@ public class FarmHouse extends WorkableBuilding implements SelectBoxListener
 	
 	private void cropGrow(float deltaTime)
 	{
-		if(workers.size == 0)
+		if(workers.size() == 0)
 			return;
 		
 		float efficiency = 0.0f;
 		for (Man man : workers) {
 			efficiency += man.getInfo().workEfficency;
 		}
-		efficiency /= workers.size;
-		efficiency = ManInfo.BASE_WORKEFFICIENCY + (efficiency - ManInfo.BASE_WORKEFFICIENCY) * MAN_EFFICENT_TRANS;
+		efficiency /= workers.size();
+		efficiency = ManInfo.WORKEFFICIENCY_BASE + (efficiency - ManInfo.WORKEFFICIENCY_BASE) * MAN_EFFICENT_TRANS;
 		float timeSpeed = 365.0f / World.SecondPerYear;// day/second
 		float fullNeedDays = GameMath.lerp(9.0f * 30.0f, 6.0f * 30.0f, getCurWorkerCnt() / maxJobCnt);
 		float speed = FarmLand.MAX_CROP_AMOUNT / (fullNeedDays / timeSpeed );
@@ -125,51 +169,20 @@ public class FarmHouse extends WorkableBuilding implements SelectBoxListener
 		for (FarmLand land : farmLands) {
 			amount += land.getCurCropAmount();
 		}
-		float process = amount / (FarmLand.MAX_CROP_AMOUNT * farmLands.size);
+		float process = amount / (FarmLand.MAX_CROP_AMOUNT * farmLands.size());
 		farmWindow.updateProcessBar(process);
 	}
-	
-//	private void updateUI()
-//	{
-//		
-//	}
 	
 	@Override
 	public void setState(State state) {
 		super.setState(state);
 		if(state == State.Constructed)
 		{
-			Driver.getInstance(Driver.class).addListener(new DriverListenerBaseImpl()
-			{
-
-				@Override
-				public void update(float deltaTime) {
-					//updateUI();
-					
-					if(bSowed)
-					{
-						if(World.getInstance(World.class).getCurSeason() != SeasonType.Winter && bReapStart == false)
-							cropGrow(deltaTime);
-						else
-						{
-							if(World.getInstance(World.class).getCurMonth() == 12 
-									|| World.getInstance(World.class).getCurMonth() == 1)
-								cropDie(deltaTime);
-						}
-						
-						for (FarmLand land : farmLands) {
-							land.updateView();
-						}
-						
-						updateProcess();
-					}
-				}
-				
-			});
+			Driver.getInstance(Driver.class).addListener(driverListener);
 		}
 	}
 
-	public Array<FarmLand> getFarmLands()
+	public List<FarmLand> getFarmLands()
 	{
 		return farmLands;
 	}
@@ -258,7 +271,7 @@ public class FarmHouse extends WorkableBuilding implements SelectBoxListener
 	
 	public void addSowedLand()
 	{
-		sowedLandCnt = Math.min(sowedLandCnt + 1, farmLands.size);
+		sowedLandCnt = Math.min(sowedLandCnt + 1, farmLands.size());
 	}
 	
 	public int getSowedLandCnt()
@@ -269,8 +282,6 @@ public class FarmHouse extends WorkableBuilding implements SelectBoxListener
 	public void clearSowedLandCnt(){
 		sowedLandCnt=0;
 	}
-	
-	
 	
 	public void setReapStart(boolean value)
 	{
@@ -284,7 +295,7 @@ public class FarmHouse extends WorkableBuilding implements SelectBoxListener
 	
 	public void addReappedLand()
 	{
-		reappedLandCnt = Math.min(reappedLandCnt + 1, farmLands.size);
+		reappedLandCnt = Math.min(reappedLandCnt + 1, farmLands.size());
 	}
 	
 	public void clearReappedLandCnt()
@@ -312,4 +323,17 @@ public class FarmHouse extends WorkableBuilding implements SelectBoxListener
 		setSowCropType(CropType.findWithViewName(selectedString));
 	}
 
+	private void readObject(ObjectInputStream s) throws ClassNotFoundException, IOException {
+		s.defaultReadObject();
+		farmWindow.setCurCropType(curCropType);
+		updateProcess();
+	}
+	
+//	@Override
+//	protected void reloadViewWindow() {
+//		super.reloadViewWindow();
+//		farmWindow.setCurCropType(curCropType);
+//		
+//		updateProcess();
+//	}
 }

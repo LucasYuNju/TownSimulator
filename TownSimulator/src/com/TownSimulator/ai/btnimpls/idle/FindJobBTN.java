@@ -9,6 +9,7 @@ import com.TownSimulator.entity.building.Building;
 import com.TownSimulator.entity.building.WorkableBuilding;
 
 public class FindJobBTN extends ActionNode{
+	private static final long serialVersionUID = -3603187264907570028L;
 	private Man man;
 	
 	public FindJobBTN(Man man)
@@ -18,9 +19,10 @@ public class FindJobBTN extends ActionNode{
 	
 	@Override
 	public ExecuteResult execute(float deltaTime) {
-		if(!(man.getInfo().getAge()>=ManInfo.ADULT_AGE)){
+		if( man.getInfo().getAge() < ManInfo.AGE_ADULT ){
 			return ExecuteResult.FALSE;
 		}
+		
 		for (Building buidling : EntityInfoCollector.getInstance(EntityInfoCollector.class).getAllBuildings()) {
 			if(buidling instanceof WorkableBuilding)
 			{
@@ -33,7 +35,7 @@ public class FindJobBTN extends ActionNode{
 				}
 			}
 		}
-		
+//		man.getInfo().hpWorkless(deltaTime);
 		return ExecuteResult.FALSE;
 	}
 

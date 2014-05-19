@@ -7,6 +7,7 @@ import com.TownSimulator.ai.btnimpls.general.RandomMoveBTN;
 import com.TownSimulator.entity.Man;
 
 public class IdleBTN extends SelectorNode{
+	private static final long serialVersionUID = 1L;
 	private Man man;
 	
 	public IdleBTN(Man man) {

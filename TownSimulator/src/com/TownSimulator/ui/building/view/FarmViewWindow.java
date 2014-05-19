@@ -30,12 +30,11 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
  * workers
  * 
  */
-public class FarmViewWindow extends WorkableViewWindow{
+public class FarmViewWindow extends WorkableViewWindow {
 	private SelectBox<String> dropDown;
 	private ProcessBar processBar;
 	private TextureRegion buttonBackground;
 	private Label curCropLabel;
-	//private WorkerGroup builderGroup;
 	private float width;
 	private float height;
 	private SelectBoxListener selectBoxListener;
@@ -49,7 +48,6 @@ public class FarmViewWindow extends WorkableViewWindow{
 		addRowOne();
 		addRowTwo();
 		addRowTree();
-		
 		updateLayout();
 	}
 	
@@ -156,10 +154,6 @@ public class FarmViewWindow extends WorkableViewWindow{
 		processBar.setProcess(process);
 	}
 	
-	public void addWorker() {
-		workerGroup.addWorker();
-	}
-	
 	@Override
 	protected void updatePosition()
 	{
@@ -170,13 +164,6 @@ public class FarmViewWindow extends WorkableViewWindow{
 		setPosition(windowX, windowY);
 	}
 
-//	@Override
-//	public void setWorkerGroupListener(WorkerGroupListener workerGroupListener) {
-//		workerGroup.setListener(workerGroupListener);
-//	}
-
-
-	
 	public void setSelectBoxListener(SelectBoxListener selectBoxListener) {
 		this.selectBoxListener = selectBoxListener;
 	}

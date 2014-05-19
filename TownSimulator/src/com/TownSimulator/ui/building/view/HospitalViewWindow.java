@@ -11,7 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 
 //部分代码和ScrollViewWindow重复
-public class HospitalViewWindow extends WorkableViewWindow{
+public class HospitalViewWindow extends WorkableViewWindow {
 	private static final int NUM_LABEL_PER_PAGE = 8;
 	List<List<String>> data;
 	List<Label> labels;
@@ -31,6 +31,8 @@ public class HospitalViewWindow extends WorkableViewWindow{
 		addLabels();
 		addCloseButton();
 		addHeader();
+		
+		updateLayout();
 	}
 	
 	public void addLabels() {

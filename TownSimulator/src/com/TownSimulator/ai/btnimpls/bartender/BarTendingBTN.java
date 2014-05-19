@@ -5,9 +5,11 @@ import com.TownSimulator.ai.behaviortree.ExecuteResult;
 import com.TownSimulator.ai.behaviortree.SequenceNode;
 import com.TownSimulator.entity.Man;
 import com.TownSimulator.entity.ManAnimeType;
+import com.TownSimulator.entity.ManStateType;
 import com.TownSimulator.utility.quadtree.QuadTreeType;
 
 public class BarTendingBTN extends SequenceNode{
+	private static final long serialVersionUID = 1L;
 	private Man man;
 	
 	public BarTendingBTN(Man man) {
@@ -17,11 +19,13 @@ public class BarTendingBTN extends SequenceNode{
 	
 	private void initSubNodes() {
 		ActionNode moveToBarNode = new ActionNode() {
+			private static final long serialVersionUID = 1L;
 			@Override
 			public ExecuteResult execute(float deltaTime) {
 				float destX = man.getInfo().workingBuilding.getAABBWorld(QuadTreeType.COLLISION).getCenterX();
 				float destY = man.getInfo().workingBuilding.getAABBWorld(QuadTreeType.COLLISION).getCenterY();
 				man.setMoveDestination(destX, destY);
+				man.getInfo().manStates.add( ManStateType.Working );
 				
 				if( !man.move(deltaTime) )
 				{

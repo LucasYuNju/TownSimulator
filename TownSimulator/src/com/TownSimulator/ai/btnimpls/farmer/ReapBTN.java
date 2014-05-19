@@ -11,6 +11,7 @@ import com.TownSimulator.entity.building.FarmHouse;
 import com.TownSimulator.entity.building.FarmLand;
 
 public class ReapBTN extends SequenceNode{
+	private static final long serialVersionUID = 1L;
 	private Man man;
 	
 	public ReapBTN(Man man)
@@ -23,6 +24,7 @@ public class ReapBTN extends SequenceNode{
 	private void init()
 	{
 		ConditionNode isReapStart = new ConditionNode() {
+			private static final long serialVersionUID = 1L;
 			
 			@Override
 			public ExecuteResult execute(float deltaTime) {
@@ -35,6 +37,7 @@ public class ReapBTN extends SequenceNode{
 		};
 		
 		ConditionNode judgeLeftCrop = new ConditionNode() {
+			private static final long serialVersionUID = 1L;
 			
 			@Override
 			public ExecuteResult execute(float deltaTime) {
@@ -52,6 +55,7 @@ public class ReapBTN extends SequenceNode{
 		};
 		
 		ConditionNode judgeTime = new ConditionNode() {
+			private static final long serialVersionUID = 1L;
 			
 			@Override
 			public ExecuteResult execute(float deltaTime) {
@@ -63,6 +67,7 @@ public class ReapBTN extends SequenceNode{
 		};
 		
 		ConditionNode isCropFull = new ConditionNode() {
+			private static final long serialVersionUID = 1L;
 			
 			@Override
 			public ExecuteResult execute(float deltaTime) {

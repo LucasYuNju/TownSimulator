@@ -6,11 +6,13 @@ import com.TownSimulator.entity.EntityInfoCollector;
 import com.TownSimulator.entity.EntityInfoCollector.WareHouseFindResult;
 import com.TownSimulator.entity.Man;
 import com.TownSimulator.entity.ManAnimeType;
+import com.TownSimulator.entity.ManStateType;
 import com.TownSimulator.entity.ResourceInfoCollector;
 import com.TownSimulator.entity.building.Building;
 import com.TownSimulator.entity.building.Warehouse;
 
 public class ConstructionTransportBTN extends ActionNode{
+	private static final long serialVersionUID = 1L;
 	public static final int		MAX_TRANSPORT_RS_AMOUNT = 500;
 	private State				mCurState;
 	//private ConstructionInfo		mMan.getInfo().constructionInfo;
@@ -33,7 +35,6 @@ public class ConstructionTransportBTN extends ActionNode{
 		int takeAmount = Math.min(availableAmount, mMan.getInfo().constructionInfo.transportNeededAmount - mMan.getInfo().constructionInfo.curRSAmount);
 		mMan.getInfo().constructionInfo.transportWareHouse.addStoredResource(mMan.getInfo().constructionInfo.transportRSType, -takeAmount);
 		mMan.getInfo().constructionInfo.curRSAmount += takeAmount;
-		System.out.println(takeAmount);
 		
 		ResourceInfoCollector.getInstance(ResourceInfoCollector.class)
 		.addResourceAmount(mMan.getInfo().constructionInfo.transportRSType, -takeAmount);
@@ -69,6 +70,8 @@ public class ConstructionTransportBTN extends ActionNode{
 		
 		switch (mCurState) {
 		case CONSTRUCT_TRANSPORT_TO_WAREHOUSR:
+			mMan.getInfo().manStates.add( ManStateType.Working );
+			
 			Warehouse wareHouse = mMan.getInfo().constructionInfo.transportWareHouse;
 			if(wareHouse == null)
 			{
@@ -104,6 +107,13 @@ public class ConstructionTransportBTN extends ActionNode{
 			break;
 			
 		case CONSTRUCT_TRANSPORT_TO_BUILDING:
+			if(mMan.getInfo().constructionInfo.curRSAmount < mMan.getInfo().constructionInfo.transportNeededAmount)
+			{
+				mCurState = State.CONSTRUCT_TRANSPORT_TO_WAREHOUSR;
+				break;
+			}
+			
+			mMan.getInfo().manStates.add( ManStateType.Working );
 			Building building = mMan.getInfo().constructionInfo.transportBuilding;
 			mMan.setMoveDestination(building.getPositionXWorld(), building.getPositionYWorld());
 			mMan.getInfo().animeType = ManAnimeType.MOVE;

@@ -1,6 +1,8 @@
 package com.TownSimulator.driver;
 
+
 public class DriverListenerBaseImpl implements DriverListener{
+	private static final long serialVersionUID = -1571227375698530590L;
 
 	@Override
 	public void dispose(){

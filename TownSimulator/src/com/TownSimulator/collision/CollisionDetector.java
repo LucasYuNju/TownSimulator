@@ -1,5 +1,8 @@
 package com.TownSimulator.collision;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.TownSimulator.camera.CameraController;
 import com.TownSimulator.entity.Entity;
 import com.TownSimulator.io.InputMgr;
@@ -12,18 +15,17 @@ import com.TownSimulator.utility.quadtree.QuadTree;
 import com.TownSimulator.utility.quadtree.QuadTreeManageble;
 import com.TownSimulator.utility.quadtree.QuadTreeType;
 import com.badlogic.gdx.math.Vector3;
-import com.badlogic.gdx.utils.Array;
 
 public class CollisionDetector extends SingletonPublisher<CollisionDetectorListener>{
 	private QuadTree		mCollsionDetector;
-	private	Array<Entity> 	mEventsListeningObjs;
+	private	List<Entity> 	mEventsListeningObjs;
 	private float touchDownXWorld;
 	private float touchDownYWorld;
 	
 	private CollisionDetector()
 	{
 		mCollsionDetector = new QuadTree(QuadTreeType.COLLISION, 0.0f, 0.0f, Map.MAP_WIDTH * Settings.UNIT, Map.MAP_HEIGHT * Settings.UNIT);
-		mEventsListeningObjs = new Array<Entity>();
+		mEventsListeningObjs = new ArrayList<Entity>();
 		
 		InputMgr.getInstance(InputMgr.class).addListener(new InputMgrListenerBaseImpl()
 		{
@@ -64,10 +66,10 @@ public class CollisionDetector extends SingletonPublisher<CollisionDetectorListe
 	{
 		mEventsListeningObjs.clear();
 		
-		Array<QuadTreeManageble> objs = new Array<QuadTreeManageble>();
+		List<QuadTreeManageble> objs = new ArrayList<QuadTreeManageble>();
 		if(mCollsionDetector.detectIntersection(x, y, objs))
 		{
-			for (int i = 0; i < objs.size; i++) {
+			for (int i = 0; i < objs.size(); i++) {
 				if(objs.get(i) instanceof Entity)
 				{
 					Entity obj = (Entity)objs.get(i);
@@ -83,21 +85,21 @@ public class CollisionDetector extends SingletonPublisher<CollisionDetectorListe
 	
 	private void touchUpWorldSpace(float x, float y)
 	{
-		for (int i = 0; i < mEventsListeningObjs.size; i++) {
+		for (int i = 0; i < mEventsListeningObjs.size(); i++) {
 			mEventsListeningObjs.get(i).detectTouchUp();
 		}
 		
 		if(x == touchDownXWorld && y == touchDownYWorld)
 		{
-			if(mEventsListeningObjs.size == 0)
+			if(mEventsListeningObjs.size() == 0)
 			{
-				for (int i = 0; i < mListeners.size; i++) {
+				for (int i = 0; i < mListeners.size(); i++) {
 					mListeners.get(i).emptyTapped();
 				}
 			}
 			else
 			{
-				for (int i = 0; i < mEventsListeningObjs.size; i++) {
+				for (int i = 0; i < mEventsListeningObjs.size(); i++) {
 					mEventsListeningObjs.get(i).detectTapped();
 				}
 			}
@@ -108,7 +110,7 @@ public class CollisionDetector extends SingletonPublisher<CollisionDetectorListe
 	
 	private void touchDraggedWorldSpace(float x, float y, float deltaX, float deltaY)
 	{
-		for (int i = 0; i < mEventsListeningObjs.size; i++) {
+		for (int i = 0; i < mEventsListeningObjs.size(); i++) {
 			mEventsListeningObjs.get(i).detectTouchDragged(x, y, deltaX, deltaY);
 		}
 	}
@@ -134,12 +136,12 @@ public class CollisionDetector extends SingletonPublisher<CollisionDetectorListe
 		return mCollsionDetector.detectIntersection(obj);
 	}
 	
-	public boolean detect(QuadTreeManageble obj, Array<QuadTreeManageble> collideObjs)
+	public boolean detect(QuadTreeManageble obj, List<QuadTreeManageble> collideObjs)
 	{
 		return mCollsionDetector.detectIntersection(obj, collideObjs);
 	}
 	
-	public boolean detect(QuadTreeManageble obj, Array<QuadTreeManageble> collideObjs, Array<QuadTreeManageble> excludedObjs)
+	public boolean detect(QuadTreeManageble obj, List<QuadTreeManageble> collideObjs, List<QuadTreeManageble> excludedObjs)
 	{
 		return mCollsionDetector.detectIntersection(obj, collideObjs, excludedObjs);
 	}
@@ -149,12 +151,12 @@ public class CollisionDetector extends SingletonPublisher<CollisionDetectorListe
 		return mCollsionDetector.detectIntersection(aabb);
 	}
 	
-	public boolean detect(AxisAlignedBoundingBox aabb, Array<QuadTreeManageble> collideObjs)
+	public boolean detect(AxisAlignedBoundingBox aabb, List<QuadTreeManageble> collideObjs)
 	{
 		return mCollsionDetector.detectIntersection(aabb, collideObjs);
 	}
 	
-	public boolean detect(AxisAlignedBoundingBox aabb, Array<QuadTreeManageble> collideObjs, Array<QuadTreeManageble> excludedObjs)
+	public boolean detect(AxisAlignedBoundingBox aabb, List<QuadTreeManageble> collideObjs, List<QuadTreeManageble> excludedObjs)
 	{
 		return mCollsionDetector.detectIntersection(aabb, collideObjs, excludedObjs);
 	}
@@ -164,12 +166,12 @@ public class CollisionDetector extends SingletonPublisher<CollisionDetectorListe
 		return mCollsionDetector.detectIntersection(x, y);
 	}
 	
-	public boolean detect(float x, float y, Array<QuadTreeManageble> collideObjs)
+	public boolean detect(float x, float y, List<QuadTreeManageble> collideObjs)
 	{
 		return mCollsionDetector.detectIntersection(x, y, collideObjs);
 	}
 	
-	public boolean detect(float x, float y, Array<QuadTreeManageble> collideObjs, Array<QuadTreeManageble> excludedObjs)
+	public boolean detect(float x, float y, List<QuadTreeManageble> collideObjs, List<QuadTreeManageble> excludedObjs)
 	{
 		return mCollsionDetector.detectIntersection(x, y, collideObjs, excludedObjs);
 	}

@@ -1,6 +1,8 @@
 package com.TownSimulator.camera;
 
 
+import java.util.ArrayList;
+
 import com.TownSimulator.io.InputMgr;
 import com.TownSimulator.io.InputMgrListener;
 import com.TownSimulator.map.Map;
@@ -15,7 +17,6 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
-import com.badlogic.gdx.utils.Array;
 
 public class CameraController extends SingletonPublisher<CameraListener>{
 	private final 	float 					ZOOM_SPEED = 0.1f;
@@ -41,7 +42,7 @@ public class CameraController extends SingletonPublisher<CameraListener>{
 		mCamera.position.y = Map.MAP_HEIGHT * Settings.UNIT * 0.5f;
 		mCameraScale = 1.0f;
 		mCameraViewAABB = new AxisAlignedBoundingBox();
-		mListeners = new Array<CameraListener>();
+		mListeners = new ArrayList<CameraListener>();
 		
 		mGestureDetector = new GestureDetector(new GestureListener() {
 			
@@ -216,7 +217,7 @@ public class CameraController extends SingletonPublisher<CameraListener>{
 		
 		mPrevZoomDist = distance;
 		
-		for (int i = 0; i < mListeners.size; i++) {
+		for (int i = 0; i < mListeners.size(); i++) {
 			mListeners.get(i).cameraZoomed(prevWidth, prevHeight, mCamera.viewportWidth, mCamera.viewportHeight);
 		}
 		return true;
@@ -236,7 +237,7 @@ public class CameraController extends SingletonPublisher<CameraListener>{
 				mCamera.viewportHeight * 0.5f, Map.MAP_HEIGHT * Settings.UNIT - mCamera.viewportHeight * 0.5f);
 		float dx = x - mCamera.position.x;
 		float dy = y - mCamera.position.y;
-		for (int i = 0; i < mListeners.size; i++) {
+		for (int i = 0; i < mListeners.size(); i++) {
 			mListeners.get(i).cameraMoved(dx, dy);
 		}
 		mCamera.position.x = x;

@@ -1,17 +1,19 @@
 package com.TownSimulator.entity.building;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
+import com.TownSimulator.entity.EntityInfoCollector;
 import com.TownSimulator.entity.Resource;
 import com.TownSimulator.entity.ResourceInfoCollector;
 import com.TownSimulator.entity.ResourceType;
 import com.TownSimulator.ui.UIManager;
 import com.TownSimulator.ui.building.view.ScrollViewWindow;
 import com.TownSimulator.ui.building.view.UndockedWindow;
-import com.TownSimulator.utility.ResourceManager;
 import com.TownSimulator.utility.Settings;
 import com.TownSimulator.utility.Singleton;
 import com.TownSimulator.utility.TipsBillborad;
@@ -19,14 +21,28 @@ import com.TownSimulator.utility.quadtree.QuadTreeType;
 import com.badlogic.gdx.graphics.Color;
 
 public class Warehouse extends Building {
+	private static final long serialVersionUID = -1934873980764058889L;
 	private List<Resource> storedResources;
-	protected ScrollViewWindow scrollWindow;
+	protected transient ScrollViewWindow scrollWindow;
 	
 	public Warehouse() {
-		super(ResourceManager.getInstance(ResourceManager.class).createSprite("building_warehouse"), BuildingType.WAREHOUSE);
+		super("building_warehouse", BuildingType.WAREHOUSE);
 		storedResources = new LinkedList<Resource>();
 	}
 	
+	@Override
+	public void destroy() {
+		super.destroy();
+		
+		Warehouse warehouse = EntityInfoCollector.getInstance(EntityInfoCollector.class).findNearestWareHouse(mPosXWorld, mPosYWorld);
+		if(warehouse != null)
+		{
+			for (Resource r : storedResources) {
+				warehouse.addStoredResource(r.getType(), r.getAmount(), false);
+			}
+		}
+	}
+
 	public void addStoredResource(ResourceType type, int amount, boolean showTips)
 	{
 		if(amount == 0)
@@ -37,8 +53,7 @@ public class Warehouse extends Building {
 		else
 			storedResources.add(new Resource(type, amount));
 		
-		ResourceInfoCollector.getInstance(ResourceInfoCollector.class)
-			.addResourceAmount(type, amount);
+		ResourceInfoCollector.getInstance(ResourceInfoCollector.class).addResourceAmount(type, amount);
 		updateViewWindow();
 		
 		if (showTips) {
@@ -46,11 +61,12 @@ public class Warehouse extends Building {
 			float originY = getAABBWorld(QuadTreeType.DRAW).maxY + Settings.UNIT * 0.4f;
 			Color color = amount > 0 ? Color.WHITE : Color.RED;
 			TipsBillborad.showTips(
-					type + (amount > 0 ? " + " : " - ") + amount,
+					type + (amount > 0 ? " + " : " - ") + Math.abs(amount),
 					originX,
 					originY, color);
 		}
 	}
+	
 	
 	public void addStoredResource(ResourceType type, int amount)
 	{
@@ -106,5 +122,16 @@ public class Warehouse extends Building {
 		wheat.addAmount(-resWheatAmount);
 		Singleton.getInstance(ResourceInfoCollector.class).addResourceAmount(ResourceType.RS_WHEAT, -resWheatAmount);
 		return resWheatAmount;
+	}
+
+	protected void reloadViewWindow() {
+		if(storedResources == null)
+			storedResources = new LinkedList<Resource>();
+		updateViewWindow();
+	}
+	
+	private void readObject(ObjectInputStream s) throws ClassNotFoundException, IOException {
+		s.defaultReadObject();
+		reloadViewWindow();
 	}
 }

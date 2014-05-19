@@ -11,6 +11,7 @@ import com.TownSimulator.entity.building.BuildingType;
 import com.TownSimulator.entity.building.LivingHouse;
 
 public class FindHomeBTN extends SequenceNode{
+	private static final long serialVersionUID = -2390475739803251930L;
 	private Man man;
 	
 	public FindHomeBTN(Man man)
@@ -36,31 +37,41 @@ public class FindHomeBTN extends SequenceNode{
 	private void init()
 	{
 		ConditionNode judgeNoHome = new ConditionNode() {
-			
+			private static final long serialVersionUID = -6854019655291676036L;
+
 			@Override
 			public ExecuteResult execute(float deltaTime) {
 				if(man.getInfo().home == null)
 					return ExecuteResult.TRUE;
-				else
+				else {
+//					if (man.getInfo().home instanceof LowCostHouse) {
+//						man.getInfo().hpResideInLowCostHouse(deltaTime);
+//					}
+//					else if(man.getInfo().home instanceof ApartmentHouse)
+//						man.getInfo().hpResideInApartment(deltaTime);
 					return ExecuteResult.FALSE;
-			}
-		};
-		
-		ActionNode findHomeExecute = new ActionNode() {
-			
-			@Override
-			public ExecuteResult execute(float deltaTime) {
-				LivingHouse home = findHome();
-				if(home == null)
-					return ExecuteResult.FALSE;
-				else
-				{
-					home.addResident(man.getInfo());
-					return ExecuteResult.TRUE;
 				}
 			}
 		};
 		
+		ActionNode findHomeExecute = new ActionNode() {
+			private static final long serialVersionUID = 1210120106749191549L;
+
+			@Override
+			public ExecuteResult execute(float deltaTime) {
+				LivingHouse home = findHome();
+				if(home == null) {
+//					man.getInfo().hpHomeless(deltaTime);
+					return ExecuteResult.FALSE;
+				}
+				else
+				{
+					home.addResident(man.getInfo());
+					man.getInfo().hpFindSomeHouse();
+					return ExecuteResult.TRUE;
+				}
+			}
+		};
 		
 		this.addNode(judgeNoHome)
 			.addNode(findHomeExecute);

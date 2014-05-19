@@ -1,5 +1,9 @@
 package com.TownSimulator.ui.building.view;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.Serializable;
+
 import com.TownSimulator.camera.CameraController;
 import com.TownSimulator.camera.CameraListener;
 import com.TownSimulator.entity.building.BuildingType;
@@ -23,6 +27,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.Align;
  * 能跟随地图移动
  * <p>添加关闭按钮
  * <p>添加建筑名
+ * <p>添加拆除按钮
  */
 public class UndockedWindow extends Group{
 	protected float buildingPosXWorld;
@@ -30,20 +35,30 @@ public class UndockedWindow extends Group{
 	public static final float MARGIN = Settings.MARGIN;
 	public static final float LABEL_WIDTH = Settings.LABEL_WIDTH;
 	public static final float LABEL_HEIGHT = Settings.LABEL_HEIGHT;
-	public static final float ICON_WIDTH = Settings.LABEL_WIDTH;
+	public static final float ICON_WIDTH = Settings.UNIT;
 	public static final float MIN_WIDTH = LABEL_WIDTH * 2.5f;
 	protected BuildingType buildingType;
-	protected TextureRegion background;
+	protected transient TextureRegion background;
+	private String bgPath = "background";
 	protected Button closeButton;
+	protected Button dynamiteButton;
 	protected Label headerLabel;
+	private UndockedWindowListener listener;
+	
+	public interface UndockedWindowListener extends Serializable
+	{
+		public void dynamiteButtonClicked();
+	}
 	
 	public UndockedWindow(BuildingType buildingType) {
 		super();
-		background = Singleton.getInstance(ResourceManager.class).createTextureRegion("background");
+		background = Singleton.getInstance(ResourceManager.class).createTextureRegion(bgPath);
 		this.buildingType = buildingType;
 		initCameraListener();
 		
 		setColor(1.0f, 1.0f, 1.0f, Settings.UI_ALPHA);
+		
+		addDynamiteButton();
 	}
 	
 	protected void addCloseButton() {
@@ -95,6 +110,46 @@ public class UndockedWindow extends Group{
 		}
 	}
 	
+	protected void addDynamiteButton()
+	{
+		dynamiteButton = new FlipButton("button_dynamite", "button_dynamite", null);
+		dynamiteButton.setSize(LABEL_HEIGHT * 1.5f, LABEL_HEIGHT * 1.5f);
+		dynamiteButton.setPosition(getWidth() - dynamiteButton.getWidth(), 0.0f);
+		dynamiteButton.addListener(new InputListener()
+		{
+			float touchDownX = 0.0f;
+			float touchDownY = 0.0f;
+			
+			@Override
+			public boolean touchDown(InputEvent event, float x, float y,
+					int pointer, int button) {
+				touchDownX = x;
+				touchDownY = y;
+				return true;
+			}
+
+			@Override
+			public void touchUp(InputEvent event, float x, float y,
+					int pointer, int button) {
+				if(touchDownX == x && touchDownY == y)
+				{
+					if(listener != null)
+						listener.dynamiteButtonClicked();
+				}
+			}
+			
+		});
+		addActor(dynamiteButton);
+	}
+	
+	public void setShowDynamiteButton(boolean v)
+	{
+		if(v)
+			dynamiteButton.setVisible(true);
+		else
+			dynamiteButton.setVisible(false);
+	}
+	
 	/**
 	 * 更新组件位置
 	 */
@@ -102,11 +157,14 @@ public class UndockedWindow extends Group{
 	{
 		closeButton.setPosition(getWidth() - closeButton.getWidth(), getHeight() - closeButton.getHeight());
 		headerLabel.setPosition(MARGIN, getHeight() - LABEL_HEIGHT);
+		dynamiteButton.setPosition(getWidth() - dynamiteButton.getWidth(), 0.0f);
 	}
 	
 	protected void initCameraListener()
 	{
 		CameraController.getInstance(CameraController.class).addListener(new CameraListener() {
+			private static final long serialVersionUID = 1811039619585047103L;
+
 			@Override
 			public void cameraZoomed(float prevWidth, float prevHeight, float curWidth,
 					float curHeight) {
@@ -120,6 +178,11 @@ public class UndockedWindow extends Group{
 					updatePosition();
 			}
 		});
+	}
+	
+	public void setUndockedWindowListener(UndockedWindowListener listener)
+	{
+		this.listener = listener;
 	}
 	
 	@Override
@@ -155,5 +218,10 @@ public class UndockedWindow extends Group{
 		applyTransform(batch, computeTransform());
 		drawChildren(batch, parentAlpha);
 		resetTransform(batch);
+	}
+	
+	protected void readObject(ObjectInputStream s) throws ClassNotFoundException, IOException {
+		s.defaultReadObject();
+		background = Singleton.getInstance(ResourceManager.class).createTextureRegion(bgPath);
 	}
 }

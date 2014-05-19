@@ -17,7 +17,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
  * <p>已知使用ScrollViewWindow的有:LivingHouse, Warehouse, Hospital
  * <p>ScrollViewWindow的UI初始化会推迟到第一次调用updateData()
  */
-public class ScrollViewWindow extends UndockedWindow{
+public class ScrollViewWindow extends UndockedWindow {
 	private static final int NUM_LABEL_PER_PAGE = 8;
 	List<List<String>> data;
 	List<Label> labels;
@@ -29,18 +29,22 @@ public class ScrollViewWindow extends UndockedWindow{
 		super(buildingType);
 		setPosition(0, 0);
 		data = new ArrayList<List<String>>();
+		
+//		initUI();
 	}
 
-	private void initUI() {
+	public void initUI() {
 		int numLabel = data.size() > NUM_LABEL_PER_PAGE ? data.size() : NUM_LABEL_PER_PAGE;
 		int numLabelPerRow = 2;
 		if(!data.isEmpty())
 			numLabelPerRow = data.get(0).size();
-		setSize(LABEL_WIDTH * numLabelPerRow + MARGIN * 2, LABEL_HEIGHT * numLabel + MARGIN * 2);
+		setSize(LABEL_WIDTH * numLabelPerRow + MARGIN * 2 + dynamiteButton.getWidth(), LABEL_HEIGHT * numLabel + MARGIN * 2);
 		getParent().setSize(getWidth(), getHeight());
 		addLabels();
 		addCloseButton();
 		addHeader();
+		
+		updateLayout();
 	}
 	
 	public void addLabels() {

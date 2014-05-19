@@ -10,20 +10,20 @@ import com.TownSimulator.utility.Settings;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 
-
 public class Tree extends MapEntity{
+	private static final long serialVersionUID = -8752992565837306424L;
 	public static final float MAX_SCALE = 1.0f;
 	public static final float MAX_WIDTH = Settings.UNIT * 1.5f;
 	public static final float MAX_HEIGHT = Settings.UNIT * 2.0f;
 	public static final float MAX_HELTH = 100.0f;
 	public static final float GROW_TO_MAX_TIME_BASE = World.SecondPerYear * 0.5f;
+	private static final float GROW_ANIME_TIME = 1.0f;
 	public float growToMaxTime = World.SecondPerYear * 0.5f;
 	private float scale;
 	private float scaleAccum = 0.0f;
 	private float growAnimeScaleBegin = 0.0f;
 	private float growAnimeScaleEnd = 0.0f;
 	private boolean growAnimeStart = false;
-	private static final float GROW_ANIME_TIME = 1.0f;
 	private float growAnimeAccum = 1.0f;
 	private float health;
 	private boolean bActive = false;
@@ -43,14 +43,13 @@ public class Tree extends MapEntity{
 		
 		driverListener = new DriverListenerBaseImpl()
 		{
+			private static final long serialVersionUID = -5196416861466739634L;
 
 			@Override
 			public void update(float deltaTime) {
 				Tree.this.update(deltaTime);
 			}
-			
 		};
-		
 		growToMaxTime = GROW_TO_MAX_TIME_BASE * ( 1.0f + rand.nextFloat() * 0.5f);
 	}
 	
@@ -156,7 +155,6 @@ public class Tree extends MapEntity{
 				growAnimeAccum = GROW_ANIME_TIME;
 				scaleAccum = 0.0f;
 			}
-			
 		}
 		
 		if(health < MAX_HELTH)
@@ -175,18 +173,6 @@ public class Tree extends MapEntity{
 		super.drawSelf(batch);
 	}
 	
-	
-
-//	@Override
-//	public boolean detectTouchDown() {
-//		return true;
-//	}
-//
-//	@Override
-//	public void detectTapped() {
-//		shake();
-//	}
-
 	private void resetSize()
 	{
 		float width = MAX_WIDTH * scale;

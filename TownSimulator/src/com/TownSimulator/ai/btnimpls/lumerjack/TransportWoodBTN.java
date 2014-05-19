@@ -5,6 +5,7 @@ import com.TownSimulator.ai.behaviortree.ExecuteResult;
 import com.TownSimulator.entity.EntityInfoCollector;
 import com.TownSimulator.entity.Man;
 import com.TownSimulator.entity.ManAnimeType;
+import com.TownSimulator.entity.ManStateType;
 import com.TownSimulator.entity.ResourceType;
 import com.TownSimulator.entity.building.Warehouse;
 import com.TownSimulator.entity.building.WorkableBuilding;
@@ -14,6 +15,7 @@ import com.TownSimulator.utility.quadtree.QuadTreeType;
 import com.badlogic.gdx.graphics.Color;
 
 public class TransportWoodBTN extends ActionNode{
+	private static final long serialVersionUID = 1L;
 	private Man man;
 	private FellingInfo fellingInfo;
 	//private Warehouse warehouse;
@@ -40,6 +42,7 @@ public class TransportWoodBTN extends ActionNode{
 //		}
 		
 		man.setMoveDestination(house.getPositionXWorld(), house.getPositionYWorld());
+		man.getInfo().manStates.add( ManStateType.Working );
 		
 		if( !man.move(deltaTime) )
 		{
@@ -48,12 +51,14 @@ public class TransportWoodBTN extends ActionNode{
 									.findNearestWareHouse(man.getPositionXWorld(), man.getPositionYWorld());
 			if(warehouse != null)
 			{
-				warehouse.addStoredResource(ResourceType.RS_WOOD, FELLING_WOOD_AMOUNT, false);
+				float efficency = man.getInfo().workEfficency;
+				int amount = (int)(FELLING_WOOD_AMOUNT * efficency);
+				warehouse.addStoredResource(ResourceType.RS_WOOD, amount, false);
 				float originX = house.getAABBWorld(QuadTreeType.DRAW).getCenterX();
 				float originY = house.getAABBWorld(QuadTreeType.DRAW).maxY + Settings.UNIT * 0.4f;
 				Color color = Color.WHITE;
 				TipsBillborad.showTips(
-						ResourceType.RS_WOOD + " + " + FELLING_WOOD_AMOUNT,
+						ResourceType.RS_WOOD + " + " + amount,
 						originX,
 						originY, color);
 			}

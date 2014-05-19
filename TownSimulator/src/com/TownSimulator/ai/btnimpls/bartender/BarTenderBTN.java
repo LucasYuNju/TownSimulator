@@ -5,6 +5,7 @@ import com.TownSimulator.ai.btnimpls.general.GeneralBTN;
 import com.TownSimulator.entity.Man;
 
 public class BarTenderBTN extends SelectorNode{
+	private static final long serialVersionUID = 1L;
 	private Man man;
 	
 	public BarTenderBTN(Man man)

@@ -1,41 +1,37 @@
 package com.TownSimulator.ui.screen;
 
 
+import com.TownSimulator.entity.World;
+import com.TownSimulator.render.Renderer;
+import com.TownSimulator.ui.UIManager;
 import com.TownSimulator.ui.base.FlipButton;
 import com.TownSimulator.ui.base.ScreenUIBase;
+import com.TownSimulator.utility.Settings;
+import com.TownSimulator.utility.Singleton;
+import com.TownSimulator.utility.ls.LoadSave;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.utils.Array;
 
-public class StartScreenUI extends ScreenUIBase {
+public class StartScreen extends ScreenUIBase {
+	private static final long serialVersionUID = -7228539445855533616L;
 	private float			mButtonWidth 	= Gdx.graphics.getWidth() / 8.0f;
 	private float			mButtonHeight 	= Gdx.graphics.getHeight() / 10.0f;
 	private float			mVerticalPad 	= mButtonHeight * 0.2f;
 	private Array<FlipButton> mButtonList;
 	private FlipButton		mStartButton;
-	private FlipButton		mOptionButton;
-	private FlipButton		mScoreButton;
+	private FlipButton		mLoadButton;
 	private FlipButton		mQuitButton;
-	private StartUIListener mListner;
 	
-	public interface StartUIListener
+	public StartScreen()
 	{
-		public void startGame();
-	}
-	
-	public StartScreenUI()
-	{
+		mButtonList = new Array<FlipButton>();
 		initComponents();
 	}
 	
 	private void initComponents()
 	{
-		mButtonList = new Array<FlipButton>();
-		
-		//TextureRegionDrawable imgUp = new TextureRegionDrawable(ResourceManager.getInstance(ResourceManager.class).findTextureRegion("button_up"));
-		//TextureRegionDrawable imgDown = new TextureRegionDrawable(ResourceManager.getInstance(ResourceManager.class).findTextureRegion("button_down"));
-		
 		mStartButton = new FlipButton("button_up", "button_down", "Start");
 		mStartButton.setSize(mButtonWidth, mButtonHeight );
 		mStartButton.addListener(new InputListener()
@@ -49,22 +45,34 @@ public class StartScreenUI extends ScreenUIBase {
 			@Override
 			public void touchUp(InputEvent event, float x, float y,
 					int pointer, int button) {
-				if(mListner != null)
-				{
-					mListner.startGame();
-				}
+					Singleton.getInstance(UIManager.class).startGame();
 			}
-			
 		});
 		mButtonList.add(mStartButton);
 		
-		mOptionButton = new FlipButton("button_up", "button_down", "Option");
-		mOptionButton.setSize(mButtonWidth, mButtonHeight );	
-		mButtonList.add(mOptionButton);
-		
-		mScoreButton = new FlipButton("button_up", "button_down", "Score");
-		mScoreButton.setSize(mButtonWidth, mButtonHeight );	
-		mButtonList.add(mScoreButton);
+		mLoadButton = new FlipButton("button_up", "button_down", "Load");
+		mLoadButton.setSize(mButtonWidth, mButtonHeight );	
+		mButtonList.add(mLoadButton);
+		mLoadButton.addListener(new InputListener() {
+			@Override
+			public boolean touchDown(InputEvent event, float x, float y,
+					int pointer, int button) {
+				return true;
+			}
+			
+			@Override
+			public void touchUp(InputEvent event, float x, float y,
+					int pointer, int button) {
+				boolean isSucessful = LoadSave.getInstance().load();
+				if(isSucessful) {
+					World.getInstance(World.class).init();
+					Renderer.getInstance(Renderer.class).setRenderScene(true);
+					World.getInstance(World.class).setGroundColor();
+					Singleton.getInstance(UIManager.class).finishLoading();
+//					Singleton.getInstance(UIManager.class).listenToDriver();
+				}
+			}
+		});
 		
 		mQuitButton = new FlipButton("button_up", "button_down", "Quit");
 		mQuitButton.setSize(mButtonWidth, mButtonHeight );
@@ -90,14 +98,6 @@ public class StartScreenUI extends ScreenUIBase {
 		}
 	}
 	
-	
-	
-//	@Override
-//	public void show() {
-//		super.show();
-//		initComponents();
-//	}
-
 	private void updateLayout()
 	{
 		float centerX = Gdx.graphics.getWidth() * 0.5f;
@@ -110,10 +110,4 @@ public class StartScreenUI extends ScreenUIBase {
 			posY -= dy;
 		}
 	}
-	
-	public void setListner(StartUIListener l)
-	{
-		mListner = l;
-	}
-	
 }

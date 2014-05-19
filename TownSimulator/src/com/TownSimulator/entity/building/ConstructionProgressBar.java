@@ -1,5 +1,10 @@
 package com.TownSimulator.entity.building;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.util.ArrayList;
+import java.util.List;
+
 import com.TownSimulator.render.Drawable;
 import com.TownSimulator.render.Renderer;
 import com.TownSimulator.render.RendererListener;
@@ -9,21 +14,20 @@ import com.TownSimulator.utility.Settings;
 import com.TownSimulator.utility.quadtree.QuadTreeType;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.utils.Array;
 
 public class ConstructionProgressBar implements Drawable{
-	
 	private static TextureRegion spBackgroud = ResourceManager.getInstance(ResourceManager.class).createTextureRegion("background");
 	private static TextureRegion spBar = ResourceManager.getInstance(ResourceManager.class).createTextureRegion("process_bar");
-	private static Array<ConstructionProgressBar> barsAlloced = new Array<ConstructionProgressBar>();
-	private static Array<ConstructionProgressBar> barsFree = new Array<ConstructionProgressBar>();
+	private static List<ConstructionProgressBar> barsAlloced = new ArrayList<ConstructionProgressBar>();
+	private static List<ConstructionProgressBar> barsFree = new ArrayList<ConstructionProgressBar>();
 	private Building building;
 	private float progress;
 	
 	static
 	{
 		Renderer.getInstance(Renderer.class).addListener(new RendererListener() {
-			
+			private static final long serialVersionUID = -5940796622618726626L;
+
 			@Override
 			public void renderEnded() {
 			}
@@ -42,25 +46,26 @@ public class ConstructionProgressBar implements Drawable{
 	
 	private static void render()
 	{
-		for (int i = 0; i < barsAlloced.size; i++) {
+		for (int i = 0; i < barsAlloced.size(); i++) {
 			Renderer.getInstance(Renderer.class).draw( barsAlloced.get(i) );
 		}
 	}
 	
 	private static ConstructionProgressBar alloc()
 	{
-		if(barsFree.size <= 0)
+		if(barsFree.size() <= 0)
 			barsFree.add(new ConstructionProgressBar());
-		
-		ConstructionProgressBar bar = barsFree.pop();
+		ConstructionProgressBar bar = barsFree.remove(barsFree.size() - 1);
 		barsAlloced.add(bar);
 		return bar;
 	}
 	
 	public void realease()
 	{
-		if( barsAlloced.removeValue(this, false) )
+		if( barsAlloced.remove(this) )
 			barsFree.add(this);
+		
+		setProgress(0.0f);
 	}
 	
 	public static ConstructionProgressBar create(Building building)
@@ -92,4 +97,9 @@ public class ConstructionProgressBar implements Drawable{
 		return -1.0f;
 	}
 	
+	private void readObject(ObjectInputStream s) throws ClassNotFoundException, IOException {
+		s.defaultReadObject();
+		spBackgroud = ResourceManager.getInstance(ResourceManager.class).createTextureRegion("background");
+		spBar = ResourceManager.getInstance(ResourceManager.class).createTextureRegion("process_bar");
+	}
 }

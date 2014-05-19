@@ -1,19 +1,22 @@
 package com.TownSimulator.ai.btnimpls.general;
 
+import java.util.List;
+
 import com.TownSimulator.ai.behaviortree.ActionNode;
 import com.TownSimulator.ai.behaviortree.ExecuteResult;
 import com.TownSimulator.ai.behaviortree.SequenceNode;
 import com.TownSimulator.entity.EntityInfoCollector;
 import com.TownSimulator.entity.Man;
 import com.TownSimulator.entity.ManAnimeType;
+import com.TownSimulator.entity.ManStateType;
 import com.TownSimulator.entity.building.Building;
 import com.TownSimulator.entity.building.BuildingType;
 import com.TownSimulator.entity.building.Hospital;
 import com.TownSimulator.utility.Singleton;
 import com.TownSimulator.utility.quadtree.QuadTreeType;
-import com.badlogic.gdx.utils.Array;
 
 public class SeeADoctorBTN extends SequenceNode{
+	private static final long serialVersionUID = 7800595047323124796L;
 	private Man man;
 	
 	public SeeADoctorBTN(Man man) {
@@ -24,27 +27,47 @@ public class SeeADoctorBTN extends SequenceNode{
 	private void initSubNodes() {		
 		ActionNode seeADoctorNode = new ActionNode() {
 
+			private static final long serialVersionUID = -6422737239494273816L;
+
 			@Override
 			public ExecuteResult execute(float deltaTime) {
 				Hospital hospital;
+				
 				if((hospital=getAdmittedHospital()) != null) {
 					if(!man.getInfo().isHealthy()) {
 						if(hospital.getCurWorkerCnt() > 0) {
-							man.getInfo().receiveTreatment();
-							hospital.updateHospitalViewWindow();
+							float destX = hospital.getAABBWorld(QuadTreeType.COLLISION).getCenterX();
+							float destY = hospital.getAABBWorld(QuadTreeType.COLLISION).getCenterY();
+							man.setMoveDestination(destX, destY);
+							man.getInfo().manStates.add( ManStateType.Working );
+							
+							if( !man.move(deltaTime) )
+							{
+								man.getInfo().animeType = ManAnimeType.STANDING;
+								man.getInfo().receiveTreatment(deltaTime);
+								hospital.updateHospitalViewWindow();
+							}
+							else
+								man.getInfo().animeType = ManAnimeType.MOVE;
+							
+							return ExecuteResult.RUNNING;
 						}
-						return ExecuteResult.RUNNING;
+						else
+							return ExecuteResult.FALSE;
+						
 					}
 					else {
 						getAdmittedHospital().removePatient(man);
 						return ExecuteResult.FALSE;
 					}
 				}
-				if (man.getInfo().isSick()) {
+				else if (man.getInfo().isSick()) {
 					if((hospital=getEmptyHospital()) != null) {
 						float destX = hospital.getAABBWorld(QuadTreeType.COLLISION).getCenterX();
 						float destY = hospital.getAABBWorld(QuadTreeType.COLLISION).getCenterY();
 						man.setMoveDestination(destX, destY);
+						man.getInfo().manStates.add( ManStateType.Sick );
+						
 						if( !man.move(deltaTime) )
 						{
 							man.getInfo().animeType = ManAnimeType.STANDING;
@@ -56,6 +79,7 @@ public class SeeADoctorBTN extends SequenceNode{
 						return ExecuteResult.TRUE;
 					}
 				}
+				
 				return ExecuteResult.FALSE;
 			}
 
@@ -65,10 +89,10 @@ public class SeeADoctorBTN extends SequenceNode{
 	
 	
 	private Hospital getEmptyHospital() {
-		Array<Building> hospitals = Singleton.getInstance(EntityInfoCollector.class).getBuildings(BuildingType.Hospital);
+		List<Building> hospitals = Singleton.getInstance(EntityInfoCollector.class).getBuildings(BuildingType.Hospital);
 		for(Building building : hospitals) {
 			Hospital hospital = (Hospital) building;
-			if(hospital.hasCapacity())
+			if(hospital.getState() == Building.State.Constructed && hospital.hasCapacity())
 				return hospital;
 		}
 		return null;
@@ -79,7 +103,7 @@ public class SeeADoctorBTN extends SequenceNode{
 	 * 	return null 如果man不属于任何医院
 	 */
 	private Hospital getAdmittedHospital() {
-		Array<Building> hospitals = Singleton.getInstance(EntityInfoCollector.class).getBuildings(BuildingType.Hospital);
+		List<Building> hospitals = Singleton.getInstance(EntityInfoCollector.class).getBuildings(BuildingType.Hospital);
 		for(Building building : hospitals) {
 			Hospital hospital = (Hospital) building;
 			if(hospital.containsPatient(man))

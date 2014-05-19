@@ -5,14 +5,19 @@ import com.TownSimulator.ai.behaviortree.ExecuteResult;
 import com.TownSimulator.entity.EntityInfoCollector;
 import com.TownSimulator.entity.Man;
 import com.TownSimulator.entity.ManAnimeType;
+import com.TownSimulator.entity.ManStateType;
 import com.TownSimulator.entity.building.Building;
 import com.TownSimulator.entity.building.BuildingType;
 import com.TownSimulator.entity.building.FarmHouse;
 import com.TownSimulator.entity.building.FarmLand;
 import com.TownSimulator.entity.building.Warehouse;
+import com.TownSimulator.utility.Settings;
+import com.TownSimulator.utility.TipsBillborad;
 import com.TownSimulator.utility.quadtree.QuadTreeType;
+import com.badlogic.gdx.graphics.Color;
 
 public class ReapExexcuteBTN extends ActionNode{
+	private static final long serialVersionUID = 1L;
 	private Man man;
 	private static final float REAP_TIME_PER_LAND = 2.0f;
 	private float timeAccum = 0.0f;
@@ -70,16 +75,21 @@ public class ReapExexcuteBTN extends ActionNode{
 			
 			FarmLand land = farmHouse.getFarmLands().get(landIndex);
 			float reappedAmount = land.getCurCropAmount();
-			System.out.println(reappedAmount);
+//			System.out.println(reappedAmount);
 			land.addCropAmount(-reappedAmount);
 			land.updateView();
 			
-			warehouse.addStoredResource(farmHouse.getCurCropType().getResourceType(), (int)reappedAmount);
+			warehouse.addStoredResource(farmHouse.getCurCropType().getResourceType(), (int)reappedAmount, false);
+			float originX = farmHouse.getAABBWorld(QuadTreeType.DRAW).getCenterX();
+			float originY = farmHouse.getAABBWorld(QuadTreeType.DRAW).maxY + Settings.UNIT * 0.4f;
+			TipsBillborad.showTips(
+					farmHouse.getCurCropType() + " + " + (int)reappedAmount,
+					originX,
+					originY, Color.WHITE);
 			
-			if( farmHouse.getReappedLandCnt() >= farmHouse.getFarmLands().size )
+			if( farmHouse.getReappedLandCnt() >= farmHouse.getFarmLands().size() )
 				reapFinish();
 		}
-		
 	}
 	
 	@Override
@@ -91,6 +101,7 @@ public class ReapExexcuteBTN extends ActionNode{
 		float destY = middleFarmLand.getAABBWorld(QuadTreeType.COLLISION).getCenterY();
 		man.setMoveDestination(destX, destY);
 		man.getInfo().animeType = ManAnimeType.MOVE;
+		man.getInfo().manStates.add( ManStateType.Working );
 		
 		if( !man.move(deltaTime) )
 		{

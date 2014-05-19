@@ -1,5 +1,7 @@
 package com.TownSimulator.entity.building;
 
+import java.util.List;
+
 import com.TownSimulator.ai.behaviortree.BehaviorTreeNode;
 import com.TownSimulator.ai.btnimpls.bartender.BarTenderBTN;
 import com.TownSimulator.entity.EntityInfoCollector;
@@ -9,17 +11,17 @@ import com.TownSimulator.ui.UIManager;
 import com.TownSimulator.ui.building.view.BarViewWindow;
 import com.TownSimulator.ui.building.view.WorkableViewWindow;
 import com.TownSimulator.utility.Singleton;
-import com.badlogic.gdx.utils.Array;
 
 public class Bar extends WorkableBuilding{
+	private static final long serialVersionUID = 4094024332249625038L;
 	//一年掉120幸福度，多消耗600粮食
 	public static final int HAPPINESS_POINTS_PER_WINE = 10;
 	private static final int WHEAT_PER_WINE = 50;
 	private static final int MAX_WINE_STORAGE = 10;
 	private static final int NUM_ALLOWED_WORKER = 2;
-	private BarViewWindow barViewWindow;
 	private int wineStorage;
 	private int wheatStorage;
+	private transient BarViewWindow barViewWindow;
 	
 	public Bar() {
 		super("building_bar", BuildingType.Bar, JobType.BARTENDER);
@@ -51,7 +53,7 @@ public class Bar extends WorkableBuilding{
 	
 	private void makeWine() {
 		@SuppressWarnings({ "unchecked", "rawtypes" })
-		Array<Warehouse> warehouses = (Array)Singleton.getInstance(EntityInfoCollector.class).getBuildings(BuildingType.WAREHOUSE);
+		List<Warehouse> warehouses = (List)Singleton.getInstance(EntityInfoCollector.class).getBuildings(BuildingType.WAREHOUSE);
 		for(Warehouse warehouse : warehouses) {
 			if(warehouse.isWheatAbundant()) {
 				int wheatCount = warehouse.requestWheat((int)getNeededWheat());
@@ -88,4 +90,10 @@ public class Bar extends WorkableBuilding{
 	protected BehaviorTreeNode createBehavior(Man man) {
 		return new BarTenderBTN(man);
 	}
+	
+//	@Override
+//	protected void reloadViewWindow() {
+//		super.reloadViewWindow();
+//		barViewWindow.updateWineStorage(wineStorage);
+//	}
 }

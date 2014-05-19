@@ -4,6 +4,7 @@ import com.TownSimulator.ai.behaviortree.ActionNode;
 import com.TownSimulator.ai.behaviortree.ExecuteResult;
 import com.TownSimulator.entity.Man;
 import com.TownSimulator.entity.ManAnimeType;
+import com.TownSimulator.entity.ManStateType;
 import com.TownSimulator.entity.Tree;
 import com.TownSimulator.utility.Animation.AnimationListener;
 import com.TownSimulator.utility.AxisAlignedBoundingBox;
@@ -14,6 +15,7 @@ import com.TownSimulator.utility.quadtree.QuadTreeType;
 import com.badlogic.gdx.math.Vector2;
 
 public class FellingExecuteBTN extends ActionNode{
+	private static final long serialVersionUID = -3010511761059974672L;
 	public static int FELLING_CNT = 4;// 每砍FELLING_CNT次获取一次木材
 	public float fellingInterval = 2.0f;
 	public float fellingAccum = 0.0f;
@@ -28,7 +30,8 @@ public class FellingExecuteBTN extends ActionNode{
 		this.fellingInfo = fellingInfo;
 		
 		workAnimeListener = new AnimationListener() {
-			
+			private static final long serialVersionUID = 2768734776856527791L;
+
 			@Override
 			public void frameChanged(int curFrameIndex) {
 				if(curFrameIndex == 1 && FellingExecuteBTN.this.fellingInfo.fellingTree != null)
@@ -90,6 +93,7 @@ public class FellingExecuteBTN extends ActionNode{
 	private void felling(float deltaTime)
 	{
 		man.setMoveDestination(fellingInfo.fellingTree.getPositionXWorld(), fellingInfo.fellingTree.getPositionYWorld());
+		man.getInfo().manStates.add( ManStateType.Working );
 		
 		if( !man.move(deltaTime) )
 		{

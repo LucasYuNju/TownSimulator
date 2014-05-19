@@ -1,5 +1,11 @@
 package com.TownSimulator.entity;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+
 import com.TownSimulator.collision.CollisionDetector;
 import com.TownSimulator.collision.CollisionDetectorListener;
 import com.TownSimulator.render.Drawable;
@@ -11,56 +17,60 @@ import com.TownSimulator.utility.quadtree.QuadTreeNode;
 import com.TownSimulator.utility.quadtree.QuadTreeType;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.utils.Array;
 
-public class Entity implements Drawable, QuadTreeManageble{
+public class Entity implements Drawable, QuadTreeManageble, Serializable{
+	private static final long serialVersionUID = 5545997297127601552L;
 	protected Sprite 					mSprite;
 	protected float						mPosXWorld;
 	protected float						mPosYWorld;
 	protected AxisAlignedBoundingBox	mDrawAABBLocal;
 	protected AxisAlignedBoundingBox	mDrawAABBWorld;
-	protected Array<QuadTreeNode>		mDrawQuadNodes;
 	protected float  					mDepth;
 	protected boolean 					mbVisible = true;
 	protected AxisAlignedBoundingBox 	mCollisionAABBLocal;
 	protected AxisAlignedBoundingBox	mCollisionAABBWorld;
-	protected Array<QuadTreeNode>		mCollisionQuadNodes;
 	protected EntityListener			mListener;
 	protected boolean					mUseDrawMinYAsDepth;
-	
+	protected transient List<QuadTreeNode>		mDrawQuadNodes;
+	protected transient List<QuadTreeNode>		mCollisionQuadNodes;
+
 	protected static Entity selectedEntity = null;
 	protected boolean isSelected = false;
-	static
+	public static void initStatic()
 	{
+		selectedEntity = null;
+		
 		CollisionDetector.getInstance(CollisionDetector.class).addListener(new CollisionDetectorListener() {
 			
 			@Override
 			public void emptyTapped() {
 				if(selectedEntity != null)
+				{
 					selectedEntity.setSelected(false);
+					selectedEntity = null;
+				}
 			}
 		});
 	}
 	
 	public Entity(String textureName)
 	{
-		this(ResourceManager.getInstance(ResourceManager.class).createSprite(textureName));
+		Sprite sp = null;
+		if(textureName != null && !textureName.isEmpty()) {
+			sp = ResourceManager.getInstance(ResourceManager.class).createSprite(textureName);
+		}
+		initEntity(sp, 0.0f, true);
 	}
 	
-	public Entity(Sprite sp) 
-	{
-		this(sp, 0.0f, true);
-	}
-	
-	public Entity(Sprite sp, float depth, boolean useDrawMinYAsDepth)
+	private void initEntity(Sprite sp, float depth, boolean useDrawMinYAsDepth)
 	{
 		mDepth = depth;
 		mDrawAABBLocal = new AxisAlignedBoundingBox();
 		mDrawAABBWorld = new AxisAlignedBoundingBox();
-		mDrawQuadNodes = new Array<QuadTreeNode>();
+		mDrawQuadNodes = new ArrayList<QuadTreeNode>();
 		mCollisionAABBLocal = new AxisAlignedBoundingBox();
 		mCollisionAABBWorld = new AxisAlignedBoundingBox();
-		mCollisionQuadNodes = new Array<QuadTreeNode>();
+		mCollisionQuadNodes = new ArrayList<QuadTreeNode>();
 		mUseDrawMinYAsDepth = useDrawMinYAsDepth;
 		
 		setSprite(sp);
@@ -132,7 +142,7 @@ public class Entity implements Drawable, QuadTreeManageble{
 		mDrawAABBWorld.maxX = mDrawAABBLocal.maxX + mPosXWorld;
 		mDrawAABBWorld.maxY = mDrawAABBLocal.maxY + mPosYWorld;
 		
-		if(mDrawQuadNodes.size > 0)
+		if(mDrawQuadNodes.size() > 0)
 			Renderer.getInstance(Renderer.class).updateDrawScissor(this);
 	}
 	
@@ -143,7 +153,7 @@ public class Entity implements Drawable, QuadTreeManageble{
 		mCollisionAABBWorld.maxX = mCollisionAABBLocal.maxX + mPosXWorld;
 		mCollisionAABBWorld.maxY = mCollisionAABBLocal.maxY + mPosYWorld;
 		
-		if(mCollisionQuadNodes.size > 0)
+		if(mCollisionQuadNodes.size() > 0)
 			CollisionDetector.getInstance(CollisionDetector.class).updateCollisionDetector(this);
 	}
 	
@@ -200,7 +210,7 @@ public class Entity implements Drawable, QuadTreeManageble{
 			mListener.objBeTouchDown(this);
 			return true;
 		}
-		return false;
+		return true;
 	}
 	
 	public void detectTouchUp()
@@ -218,8 +228,11 @@ public class Entity implements Drawable, QuadTreeManageble{
 	{
 		if(mListener != null)
 			mListener.objBeTapped(this);
-		setSelected(true);
+		
+		if(selectedEntity != null)
+			selectedEntity.setSelected(false);
 		selectedEntity = this;
+		setSelected(true);
 	}
 	
 	public void setCollisionAABBLocal(float minX, float minY, float maxX, float maxY)
@@ -243,7 +256,6 @@ public class Entity implements Drawable, QuadTreeManageble{
 		resetSpriteBounds();
 		resetDrawAABBWorld();
 	}
-	
 	
 	public void translate(float deltaX, float deltaY)
 	{
@@ -270,7 +282,7 @@ public class Entity implements Drawable, QuadTreeManageble{
 
 	@Override
 	public void dettachQuadTree(QuadTreeType type) {
-		Array<QuadTreeNode> nodes = null;
+		List<QuadTreeNode> nodes = null;
 		if(type == QuadTreeType.DRAW)
 			nodes = mDrawQuadNodes;
 		else if(type == QuadTreeType.COLLISION)
@@ -278,10 +290,38 @@ public class Entity implements Drawable, QuadTreeManageble{
 		
 		if(nodes != null)
 		{
-			for (int i = 0; i < nodes.size; i++) {
+			for (int i = 0; i < nodes.size(); i++) {
 				nodes.get(i).removeManageble(this);
 			}
 			nodes.clear();
 		}
+	}
+	
+//	protected void realReadObject(ObjectInputStream s) throws ClassNotFoundException, IOException {
+//		s.defaultReadObject();
+//		mDrawQuadNodes = new ArrayList<QuadTreeNode>();
+//		mCollisionQuadNodes = new ArrayList<QuadTreeNode>();
+////		Gdx.app.log("L/S", "Entity reading");
+//	}
+//	
+//	/**
+//	 * 修饰符只能是private，不能由子类继承
+//	 */
+//	private void readObject(ObjectInputStream s) throws ClassNotFoundException, IOException {
+//		Gdx.app.log("L/S", "Entity readObj");
+//		realReadObject(s);
+//	}
+	
+	/**
+	 * 修饰符只能是private，不能由子类继承
+	 */
+	private void readObject(ObjectInputStream s) throws ClassNotFoundException, IOException {
+//		Gdx.app.log("L/S", "Entity readObj");
+		s.defaultReadObject();
+		setSprite(mSprite);
+		mDrawQuadNodes = new ArrayList<QuadTreeNode>();
+		mCollisionQuadNodes = new ArrayList<QuadTreeNode>();
+//		System.err.println("Entity.mSprite: "+ mSprite.toString());
+		
 	}
 }

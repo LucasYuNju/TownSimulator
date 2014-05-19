@@ -1,7 +1,9 @@
 package com.TownSimulator.utility;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 
 import com.TownSimulator.camera.CameraController;
 import com.TownSimulator.driver.Driver;
@@ -13,36 +15,33 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.utils.Array;
 /**
  *显示资源或人口增加的提示信息 
  *
  */
 public class TipsBillborad {
-	private static Array<TipsBillborad> tipsActiveList = new Array<TipsBillborad>();
-	private static Array<TipsBillborad> tipsInActiveList = new Array<TipsBillborad>();
-	//private static int tipsAllocIndex = 0;
+	private static List<TipsBillborad> tipsActiveList = new ArrayList<TipsBillborad>();
+	private static List<TipsBillborad> tipsInActiveList = new ArrayList<TipsBillborad>();
 	private static BitmapFont font;
-	//private static final float PAD = Settings.UNIT * 0.1f;
 	private static SpriteBatch spriteBatch;
 	private static HashMap<String, TextureRegionAllocContainer> textureMap = new HashMap<String, TipsBillborad.TextureRegionAllocContainer>();
 	//private static OrthographicCamera screenCamera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 	
 	static class TextureRegionAllocContainer
 	{
-		private Array<TextureRegion> draws;
+		private List<TextureRegion> draws;
 		private int allocIndex = 0;
 		private String textureName;
 		
 		public TextureRegionAllocContainer(String textureName)
 		{
-			draws = new Array<TextureRegion>();
+			draws = new ArrayList<TextureRegion>();
 			this.textureName = textureName;
 		}
 		
 		public TextureRegion alloc()
 		{
-			if(allocIndex >= draws.size)
+			if(allocIndex >= draws.size())
 				draws.add(ResourceManager.getInstance(ResourceManager.class).createTextureRegion(textureName));
 			
 			return draws.get(allocIndex++);
@@ -54,9 +53,7 @@ public class TipsBillborad {
 		}
 	}
 	
-//	static
 //	{
-////		System.out.println("AAAAAAAAAAAAAAAAA");
 //		Driver.getInstance(Driver.class).addListener(new DriverListenerBaseImpl()
 //		{
 //			
@@ -70,9 +67,6 @@ public class TipsBillborad {
 //				spriteBatch.dispose();
 //				
 //			}
-//			
-//			
-//			
 //		});
 //		
 //		Renderer.getInstance(Renderer.class).addListener(new RendererListener() {
@@ -98,7 +92,8 @@ public class TipsBillborad {
 		
 		Driver.getInstance(Driver.class).addListener(new DriverListenerBaseImpl()
 		{
-			
+			private static final long serialVersionUID = 2939432378098238642L;
+
 			@Override
 			public void update(float deltaTime) {
 				updateTips(deltaTime);
@@ -110,11 +105,11 @@ public class TipsBillborad {
 				tipsActiveList.clear();
 				tipsInActiveList.clear();
 			}
-			
 		});
 		
 		Renderer.getInstance(Renderer.class).addListener(new RendererListener() {
-			
+			private static final long serialVersionUID = -3659126136217212295L;
+
 			@Override
 			public void renderEnded() {
 				renderTips();
@@ -126,10 +121,10 @@ public class TipsBillborad {
 		});
 	}
 	
-	
 	private static void updateTips(float deltaTime)
 	{
-		for (TipsBillborad tip : tipsActiveList) {
+		List<TipsBillborad> listCpy = new ArrayList<TipsBillborad>(tipsActiveList);
+		for (TipsBillborad tip : listCpy) {
 			tip.update(deltaTime);
 		}
 	}
@@ -137,7 +132,6 @@ public class TipsBillborad {
 	private static void renderTips()
 	{
 		spriteBatch.setProjectionMatrix(CameraController.getInstance(CameraController.class).getCameraCombined());
-		//spriteBatch.setProjectionMatrix(screenCamera.combined);
 		spriteBatch.begin();
 		for (TipsBillborad tip : tipsActiveList) {
 			tip.render();
@@ -151,25 +145,23 @@ public class TipsBillborad {
 		}
 	}
 	
-	private static TextureRegion allocTextureRegion(String textureName)
-	{
-		if( !textureMap.containsKey(textureName) )
-			textureMap.put(textureName, new TextureRegionAllocContainer(textureName));
-		
-		return textureMap.get(textureName).alloc();
-	}
+//	private static TextureRegion allocTextureRegion(String textureName)
+//	{
+//		if( !textureMap.containsKey(textureName) )
+//			textureMap.put(textureName, new TextureRegionAllocContainer(textureName));
+//		return textureMap.get(textureName).alloc();
+//	}
 	
 	private static TipsBillborad allocTipsBillboard()
 	{
-		if (tipsInActiveList.size == 0)
+		if (tipsInActiveList.size() == 0)
 			tipsInActiveList.add(new TipsBillborad());
 
-		TipsBillborad tip = tipsInActiveList.pop();
+		TipsBillborad tip = tipsInActiveList.remove(tipsInActiveList.size() - 1);
 		tipsActiveList.add(tip);
 
 		return tip;
 	}
-	
 	private float livingTime = 5.0f;
 	private float life = 0.0f; 
 	private Vector2 velocity;
@@ -177,7 +169,6 @@ public class TipsBillborad {
 	private float oringinX;
 	private float oringinY;
 	private String text;
-	//private BitmapFont font;
 	
 	private TipsBillborad()
 	{
@@ -207,7 +198,7 @@ public class TipsBillborad {
 		if(life > livingTime)
 		{
 			tipsInActiveList.add(this);
-			tipsActiveList.removeValue(this, false);
+			tipsActiveList.remove(this);
 			return;
 		}
 		

@@ -15,6 +15,11 @@ public class IconButton extends FlipButton{
 		mIcon 		= ResourceManager.getInstance(ResourceManager.class).createTextureRegion(textureName);
 	}
 	
+	public void setIcon(String textureName)
+	{
+		mIcon 		= ResourceManager.getInstance(ResourceManager.class).createTextureRegion(textureName);
+	}
+	
 	@Override
 	public void draw(Batch batch, float parentAlpha) {
 		super.draw(batch, parentAlpha);

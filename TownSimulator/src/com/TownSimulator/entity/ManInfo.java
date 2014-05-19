@@ -1,62 +1,68 @@
 package com.TownSimulator.entity;
 
+import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import com.TownSimulator.ai.btnimpls.construct.ConstructionInfo;
 import com.TownSimulator.entity.building.Bar;
 import com.TownSimulator.entity.building.LivingHouse;
 import com.TownSimulator.entity.building.School;
 import com.TownSimulator.entity.building.WorkableBuilding;
+import com.badlogic.gdx.Gdx;
 
-public class ManInfo {
-	public ManAnimeType 	animeType = ManAnimeType.STANDING;
-	public boolean 			animeFlip = false;
-	public ConstructionInfo constructionInfo = new ConstructionInfo();
-	public JobType 			job;
-	public WorkableBuilding 	workingBuilding;
-	private School         school; 
-	public LivingHouse 		home;
-	public float 			workEfficency = BASE_WORKEFFICIENCY;
-	public static final float BASE_WORKEFFICIENCY = 1.0f;
-	public static final float MAX_WORKEFFICENCY = 2.0f;
+public class ManInfo implements Serializable{
+	private static final long serialVersionUID = 6185641512377240722L;
+	public 	ManAnimeType 		animeType = ManAnimeType.STANDING;
+	public 	boolean 			animeFlip = false;
+	public 	Set<ManStateType>	manStates = new HashSet<ManStateType>();
+	public 	ConstructionInfo 	constructionInfo = new ConstructionInfo();
+	public 	JobType 			job;
+	public 	WorkableBuilding 	workingBuilding;
+	private School         		school; 
+	public 	LivingHouse 		home;
+	public float 				workEfficency = WORKEFFICIENCY_BASE;
+	public static final float 	WORKEFFICIENCY_BASE = 1.0f;
+	public static final float 	WORKEFFICENCY_MAX = 2.0f;
 	
-	public static final float HUNGER_POINTS_MAX = 300.0f;
-	public static final float HUNGER_POINTS_FIND_FOOD = 100.0f;
-	public static final float HUNGER_POINTS_MIN = 0.0f; // die!
-	public static final float HUNGER_DECRE_SPEED = HUNGER_POINTS_MAX / (World.SecondPerYear * 0.25f); //per second
-	public float			hungerPoints = HUNGER_POINTS_MAX;
-	public boolean			isDead = false;
+	public boolean				isDead = false;
 	
+	public static final float 	TEMPERATURE_POINTS_MAX = 300.0f;
+	public static final float 	TEMPERATURE_POINTS_FIND_COAT = 100.0f;
+	public static final float 	TEMPERATURE_POINTS_MIN = 0.0f; // die!
+	public static final float 	TEMPERATURE_DECRE_SPEED = TEMPERATURE_POINTS_MAX / (World.SecondPerYear * 0.45f); //per second
+	public float				temperature = TEMPERATURE_POINTS_MAX;
 	
-	private static final int MAX_AGE = 50;
-	public static final int ADULT_AGE = 15;
-	public static final int MIN_STUDENT_AGE=ADULT_AGE-10;
+	public static final float 	HUNGER_POINTS_MAX = 300.0f;
+	public static final float 	HUNGER_POINTS_FIND_FOOD = 100.0f;
+	public static final float 	HUNGER_POINTS_MIN = 0.0f; // die!
+	public static final float 	HUNGER_DECRE_SPEED_MIN = HUNGER_POINTS_MAX / (World.SecondPerYear * 0.5f); //per second
+	public static final float 	HUNGER_DECRE_SPEED_MAX = HUNGER_POINTS_MAX / (World.SecondPerYear * 0.25f); //per second
+	public float				hungerPoints = HUNGER_POINTS_MAX;
+	
+	public static final int 	AGE_MAX = 50;
+	public static final int 	AGE_ADULT = 15;
+	public static final int 	AGE_MIN_STUDENT = AGE_ADULT - 10;
+	private int 				age;
 
-	
-	private static final float HEALTH_POINTS_MAX = 100;
-	public static final float HEALTH_POINTS_SICK = 40;				//住院
-	private static final float HEALTH_POINTS_HEALTHY = 70;			//出院
-	private static final float HEALTH_POINTS_INCREMENT = 0.005f;
+	private static final float 	HEALTH_POINTS_MAX = 100;
+	public static final float 	HEALTH_POINTS_SICK = 40;				//住院
+	private static final float 	HEALTH_POINTS_HEALTHY = 70;			//出院
+	private static final float 	HEALTH_POINTS_INCREMENT_PER_SECOND = 30 * 12 / World.SecondPerYear;
+	private float 				healthPoints;
 
-	private static final float HAPPINESS_POINTS_MAX = 100;
-	public static final float HAPPINESS_POINTS_DEPRESSED = 40;		//去酒吧
-	private static final float HAPPINESS_POINTS_PER_WINE = Bar.HAPPINESS_POINTS_PER_WINE;
+	private static final float 	HAPPINESS_POINTS_MAX = 100;
+	public static final float 	HAPPINESS_POINTS_DEPRESSED = 40;		//去酒吧
+	private static final float 	HAPPINESS_POINTS_PER_WINE = Bar.HAPPINESS_POINTS_PER_WINE;
+	private float 				happinessPoints;
+	
 	private static List<String> namePool;
 	private Gender gender;
 	private String name;
-	private int age;
-	private float healthPoints;
-	private float happinessPoints;
 	
-	@Deprecated
-	public ManInfo() {
-		this((int)(Math.random() * MAX_AGE), Gender.Male);
-	}
-
-	public ManInfo(int age, Gender gender) {		
-		this.age = age;
-		this.gender = gender;
+	public ManInfo() {		
 		name = getRandomName();
 		school=null;
 		
@@ -93,8 +99,8 @@ public class ManInfo {
 		return healthPoints >= HEALTH_POINTS_HEALTHY;
 	}
 	
-	public void receiveTreatment() {
-		healthPoints += HEALTH_POINTS_INCREMENT;
+	public void receiveTreatment(float deltaTime) {
+		healthPoints += HEALTH_POINTS_INCREMENT_PER_SECOND * deltaTime;
 	}
 	
 	//默认减1
@@ -103,7 +109,12 @@ public class ManInfo {
 	}
 
 	public boolean isAdult() {
-		return age >= ADULT_AGE;
+		return age >= AGE_ADULT;
+	}
+	
+	public void setGender(Gender gender)
+	{
+		this.gender = gender;
 	}
 	
 	public Gender getGender() {
@@ -116,10 +127,11 @@ public class ManInfo {
 	
 	public void setAge(int newAge){
 		age=newAge;
+		
 	}
 	
-	public boolean isOldEnough(int age){
-		return age>MAX_AGE;
+	public boolean isOldEnough(){
+		return age > AGE_MAX;
 	}
 	
 	public void setIsDead(boolean isdead){
@@ -130,13 +142,12 @@ public class ManInfo {
 		return workEfficency;
 	}
 	
-	
 	public void growWorkEfficency(float increaseNum){
-		this.workEfficency=Math.min(MAX_WORKEFFICENCY, workEfficency+increaseNum);
+		this.workEfficency=Math.min(WORKEFFICENCY_MAX, workEfficency+increaseNum);
 	}
 	
 	public boolean isWorkEffiencyMax(){
-		return this.workEfficency==MAX_WORKEFFICENCY;
+		return this.workEfficency==WORKEFFICENCY_MAX;
 	}
 	
 	public String getName() {
@@ -208,7 +219,7 @@ public class ManInfo {
 		list.add(getName());
 		list.add(getGender().toString());
 		list.add(getAge() + "");
-		list.add(getHealthPoints() + "");
+		list.add((int)getHealthPoints() + "");
 		return list;
 	}	
 	
@@ -234,21 +245,23 @@ public class ManInfo {
 		happinessPoints += HAPPINESS_POINTS_PER_WINE;
 		if(happinessPoints > HAPPINESS_POINTS_MAX)
 			happinessPoints = HAPPINESS_POINTS_MAX;
+		Gdx.app.log("happiness", "drink wine");
 	}
 	
 	private static final float HP_DECRE_PER_WORKLESS_SECOND = 75 / World.SecondPerYear;
 	/**
 	 * 调整幸福度的全部方法
 	 */
-	public void hpHomeless(float timeDelta) {
-		happinessPoints -= HP_DECRE_PER_WORKLESS_SECOND * timeDelta;
+	public void hpHomeless(float deltaTime) {
+		happinessPoints -= HP_DECRE_PER_WORKLESS_SECOND * deltaTime;
 		if (happinessPoints < 0) {
 			happinessPoints = 0;
 		}
+//		Gdx.app.log("happiness info", "hp:" + happinessPoints);
 	}
 
-	public void hpWorkless(float timeDelta) {
-		hpHomeless(timeDelta);
+	public void hpWorkless(float deltaTime) {
+		hpHomeless(deltaTime);
 	}
 
 	public void hpFindSomeHouse() {
@@ -257,31 +270,34 @@ public class ManInfo {
 			happinessPoints = HAPPINESS_POINTS_MAX;		
 	}
 	
-	public void hpResideInLowCostHouse(float timeDelta) {
-		hpHomeless(timeDelta/3);
+	public void hpResideInLowCostHouse(float deltaTime) {
+		hpHomeless(deltaTime/3);
 	}
 	
-	public void hpResideInApartment(float timeDelta) {
-		happinessPoints += HP_DECRE_PER_WORKLESS_SECOND * timeDelta / 3;
+	public void hpResideInApartment(float deltaTime) {
+		happinessPoints += HP_DECRE_PER_WORKLESS_SECOND * deltaTime / 3;
 		if (happinessPoints > HAPPINESS_POINTS_MAX) {
 			happinessPoints = HAPPINESS_POINTS_MAX;
 		}
 	}
 	
-	public void hpColdWinter(float timeDelta) {
-		hpHomeless(timeDelta);
+	//FIXME!
+	//暂时没被调用
+	public void hpColdWinter(float deltaTime) {
+		hpHomeless(deltaTime);
 	}
 	
 	/**
-	 * 每个月一次抽奖，生病的概率为1/24
+	 * 每个月一次抽奖，生病的概率为1/24 
 	 */
 	private float healthLotteryTime = 0;
-	public void hpDrawHealthLottery(float timeDelta) {
-		healthLotteryTime += timeDelta;
+	public void hpDrawHealthLottery(float deltaTime) {
+		healthLotteryTime += deltaTime;
 		if(healthLotteryTime > World.SecondPerYear / 24) {
 			healthLotteryTime = 0;
-			if(Math.random() < 1/24f && !isHealthy()) {
+			if(Math.random() < 1/24f && isHealthy()) {
 				healthPoints = HEALTH_POINTS_SICK;
+				Gdx.app.log("healthInfo", "got lottery! health points:" + healthPoints + " isHealthy:" + isHealthy());
 			}
 		}
 	}

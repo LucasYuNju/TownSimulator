@@ -4,11 +4,13 @@ import com.TownSimulator.ai.behaviortree.ActionNode;
 import com.TownSimulator.ai.behaviortree.ExecuteResult;
 import com.TownSimulator.entity.Man;
 import com.TownSimulator.entity.ManAnimeType;
+import com.TownSimulator.entity.ManStateType;
 import com.TownSimulator.entity.building.FarmHouse;
 import com.TownSimulator.entity.building.FarmLand;
 import com.TownSimulator.utility.quadtree.QuadTreeType;
 
 public class SowExecuteBTN extends ActionNode{
+	private static final long serialVersionUID = 1L;
 	private Man man;
 	private static final float SOW_TIME_PER_LAND = 2.0f;
 	private float timeAccum = 0.0f;
@@ -35,7 +37,7 @@ public class SowExecuteBTN extends ActionNode{
 			
 			farmHouse.addSowedLand();
 			
-			if( farmHouse.getSowedLandCnt() >= farmHouse.getFarmLands().size )
+			if( farmHouse.getSowedLandCnt() >= farmHouse.getFarmLands().size() )
 				sowFinish();
 		}
 	}
@@ -49,6 +51,7 @@ public class SowExecuteBTN extends ActionNode{
 		float destY = middleFarmLand.getAABBWorld(QuadTreeType.COLLISION).getCenterY();
 		man.setMoveDestination(destX, destY);
 		man.getInfo().animeType = ManAnimeType.MOVE;
+		man.getInfo().manStates.add( ManStateType.Working );
 		
 		if( !man.move(deltaTime) )
 		{

@@ -1,5 +1,7 @@
 package com.TownSimulator.entity.building;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,15 +16,26 @@ import com.TownSimulator.ui.building.view.WorkableViewWindow;
 import com.TownSimulator.utility.Singleton;
 
 public class Hospital extends WorkableBuilding{
+	private static final long serialVersionUID = -8332826056929917055L;
 	private static final int MAX_JOB_CNT = 2;
 	private static final int CAPACITY = 10;
 	private List<Man> patients;
-	protected HospitalViewWindow hospitalViewWindow;
+	protected transient HospitalViewWindow hospitalViewWindow;
 	
 	public Hospital() {
 		super("building_hospital", BuildingType.Hospital, JobType.BARTENDER);
 		patients = new ArrayList<Man>();
 		updateHospitalViewWindow();
+	}
+	
+	@Override
+	public void destroy() {
+		super.destroy();
+		ArrayList<Man> patientsCpy = new ArrayList<Man>(patients);
+		for (Man man : patientsCpy)
+		{
+			removePatient(man);
+		}
 	}
 
 	public boolean addPatient(Man man) {
@@ -91,4 +104,15 @@ public class Hospital extends WorkableBuilding{
 			updateHospitalViewWindow();
 		}
 	}
+	
+	private void readObject(ObjectInputStream s) throws ClassNotFoundException, IOException {
+		s.defaultReadObject();
+		updateHospitalViewWindow();
+	}
+	
+//	@Override
+//	protected void reloadViewWindow() {
+//		super.reloadViewWindow();
+//		updateHospitalViewWindow();
+//	}
 }

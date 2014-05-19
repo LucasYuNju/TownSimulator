@@ -1,8 +1,12 @@
 package com.TownSimulator.entity.building;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
+
 import com.TownSimulator.ai.behaviortree.BehaviorTreeNode;
 import com.TownSimulator.ai.btnimpls.factoryworker.FactoryWorkerBTN;
 import com.TownSimulator.driver.Driver;
+import com.TownSimulator.driver.DriverListener;
 import com.TownSimulator.driver.DriverListenerBaseImpl;
 import com.TownSimulator.entity.EntityInfoCollector;
 import com.TownSimulator.entity.JobType;
@@ -18,15 +22,41 @@ import com.TownSimulator.utility.quadtree.QuadTreeType;
 import com.badlogic.gdx.graphics.Color;
 
 public class CoatFactory extends WorkableBuilding{
+	private static final long serialVersionUID = 5636509488927087926L;
 	private static final int 	MAX_JOB_CNT = 4;
 	private static final float 	PRODUCE_INTERVAL_TIME = 20.0f;
 	private static final int 	PRODUCE_FUR_PER_COAT = 4;
-	private static final int 	PRODUCE_COAT_AMOUNT = 1;
+	private static final int 	PRODUCE_COAT_AMOUNT = 10;
 	private float produceAccum = 0.0f;
-	private WorkableWithTipsWindow	workTipsWindow;
+	private transient WorkableWithTipsWindow	workTipsWindow;
+	private DriverListener driverListener;
 	
 	public CoatFactory() {
 		super("building_coat_factory", BuildingType.COAT_FACTORY, JobType.FACTORY_WORKER);
+		
+		driverListener = new DriverListenerBaseImpl()
+		{
+			private static final long serialVersionUID = -8628748620963794602L;
+
+			@Override
+			public void update(float deltaTime) {
+				if(ResourceInfoCollector.getInstance(ResourceInfoCollector.class).getResourceAmount(ResourceType.RS_FUR) <= 0)
+				{
+					workTipsWindow.setTips("No 'Fur' Resource ( Ranch )");
+					return;
+				}
+				else if(EntityInfoCollector.getInstance(EntityInfoCollector.class)
+						.getBuildings(BuildingType.POWER_STATION).size() <= 0)
+				{
+					workTipsWindow.setTips("Need 'Power Station'");
+					return;
+				}
+				else
+					workTipsWindow.setTips("");
+				
+				produce(deltaTime);
+			}
+		};
 	}
 
 	@Override
@@ -55,9 +85,7 @@ public class CoatFactory extends WorkableBuilding{
 					float originY = this.getAABBWorld(QuadTreeType.DRAW).maxY + Settings.UNIT * 0.6f + TipsBillborad.getTipsHeight();
 					Color color = Color.RED;
 					TipsBillborad.showTips(
-							ResourceType.RS_FUR + " - " + decre,
-							originX,
-							originY, color);
+							ResourceType.RS_FUR + " - " + decre, originX, originY, color);
 					remainAmount -= decre;
 					
 					if(remainAmount <= 0)
@@ -80,7 +108,12 @@ public class CoatFactory extends WorkableBuilding{
 			produceAccum -= PRODUCE_INTERVAL_TIME;
 			Warehouse warehouse = EntityInfoCollector.getInstance(EntityInfoCollector.class)
 									.findNearestWareHouse(mPosXWorld, mPosYWorld);
-			int produceAmount = Math.min(furAmount / PRODUCE_FUR_PER_COAT, PRODUCE_COAT_AMOUNT * workers.size);
+			
+			int amount = 0;
+			for (Man man : workers) {
+				amount += man.getInfo().workEfficency * PRODUCE_COAT_AMOUNT;
+			}
+			int produceAmount = Math.min(furAmount / PRODUCE_FUR_PER_COAT, amount);
 			
 			if(produceAmount <= 0 )
 				continue;
@@ -97,28 +130,21 @@ public class CoatFactory extends WorkableBuilding{
 		}
 	}
 	
+	
+	
+	@Override
+	public void destroy() {
+		super.destroy();
+		Driver.getInstance(Driver.class).removeListener(driverListener);
+	}
+
 	@Override
 	public void setState(State state) {
 		super.setState(state);
 		
 		if( state == Building.State.Constructed )
 		{
-			Driver.getInstance(Driver.class).addListener(new DriverListenerBaseImpl()
-			{
-
-				@Override
-				public void update(float deltaTime) {
-					if(EntityInfoCollector.getInstance(EntityInfoCollector.class)
-							.getBuildings(BuildingType.POWER_STATION).size <= 0)
-					{
-						workTipsWindow.setTips("Need Power Station");
-						return;
-					}	
-					
-					produce(deltaTime);
-				}
-				
-			});
+			Driver.getInstance(Driver.class).addListener(driverListener);
 		}
 	}
 
@@ -129,6 +155,8 @@ public class CoatFactory extends WorkableBuilding{
 		return workTipsWindow;
 	}
 	
-	
-
+	private void readObject(ObjectInputStream s) throws ClassNotFoundException, IOException {
+		s.defaultReadObject();
+		setState(buildingState);
+	}
 }

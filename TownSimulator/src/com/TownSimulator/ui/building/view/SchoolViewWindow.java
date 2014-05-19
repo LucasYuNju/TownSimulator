@@ -9,7 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.Align;
 
-public class SchoolViewWindow extends WorkableViewWindow{
+public class SchoolViewWindow extends WorkableViewWindow {
 	private int currentStudentNum;
 	private int maxStudentNum;
 	private Label studentNumLabel;
@@ -18,7 +18,6 @@ public class SchoolViewWindow extends WorkableViewWindow{
 
 	public SchoolViewWindow(int numAllowedWorker,int currentStudentNum) {
 		super(BuildingType.SCHOOL, numAllowedWorker);
-		// TODO Auto-generated constructor stub
 		width = UndockedWindow.LABEL_WIDTH*2 + UndockedWindow.MARGIN * 2;
 		height = UndockedWindow.LABEL_HEIGHT * 2+ WorkerGroup.HEIGHT + MARGIN * 2;
 		setSize(width, height);
@@ -49,6 +48,4 @@ public class SchoolViewWindow extends WorkableViewWindow{
 	private String getStudentLabelString(){
 		return "Student:  "+currentStudentNum+"/"+maxStudentNum;
 	}
-	
-	
 }

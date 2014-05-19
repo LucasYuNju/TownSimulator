@@ -1,27 +1,50 @@
 package com.TownSimulator.entity;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import com.TownSimulator.ai.btnimpls.construct.ConstructionProject;
+import com.TownSimulator.collision.CollisionDetector;
 import com.TownSimulator.entity.building.Building;
 import com.TownSimulator.entity.building.BuildingType;
 import com.TownSimulator.entity.building.School;
 import com.TownSimulator.entity.building.Warehouse;
+import com.TownSimulator.render.Renderer;
 import com.TownSimulator.utility.Singleton;
-import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.Gdx;
 
-public class EntityInfoCollector extends Singleton{
-	private Array<Man> 		manList;
-	private HashMap<BuildingType, Array<Building>> buildingsMap;
-	private Array<Building>	buildingsList;
-	private Array<ConstructionProject> constructProjsList;
+public class EntityInfoCollector extends Singleton 
+	implements Serializable
+{
+	private static final long serialVersionUID = -3062222237607985005L;
+	private List<Man> 							manList;
+	private List<Building>						buildingsList;
+	private List<ConstructionProject> 			constructProjsList;
+	private Map<BuildingType, List<Building>> 	buildingsMap;
 	
 	private EntityInfoCollector()
 	{
-		manList = new Array<Man>();
-		buildingsList = new Array<Building>();
-		buildingsMap = new HashMap<BuildingType, Array<Building>>();
-		constructProjsList = new Array<ConstructionProject>();
+		manList = new ArrayList<Man>();
+		buildingsList = new ArrayList<Building>();
+		buildingsMap = new HashMap<BuildingType, List<Building>>();
+		constructProjsList = new ArrayList<ConstructionProject>();
+	}
+	
+	public void printBuilding() {
+		for(Building b : buildingsList) {
+			Gdx.app.log("L/S", b.getType() + ":" + b);
+		}
+	}
+	
+	public void printMan() {
+		for(Man m : manList) {
+			Gdx.app.log("L/S", m.getInfo().getName() + ":" + m);
+		}
 	}
 	
 	public void addMan(Man man)
@@ -31,10 +54,10 @@ public class EntityInfoCollector extends Singleton{
 	
 	public void removeMan(Man man)
 	{
-		manList.removeValue(man, false);
+		manList.remove(man);
 	}
 	
-	public Array<Man> getAllMan()
+	public List<Man> getAllMan()
 	{
 		return manList;
 	}
@@ -46,10 +69,10 @@ public class EntityInfoCollector extends Singleton{
 	
 	public void removeConstructProj(ConstructionProject proj)
 	{
-		constructProjsList.removeValue(proj, false);
+		constructProjsList.remove(proj);
 	}
 	
-	public Array<ConstructionProject> getAllConstructProjs()
+	public List<ConstructionProject> getAllConstructProjs()
 	{
 		return constructProjsList;
 	}
@@ -58,7 +81,7 @@ public class EntityInfoCollector extends Singleton{
 	{
 		BuildingType type = building.getType();
 		if( !buildingsMap.containsKey(type) )
-			buildingsMap.put(type, new Array<Building>());
+			buildingsMap.put(type, new ArrayList<Building>());
 		
 		buildingsMap.get(type).add(building);
 		buildingsList.add(building);
@@ -68,20 +91,20 @@ public class EntityInfoCollector extends Singleton{
 	{
 		//buildingList.removeValue(building, false);
 		if(buildingsMap.containsKey(building.getType()))
-			buildingsMap.get(building.getType()).removeValue(building, false);
+			buildingsMap.get(building.getType()).remove(building);
 		
-		buildingsList.removeValue(building, false);
+		buildingsList.remove(building);
 	}
 	
-	public Array<Building> getBuildings(BuildingType type)
+	public List<Building> getBuildings(BuildingType type)
 	{
 		if( !buildingsMap.containsKey(type) )
-			buildingsMap.put(type, new Array<Building>());
+			buildingsMap.put(type, new ArrayList<Building>());
 		
 		return buildingsMap.get(type);
 	}
 	
-	public Array<Building> getAllBuildings()
+	public List<Building> getAllBuildings()
 	{
 		return buildingsList;
 	}
@@ -123,10 +146,10 @@ public class EntityInfoCollector extends Singleton{
 			return null;
 		
 		WareHouseFindResult result = new WareHouseFindResult();
-		Array<Building> allBuildings = getBuildings(BuildingType.WAREHOUSE);
-		Array<Warehouse> wareHouseWithRs = new Array<Warehouse>();
+		List<Building> allBuildings = getBuildings(BuildingType.WAREHOUSE);
+		List<Warehouse> wareHouseWithRs = new ArrayList<Warehouse>();
 		double dstMin = -1.0f;
-		for (int i = 0; i < allBuildings.size; i++) {
+		for (int i = 0; i < allBuildings.size(); i++) {
 			Building building = allBuildings.get(i);
 			if(building.getType() == BuildingType.WAREHOUSE)
 			{
@@ -150,7 +173,7 @@ public class EntityInfoCollector extends Singleton{
 		dstMin = -1.0f;
 		if(result.wareHouse == null)
 		{
-			for (int i = 0; i < wareHouseWithRs.size; i++) {
+			for (int i = 0; i < wareHouseWithRs.size(); i++) {
 				Warehouse wareHouse = wareHouseWithRs.get(i);
 				double dst = 	Math.pow(wareHouse.getPositionXWorld() - x, 2)
 							+	Math.pow(wareHouse.getPositionYWorld() - y, 2);
@@ -163,7 +186,6 @@ public class EntityInfoCollector extends Singleton{
 				}
 			}
 		}
-		
 		return result;
 	}
 	
@@ -203,9 +225,6 @@ public class EntityInfoCollector extends Singleton{
 			if(building.getType() == BuildingType.SCHOOL)
 			{
 				School tempSchool=(School)building;
-//				if(!tempSchool.isTeacherWork()){
-//					continue;
-//				}
 				if(tempSchool.getCurrentStudentNum()>=School.SingleSchoolStudentNum){
 					continue;
 				}
@@ -222,4 +241,15 @@ public class EntityInfoCollector extends Singleton{
 		return school;
 	}
 	
+	private void readObject(ObjectInputStream s) throws ClassNotFoundException, IOException {
+		s.defaultReadObject();
+		Gdx.app.log("L/S", "entityInfoCollector size: " + manList.size() + ":" + buildingsList.size());
+		for(Man man : manList) {
+			Singleton.getInstance(Renderer.class).attachDrawScissor(man);
+		}
+		for(Building building : buildingsList) {
+			Singleton.getInstance(Renderer.class).attachDrawScissor(building);
+			Singleton.getInstance(CollisionDetector.class).attachCollisionDetection(building);
+		}
+	}
 }

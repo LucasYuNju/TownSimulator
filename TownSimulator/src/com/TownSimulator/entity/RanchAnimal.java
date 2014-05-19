@@ -1,16 +1,18 @@
-package com.TownSimulator.entity.building;
+package com.TownSimulator.entity;
 
 import java.util.Random;
 
-import com.TownSimulator.entity.Entity;
 import com.TownSimulator.utility.AxisAlignedBoundingBox;
 import com.TownSimulator.utility.GameMath;
+import com.TownSimulator.utility.ResourceManager;
 import com.TownSimulator.utility.Settings;
+import com.TownSimulator.utility.Singleton;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 
 public class RanchAnimal extends Entity{
+	private static final long serialVersionUID = 7682483193432919985L;
 	private static final 	Random 					rand = new Random(System.nanoTime());
 	private static final 	float 					MOVE_SPEED = 20.0f;
 	private static final 	float 					MAX_STAING_TIME = 10.0f;
@@ -21,14 +23,12 @@ public class RanchAnimal extends Entity{
 	private					float					moveTime;
 	private					float					stadingTime;
 	private					boolean					isMove = false;
-	private 				boolean 				drawFlip = false;
 	private					RanchAnimalType			type;
 	private					Sprite					spNoFlip;
 	private					Sprite					spFlip;
 	
 	public RanchAnimal() {
-		super((Sprite)null);
-		
+		super(null);
 		setDrawAABBLocal(0.0f, 0.0f, Settings.UNIT, Settings.UNIT);
 		moveDest = new Vector2();
 		moveDir = new Vector2();
@@ -46,7 +46,7 @@ public class RanchAnimal extends Entity{
 		{
 			setTextureName(type.getTextureName());
 			spNoFlip = mSprite;
-			spFlip = new Sprite(mSprite);
+			spFlip = Singleton.getInstance(ResourceManager.class).createSprite(mSprite);
 			spFlip.setFlip(true, false);
 		}
 		else
@@ -69,7 +69,6 @@ public class RanchAnimal extends Entity{
 	
 	private void setFlip(boolean flip)
 	{
-		this.drawFlip = flip;
 		if(flip)
 			setSprite(spFlip);
 		else
@@ -144,6 +143,5 @@ public class RanchAnimal extends Entity{
 				isMove = true;
 			}
 		}
-		
 	}
 }

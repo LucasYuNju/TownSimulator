@@ -4,9 +4,13 @@ import java.util.Random;
 
 import com.TownSimulator.camera.CameraController;
 import com.TownSimulator.collision.CollisionDetector;
+import com.TownSimulator.entity.Entity;
 import com.TownSimulator.entity.EntityFactory;
 import com.TownSimulator.entity.EntityInfoCollector;
 import com.TownSimulator.entity.Man;
+import com.TownSimulator.entity.ManInfo;
+import com.TownSimulator.entity.ManInfo.Gender;
+import com.TownSimulator.entity.ResourceInfoCollector;
 import com.TownSimulator.entity.ResourceType;
 import com.TownSimulator.entity.building.Bar;
 import com.TownSimulator.entity.building.Building;
@@ -17,6 +21,7 @@ import com.TownSimulator.entity.building.FarmHouse;
 import com.TownSimulator.entity.building.FarmLand;
 import com.TownSimulator.entity.building.FellingHouse;
 import com.TownSimulator.entity.building.Hospital;
+import com.TownSimulator.entity.building.MPStore;
 import com.TownSimulator.entity.building.PowerStation;
 import com.TownSimulator.entity.building.Ranch;
 import com.TownSimulator.entity.building.RanchLand;
@@ -26,6 +31,7 @@ import com.TownSimulator.entity.building.Well;
 import com.TownSimulator.io.InputMgr;
 import com.TownSimulator.render.Renderer;
 import com.TownSimulator.ui.UIManager;
+import com.TownSimulator.utility.GameMath;
 import com.TownSimulator.utility.ResourceManager;
 import com.TownSimulator.utility.Settings;
 import com.TownSimulator.utility.Singleton;
@@ -38,33 +44,54 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 
 public class Driver extends SingletonPublisher<DriverListener> implements ApplicationListener{
-	
 	private Driver()
 	{
 		
 	}
-	
+		
 	public void init()
 	{
 		Random rand = new Random(System.currentTimeMillis());
 		int initPepleCnt = 15;
 		float originPosX = CameraController.getInstance(CameraController.class).getX();
 		float originPoxY = CameraController.getInstance(CameraController.class).getY();
+		int minAge = ManInfo.AGE_ADULT;
+		int maxAge = ManInfo.AGE_ADULT + 10;
+		float minHunger = (ManInfo.HUNGER_POINTS_FIND_FOOD + ManInfo.HUNGER_POINTS_MAX) * 0.5f;
+		float maxHunger = ManInfo.HUNGER_POINTS_MAX;
+		for (int i = 0; i < initPepleCnt; i++) {
+			float randX = (rand.nextFloat() - 0.5f) * Settings.UNIT * 6;
+			float ranxY = (rand.nextFloat() - 0.5f) * Settings.UNIT * 6;
+			Man man = new Man();
+			int age = rand.nextInt(maxAge - minAge) + minAge;
+			man.getInfo().setAge(age);
+			man.getInfo().setGender(rand.nextFloat() < 0.5f ? Gender.Male : Gender.Female);
+			man.getInfo().hungerPoints = GameMath.lerp(minHunger, maxHunger, rand.nextFloat());
+			man.setPositionWorld(originPosX + randX, originPoxY + ranxY);
+			
+			EntityInfoCollector.getInstance(EntityInfoCollector.class).addMan(man);
+			Renderer.getInstance(Renderer.class).attachDrawScissor(man);
+		}
 		
-		//ResourceInfoCollector.getInstance(ResourceInfoCollector.class).addResourceAmount(ResourceType.RS_WOOD, 100);
-		//ResourceInfoCollector.getInstance(ResourceInfoCollector.class).addResourceAmount(ResourceType.RS_STONE, 50);
+		ResourceInfoCollector.getInstance(ResourceInfoCollector.class).addMoney(300);
+		
+		MPStore mpStore = (MPStore) EntityFactory.createBuilding(BuildingType.MP_Store);
+		mpStore.setState(Building.State.Constructed);
+		mpStore.setPositionWorld(originPosX + 6 * Settings.UNIT, originPoxY - 8 * Settings.UNIT);
+		EntityInfoCollector.getInstance(EntityInfoCollector.class).addBuilding(mpStore);
+		CollisionDetector.getInstance(CollisionDetector.class).attachCollisionDetection(mpStore);
+		Renderer.getInstance(Renderer.class).attachDrawScissor(mpStore);
 		
 		Warehouse wareHouse = (Warehouse) EntityFactory.createBuilding(BuildingType.WAREHOUSE);
 		wareHouse.addStoredResource(ResourceType.RS_WOOD, 2300);
-		//wareHouse.addStoredResource(ResourceType.RS_STONE, 50);
+		wareHouse.addStoredResource(ResourceType.RS_COAT, 1200);
 		wareHouse.addStoredResource(ResourceType.RS_WHEAT, 20000);
-		wareHouse.addStoredResource(ResourceType.RS_FUR, 200);
 		wareHouse.setState(Building.State.Constructed);
 		wareHouse.setPositionWorld(originPosX - 2 * Settings.UNIT, originPoxY - 8 * Settings.UNIT);
+		wareHouse.setDestroyable(false);
 		EntityInfoCollector.getInstance(EntityInfoCollector.class).addBuilding(wareHouse);
 		CollisionDetector.getInstance(CollisionDetector.class).attachCollisionDetection(wareHouse);
 		Renderer.getInstance(Renderer.class).attachDrawScissor(wareHouse);
-		
 		
 		Building lowCostHouse = EntityFactory.createBuilding(BuildingType.LOW_COST_HOUSE);
 		lowCostHouse.setState(Building.State.Constructed);
@@ -73,22 +100,12 @@ public class Driver extends SingletonPublisher<DriverListener> implements Applic
 		CollisionDetector.getInstance(CollisionDetector.class).attachCollisionDetection(lowCostHouse);
 		Renderer.getInstance(Renderer.class).attachDrawScissor(lowCostHouse);
 		
-
-//		Driver.getInstance(Driver.class).addListener((DriverListener) lowCostHouse);
-//		
-//		AxisAlignedBoundingBox aabb = null;
-//		aabb = wareHouse.getAABBWorld(QuadTreeType.COLLISION);
-//		Map.getInstance(Map.class).setGroundTexture("map_soil", aabb.minX, aabb.minY, aabb.maxX, aabb.maxY);
-//		
-//		aabb = lowCostHouse.getAABBWorld(QuadTreeType.COLLISION);
-//		Map.getInstance(Map.class).setGroundTexture("map_soil", aabb.minX, aabb.minY, aabb.maxX, aabb.maxY);
-
-//		AxisAlignedBoundingBox aabb = null;
-//		aabb = wareHouse.getAABBWorld(QuadTreeType.COLLISION);
-//		Map.getInstance(Map.class).setGroundTexture("map_soil", aabb.minX, aabb.minY, aabb.maxX, aabb.maxY);
-//		
-//		aabb = lowCostHouse.getAABBWorld(QuadTreeType.COLLISION);
-//		Map.getInstance(Map.class).setGroundTexture("map_soil", aabb.minX, aabb.minY, aabb.maxX, aabb.maxY);
+		Building apartmentHouse = EntityFactory.createBuilding(BuildingType.APARTMENT);
+		apartmentHouse.setState(Building.State.Constructed);
+		apartmentHouse.setPositionWorld(originPosX + 5 * Settings.UNIT, originPoxY);
+		EntityInfoCollector.getInstance(EntityInfoCollector.class).addBuilding(apartmentHouse);
+		CollisionDetector.getInstance(CollisionDetector.class).attachCollisionDetection(apartmentHouse);
+		Renderer.getInstance(Renderer.class).attachDrawScissor(apartmentHouse);
 		
 		FellingHouse fellingHouse = (FellingHouse)EntityFactory.createBuilding(BuildingType.FELLING_HOUSE);
 		fellingHouse.setState(Building.State.Constructed);
@@ -148,9 +165,9 @@ public class Driver extends SingletonPublisher<DriverListener> implements Applic
 		CollisionDetector.getInstance(CollisionDetector.class).attachCollisionDetection(farmHouse);
 		Renderer.getInstance(Renderer.class).attachDrawScissor(farmHouse);
 		
-		
 		for (FarmLand land : ((FarmHouse)farmHouse).getFarmLands()) {
 			Renderer.getInstance(Renderer.class).attachDrawScissor(land);
+			CollisionDetector.getInstance(CollisionDetector.class).attachCollisionDetection(land);
 		}
 		
 		Ranch ranch = (Ranch)EntityFactory.createBuilding(BuildingType.RANCH);
@@ -163,20 +180,6 @@ public class Driver extends SingletonPublisher<DriverListener> implements Applic
 			Renderer.getInstance(Renderer.class).attachDrawScissor(land);
 			CollisionDetector.getInstance(CollisionDetector.class).attachCollisionDetection(land);
 		}
-
-		for (int i = 0; i < initPepleCnt; i++) {
-			float randX = (rand.nextFloat() - 0.5f) * Settings.UNIT * 6;
-			float ranxY = (rand.nextFloat() - 0.5f) * Settings.UNIT * 6;
-			Man man = new Man();
-			man.setPositionWorld(originPosX + randX, originPoxY + ranxY);
-			if(i%5==0){
-				man.getInfo().setAge(10);				
-			}
-			EntityInfoCollector.getInstance(EntityInfoCollector.class).addMan(man);
-			
-			Renderer.getInstance(Renderer.class).attachDrawScissor(man);
-		}
-		
 		school.setState(Building.State.Constructed);//测试时，学校需要在初始的人确定之后，初始化学生列表
 	}
 	
@@ -188,17 +191,17 @@ public class Driver extends SingletonPublisher<DriverListener> implements Applic
 		CameraController.getInstance(CameraController.class);
 		Renderer.getInstance(Renderer.class);
 		CollisionDetector.getInstance(CollisionDetector.class);
+		Entity.initStatic();
 		TipsBillborad.init();
 		ParticleManager.init();
 	}
 
 	@Override
 	public void dispose() {
-		for (int i = 0; i < mListeners.size; i++) {
+		for (int i = 0; i < mListeners.size(); i++) {
 			mListeners.get(i).dispose();
 		}
-		
-		mInstaceMap.clear();
+		Singleton.clearInstanceMap();
 	}
 
 	@Override
@@ -211,28 +214,28 @@ public class Driver extends SingletonPublisher<DriverListener> implements Applic
 		UIManager.getInstance(UIManager.class).render();
 		
 		float deltaTime = Gdx.graphics.getDeltaTime();
-		for (int i = 0; i < mListeners.size; i++) {
+		for (int i = 0; i < mListeners.size(); i++) {
 			mListeners.get(i).update(deltaTime * Settings.gameSpeed);
 		}
 	}
 
 	@Override
 	public void resize(int width, int height) {
-		for (int i = 0; i < mListeners.size; i++) {
+		for (int i = 0; i < mListeners.size(); i++) {
 			mListeners.get(i).resize(width, height);
 		}
 	}
 
 	@Override
 	public void pause() {
-		for (int i = 0; i < mListeners.size; i++) {
+		for (int i = 0; i < mListeners.size(); i++) {
 			mListeners.get(i).pause();
 		}
 	}
 
 	@Override
 	public void resume() {
-		for (int i = 0; i < mListeners.size; i++) {
+		for (int i = 0; i < mListeners.size(); i++) {
 			mListeners.get(i).resume();
 		}
 	}

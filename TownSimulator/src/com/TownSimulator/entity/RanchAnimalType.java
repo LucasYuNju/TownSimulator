@@ -1,5 +1,4 @@
-package com.TownSimulator.entity.building;
-
+package com.TownSimulator.entity;
 
 public enum RanchAnimalType {
 	COW("animal_cow", "Cow");
@@ -27,8 +26,6 @@ public enum RanchAnimalType {
 			if(type.getViewName().equals(viewName))
 				return type;
 		}
-		
 		return null;
 	}
-	
 }

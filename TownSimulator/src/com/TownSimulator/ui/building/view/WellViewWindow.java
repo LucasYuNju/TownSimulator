@@ -8,7 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.Align;
 
-public class WellViewWindow extends UndockedWindow{
+public class WellViewWindow extends UndockedWindow {
 	private float width;
 	private float height;
 	private Label textLabel;

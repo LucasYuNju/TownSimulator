@@ -1,11 +1,12 @@
 package com.TownSimulator.ui.building.view;
 
 import com.TownSimulator.camera.CameraController;
+import com.TownSimulator.entity.RanchAnimalType;
 import com.TownSimulator.entity.building.BuildingType;
-import com.TownSimulator.entity.building.RanchAnimalType;
 import com.TownSimulator.utility.ResourceManager;
 import com.TownSimulator.utility.Settings;
 import com.TownSimulator.utility.Singleton;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector3;
@@ -25,11 +26,9 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
  * workers
  * 
  */
-public class RanchViewWindow extends WorkableViewWindow{
+public class RanchViewWindow extends WorkableViewWindow {
 	private SelectBox<String> dropDown;
-	//private ProcessBar processBar;
 	private TextureRegion buttonBackground;
-	//private WorkerGroup builderGroup;
 	private float width;
 	private float height;
 	private SelectBoxListener selectBoxListener;
@@ -41,44 +40,10 @@ public class RanchViewWindow extends WorkableViewWindow{
 		height = LABEL_HEIGHT * 2 + WorkerGroup.HEIGHT + MARGIN * 2;
 		setSize(width, height);
 		addDropDown();
-//		addRowOne();
-//		addRowTwo();
-		
-//		builderGroup = new WorkerGroup(5);
-//		builderGroup.setPosition(MARGIN, MARGIN);
-//		addActor(builderGroup);
-
 		addCloseButton();
 		addHeader();
+		updateLayout();
 	}
-	
-//	private void addRowOne() {
-//		LabelStyle labelStyle = new LabelStyle();
-//		labelStyle.font = ResourceManager.getInstance(ResourceManager.class).getFont((int) (Settings.UNIT * 0.3f));
-//		labelStyle.fontColor = Color.WHITE;
-//		Label label = new Label("state", labelStyle);
-//		label.setSize(LABEL_WIDTH, LABEL_HEIGHT);
-//		label.setPosition(MARGIN, MARGIN + WorkerGroup.HEIGHT + LABEL_WIDTH * 2);
-//		label.setAlignment(Align.left);
-//		addActor(label);
-//		
-////		processBar = new ProcessBar();
-////		processBar.setPosition(MARGIN + LABEL_WIDTH, MARGIN + WorkerGroup.HEIGHT + LABEL_WIDTH * 2);
-////		addActor(processBar);
-//	}
-//	
-//	private void addRowTwo() {
-//		LabelStyle labelStyle = new LabelStyle();
-//		labelStyle.font = ResourceManager.getInstance(ResourceManager.class).getFont((int) (Settings.UNIT * 0.3f));
-//		labelStyle.fontColor = Color.WHITE;
-//		Label label = new Label("curCrop", labelStyle);
-//		label.setSize(LABEL_WIDTH, LABEL_HEIGHT);
-//		label.setPosition(MARGIN, MARGIN + WorkerGroup.HEIGHT + LABEL_WIDTH);
-//		label.setAlignment(Align.left);
-//		addActor(label);
-//
-//		addDropDown();
-//	}
 
 	private void addDropDown() {
 		SelectBoxStyle style = new SelectBoxStyle();
@@ -124,5 +89,11 @@ public class RanchViewWindow extends WorkableViewWindow{
 	
 	public void setSelectBoxListener(SelectBoxListener selectBoxListener) {
 		this.selectBoxListener = selectBoxListener;
+	}
+	
+	public void reload(RanchAnimalType animalType) {
+		Gdx.app.log("ranch", dropDown.toString());
+		Gdx.app.log("ranch", animalType.toString());
+		dropDown.setSelected(animalType.getViewName());
 	}
 }

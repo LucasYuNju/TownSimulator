@@ -8,15 +8,13 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.Align;
 
-public class WorkableWithTipsWindow extends WorkableViewWindow{
+public class WorkableWithTipsWindow extends WorkableViewWindow {
 	private Label tipsLabel;
 	
 	public WorkableWithTipsWindow(BuildingType buildingType,
 			int numAllowedWorker) {
 		super(buildingType, numAllowedWorker);
-		
 		setSize(getWidth(), getHeight() + LABEL_HEIGHT + MARGIN);
-		
 		init();
 	}
 	
@@ -26,7 +24,7 @@ public class WorkableWithTipsWindow extends WorkableViewWindow{
 		labelStyle.font = ResourceManager.getInstance(ResourceManager.class).getFont((int)(LABEL_HEIGHT * 0.7f));
 		labelStyle.fontColor = Color.RED;
 		tipsLabel = new Label("", labelStyle);
-		tipsLabel.setSize(getWidth(), LABEL_HEIGHT);
+		tipsLabel.setSize(getWidth() - dynamiteButton.getWidth(), LABEL_HEIGHT);
 		tipsLabel.setPosition(0.0f, MARGIN);
 		tipsLabel.setAlignment(Align.center);
 		addActor(tipsLabel);
@@ -38,8 +36,21 @@ public class WorkableWithTipsWindow extends WorkableViewWindow{
 	
 	public void setTips(String tips)
 	{
+		float width = tipsLabel.getStyle().font.getBounds(tips).width + dynamiteButton.getWidth() + MARGIN * 2;
+		setSize(Math.max(getWidth(), width), getHeight());
+		tipsLabel.setSize(getWidth() - dynamiteButton.getWidth(), LABEL_HEIGHT);
 		tipsLabel.setText(tips);
-//		tipsLabel.setSize(tipsLabel.getStyle().font.getBounds(tips).width, LABEL_HEIGHT);
+		
+		updateLayout();
 	}
 
+	@Override
+	protected void updateLayout() {
+		super.updateLayout();
+		
+		if(workerGroup != null && tipsLabel != null)
+			workerGroup.setPosition(MARGIN, MARGIN + tipsLabel.getHeight());
+	}
+	
+	
 }

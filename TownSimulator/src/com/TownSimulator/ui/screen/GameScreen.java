@@ -7,10 +7,12 @@ import com.TownSimulator.entity.Resource;
 import com.TownSimulator.entity.building.BuildingType;
 import com.TownSimulator.ui.MessageBoard;
 import com.TownSimulator.ui.StateBar;
+import com.TownSimulator.ui.base.IconButton;
 import com.TownSimulator.ui.base.ScreenUIBase;
 import com.TownSimulator.ui.building.adjust.BuildingAdjustGroup;
 import com.TownSimulator.ui.building.construction.ConstructionWindow;
 import com.TownSimulator.ui.building.selector.BuildComsUI;
+import com.TownSimulator.ui.building.selector.BuildComsUI.BuildComsUIListener;
 import com.TownSimulator.ui.building.view.BarViewWindow;
 import com.TownSimulator.ui.building.view.FarmViewWindow;
 import com.TownSimulator.ui.building.view.HospitalViewWindow;
@@ -20,20 +22,34 @@ import com.TownSimulator.ui.building.view.ScrollViewWindow;
 import com.TownSimulator.ui.building.view.WellViewWindow;
 import com.TownSimulator.ui.building.view.WorkableViewWindow;
 import com.TownSimulator.ui.building.view.WorkableWithTipsWindow;
+import com.TownSimulator.ui.speed.SpeedSettingUI;
+import com.TownSimulator.ui.speed.SpeedSettingUI.SpeedSettingUIListener;
+import com.TownSimulator.utility.GdxInputListnerEx;
+import com.TownSimulator.utility.Settings;
+import com.TownSimulator.utility.ls.LoadSave;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
+import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 
-public class GameScreenUI extends ScreenUIBase{
+public class GameScreen extends ScreenUIBase{
+	private static final long serialVersionUID = -5791358765820581413L;
+	public 	static 	float	BUTTON_WIDTH  			= Settings.UNIT;
+	public 	static 	float	BUTTON_HEIGHT 			= Settings.UNIT;
+	public 	static 	float	BUTTON_LABEL_HEIGHT 		= Settings.UNIT * 0.2f;
+	public 	static 	float	BUTTONS_H_MARGIN 			= BUTTON_WIDTH * 0.1f;
+	public 	static 	float 	SUBBUTTONS_TO_LABRL_MARGIN = Settings.UNIT * 0.1f;
 	private BuildComsUI		mBuildComsUI;
+	private SpeedSettingUI	mSpeedSettingUI;
+	private Button			mSaveButton;
 	private BuildingAdjustGroup	mBuildAjustUI;
 	private List<Actor> windows = new LinkedList<Actor>();
 	private StateBar stateBar;
 	private MessageBoard messageBoard;
 	
-	public GameScreenUI()
+	public GameScreen()
 	{
 		super();
 		initComponents();
@@ -41,8 +57,53 @@ public class GameScreenUI extends ScreenUIBase{
 	
 	private void initComponents()
 	{
+		float x = Gdx.graphics.getWidth() - BUTTON_WIDTH;
+		float y = 0.0f;
+		
+		mSaveButton = new IconButton("button_save");
+		mSaveButton.setSize(BUTTON_WIDTH, BUTTON_HEIGHT);
+		mSaveButton.setPosition(x, y);
+		mSaveButton.addListener(new GdxInputListnerEx()
+		{
+
+			@Override
+			public void tapped(InputEvent event, float x, float y, int pointer,
+					int button) {
+				/**
+				 * FIX
+				 */
+				System.out.println("Save");
+				LoadSave.getInstance().save();
+				
+				mSpeedSettingUI.setShowButtons(false);
+				mBuildComsUI.hideBuildButtonsGroup();
+			}
+			
+		});
+		mStage.addActor(mSaveButton);
+		x -= BUTTON_WIDTH + BUTTONS_H_MARGIN;
+		
+		mSpeedSettingUI = new SpeedSettingUI();
+		mSpeedSettingUI.setPosition(x, y);
+		mSpeedSettingUI.setListener(new SpeedSettingUIListener() {
+			
+			@Override
+			public void clicked() {
+				mBuildComsUI.hideBuildButtonsGroup();
+			}
+		});
+		mStage.addActor(mSpeedSettingUI);
+		
 		mBuildComsUI = new BuildComsUI();
-		mBuildComsUI.setPosition( Gdx.graphics.getWidth() - mBuildComsUI.getWidth(), 0.0f );
+		x -= mBuildComsUI.getWidth() + BUTTONS_H_MARGIN;
+		mBuildComsUI.setPosition(x, y);
+		mBuildComsUI.setListener(new BuildComsUIListener() {
+			
+			@Override
+			public void clicked() {
+				mSpeedSettingUI.setShowButtons(false);
+			}
+		});
 		mStage.addActor(mBuildComsUI);
 		
 		mBuildAjustUI = new BuildingAdjustGroup();
@@ -68,29 +129,6 @@ public class GameScreenUI extends ScreenUIBase{
 		return messageBoard;
 	}
 	
-//	public ListenableViewWindow createViewWindow(BuildingType type) {
-//		ListenableViewWindow window = null;
-//		switch (type) {
-//		case WAREHOUSE:
-//			window = createScrollViewWindow(type);
-//			break;
-//		case LOW_COST_HOUSE:
-//			window = createScrollViewWindow(type);
-//			break;
-//		case FARM_HOUSE:
-//			window = createFarmViewWindow();
-//			break;
-//		case FELLING_HOUSE:
-//			window = createWorkableViewWindow(type, FellingHouse.MAX_WORKER_CNT);
-//			break;
-//		default:
-//			break;
-//		}
-//		if(window != null)
-//			windows.add(window);
-//		return window;
-//	}
-	
 	public ConstructionWindow createConstructionWindow(BuildingType buildingType, List<Resource> resouces, int numAllowedBuilder) {
 		ConstructionWindow constructionWindow = new ConstructionWindow(buildingType, resouces, numAllowedBuilder);
 		constructionWindow.setVisible(false);
@@ -113,6 +151,7 @@ public class GameScreenUI extends ScreenUIBase{
 			}
 		});
 		mStage.addActor(scrollPane);
+		windows.add(window);
 		return window;
 	}
 	

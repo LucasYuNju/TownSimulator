@@ -11,12 +11,16 @@ import com.TownSimulator.render.RendererListener;
 import com.TownSimulator.utility.Settings;
 
 public class FellingHouse extends WorkableBuilding {
+	private static final long serialVersionUID = -8892051075362272386L;
 	public static final int RANGE = 5;
 	public static final int MAX_JOB_CNT = 2;
+	private RendererListener renderListener;
 	
 	public FellingHouse() {
 		super("building_felling_house", BuildingType.FELLING_HOUSE, JobType.LUMERJACK);
-		Renderer.getInstance(Renderer.class).addListener(new RendererListener() {
+		renderListener = new RendererListener() {
+			private static final long serialVersionUID = 9068085887350831160L;
+
 			@Override
 			public void renderEnded() {
 			}
@@ -26,9 +30,16 @@ public class FellingHouse extends WorkableBuilding {
 				if(isSelected || getState() == Building.State.PosUnconfirmed)
 					drawRange();
 			}
-		});
+		};
+		Renderer.getInstance(Renderer.class).addListener(renderListener);
 	}
 	
+	@Override
+	public void destroy() {
+		super.destroy();
+		Renderer.getInstance(Renderer.class).removeListener(renderListener);
+	}
+
 	private void drawRange()
 	{
 		int originGridX = (int)(mCollisionAABBWorld.getCenterX() / Settings.UNIT);
@@ -76,20 +87,4 @@ public class FellingHouse extends WorkableBuilding {
 	protected int getMaxJobCnt() {
 		return MAX_JOB_CNT;
 	}
-
-	/*
-	 * 增删工人都应该通知此方法
-	 */
-//	public void updateViewWindow() {
-//		WorkableViewWindow workableViewWindow = (WorkableViewWindow) viewWindow;
-//		workableViewWindow.addWorker();
-//	}
-	
-	/*
-	 * notification from viewWinodow
-	 */
-//	@Override
-//	public void workerLimitChanged(int limit) {
-//		Gdx.app.log("Felling House", "selected limit :" + limit);
-//	}
 }
