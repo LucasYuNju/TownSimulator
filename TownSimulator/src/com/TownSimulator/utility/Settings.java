@@ -8,8 +8,9 @@ public class Settings {
 	
 	public static int gameSpeed = 5;
 	public static Color backgroundColor = new Color(Color.BLACK);
-	
-	public static Color gameGroundColor = GameMath.rgbaIntToColor(205, 163, 95, 255);
+	public static Color gameNormalGroundColor = GameMath.rgbaIntToColor(205, 163, 95, 255);
+	public static Color gameWinterGroundColor = GameMath.rgbaIntToColor(250, 235, 215, 255);
+	public static Color gameSummerGroundColor = GameMath.rgbaIntToColor(137, 109, 64, 255);
 	/*
 	 * UI Settings
 	 */

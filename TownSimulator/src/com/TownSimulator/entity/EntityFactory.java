@@ -114,16 +114,16 @@ public class EntityFactory {
 			building.setNeededConstructionWork(40);
 			break;
 		case SCHOOL:
-			xGridSize=2;
-			yGridSize=2;
+			xGridSize=4;
+			yGridSize=3;
 			yDrawScale=1.5f;
 			building=new School();
 			building.setNeededConstructionResource(ResourceType.RS_WOOD, 5000);
 			building.setNeededConstructionWork(50);
 			break;
 		case WELL:
-			xGridSize=1;
-			yGridSize=1;
+			xGridSize=2;
+			yGridSize=2;
 			yDrawScale=1.5f;
 			building=new Well();
 			building.setNeededConstructionResource(ResourceType.RS_WOOD, 2000);

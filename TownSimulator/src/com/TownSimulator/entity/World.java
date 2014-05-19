@@ -5,7 +5,9 @@ import java.util.Calendar;
 import com.TownSimulator.driver.Driver;
 import com.TownSimulator.driver.DriverListenerBaseImpl;
 import com.TownSimulator.entity.building.School;
+import com.TownSimulator.utility.Settings;
 import com.TownSimulator.utility.Singleton;
+import com.TownSimulator.utility.particle.ParticleControl;
 
 public class World extends Singleton {
 	
@@ -15,11 +17,9 @@ public class World extends Singleton {
 	private float secondPerDay;
 	private float secondDuringLastDay;
 	private int maxStudentAmount;
+	private SeasonType curSeasonType;
 //	private int currentStudentNum;
 	
-	public enum SeasonType{
-		Spring,Summer,Autumn,Winter
-	}
 	private int[] startSeasonMonth={2,5,8,11};
 	
 	private World(){
@@ -29,7 +29,8 @@ public class World extends Singleton {
 	public void init()
 	{
 		calendar=Calendar.getInstance();
-		calendar.set(2014, 6, 1);//设置初始日期
+		calendar.set(2014, 3, 29);//设置初始日期
+		curSeasonType=getCurSeason();
 		secondPerDay = SecondPerYear / 365.0f;
 		secondDuringLastDay = 0f;
 		
@@ -46,6 +47,22 @@ public class World extends Singleton {
 					calendar.add(Calendar.DATE, 1);
 					secondDuringLastDay -= secondPerDay;
 //					System.out.println(getCurYear()+"/"+getCurMonth()+"/"+getCurDay());
+				}
+				if(curSeasonType!=getCurSeason()){
+					ParticleControl.getInstance(ParticleControl.class).reset();
+					curSeasonType=getCurSeason();
+					switch (curSeasonType) {
+					case Winter:
+						Settings.backgroundColor=Settings.gameWinterGroundColor.cpy();
+						break;
+					case Summer:
+						Settings.backgroundColor=Settings.gameSummerGroundColor.cpy();
+						break;
+						
+					default:
+						Settings.backgroundColor=Settings.gameNormalGroundColor.cpy();
+						break;
+					}
 				}
 			}
 			
@@ -123,5 +140,4 @@ public class World extends Singleton {
 		return SeasonType.Spring;
 	}
 	
-
 }

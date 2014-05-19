@@ -7,6 +7,7 @@ import com.TownSimulator.render.Renderer;
 import com.TownSimulator.ui.base.ScreenUIBase;
 import com.TownSimulator.utility.ResourceManager;
 import com.TownSimulator.utility.Settings;
+import com.TownSimulator.utility.particle.ParticleControl;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
@@ -74,9 +75,10 @@ public class LoadingScreenUI extends ScreenUIBase{
 		{
 			Driver.getInstance(Driver.class).init();
 			World.getInstance(World.class).init();
+			ParticleControl.getInstance(ParticleControl.class).init();
 			Renderer.getInstance(Renderer.class).setRenderScene(true);
 			
-			Settings.backgroundColor = Settings.gameGroundColor.cpy();
+			Settings.backgroundColor = Settings.gameNormalGroundColor.cpy();
 			//if(listener != null)
 			listener.loadingFinish();
 		}

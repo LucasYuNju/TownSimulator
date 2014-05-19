@@ -1,6 +1,5 @@
 package com.TownSimulator.driver;
 
-
 import java.util.Random;
 
 import com.TownSimulator.camera.CameraController;
@@ -32,12 +31,14 @@ import com.TownSimulator.utility.Settings;
 import com.TownSimulator.utility.Singleton;
 import com.TownSimulator.utility.SingletonPublisher;
 import com.TownSimulator.utility.TipsBillborad;
+import com.TownSimulator.utility.particle.ParticleControl;
 import com.TownSimulator.utility.particles.ParticleManager;
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 
 public class Driver extends SingletonPublisher<DriverListener> implements ApplicationListener{
+	
 	private Driver()
 	{
 		
@@ -206,6 +207,7 @@ public class Driver extends SingletonPublisher<DriverListener> implements Applic
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		
 		Renderer.getInstance(Renderer.class).render();
+		ParticleControl.getInstance(ParticleControl.class).render();
 		UIManager.getInstance(UIManager.class).render();
 		
 		float deltaTime = Gdx.graphics.getDeltaTime();
