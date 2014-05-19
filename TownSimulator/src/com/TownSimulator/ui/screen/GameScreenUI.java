@@ -34,6 +34,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 
 public class GameScreenUI extends ScreenUIBase{
+	private static final long serialVersionUID = -5791358765820581413L;
 	public 	static 	float							BUTTON_WIDTH  			= Settings.UNIT;
 	public 	static 	float							BUTTON_HEIGHT 			= Settings.UNIT;
 	public 	static 	float							BUTTON_LABEL_HEIGHT 		= Settings.UNIT * 0.2f;

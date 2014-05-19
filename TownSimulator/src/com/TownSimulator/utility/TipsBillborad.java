@@ -108,6 +108,8 @@ public class TipsBillborad {
 		});
 		
 		Renderer.getInstance(Renderer.class).addListener(new RendererListener() {
+			private static final long serialVersionUID = -3659126136217212295L;
+
 			@Override
 			public void renderEnded() {
 				renderTips();

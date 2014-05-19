@@ -21,11 +21,9 @@ import com.TownSimulator.ui.building.view.UndockedWindow;
 public class LivingHouse extends Building {
 	private static final long serialVersionUID = 6577679479943487313L;
 	private static final float MAN_INCREASE_PROBABILITY = 0.01f;
-//	public static final  int INCREASEPERMONTH = 1;				//每人每个月增加的几率
 	protected List<ManInfo> residents;
 	protected int capacity;
 	protected transient ScrollViewWindow scrollWindow;
-//	private int persentage = 0;
 	private float time;
 	private DriverListener driverListener;
 	
@@ -36,6 +34,8 @@ public class LivingHouse extends Building {
 		
 		driverListener = new DriverListenerBaseImpl()
 		{
+			private static final long serialVersionUID = 2022240962902543180L;
+
 			/**
 			 * 每过一个月，调用一次增加人口
 			 */
@@ -86,7 +86,6 @@ public class LivingHouse extends Building {
 	
 	@Override
 	public void setState(State state) {
-		// TODO Auto-generated method stub
 		super.setState(state);
 		
 		if(state == Building.State.Constructed)

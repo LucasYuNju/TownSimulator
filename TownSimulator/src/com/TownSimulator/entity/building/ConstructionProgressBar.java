@@ -26,7 +26,8 @@ public class ConstructionProgressBar implements Drawable{
 	static
 	{
 		Renderer.getInstance(Renderer.class).addListener(new RendererListener() {
-			
+			private static final long serialVersionUID = -5940796622618726626L;
+
 			@Override
 			public void renderEnded() {
 			}

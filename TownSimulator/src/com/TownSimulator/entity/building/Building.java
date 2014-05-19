@@ -59,7 +59,8 @@ public abstract class Building extends Entity
 		constructionWindow.setVisible(false);
 		constructionWindow.setConstructionListener(this);
 		constructionWindow.setUndockedWindowListener(new UndockedWindowListener() {
-				
+			private static final long serialVersionUID = 736644604441367043L;
+
 				@Override
 				public void dynamiteButtonClicked() {
 					destroy();

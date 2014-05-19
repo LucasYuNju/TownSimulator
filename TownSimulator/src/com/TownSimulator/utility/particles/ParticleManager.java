@@ -48,7 +48,8 @@ public class ParticleManager extends AllocManaged{
 		});
 		
 		Renderer.getInstance(Renderer.class).addListener(new RendererListener() {
-			
+			private static final long serialVersionUID = -6353534711440667625L;
+
 			@Override
 			public void renderEnded() {
 			}
