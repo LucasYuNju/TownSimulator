@@ -24,6 +24,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.Align;
  * food		| numFood
  * adult	| numAdult
  * children	| numChildren
+ * money	| numMoney
  *
  */
 public class StateBar extends Group{
@@ -40,6 +41,7 @@ public class StateBar extends Group{
 	private Label numFoodLabel;
 	private Label numAdultLabel;
 	private Label numChildrenLabel;
+	private Label numMoneyLabel;
 	
 	public StateBar() {
 		super();
@@ -59,6 +61,23 @@ public class StateBar extends Group{
 		float x = MARGIN;
 		float y = MARGIN;
 		
+		Label moneyLabel = new Label("$", labelStyle);
+		moneyLabel.setColor(Color.ORANGE);
+		moneyLabel.setSize(LABEL_WIDTH, LABEL_HEIGHT);
+		moneyLabel.setPosition(x, y);
+		moneyLabel.setAlignment(Align.left);
+		addActor(moneyLabel);
+		
+		x += LABEL_WIDTH + MARGIN;
+		numMoneyLabel = new Label("", labelStyle);
+		numMoneyLabel.setColor(Color.ORANGE);
+		numMoneyLabel.setSize(LABEL_WIDTH, LABEL_HEIGHT);
+		numMoneyLabel.setPosition(x, y);
+		numMoneyLabel.setAlignment(Align.left);
+		addActor(numMoneyLabel);
+		
+		x = MARGIN;
+		y += LABEL_HEIGHT + MARGIN;
 		Label childrenLabel = new Label("Children", labelStyle);
 		childrenLabel.setSize(LABEL_WIDTH, LABEL_HEIGHT);
 		childrenLabel.setPosition(x, y);
@@ -136,6 +155,9 @@ public class StateBar extends Group{
 		}
 		numAdultLabel.setText(numAdult + "");
 		numChildrenLabel.setText(numChildren + "");
+		
+		int numMoney = ResourceInfoCollector.getInstance(ResourceInfoCollector.class).getMoney();
+		numMoneyLabel.setText(numMoney + "");
 	}
 
 	@Override

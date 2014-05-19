@@ -11,11 +11,13 @@ import com.TownSimulator.entity.Entity;
 import com.TownSimulator.entity.EntityFactory;
 import com.TownSimulator.entity.EntityInfoCollector;
 import com.TownSimulator.entity.EntityListener;
+import com.TownSimulator.entity.ResourceInfoCollector;
 import com.TownSimulator.entity.building.Building;
 import com.TownSimulator.entity.building.Building.State;
 import com.TownSimulator.entity.building.BuildingType;
 import com.TownSimulator.entity.building.FarmHouse;
 import com.TownSimulator.entity.building.FarmLand;
+import com.TownSimulator.entity.building.MoneyProducingBuilding;
 import com.TownSimulator.entity.building.Ranch;
 import com.TownSimulator.entity.building.RanchLand;
 import com.TownSimulator.render.Renderer;
@@ -113,6 +115,63 @@ public class BuildingAdjustBroker extends Singleton implements EntityListener, C
 		mCurBuilding.setListener(this);
 	}
 	
+	private void confirmBuilding()
+	{
+		if(mCurBuilding instanceof MoneyProducingBuilding)
+		{
+			mCurBuilding.setState(Building.State.Constructed);
+			ResourceInfoCollector.getInstance(ResourceInfoCollector.class).addMoney(-mCurBuilding.getType().getMoneyCost());
+		}
+		else
+		{
+			new ConstructionProject(mCurBuilding);
+
+			mCurBuilding.setState(State.UnderConstruction);
+			
+			if(mCurBuilding.getType() == BuildingType.FARM_HOUSE)
+				for (FarmLand land : ((FarmHouse)mCurBuilding).getFarmLands()) {
+					CollisionDetector.getInstance(CollisionDetector.class).attachCollisionDetection(land);
+				}
+			else if(mCurBuilding.getType() == BuildingType.RANCH)
+				for (RanchLand land : ((Ranch)mCurBuilding).getRanchLands()) {
+					CollisionDetector.getInstance(CollisionDetector.class).attachCollisionDetection(land);
+				}
+		}
+		EntityInfoCollector.getInstance(EntityInfoCollector.class).addBuilding(mCurBuilding);
+		
+		Renderer.getInstance(Renderer.class).setDrawGrid(false);
+		CameraController.getInstance(CameraController.class).removeListener(BuildingAdjustBroker.this);
+		
+		mCurBuilding.setListener(null);
+		mCurBuilding = null;
+		mBuildUI.setListener(null);
+		mBuildUI.setVisible(false);
+		mBuildUI = null;
+	}
+	
+	private void cancelBuilding()
+	{
+		Renderer.getInstance(Renderer.class).setDrawGrid(false);
+		Renderer.getInstance(Renderer.class).dettachDrawScissor(mCurBuilding);
+		if(mCurBuilding.getType() == BuildingType.FARM_HOUSE)
+			for (FarmLand land : ((FarmHouse)mCurBuilding).getFarmLands()) {
+				Renderer.getInstance(Renderer.class).dettachDrawScissor(land);
+			}
+		if(mCurBuilding.getType() == BuildingType.RANCH)
+			for (RanchLand land : ((Ranch)mCurBuilding).getRanchLands()) {
+				Renderer.getInstance(Renderer.class).dettachDrawScissor(land);
+			}
+		CollisionDetector.getInstance(CollisionDetector.class).dettachCollisionDetection(mCurBuilding);
+		CameraController.getInstance(CameraController.class).removeListener(BuildingAdjustBroker.this);
+
+		mCurBuilding.setListener(null);
+		mCurBuilding = null;
+		mBuildUI.setListener(null);
+		mBuildUI.setVisible(false);
+		mBuildUI = null;
+	}
+	
+	
 	private void setBuildAjustUI(BuildingAdjustGroup ui)
 	{
 		if(ui == null)
@@ -124,52 +183,12 @@ public class BuildingAdjustBroker extends Singleton implements EntityListener, C
 			
 			@Override
 			public void confirm() {
-				new ConstructionProject(mCurBuilding);
-
-				mCurBuilding.setState(State.UnderConstruction);
-				EntityInfoCollector.getInstance(EntityInfoCollector.class).addBuilding(mCurBuilding);
-				
-				if(mCurBuilding.getType() == BuildingType.FARM_HOUSE)
-					for (FarmLand land : ((FarmHouse)mCurBuilding).getFarmLands()) {
-						CollisionDetector.getInstance(CollisionDetector.class).attachCollisionDetection(land);
-					}
-				else if(mCurBuilding.getType() == BuildingType.RANCH)
-					for (RanchLand land : ((Ranch)mCurBuilding).getRanchLands()) {
-						CollisionDetector.getInstance(CollisionDetector.class).attachCollisionDetection(land);
-					}
-				
-//				AxisAlignedBoundingBox aabb = mCurBuilding.getAABBWorld(QuadTreeType.COLLISION);
-//				Map.getInstance(Map.class).setGroundTexture("map_soil", aabb.minX, aabb.minY, aabb.maxX, aabb.maxY);
-				
-				Renderer.getInstance(Renderer.class).setDrawGrid(false);
-				mCurBuilding.setListener(null);
-				mCurBuilding = null;
-				mBuildUI.setListener(null);
-				mBuildUI.setVisible(false);
-				mBuildUI = null;
-				CameraController.getInstance(CameraController.class).removeListener(BuildingAdjustBroker.this);
+				confirmBuilding();
 			}
 			
 			@Override
 			public void cancel() {
-				Renderer.getInstance(Renderer.class).setDrawGrid(false);
-				Renderer.getInstance(Renderer.class).dettachDrawScissor(mCurBuilding);
-				if(mCurBuilding.getType() == BuildingType.FARM_HOUSE)
-					for (FarmLand land : ((FarmHouse)mCurBuilding).getFarmLands()) {
-						Renderer.getInstance(Renderer.class).dettachDrawScissor(land);
-					}
-				if(mCurBuilding.getType() == BuildingType.RANCH)
-					for (RanchLand land : ((Ranch)mCurBuilding).getRanchLands()) {
-						Renderer.getInstance(Renderer.class).dettachDrawScissor(land);
-					}
-				CollisionDetector.getInstance(CollisionDetector.class).dettachCollisionDetection(mCurBuilding);
-
-				mCurBuilding.setListener(null);
-				mCurBuilding = null;
-				mBuildUI.setListener(null);
-				mBuildUI.setVisible(false);
-				mBuildUI = null;
-				CameraController.getInstance(CameraController.class).removeListener(BuildingAdjustBroker.this);
+				cancelBuilding();
 			}
 		});
 		updateUIPos();

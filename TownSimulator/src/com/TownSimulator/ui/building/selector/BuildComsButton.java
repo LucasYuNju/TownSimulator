@@ -1,5 +1,6 @@
 package com.TownSimulator.ui.building.selector;
 
+import com.TownSimulator.entity.ResourceInfoCollector;
 import com.TownSimulator.entity.building.BuildingType;
 import com.TownSimulator.ui.base.IconLabelButton;
 import com.TownSimulator.ui.building.adjust.BuildingAdjustBroker;
@@ -26,6 +27,14 @@ public class BuildComsButton extends IconLabelButton{
 			@Override
 			public void touchUp(InputEvent event, float x, float y,
 					int pointer, int button) {
+				
+				if(BuildComsButton.this.buildingType.isMoneyProducing())
+				{
+					int moneyCur = ResourceInfoCollector.getInstance(ResourceInfoCollector.class).getMoney();
+					if(moneyCur < BuildComsButton.this.buildingType.getMoneyCost())
+						return;
+				}
+				
 				BuildingAdjustBroker.getInstance(BuildingAdjustBroker.class).startNewBuilding(BuildComsButton.this.buildingType);
 			}
 		});

@@ -23,7 +23,6 @@ public class RanchAnimal extends Entity{
 	private					float					moveTime;
 	private					float					stadingTime;
 	private					boolean					isMove = false;
-	private 				boolean 				drawFlip = false;
 	private					RanchAnimalType			type;
 	private					Sprite					spNoFlip;
 	private					Sprite					spFlip;
@@ -70,7 +69,6 @@ public class RanchAnimal extends Entity{
 	
 	private void setFlip(boolean flip)
 	{
-		this.drawFlip = flip;
 		if(flip)
 			setSprite(spFlip);
 		else

@@ -9,6 +9,7 @@ import com.TownSimulator.entity.building.FarmHouse;
 import com.TownSimulator.entity.building.FellingHouse;
 import com.TownSimulator.entity.building.Hospital;
 import com.TownSimulator.entity.building.LowCostHouse;
+import com.TownSimulator.entity.building.MPStore;
 import com.TownSimulator.entity.building.PowerStation;
 import com.TownSimulator.entity.building.Ranch;
 import com.TownSimulator.entity.building.School;
@@ -136,6 +137,13 @@ public class EntityFactory {
 			building=new Well();
 			building.setNeededConstructionResource(ResourceType.RS_WOOD, 2000);
 			building.setNeededConstructionWork(20);
+			break;
+		case MP_Store:
+			xGridSize=2;
+			yGridSize=2;
+			yDrawScale=1.1f;
+			building=new MPStore();
+			break;
 		default:
 			break;
 		}

@@ -10,6 +10,7 @@ import com.TownSimulator.entity.EntityInfoCollector;
 import com.TownSimulator.entity.Man;
 import com.TownSimulator.entity.ManInfo;
 import com.TownSimulator.entity.ManInfo.Gender;
+import com.TownSimulator.entity.ResourceInfoCollector;
 import com.TownSimulator.entity.ResourceType;
 import com.TownSimulator.entity.building.Bar;
 import com.TownSimulator.entity.building.Building;
@@ -20,6 +21,7 @@ import com.TownSimulator.entity.building.FarmHouse;
 import com.TownSimulator.entity.building.FarmLand;
 import com.TownSimulator.entity.building.FellingHouse;
 import com.TownSimulator.entity.building.Hospital;
+import com.TownSimulator.entity.building.MPStore;
 import com.TownSimulator.entity.building.PowerStation;
 import com.TownSimulator.entity.building.Ranch;
 import com.TownSimulator.entity.building.RanchLand;
@@ -67,6 +69,15 @@ public class Driver extends SingletonPublisher<DriverListener> implements Applic
 			EntityInfoCollector.getInstance(EntityInfoCollector.class).addMan(man);
 			Renderer.getInstance(Renderer.class).attachDrawScissor(man);
 		}
+		
+		ResourceInfoCollector.getInstance(ResourceInfoCollector.class).addMoney(300);
+		
+		MPStore mpStore = (MPStore) EntityFactory.createBuilding(BuildingType.MP_Store);
+		mpStore.setState(Building.State.Constructed);
+		mpStore.setPositionWorld(originPosX + 6 * Settings.UNIT, originPoxY - 8 * Settings.UNIT);
+		EntityInfoCollector.getInstance(EntityInfoCollector.class).addBuilding(mpStore);
+		CollisionDetector.getInstance(CollisionDetector.class).attachCollisionDetection(mpStore);
+		Renderer.getInstance(Renderer.class).attachDrawScissor(mpStore);
 		
 		Warehouse wareHouse = (Warehouse) EntityFactory.createBuilding(BuildingType.WAREHOUSE);
 		wareHouse.addStoredResource(ResourceType.RS_WOOD, 2300);
@@ -153,6 +164,7 @@ public class Driver extends SingletonPublisher<DriverListener> implements Applic
 		
 		for (FarmLand land : ((FarmHouse)farmHouse).getFarmLands()) {
 			Renderer.getInstance(Renderer.class).attachDrawScissor(land);
+			CollisionDetector.getInstance(CollisionDetector.class).attachCollisionDetection(land);
 		}
 		
 		Ranch ranch = (Ranch)EntityFactory.createBuilding(BuildingType.RANCH);

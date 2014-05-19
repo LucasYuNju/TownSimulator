@@ -12,15 +12,37 @@ public enum BuildingType {
 	WELL("Well"),
 	Hospital("hospital"),
 	Bar("bar"),
-	RANCH("Ranch");
+	RANCH("Ranch"), 
+	
+	MP_Store("Store", true, 300);
 
 	
 	private String name;
+	boolean bMP;
+	int mpCostMoney;
+	
 	private BuildingType(String name) {
-		this.name = name;
+		this(name, false, 0);
 	}
+	
+	private BuildingType(String name, boolean bMP, int cost) {
+		this.name = name;
+		this.bMP = bMP;
+		this.mpCostMoney = cost;
+	}
+	
 	@Override
 	public String toString() {
 		return name;
+	}
+	
+	public boolean isMoneyProducing()
+	{
+		return bMP;
+	}
+	
+	public int getMoneyCost()
+	{
+		return mpCostMoney;
 	}
 }

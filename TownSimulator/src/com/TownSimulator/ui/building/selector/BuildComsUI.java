@@ -78,6 +78,11 @@ public class BuildComsUI extends Group {
 		buildInfrastruction.setVisible(false);
 		mBuildButtonsList.add(buildInfrastruction);
 		
+		BuildComsCategoryButton buildMp = new BuildComsCategoryButton("button_build_mp", "Money");
+		buildMp.addBuild("button_build_mp_store", "store", BuildingType.MP_Store);
+		buildMp.setVisible(false);
+		mBuildButtonsList.add(buildMp);
+		
 //		BuildComsCategoryButton saveButton = new SaveButton();
 //		saveButton.setVisible(false);
 //		mBuildButtonsList.add(saveButton);
