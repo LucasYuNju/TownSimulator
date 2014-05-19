@@ -58,6 +58,13 @@ public abstract class Building extends Entity
 		constructionWindow = UIManager.getInstance(UIManager.class).getGameUI().createConstructionWindow(buildingType, constructionResources, numAllowedBuilder);
 		constructionWindow.setVisible(false);
 		constructionWindow.setConstructionListener(this);
+		constructionWindow.setUndockedWindowListener(new UndockedWindowListener() {
+				
+				@Override
+				public void dynamiteButtonClicked() {
+					destroy();
+				}
+			});
 		undockedWindow = createUndockedWindow();
 		if(undockedWindow != null)
 		{
@@ -97,7 +104,16 @@ public abstract class Building extends Entity
 			isSelected = false;
 		}
 		
-//		System.out.println("Destroy");
+
+		if(getConstructionProject() != null)
+		{
+			getConstructionProject().destroy();
+			constructionProgressBar.realease();
+			setConstructionProject(null);
+			constructionWindow.setVisible(false);
+		}
+		
+		System.out.println("Destroy");
 		EntityInfoCollector.getInstance(EntityInfoCollector.class).removeBuilding(this);
 		Renderer.getInstance(Renderer.class).dettachDrawScissor(this);
 		CollisionDetector.getInstance(CollisionDetector.class).dettachCollisionDetection(this);
@@ -128,7 +144,7 @@ public abstract class Building extends Entity
 			constructionResources.get(constructionResources.indexOf(new Resource(type))).setNeededAmount(need);
 		else
 			constructionResources.add(new Resource(type, 0, need));
-		constructionWindow.refreshResouceLabel();
+		constructionWindow.resetResourcesViews();
 	}	
 	
 	public Set<ResourceType> getConstructionResourceTypes()
@@ -255,6 +271,7 @@ public abstract class Building extends Entity
 				constructionProgressBar.realease();
 				constructionProgressBar = null;
 			}
+			constructionWindow.setVisible(false);
 		}
 	}
 	

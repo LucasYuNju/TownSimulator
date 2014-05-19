@@ -6,6 +6,7 @@ import com.TownSimulator.ai.behaviortree.SelectorNode;
 import com.TownSimulator.ai.behaviortree.SequenceNode;
 import com.TownSimulator.entity.EntityInfoCollector;
 import com.TownSimulator.entity.Man;
+import com.TownSimulator.entity.ManInfo;
 
 public class ConstructionBTN extends SequenceNode{
 	private static final long serialVersionUID = 1L;
@@ -18,6 +19,18 @@ public class ConstructionBTN extends SequenceNode{
 	
 	private void init()
 	{
+		ConditionNode judgeAge = new ConditionNode() {
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public ExecuteResult execute(float deltaTime) {
+				if(mMan.getInfo().getAge() >= ManInfo.AGE_ADULT)
+					return ExecuteResult.TRUE;
+				else
+					return ExecuteResult.FALSE;
+			}
+		};
+		
 		ConditionNode constructProj = new ConditionNode() {
 			private static final long serialVersionUID = 1L;
 			private ConstructionProject findAvailableProj()
@@ -83,7 +96,8 @@ public class ConstructionBTN extends SequenceNode{
 			}
 		};
 		
-		this.addNode(constructProj)
+		this.addNode(judgeAge)
+			.addNode(constructProj)
 			.addNode( new SelectorNode().addNode( new SequenceNode().addNode(judgeTransport)
 																	.addNode(new ConstructionTransportBTN(mMan)) 
 												)

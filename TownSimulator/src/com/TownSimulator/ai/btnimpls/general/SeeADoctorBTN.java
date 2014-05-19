@@ -8,6 +8,7 @@ import com.TownSimulator.ai.behaviortree.SequenceNode;
 import com.TownSimulator.entity.EntityInfoCollector;
 import com.TownSimulator.entity.Man;
 import com.TownSimulator.entity.ManAnimeType;
+import com.TownSimulator.entity.ManStateType;
 import com.TownSimulator.entity.building.Building;
 import com.TownSimulator.entity.building.BuildingType;
 import com.TownSimulator.entity.building.Hospital;
@@ -31,24 +32,42 @@ public class SeeADoctorBTN extends SequenceNode{
 			@Override
 			public ExecuteResult execute(float deltaTime) {
 				Hospital hospital;
+				
 				if((hospital=getAdmittedHospital()) != null) {
 					if(!man.getInfo().isHealthy()) {
 						if(hospital.getCurWorkerCnt() > 0) {
-							man.getInfo().receiveTreatment(deltaTime);
-							hospital.updateHospitalViewWindow();
+							float destX = hospital.getAABBWorld(QuadTreeType.COLLISION).getCenterX();
+							float destY = hospital.getAABBWorld(QuadTreeType.COLLISION).getCenterY();
+							man.setMoveDestination(destX, destY);
+							man.getInfo().manStates.add( ManStateType.Working );
+							
+							if( !man.move(deltaTime) )
+							{
+								man.getInfo().animeType = ManAnimeType.STANDING;
+								man.getInfo().receiveTreatment(deltaTime);
+								hospital.updateHospitalViewWindow();
+							}
+							else
+								man.getInfo().animeType = ManAnimeType.MOVE;
+							
+							return ExecuteResult.RUNNING;
 						}
-						return ExecuteResult.RUNNING;
+						else
+							return ExecuteResult.FALSE;
+						
 					}
 					else {
 						getAdmittedHospital().removePatient(man);
 						return ExecuteResult.FALSE;
 					}
 				}
-				if (man.getInfo().isSick()) {
+				else if (man.getInfo().isSick()) {
 					if((hospital=getEmptyHospital()) != null) {
 						float destX = hospital.getAABBWorld(QuadTreeType.COLLISION).getCenterX();
 						float destY = hospital.getAABBWorld(QuadTreeType.COLLISION).getCenterY();
 						man.setMoveDestination(destX, destY);
+						man.getInfo().manStates.add( ManStateType.Sick );
+						
 						if( !man.move(deltaTime) )
 						{
 							man.getInfo().animeType = ManAnimeType.STANDING;
@@ -60,6 +79,7 @@ public class SeeADoctorBTN extends SequenceNode{
 						return ExecuteResult.TRUE;
 					}
 				}
+				
 				return ExecuteResult.FALSE;
 			}
 
@@ -72,7 +92,7 @@ public class SeeADoctorBTN extends SequenceNode{
 		List<Building> hospitals = Singleton.getInstance(EntityInfoCollector.class).getBuildings(BuildingType.Hospital);
 		for(Building building : hospitals) {
 			Hospital hospital = (Hospital) building;
-			if(hospital.hasCapacity())
+			if(hospital.getState() == Building.State.Constructed && hospital.hasCapacity())
 				return hospital;
 		}
 		return null;

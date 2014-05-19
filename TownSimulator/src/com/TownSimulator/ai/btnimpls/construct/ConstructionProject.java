@@ -51,6 +51,15 @@ public class ConstructionProject implements Serializable{
 		mCurAllocRs = mBuildResource.remove(mBuildResource.size() - 1);
 	}
 	
+	public void destroy()
+	{
+		for (Man man : mWorkers) {
+			man.getInfo().constructionInfo = new ConstructionInfo();
+		}
+		mWorkers.clear();
+		EntityInfoCollector.getInstance(EntityInfoCollector.class).removeConstructProj(this);
+	}
+	
 	private void fireWorker(int cnt)
 	{
 		for (int i = 0; i < cnt; i++) {

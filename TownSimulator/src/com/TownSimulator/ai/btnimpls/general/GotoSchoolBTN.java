@@ -85,7 +85,7 @@ public class GotoSchoolBTN extends SequenceNode{
 			return;
 		}
 		man.setMoveDestination(school.getPositionXWorld(), school.getPositionYWorld());
-		man.getInfo().manState = ManStateType.Study;
+		man.getInfo().manStates.add( ManStateType.Working );
 		
 		if(man.move(deltaTime)){
 			man.getInfo().animeType=ManAnimeType.MOVE;
@@ -97,11 +97,11 @@ public class GotoSchoolBTN extends SequenceNode{
 	}
 	
 	public boolean checkAgeInSchool(int age){
-		return (ManInfo.MIN_STUDENT_AGE<=age)&&(age<ManInfo.ADULT_AGE);
+		return (ManInfo.AGE_MIN_STUDENT<=age)&&(age<ManInfo.AGE_ADULT);
 	}
 	
 	public boolean checkAgeOutSchool(int age){
-		return (age>=ManInfo.ADULT_AGE)||(age<ManInfo.MIN_STUDENT_AGE);
+		return (age>=ManInfo.AGE_ADULT)||(age<ManInfo.AGE_MIN_STUDENT);
 	}
 
 }

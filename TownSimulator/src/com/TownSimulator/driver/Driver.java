@@ -8,6 +8,8 @@ import com.TownSimulator.entity.Entity;
 import com.TownSimulator.entity.EntityFactory;
 import com.TownSimulator.entity.EntityInfoCollector;
 import com.TownSimulator.entity.Man;
+import com.TownSimulator.entity.ManInfo;
+import com.TownSimulator.entity.ManInfo.Gender;
 import com.TownSimulator.entity.ResourceType;
 import com.TownSimulator.entity.building.Bar;
 import com.TownSimulator.entity.building.Building;
@@ -27,6 +29,7 @@ import com.TownSimulator.entity.building.Well;
 import com.TownSimulator.io.InputMgr;
 import com.TownSimulator.render.Renderer;
 import com.TownSimulator.ui.UIManager;
+import com.TownSimulator.utility.GameMath;
 import com.TownSimulator.utility.ResourceManager;
 import com.TownSimulator.utility.Settings;
 import com.TownSimulator.utility.Singleton;
@@ -44,18 +47,31 @@ public class Driver extends SingletonPublisher<DriverListener> implements Applic
 	public void init()
 	{
 		Random rand = new Random(System.currentTimeMillis());
-		int initPepleCnt = 5;
+		int initPepleCnt = 15;
 		float originPosX = CameraController.getInstance(CameraController.class).getX();
 		float originPoxY = CameraController.getInstance(CameraController.class).getY();
-		
-		//ResourceInfoCollector.getInstance(ResourceInfoCollector.class).addResourceAmount(ResourceType.RS_WOOD, 100);
-		//ResourceInfoCollector.getInstance(ResourceInfoCollector.class).addResourceAmount(ResourceType.RS_STONE, 50);
+		int minAge = ManInfo.AGE_ADULT;
+		int maxAge = ManInfo.AGE_ADULT + 10;
+		float minHunger = (ManInfo.HUNGER_POINTS_FIND_FOOD + ManInfo.HUNGER_POINTS_MAX) * 0.5f;
+		float maxHunger = ManInfo.HUNGER_POINTS_MAX;
+		for (int i = 0; i < initPepleCnt; i++) {
+			float randX = (rand.nextFloat() - 0.5f) * Settings.UNIT * 6;
+			float ranxY = (rand.nextFloat() - 0.5f) * Settings.UNIT * 6;
+			Man man = new Man();
+			int age = rand.nextInt(maxAge - minAge) + minAge;
+			man.getInfo().setAge(age);
+			man.getInfo().setGender(rand.nextFloat() < 0.5f ? Gender.Male : Gender.Female);
+			man.getInfo().hungerPoints = GameMath.lerp(minHunger, maxHunger, rand.nextFloat());
+			man.setPositionWorld(originPosX + randX, originPoxY + ranxY);
+			EntityInfoCollector.getInstance(EntityInfoCollector.class).addMan(man);
+			
+			Renderer.getInstance(Renderer.class).attachDrawScissor(man);
+		}
 		
 		Warehouse wareHouse = (Warehouse) EntityFactory.createBuilding(BuildingType.WAREHOUSE);
 		wareHouse.addStoredResource(ResourceType.RS_WOOD, 2300);
-		//wareHouse.addStoredResource(ResourceType.RS_STONE, 50);
+		wareHouse.addStoredResource(ResourceType.RS_COAT, 1200);
 		wareHouse.addStoredResource(ResourceType.RS_WHEAT, 20000);
-		wareHouse.addStoredResource(ResourceType.RS_FUR, 200);
 		wareHouse.setState(Building.State.Constructed);
 		wareHouse.setPositionWorld(originPosX - 2 * Settings.UNIT, originPoxY - 8 * Settings.UNIT);
 		wareHouse.setDestroyable(false);
@@ -63,13 +79,13 @@ public class Driver extends SingletonPublisher<DriverListener> implements Applic
 		CollisionDetector.getInstance(CollisionDetector.class).attachCollisionDetection(wareHouse);
 		Renderer.getInstance(Renderer.class).attachDrawScissor(wareHouse);
 		
-		wareHouse = (Warehouse) EntityFactory.createBuilding(BuildingType.WAREHOUSE);
-		wareHouse.addStoredResource(ResourceType.RS_WOOD, 2300);
-		wareHouse.setState(Building.State.Constructed);
-		wareHouse.setPositionWorld(originPosX - 5 * Settings.UNIT, originPoxY - 8 * Settings.UNIT);
-		EntityInfoCollector.getInstance(EntityInfoCollector.class).addBuilding(wareHouse);
-		CollisionDetector.getInstance(CollisionDetector.class).attachCollisionDetection(wareHouse);
-		Renderer.getInstance(Renderer.class).attachDrawScissor(wareHouse);
+//		wareHouse = (Warehouse) EntityFactory.createBuilding(BuildingType.WAREHOUSE);
+//		wareHouse.addStoredResource(ResourceType.RS_WOOD, 2300);
+//		wareHouse.setState(Building.State.Constructed);
+//		wareHouse.setPositionWorld(originPosX - 5 * Settings.UNIT, originPoxY - 8 * Settings.UNIT);
+//		EntityInfoCollector.getInstance(EntityInfoCollector.class).addBuilding(wareHouse);
+//		CollisionDetector.getInstance(CollisionDetector.class).attachCollisionDetection(wareHouse);
+//		Renderer.getInstance(Renderer.class).attachDrawScissor(wareHouse);
 		
 		Building lowCostHouse = EntityFactory.createBuilding(BuildingType.LOW_COST_HOUSE);
 		lowCostHouse.setState(Building.State.Constructed);
@@ -78,9 +94,6 @@ public class Driver extends SingletonPublisher<DriverListener> implements Applic
 		CollisionDetector.getInstance(CollisionDetector.class).attachCollisionDetection(lowCostHouse);
 		Renderer.getInstance(Renderer.class).attachDrawScissor(lowCostHouse);
 		
-		Driver.getInstance(Driver.class).addListener((DriverListener) lowCostHouse);
-		
-		
 		Building apartmentHouse = EntityFactory.createBuilding(BuildingType.APARTMENT);
 		apartmentHouse.setState(Building.State.Constructed);
 		apartmentHouse.setPositionWorld(originPosX + 5 * Settings.UNIT, originPoxY);
@@ -88,8 +101,6 @@ public class Driver extends SingletonPublisher<DriverListener> implements Applic
 		CollisionDetector.getInstance(CollisionDetector.class).attachCollisionDetection(apartmentHouse);
 		Renderer.getInstance(Renderer.class).attachDrawScissor(apartmentHouse);
 		
-		Driver.getInstance(Driver.class).addListener((DriverListener) apartmentHouse);
-				
 		FellingHouse fellingHouse = (FellingHouse)EntityFactory.createBuilding(BuildingType.FELLING_HOUSE);
 		fellingHouse.setState(Building.State.Constructed);
 		fellingHouse.setPositionWorld(originPosX - 12 * Settings.UNIT, originPoxY - 12 * Settings.UNIT);
@@ -164,18 +175,7 @@ public class Driver extends SingletonPublisher<DriverListener> implements Applic
 			CollisionDetector.getInstance(CollisionDetector.class).attachCollisionDetection(land);
 		}
 
-		for (int i = 0; i < initPepleCnt; i++) {
-			float randX = (rand.nextFloat() - 0.5f) * Settings.UNIT * 6;
-			float ranxY = (rand.nextFloat() - 0.5f) * Settings.UNIT * 6;
-			Man man = new Man();
-			man.setPositionWorld(originPosX + randX, originPoxY + ranxY);
-//			if(i%12==0){
-//				man.getInfo().setAge(10);				
-//			}
-			EntityInfoCollector.getInstance(EntityInfoCollector.class).addMan(man);
-			
-			Renderer.getInstance(Renderer.class).attachDrawScissor(man);
-		}
+		
 		
 		school.setState(Building.State.Constructed);//测试时，学校需要在初始的人确定之后，初始化学生列表
 	}

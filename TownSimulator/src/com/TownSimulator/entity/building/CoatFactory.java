@@ -25,7 +25,7 @@ public class CoatFactory extends WorkableBuilding{
 	private static final int 	MAX_JOB_CNT = 4;
 	private static final float 	PRODUCE_INTERVAL_TIME = 20.0f;
 	private static final int 	PRODUCE_FUR_PER_COAT = 4;
-	private static final int 	PRODUCE_COAT_AMOUNT = 1;
+	private static final int 	PRODUCE_COAT_AMOUNT = 10;
 	private float produceAccum = 0.0f;
 	private transient WorkableWithTipsWindow	workTipsWindow;
 	
@@ -82,7 +82,12 @@ public class CoatFactory extends WorkableBuilding{
 			produceAccum -= PRODUCE_INTERVAL_TIME;
 			Warehouse warehouse = EntityInfoCollector.getInstance(EntityInfoCollector.class)
 									.findNearestWareHouse(mPosXWorld, mPosYWorld);
-			int produceAmount = Math.min(furAmount / PRODUCE_FUR_PER_COAT, PRODUCE_COAT_AMOUNT * workers.size());
+			
+			int amount = 0;
+			for (Man man : workers) {
+				amount += man.getInfo().workEfficency * PRODUCE_COAT_AMOUNT;
+			}
+			int produceAmount = Math.min(furAmount / PRODUCE_FUR_PER_COAT, amount);
 			
 			if(produceAmount <= 0 )
 				continue;
@@ -111,12 +116,20 @@ public class CoatFactory extends WorkableBuilding{
 
 				@Override
 				public void update(float deltaTime) {
-					if(EntityInfoCollector.getInstance(EntityInfoCollector.class)
+					if(ResourceInfoCollector.getInstance(ResourceInfoCollector.class).getResourceAmount(ResourceType.RS_FUR) <= 0)
+					{
+						workTipsWindow.setTips("No 'Fur' Resource ( Ranch )");
+						return;
+					}
+					else if(EntityInfoCollector.getInstance(EntityInfoCollector.class)
 							.getBuildings(BuildingType.POWER_STATION).size() <= 0)
 					{
-						workTipsWindow.setTips("Need Power Station");
+						workTipsWindow.setTips("Need 'Power Station'");
 						return;
-					}	
+					}
+					else
+						workTipsWindow.setTips("");
+					
 					produce(deltaTime);
 				}
 			});

@@ -2,7 +2,9 @@ package com.TownSimulator.entity;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import com.TownSimulator.ai.btnimpls.construct.ConstructionInfo;
 import com.TownSimulator.entity.building.Bar;
@@ -13,54 +15,54 @@ import com.badlogic.gdx.Gdx;
 
 public class ManInfo implements Serializable{
 	private static final long serialVersionUID = 6185641512377240722L;
-	public ManAnimeType 	animeType = ManAnimeType.STANDING;
-	public boolean 			animeFlip = false;
-	public ManStateType		manState;
-	public ConstructionInfo constructionInfo = new ConstructionInfo();
-	public JobType 			job;
-	public WorkableBuilding 	workingBuilding;
-	private School         school; 
-	public LivingHouse 		home;
-	public float 			workEfficency = BASE_WORKEFFICIENCY;
-	public static final float BASE_WORKEFFICIENCY = 1.0f;
-	public static final float MAX_WORKEFFICENCY = 2.0f;
+	public 	ManAnimeType 		animeType = ManAnimeType.STANDING;
+	public 	boolean 			animeFlip = false;
+	public 	Set<ManStateType>	manStates = new HashSet<ManStateType>();
+	public 	ConstructionInfo 	constructionInfo = new ConstructionInfo();
+	public 	JobType 			job;
+	public 	WorkableBuilding 	workingBuilding;
+	private School         		school; 
+	public 	LivingHouse 		home;
+	public float 				workEfficency = WORKEFFICIENCY_BASE;
+	public static final float 	WORKEFFICIENCY_BASE = 1.0f;
+	public static final float 	WORKEFFICENCY_MAX = 2.0f;
 	
-	public static final float HUNGER_POINTS_MAX = 300.0f;
-	public static final float HUNGER_POINTS_FIND_FOOD = 100.0f;
-	public static final float HUNGER_POINTS_MIN = 0.0f; // die!
-	public static final float HUNGER_DECRE_SPEED = HUNGER_POINTS_MAX / (World.SecondPerYear * 0.25f); //per second
-	public float			hungerPoints = HUNGER_POINTS_MAX;
-	public boolean			isDead = false;
+	public boolean				isDead = false;
 	
+	public static final float 	TEMPERATURE_POINTS_MAX = 300.0f;
+	public static final float 	TEMPERATURE_POINTS_FIND_COAT = 100.0f;
+	public static final float 	TEMPERATURE_POINTS_MIN = 0.0f; // die!
+	public static final float 	TEMPERATURE_DECRE_SPEED = TEMPERATURE_POINTS_MAX / (World.SecondPerYear * 0.45f); //per second
+	public float				temperature = TEMPERATURE_POINTS_MAX;
 	
-	private static final int MAX_AGE = 50;
-	public static final int ADULT_AGE = 15;
-	public static final int MIN_STUDENT_AGE=ADULT_AGE-10;
+	public static final float 	HUNGER_POINTS_MAX = 300.0f;
+	public static final float 	HUNGER_POINTS_FIND_FOOD = 100.0f;
+	public static final float 	HUNGER_POINTS_MIN = 0.0f; // die!
+	public static final float 	HUNGER_DECRE_SPEED_MIN = HUNGER_POINTS_MAX / (World.SecondPerYear * 0.5f); //per second
+	public static final float 	HUNGER_DECRE_SPEED_MAX = HUNGER_POINTS_MAX / (World.SecondPerYear * 0.25f); //per second
+	public float				hungerPoints = HUNGER_POINTS_MAX;
+	
+	public static final int 	AGE_MAX = 50;
+	public static final int 	AGE_ADULT = 15;
+	public static final int 	AGE_MIN_STUDENT = AGE_ADULT - 10;
+	private int 				age;
 
-	
-	private static final float HEALTH_POINTS_MAX = 100;
-	public static final float HEALTH_POINTS_SICK = 40;				//住院
-	private static final float HEALTH_POINTS_HEALTHY = 70;			//出院
-	private static final float HEALTH_POINTS_INCREMENT_PER_SECOND = 30 * 12 / World.SecondPerYear;
+	private static final float 	HEALTH_POINTS_MAX = 100;
+	public static final float 	HEALTH_POINTS_SICK = 40;				//住院
+	private static final float 	HEALTH_POINTS_HEALTHY = 70;			//出院
+	private static final float 	HEALTH_POINTS_INCREMENT_PER_SECOND = 30 * 12 / World.SecondPerYear;
+	private float 				healthPoints;
 
-	private static final float HAPPINESS_POINTS_MAX = 100;
-	public static final float HAPPINESS_POINTS_DEPRESSED = 40;		//去酒吧
-	private static final float HAPPINESS_POINTS_PER_WINE = Bar.HAPPINESS_POINTS_PER_WINE;
+	private static final float 	HAPPINESS_POINTS_MAX = 100;
+	public static final float 	HAPPINESS_POINTS_DEPRESSED = 40;		//去酒吧
+	private static final float 	HAPPINESS_POINTS_PER_WINE = Bar.HAPPINESS_POINTS_PER_WINE;
+	private float 				happinessPoints;
+	
 	private static List<String> namePool;
 	private Gender gender;
 	private String name;
-	private int age;
-	private float healthPoints;
-	private float happinessPoints;
 	
-	@Deprecated
-	public ManInfo() {
-		this((int)(Math.random() * MAX_AGE), Gender.Male);
-	}
-
-	public ManInfo(int age, Gender gender) {		
-		this.age = age;
-		this.gender = gender;
+	public ManInfo() {		
 		name = getRandomName();
 		school=null;
 		
@@ -107,7 +109,12 @@ public class ManInfo implements Serializable{
 	}
 
 	public boolean isAdult() {
-		return age >= ADULT_AGE;
+		return age >= AGE_ADULT;
+	}
+	
+	public void setGender(Gender gender)
+	{
+		this.gender = gender;
 	}
 	
 	public Gender getGender() {
@@ -123,8 +130,8 @@ public class ManInfo implements Serializable{
 		
 	}
 	
-	public boolean isOldEnough(int age){
-		return age>MAX_AGE;
+	public boolean isOldEnough(){
+		return age > AGE_MAX;
 	}
 	
 	public void setIsDead(boolean isdead){
@@ -136,11 +143,11 @@ public class ManInfo implements Serializable{
 	}
 	
 	public void growWorkEfficency(float increaseNum){
-		this.workEfficency=Math.min(MAX_WORKEFFICENCY, workEfficency+increaseNum);
+		this.workEfficency=Math.min(WORKEFFICENCY_MAX, workEfficency+increaseNum);
 	}
 	
 	public boolean isWorkEffiencyMax(){
-		return this.workEfficency==MAX_WORKEFFICENCY;
+		return this.workEfficency==WORKEFFICENCY_MAX;
 	}
 	
 	public String getName() {

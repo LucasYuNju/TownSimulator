@@ -5,7 +5,7 @@ import java.util.List;
 
 import com.TownSimulator.entity.building.BuildingType;
 import com.TownSimulator.ui.building.selector.BuildComsCategoryButton.BuildComsCategoryButtonListener;
-import com.TownSimulator.ui.screen.GameScreen;
+import com.TownSimulator.ui.screen.GameScreenUI;
 import com.TownSimulator.utility.GameMath;
 //github.com/LuciusYu/TownSimulator.git
 import com.badlogic.gdx.scenes.scene2d.Group;
@@ -13,11 +13,10 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 
 public class BuildComsUI extends Group {
-
-	public 	static 	float							BUTTON_WIDTH  			= GameScreen.BUTTON_WIDTH;
-	public 	static 	float							BUTTON_HEIGHT 			= GameScreen.BUTTON_HEIGHT;
-	public 	static 	float							BUTTON_TOP_MARGIN 		= GameScreen.BUTTON_LABEL_HEIGHT;
-	public 	static 	float							BUTTONS_H_MARGIN 		= GameScreen.BUTTONS_H_MARGIN;
+	public 	static 	float							BUTTON_WIDTH  			= GameScreenUI.BUTTON_WIDTH;
+	public 	static 	float							BUTTON_HEIGHT 			= GameScreenUI.BUTTON_HEIGHT;
+	public 	static 	float							BUTTON_TOP_MARGIN 		= GameScreenUI.BUTTON_LABEL_HEIGHT;
+	public 	static 	float							BUTTONS_H_MARGIN 		= GameScreenUI.BUTTONS_H_MARGIN;
 	private 		List<BuildComsCategoryButton> 					mBuildButtonsList;
 	private 		BuildComsCategoryButton			mInitButton;
 	private			BuildComsUIListener listener;
@@ -72,8 +71,8 @@ public class BuildComsUI extends Group {
 		BuildComsCategoryButton buildInfrastruction = new BuildComsCategoryButton("button_build_infrastructure", "Infras- tructure");
 		buildInfrastruction.addBuild("button_build_warehouse", "warehouse", BuildingType.WAREHOUSE);
 		buildInfrastruction.addBuild("button_build_felling_house", "felling", BuildingType.FELLING_HOUSE);
-		buildInfrastruction.addBuild("button_build_hospital", "felling", BuildingType.Hospital);
-		buildInfrastruction.addBuild("button_build_bar", "felling", BuildingType.Bar);
+		buildInfrastruction.addBuild("button_build_hospital", "hospital", BuildingType.Hospital);
+		buildInfrastruction.addBuild("button_build_bar", "bar", BuildingType.Bar);
 		buildInfrastruction.addBuild("button_build_power_station", "power station", BuildingType.POWER_STATION);
 		buildInfrastruction.addBuild("button_build_coat_factory", "coat factory", BuildingType.COAT_FACTORY);
 		buildInfrastruction.setVisible(false);

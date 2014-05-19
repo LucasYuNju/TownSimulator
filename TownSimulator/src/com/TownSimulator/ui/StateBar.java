@@ -1,6 +1,7 @@
 package com.TownSimulator.ui;
 
 import com.TownSimulator.entity.EntityInfoCollector;
+import com.TownSimulator.entity.Man;
 import com.TownSimulator.entity.ResourceInfoCollector;
 import com.TownSimulator.entity.World;
 import com.TownSimulator.ui.building.view.UndockedWindow;
@@ -21,7 +22,8 @@ import com.badlogic.gdx.scenes.scene2d.utils.Align;
  * 
  * season	| date
  * food		| numFood
- * people	| numPeople
+ * adult	| numAdult
+ * children	| numChildren
  *
  */
 public class StateBar extends Group{
@@ -29,14 +31,15 @@ public class StateBar extends Group{
 	private static final float LABEL_HEIGHT = Settings.LABEL_HEIGHT;
 	private static final float MARGIN = UndockedWindow.MARGIN * 0.3f;
 	
-	private int line = 3;
+	private int line = 4;
 	private int column = 2;
 	
 	private TextureRegion background;
 	private Label seasonLabel;
 	private Label dateLabel;
 	private Label numFoodLabel;
-	private Label numPeopleLabel;
+	private Label numAdultLabel;
+	private Label numChildrenLabel;
 	
 	public StateBar() {
 		super();
@@ -56,18 +59,33 @@ public class StateBar extends Group{
 		float x = MARGIN;
 		float y = MARGIN;
 		
-		Label peopleLabel = new Label("People", labelStyle);
-		peopleLabel.setSize(LABEL_WIDTH, LABEL_HEIGHT);
-		peopleLabel.setPosition(x, y);
-		peopleLabel.setAlignment(Align.left);
-		addActor(peopleLabel);
+		Label childrenLabel = new Label("Children", labelStyle);
+		childrenLabel.setSize(LABEL_WIDTH, LABEL_HEIGHT);
+		childrenLabel.setPosition(x, y);
+		childrenLabel.setAlignment(Align.left);
+		addActor(childrenLabel);
 		
 		x += LABEL_WIDTH + MARGIN;
-		numPeopleLabel = new Label("", labelStyle);
-		numPeopleLabel.setSize(LABEL_WIDTH, LABEL_HEIGHT);
-		numPeopleLabel.setPosition(x, y);
-		numPeopleLabel.setAlignment(Align.left);
-		addActor(numPeopleLabel);
+		numChildrenLabel = new Label("", labelStyle);
+		numChildrenLabel.setSize(LABEL_WIDTH, LABEL_HEIGHT);
+		numChildrenLabel.setPosition(x, y);
+		numChildrenLabel.setAlignment(Align.left);
+		addActor(numChildrenLabel);
+		
+		x = MARGIN;
+		y += LABEL_HEIGHT + MARGIN;
+		Label adultLabel = new Label("Adult", labelStyle);
+		adultLabel.setSize(LABEL_WIDTH, LABEL_HEIGHT);
+		adultLabel.setPosition(x, y);
+		adultLabel.setAlignment(Align.left);
+		addActor(adultLabel);
+		
+		x += LABEL_WIDTH + MARGIN;
+		numAdultLabel = new Label("", labelStyle);
+		numAdultLabel.setSize(LABEL_WIDTH, LABEL_HEIGHT);
+		numAdultLabel.setPosition(x, y);
+		numAdultLabel.setAlignment(Align.left);
+		addActor(numAdultLabel);
 		
 		x = MARGIN;
 		y += LABEL_HEIGHT + MARGIN;
@@ -105,10 +123,19 @@ public class StateBar extends Group{
 		World world = World.getInstance(World.class);
 		seasonLabel.setText(  world.getCurSeason().toString() );
 		dateLabel.setText(world.getCurYear() + "/" + world.getCurMonth() + "/" + world.getCurDay());
-		int numPeople = EntityInfoCollector.getInstance(EntityInfoCollector.class).getAllMan().size();
 		int numFood = ResourceInfoCollector.getInstance(ResourceInfoCollector.class).getFoodAmount();
-		numPeopleLabel.setText(numPeople + "");
 		numFoodLabel.setText(numFood + "");
+		
+		int numAdult = 0;
+		int numChildren = 0;
+		for (Man man : EntityInfoCollector.getInstance(EntityInfoCollector.class).getAllMan()) {
+			if(man.getInfo().isAdult())
+				numAdult ++;
+			else
+				numChildren ++;
+		}
+		numAdultLabel.setText(numAdult + "");
+		numChildrenLabel.setText(numChildren + "");
 	}
 
 	@Override

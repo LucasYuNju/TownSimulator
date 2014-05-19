@@ -7,6 +7,7 @@ import java.util.List;
 
 import com.TownSimulator.ai.behaviortree.BehaviorTreeNode;
 import com.TownSimulator.ai.btnimpls.farmer.FarmerBTN;
+import com.TownSimulator.collision.CollisionDetector;
 import com.TownSimulator.driver.Driver;
 import com.TownSimulator.driver.DriverListenerBaseImpl;
 import com.TownSimulator.entity.JobType;
@@ -14,6 +15,7 @@ import com.TownSimulator.entity.Man;
 import com.TownSimulator.entity.ManInfo;
 import com.TownSimulator.entity.World;
 import com.TownSimulator.entity.World.SeasonType;
+import com.TownSimulator.render.Renderer;
 import com.TownSimulator.ui.UIManager;
 import com.TownSimulator.ui.building.view.FarmViewWindow;
 import com.TownSimulator.ui.building.view.SelectBoxListener;
@@ -53,6 +55,15 @@ public class FarmHouse extends WorkableBuilding implements SelectBoxListener
 		farmWindow = UIManager.getInstance(UIManager.class).getGameUI().createFarmViewWindow(MAX_JOB_CNT);
 		farmWindow.setSelectBoxListener(this);
 		return farmWindow;
+	}
+
+	@Override
+	public void destroy() {
+		super.destroy();
+		for (FarmLand land : farmLands) {
+			Renderer.getInstance(Renderer.class).dettachDrawScissor(land);
+			CollisionDetector.getInstance(CollisionDetector.class).dettachCollisionDetection(land);
+		}
 	}
 
 	@Override
@@ -104,7 +115,7 @@ public class FarmHouse extends WorkableBuilding implements SelectBoxListener
 			efficiency += man.getInfo().workEfficency;
 		}
 		efficiency /= workers.size();
-		efficiency = ManInfo.BASE_WORKEFFICIENCY + (efficiency - ManInfo.BASE_WORKEFFICIENCY) * MAN_EFFICENT_TRANS;
+		efficiency = ManInfo.WORKEFFICIENCY_BASE + (efficiency - ManInfo.WORKEFFICIENCY_BASE) * MAN_EFFICENT_TRANS;
 		float timeSpeed = 365.0f / World.SecondPerYear;// day/second
 		float fullNeedDays = GameMath.lerp(9.0f * 30.0f, 6.0f * 30.0f, getCurWorkerCnt() / maxJobCnt);
 		float speed = FarmLand.MAX_CROP_AMOUNT / (fullNeedDays / timeSpeed );

@@ -107,7 +107,7 @@ public class School extends WorkableBuilding{
 	}
 	
 	public boolean checkAgeInSchool(int age){
-		return (ManInfo.MIN_STUDENT_AGE<=age)&&(age<ManInfo.ADULT_AGE);
+		return (ManInfo.AGE_MIN_STUDENT<=age)&&(age<ManInfo.AGE_ADULT);
 	}
 	
 	@Override

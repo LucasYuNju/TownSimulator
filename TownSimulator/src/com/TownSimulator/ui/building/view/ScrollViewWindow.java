@@ -29,9 +29,11 @@ public class ScrollViewWindow extends UndockedWindow {
 		super(buildingType);
 		setPosition(0, 0);
 		data = new ArrayList<List<String>>();
+		
+//		initUI();
 	}
 
-	private void initUI() {
+	public void initUI() {
 		int numLabel = data.size() > NUM_LABEL_PER_PAGE ? data.size() : NUM_LABEL_PER_PAGE;
 		int numLabelPerRow = 2;
 		if(!data.isEmpty())
