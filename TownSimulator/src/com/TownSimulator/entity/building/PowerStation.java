@@ -14,7 +14,4 @@ public class PowerStation extends Building{
 		return null;
 	}
 
-	@Override
-	protected void updateViewWindow() {
-	}
 }

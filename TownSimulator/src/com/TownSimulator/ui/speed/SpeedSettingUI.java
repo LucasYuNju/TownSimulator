@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import com.TownSimulator.ui.base.IconButton;
 import com.TownSimulator.ui.base.IconLabelButton;
-import com.TownSimulator.ui.screen.GameScreenUI;
+import com.TownSimulator.ui.screen.GameScreen;
 import com.TownSimulator.utility.GdxInputListnerEx;
 import com.TownSimulator.utility.Settings;
 import com.badlogic.gdx.scenes.scene2d.Group;
@@ -36,10 +36,10 @@ public class SpeedSettingUI extends Group{
 	
 	private void init()
 	{
-		setSize(GameScreenUI.BUTTON_WIDTH, GameScreenUI.BUTTON_HEIGHT);
+		setSize(GameScreen.BUTTON_WIDTH, GameScreen.BUTTON_HEIGHT);
 		
 		initButton = new IconButton("speed_x" + speedMap[0]);
-		initButton.setSize(GameScreenUI.BUTTON_WIDTH, GameScreenUI.BUTTON_HEIGHT);
+		initButton.setSize(GameScreen.BUTTON_WIDTH, GameScreen.BUTTON_HEIGHT);
 		initButton.addListener(new GdxInputListnerEx()
 		{
 
@@ -55,14 +55,14 @@ public class SpeedSettingUI extends Group{
 		initButton.setVisible(true);
 		addActor(initButton);
 		
-		float buttonsWidth = speedMap.length * GameScreenUI.BUTTON_WIDTH + speedMap.length * GameScreenUI.BUTTONS_H_MARGIN;
+		float buttonsWidth = speedMap.length * GameScreen.BUTTON_WIDTH + speedMap.length * GameScreen.BUTTONS_H_MARGIN;
 		float x = initButton.getWidth() * 0.5f - buttonsWidth * 0.5f;
-		float y = initButton.getHeight() + GameScreenUI.BUTTON_LABEL_HEIGHT * 2.0f + IconLabelButton.LABEL_BUTTON_MARGIN + GameScreenUI.SUBBUTTONS_TO_LABRL_MARGIN;
+		float y = initButton.getHeight() + GameScreen.BUTTON_LABEL_HEIGHT * 2.0f + IconLabelButton.LABEL_BUTTON_MARGIN + GameScreen.SUBBUTTONS_TO_LABRL_MARGIN;
 		for (int i = 0; i < speedMap.length; i++) {
 			Button speedButton = new IconButton("speed_x" + speedMap[i]);
-			speedButton.setSize(GameScreenUI.BUTTON_WIDTH, GameScreenUI.BUTTON_WIDTH);
+			speedButton.setSize(GameScreen.BUTTON_WIDTH, GameScreen.BUTTON_WIDTH);
 			speedButton.setPosition(x, y);
-			x += GameScreenUI.BUTTON_WIDTH + GameScreenUI.BUTTONS_H_MARGIN;
+			x += GameScreen.BUTTON_WIDTH + GameScreen.BUTTONS_H_MARGIN;
 			speedButton.setVisible(false);
 			final int speedIndex = i;
 			speedButton.addListener(new InputListener()

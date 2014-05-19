@@ -1,6 +1,5 @@
 package com.TownSimulator.ui.building.view;
 
-import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -13,8 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 
-public class WorkerGroup extends Group implements Serializable{
-	private static final long serialVersionUID = -3520897902134549914L;
+public class WorkerGroup extends Group {
 	public static final float WORKER_WIDTH = Settings.WORKER_WIDTH;
 	private static final float WORKER_HEIGHT = Settings.WORKER_HEIGHT;
 	public static final float HEIGHT = WORKER_HEIGHT * 1.6f;
@@ -94,6 +92,19 @@ public class WorkerGroup extends Group implements Serializable{
 		refreshUI();
 		return true;
 	}
+	
+	/**
+	 * @param addition 可以为负值
+	 * @return true if modification takes effect
+	 */
+	public boolean addWorker(int addition) {
+		if(numWorker + addition > numSelected || numWorker + addition < 0) {
+			return false;
+		}
+		numWorker += addition;
+		refreshUI();
+		return true;
+	}
 		
 	int getNumAllowedWorker() {
 		return numAllowed;
@@ -121,5 +132,11 @@ public class WorkerGroup extends Group implements Serializable{
 	
 	public void setListener(WorkerGroupListener listener) {
 		this.listener = listener;
+	}
+	
+	public void reLoad(int openJobCnt, int numWorker) {
+		numSelected = openJobCnt;
+		this.numWorker = numWorker;
+		refreshUI();
 	}
 }

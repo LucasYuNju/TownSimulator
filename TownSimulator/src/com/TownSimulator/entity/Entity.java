@@ -12,7 +12,6 @@ import com.TownSimulator.render.Drawable;
 import com.TownSimulator.render.Renderer;
 import com.TownSimulator.utility.AxisAlignedBoundingBox;
 import com.TownSimulator.utility.ResourceManager;
-import com.TownSimulator.utility.Singleton;
 import com.TownSimulator.utility.quadtree.QuadTreeManageble;
 import com.TownSimulator.utility.quadtree.QuadTreeNode;
 import com.TownSimulator.utility.quadtree.QuadTreeType;
@@ -21,8 +20,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class Entity implements Drawable, QuadTreeManageble, Serializable{
 	private static final long serialVersionUID = 5545997297127601552L;
-	protected transient Sprite 			mSprite;
-	private String 						textureName;
+	protected Sprite 					mSprite;
 	protected float						mPosXWorld;
 	protected float						mPosYWorld;
 	protected AxisAlignedBoundingBox	mDrawAABBLocal;
@@ -57,7 +55,6 @@ public class Entity implements Drawable, QuadTreeManageble, Serializable{
 	
 	public Entity(String textureName)
 	{
-		this.textureName = textureName;
 		Sprite sp = null;
 		if(textureName != null && !textureName.isEmpty()) {
 			sp = ResourceManager.getInstance(ResourceManager.class).createSprite(textureName);
@@ -299,12 +296,30 @@ public class Entity implements Drawable, QuadTreeManageble, Serializable{
 			nodes.clear();
 		}
 	}
-		
-	protected void readObject(ObjectInputStream s) throws ClassNotFoundException, IOException {
+	
+//	protected void realReadObject(ObjectInputStream s) throws ClassNotFoundException, IOException {
+//		s.defaultReadObject();
+//		mDrawQuadNodes = new ArrayList<QuadTreeNode>();
+//		mCollisionQuadNodes = new ArrayList<QuadTreeNode>();
+////		Gdx.app.log("L/S", "Entity reading");
+//	}
+//	
+//	/**
+//	 * 修饰符只能是private，不能由子类继承
+//	 */
+//	private void readObject(ObjectInputStream s) throws ClassNotFoundException, IOException {
+//		Gdx.app.log("L/S", "Entity readObj");
+//		realReadObject(s);
+//	}
+	
+	/**
+	 * 修饰符只能是private，不能由子类继承
+	 */
+	private void readObject(ObjectInputStream s) throws ClassNotFoundException, IOException {
+//		Gdx.app.log("L/S", "Entity readObj");
 		s.defaultReadObject();
-		Sprite sp = ResourceManager.getInstance(ResourceManager.class).createSprite(textureName);
-		Singleton.getInstance(CollisionDetector.class).attachCollisionDetection(this);
-		Singleton.getInstance(Renderer.class).attachDrawScissor(this);
-		setSprite(sp);
+		mDrawQuadNodes = new ArrayList<QuadTreeNode>();
+		mCollisionQuadNodes = new ArrayList<QuadTreeNode>();
 	}
+
 }

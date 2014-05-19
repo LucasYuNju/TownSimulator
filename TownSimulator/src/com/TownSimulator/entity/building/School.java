@@ -1,5 +1,7 @@
 package com.TownSimulator.entity.building;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.util.List;
 
 import com.TownSimulator.ai.behaviortree.BehaviorTreeNode;
@@ -16,7 +18,6 @@ import com.TownSimulator.ui.building.view.WorkableViewWindow;
 public class School extends WorkableBuilding{
 	private static final long serialVersionUID = 5070279529268945444L;
 	public static final float WORKEFFIENCY_GROW_SPEED_PERYEAR=0.1f;
-	//public boolean isSchoolConstruct=false;
 	private boolean isTeacherWork;
 	public static final int SingleSchoolStudentNum=30;
 	private int currentStudentNum;
@@ -111,15 +112,10 @@ public class School extends WorkableBuilding{
 	
 	@Override
 	protected WorkableViewWindow createWorkableWindow() {
-		return UIManager.getInstance(UIManager.class).getGameUI().createSchoolViewWindow(getMaxJobCnt(),currentStudentNum);
+		schoolViewWindow = UIManager.getInstance(UIManager.class).getGameUI().createSchoolViewWindow(getMaxJobCnt(),currentStudentNum);
+		return schoolViewWindow;
 	}
 
-	@Override
-	public void updateViewWindow() {
-		super.updateViewWindow();
-		schoolViewWindow.updateStudentNum(this.currentStudentNum);
-	}
-	
 	public void updateStudentNum(){
 		schoolViewWindow.updateStudentNum(this.currentStudentNum);
 	}
@@ -145,4 +141,18 @@ public class School extends WorkableBuilding{
 		removeStudents();
 		updateStudentNum();	
 	}
+	
+	public void updateViewWindow() {
+		schoolViewWindow.updateStudentNum(this.currentStudentNum);
+	}
+	
+	private void readObject(ObjectInputStream s) throws ClassNotFoundException, IOException {
+		s.defaultReadObject();
+		updateViewWindow();
+	}
+
+//	
+//	protected void reloadViewWindow() {
+//		updateViewWindow();
+//	}
 }

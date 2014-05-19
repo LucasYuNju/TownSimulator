@@ -7,12 +7,10 @@ import com.TownSimulator.entity.World;
 
 
 public class LowCostHouse extends LivingHouse implements DriverListener{
-	
+	private static final long serialVersionUID = 4601322903967742723L;
 	public static final float SecondPerMonth = World.SecondPerYear/12;
 	public static final  int INCREASEPERMONTH = 1;				//每人每个月增加的几率
-	
-	private int persentage = 0;						//人口增加的几率
-	
+	private int persentage = 0;									//人口增加的几率
 	private float time = 0; 
 	
 	public LowCostHouse() {

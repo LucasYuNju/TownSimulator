@@ -45,12 +45,12 @@ public class LoadingScreenUI extends ScreenUIBase implements Serializable{
 		
 		if( !Map.getInstance(Map.class).load() )
 		{
+			
 			Driver.getInstance(Driver.class).init();
 			World.getInstance(World.class).init();
 			Renderer.getInstance(Renderer.class).setRenderScene(true);
 			
 			Settings.backgroundColor = Settings.gameGroundColor.cpy();
-			//if(listener != null)
 			listener.loadingFinish();
 		}
 	}

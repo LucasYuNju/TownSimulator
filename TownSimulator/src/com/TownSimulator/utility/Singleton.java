@@ -30,4 +30,8 @@ public class Singleton {
 	protected static void clearInstanceMap() {
 		mInstaceMap.clear();
 	}
+	
+	public static void print() {
+		
+	}
 }

@@ -1,5 +1,6 @@
 package com.TownSimulator.entity;
 
+import java.io.Serializable;
 import java.util.Calendar;
 
 import com.TownSimulator.driver.Driver;
@@ -7,15 +8,13 @@ import com.TownSimulator.driver.DriverListenerBaseImpl;
 import com.TownSimulator.entity.building.School;
 import com.TownSimulator.utility.Singleton;
 
-public class World extends Singleton {
-	
+public class World extends Singleton implements Serializable{
+	private static final long serialVersionUID = 1L;
 	public static final float SecondPerYear = 600;
-	
 	private Calendar calendar;
 	private float secondPerDay;
 	private float secondDuringLastDay;
 	private int maxStudentAmount;
-//	private int currentStudentNum;
 	
 	public enum SeasonType{
 		Spring,Summer,Autumn,Winter
@@ -34,13 +33,12 @@ public class World extends Singleton {
 		secondDuringLastDay = 0f;
 		
 		maxStudentAmount=0;
-		//currentStudentNum=0;
 		
 		Driver.getInstance(Driver.class).addListener(new DriverListenerBaseImpl(){
+			private static final long serialVersionUID = 422688476183877241L;
 
 			@Override
 			public void update(float deltaTime) {
-				// TODO Auto-generated method stub
 				secondDuringLastDay += deltaTime;
 				if(secondDuringLastDay>secondPerDay){
 					calendar.add(Calendar.DATE, 1);
@@ -61,14 +59,6 @@ public class World extends Singleton {
 	public int getMaxStudentAmount() {
 		return maxStudentAmount;
 	}
-	
-//	public int getCurrentStudentNum() {
-//		return currentStudentNum;
-//	}
-//
-//	public void growCurrentStudentNum() {
-//		this.currentStudentNum ++;
-//	}
 
 	/**
 	 * 获取年份
@@ -120,6 +110,4 @@ public class World extends Singleton {
 		}
 		return SeasonType.Spring;
 	}
-	
-
 }

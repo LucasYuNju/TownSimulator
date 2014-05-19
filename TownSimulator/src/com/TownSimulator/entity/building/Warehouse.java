@@ -1,5 +1,7 @@
 package com.TownSimulator.entity.building;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -28,8 +30,6 @@ public class Warehouse extends Building {
 		storedResources = new LinkedList<Resource>();
 	}
 	
-	
-	
 	@Override
 	public void destroy() {
 		super.destroy();
@@ -53,8 +53,7 @@ public class Warehouse extends Building {
 		else
 			storedResources.add(new Resource(type, amount));
 		
-		ResourceInfoCollector.getInstance(ResourceInfoCollector.class)
-			.addResourceAmount(type, amount);
+		ResourceInfoCollector.getInstance(ResourceInfoCollector.class).addResourceAmount(type, amount);
 		updateViewWindow();
 		
 		if (showTips) {
@@ -123,5 +122,16 @@ public class Warehouse extends Building {
 		wheat.addAmount(-resWheatAmount);
 		Singleton.getInstance(ResourceInfoCollector.class).addResourceAmount(ResourceType.RS_WHEAT, -resWheatAmount);
 		return resWheatAmount;
+	}
+
+	protected void reloadViewWindow() {
+		if(storedResources == null)
+			storedResources = new LinkedList<Resource>();
+		updateViewWindow();
+	}
+	
+	private void readObject(ObjectInputStream s) throws ClassNotFoundException, IOException {
+		s.defaultReadObject();
+		reloadViewWindow();
 	}
 }

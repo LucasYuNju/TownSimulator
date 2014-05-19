@@ -24,17 +24,19 @@ public class WorkableViewWindow extends UndockedWindow {
 		updateLayout();
 	}
 	
-	public void addWorker() {
-		workerGroup.addWorker();
+	public boolean addWorker() {
+		return workerGroup.addWorker();
 	}
-
+	
+	public boolean addWorker(int addition) {
+		return workerGroup.addWorker(addition);
+	}
 	
 	public void setWorkerGroupListener(WorkerGroupListener workerGroupListener) {
 		workerGroup.setListener(workerGroupListener);
 	}
-
-//	@Override
-//	public void setSelectBoxListener(SelectBoxListener selectBoxListener) {
-//		//do nothing
-//	}
+	
+	public void reLoad(int openJobCnt, int numWorker) {
+		workerGroup.reLoad(openJobCnt, numWorker);
+	}
 }

@@ -4,6 +4,7 @@ import com.TownSimulator.utility.Settings;
 
 
 public class Grass extends Entity{
+	private static final long serialVersionUID = 1213400547414578711L;
 
 	public Grass(String texName) {
 		super(texName);

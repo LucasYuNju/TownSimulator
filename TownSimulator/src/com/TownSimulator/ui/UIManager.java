@@ -6,10 +6,10 @@ import com.TownSimulator.driver.DriverListenerBaseImpl;
 import com.TownSimulator.io.InputMgr;
 import com.TownSimulator.io.InputMgrListenerBaseImpl;
 import com.TownSimulator.ui.base.ScreenUIBase;
-import com.TownSimulator.ui.screen.GameScreenUI;
+import com.TownSimulator.ui.screen.GameScreen;
 import com.TownSimulator.ui.screen.LoadingScreenUI;
 import com.TownSimulator.ui.screen.LoadingScreenUI.LoadingUIListener;
-import com.TownSimulator.ui.screen.StartScreenUI;
+import com.TownSimulator.ui.screen.StartScreen;
 //github.com/LuciusYu/TownSimulator.git
 import com.TownSimulator.utility.Settings;
 import com.TownSimulator.utility.Singleton;
@@ -18,15 +18,14 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 
 public class UIManager extends Singleton {
-	private StartScreenUI 	mStartUI;
+	private StartScreen 	mStartUI;
 	private LoadingScreenUI mLoadingUI;
-	private GameScreenUI	mGameUI;
+	private GameScreen	mGameUI;
 	private ScreenUIBase	mCurScreenUI;
 	
 	private UIManager()
 	{
-		mStartUI = new StartScreenUI();
-		
+		mStartUI = new StartScreen();
 		mLoadingUI = new LoadingScreenUI();
 		mLoadingUI.setListener(new LoadingUIListener() {
 			
@@ -36,27 +35,14 @@ public class UIManager extends Singleton {
 			}
 		});
 		
-		mGameUI = new GameScreenUI();
+		mGameUI = new GameScreen();
 		
 		mCurScreenUI = mStartUI;
 		Settings.backgroundColor = Color.BLACK.cpy();
 		VoicePlayer.getInstance(VoicePlayer.class).playBgmMusic("start.mp3");
 		VoicePlayer.getInstance(VoicePlayer.class).playMusicForDuringTime("rain.mp3", 60.0f);
 		
-		Driver.getInstance(Driver.class).addListener(new DriverListenerBaseImpl()
-		{
-			@Override
-			public void update(float deltaTime) {
-				mCurScreenUI.update(Gdx.graphics.getDeltaTime());
-			}
-
-			@Override
-			public void dispose() {
-				mStartUI.dispose();
-				mGameUI.dispose();
-				Singleton.clearInstanceMap();
-			}
-		});
+		listenToDriver();
 		
 		InputMgr.getInstance(InputMgr.class).addListener(new InputMgrListenerBaseImpl()
 		{
@@ -81,17 +67,15 @@ public class UIManager extends Singleton {
 					float deltaX, float deltaY, int pointer) {
 				mCurScreenUI.touchDragged(screenX, screenY, deltaX, deltaY, pointer);
 			}
-			
 		});
-		
 	}
 	
-	public GameScreenUI getGameUI()
+	public GameScreen getGameUI()
 	{
 		return mGameUI;
 	}
 	
-	public StartScreenUI getStartUI()
+	public StartScreen getStartUI()
 	{
 		return mStartUI;
 	}
@@ -107,5 +91,26 @@ public class UIManager extends Singleton {
 	{
 		mCurScreenUI.render();
 	}
+	
+	public void finishLoading() {
+		mCurScreenUI = mGameUI;
+	}
 
+	public void listenToDriver() {
+		Driver.getInstance(Driver.class).addListener(new DriverListenerBaseImpl()
+		{
+			private static final long serialVersionUID = -3068757753326076648L;
+			@Override
+			public void update(float deltaTime) {
+				mCurScreenUI.update(Gdx.graphics.getDeltaTime());
+			}
+
+			@Override
+			public void dispose() {
+				mStartUI.dispose();
+				mGameUI.dispose();
+				Singleton.clearInstanceMap();
+			}
+		});
+	}
 }

@@ -1,5 +1,7 @@
 package com.TownSimulator.entity.building;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,7 +10,7 @@ import com.TownSimulator.ui.UIManager;
 import com.TownSimulator.ui.building.view.ScrollViewWindow;
 import com.TownSimulator.ui.building.view.UndockedWindow;
 
-public class LivingHouse extends Building{
+public class LivingHouse extends Building {
 	private static final long serialVersionUID = 6577679479943487313L;
 	protected List<ManInfo> residents;
 	protected int capacity;
@@ -69,10 +71,7 @@ public class LivingHouse extends Building{
 	 * 将数据更新到viewWindow
 	 */
 	protected void updateViewWindow() {
-		//if(undockedWindow instanceof ScrollViewWindow) {
-			//ScrollViewWindow scrollViewWindow = (ScrollViewWindow) undockedWindow;
 		scrollWindow.updateData(getViewData());
-		//}
 	}
 
 	@Override
@@ -80,4 +79,16 @@ public class LivingHouse extends Building{
 		scrollWindow = UIManager.getInstance(UIManager.class).getGameUI().createScrollViewWindow(buildingType);
 		return scrollWindow;
 	}
+	
+	private void readObject(ObjectInputStream s) throws ClassNotFoundException, IOException {
+		s.defaultReadObject();
+		updateViewWindow();
+	}
+
+//	@Override
+//	protected void reloadViewWindow() {
+//		if(residents == null)
+//			residents = new ArrayList<ManInfo>();
+//		updateViewWindow();
+//	}
 }

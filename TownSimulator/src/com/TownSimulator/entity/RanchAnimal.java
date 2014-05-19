@@ -1,11 +1,12 @@
-package com.TownSimulator.entity.building;
+package com.TownSimulator.entity;
 
 import java.util.Random;
 
-import com.TownSimulator.entity.Entity;
 import com.TownSimulator.utility.AxisAlignedBoundingBox;
 import com.TownSimulator.utility.GameMath;
+import com.TownSimulator.utility.ResourceManager;
 import com.TownSimulator.utility.Settings;
+import com.TownSimulator.utility.Singleton;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
@@ -46,7 +47,7 @@ public class RanchAnimal extends Entity{
 		{
 			setTextureName(type.getTextureName());
 			spNoFlip = mSprite;
-			spFlip = new Sprite(mSprite);
+			spFlip = Singleton.getInstance(ResourceManager.class).createSprite(mSprite);
 			spFlip.setFlip(true, false);
 		}
 		else

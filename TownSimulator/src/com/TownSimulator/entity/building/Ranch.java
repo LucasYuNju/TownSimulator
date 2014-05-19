@@ -1,5 +1,7 @@
 package com.TownSimulator.entity.building;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,6 +12,8 @@ import com.TownSimulator.driver.DriverListenerBaseImpl;
 import com.TownSimulator.entity.EntityInfoCollector;
 import com.TownSimulator.entity.JobType;
 import com.TownSimulator.entity.Man;
+import com.TownSimulator.entity.RanchAnimal;
+import com.TownSimulator.entity.RanchAnimalType;
 import com.TownSimulator.entity.ResourceType;
 import com.TownSimulator.render.Renderer;
 import com.TownSimulator.ui.UIManager;
@@ -25,7 +29,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 
 public class Ranch extends WorkableBuilding{
-	private static final long serialVersionUID = -5200249977002038249L;
+	private static final long 		serialVersionUID = -5200249977002038249L;
 	private static final int 		MAX_JOB_CNT = 4;
 	private static final float 		PRODUCE_INTERVAL = 27.0f;
 	private static final int		PRODUCE_MEAT_AMOUNT = 50;
@@ -33,10 +37,10 @@ public class Ranch extends WorkableBuilding{
 	private float					produceAccum;
 	private AxisAlignedBoundingBox 	collisionAABBLocalWithLands;
 	private AxisAlignedBoundingBox 	collisionAABBWorldWithLands;
-	private List<RanchLand>		ranchLands;
+	private List<RanchLand>			ranchLands;
 	private List<RanchAnimal>		ranchAnimals;
 	private RanchAnimalType			ranchAnimalType;
-	private transient RanchViewWindow			ranchWindow;
+	private transient RanchViewWindow	ranchWindow;
 	
 	public Ranch() {
 		super("building_ranch", BuildingType.RANCH, JobType.GRAZIER);
@@ -142,6 +146,7 @@ public class Ranch extends WorkableBuilding{
 			
 			Driver.getInstance(Driver.class).addListener(new DriverListenerBaseImpl()
 			{
+				private static final long serialVersionUID = 8806760497739177385L;
 
 				@Override
 				public void update(float deltaTime) {
@@ -206,7 +211,8 @@ public class Ranch extends WorkableBuilding{
 	protected WorkableViewWindow createWorkableWindow() {
 		ranchWindow = UIManager.getInstance(UIManager.class).getGameUI().createRanchViewWindow(getMaxJobCnt());
 		ranchWindow.setSelectBoxListener(new SelectBoxListener() {
-			
+			private static final long serialVersionUID = -2028117783227258435L;
+
 			@Override
 			public void selectBoxSelected(String selectedString) {
 				setType(RanchAnimalType.findWithViewName(selectedString));
@@ -245,5 +251,16 @@ public class Ranch extends WorkableBuilding{
 	protected BehaviorTreeNode createBehavior(Man man) {
 		return new GrazierBTN(man);
 	}
-
+	
+	private void readObject(ObjectInputStream s) throws ClassNotFoundException, IOException {
+		s.defaultReadObject();
+		if(ranchAnimalType != null)
+			ranchWindow.reload(ranchAnimalType);
+	}
+	
+//	@Override
+//	protected void reloadViewWindow() {
+//		super.reloadViewWindow();
+//		ranchWindow.reload(ranchAnimalType);
+//	}
 }

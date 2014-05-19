@@ -1,5 +1,7 @@
 package com.TownSimulator.entity.building;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -52,8 +54,6 @@ public class FarmHouse extends WorkableBuilding implements SelectBoxListener
 		farmWindow.setSelectBoxListener(this);
 		return farmWindow;
 	}
-
-	
 
 	@Override
 	protected int getMaxJobCnt() {
@@ -130,11 +130,6 @@ public class FarmHouse extends WorkableBuilding implements SelectBoxListener
 		farmWindow.updateProcessBar(process);
 	}
 	
-//	private void updateUI()
-//	{
-//		
-//	}
-	
 	@Override
 	public void setState(State state) {
 		super.setState(state);
@@ -142,6 +137,7 @@ public class FarmHouse extends WorkableBuilding implements SelectBoxListener
 		{
 			Driver.getInstance(Driver.class).addListener(new DriverListenerBaseImpl()
 			{
+				private static final long serialVersionUID = -8286725623019997146L;
 
 				@Override
 				public void update(float deltaTime) {
@@ -165,7 +161,6 @@ public class FarmHouse extends WorkableBuilding implements SelectBoxListener
 						updateProcess();
 					}
 				}
-				
 			});
 		}
 	}
@@ -271,8 +266,6 @@ public class FarmHouse extends WorkableBuilding implements SelectBoxListener
 		sowedLandCnt=0;
 	}
 	
-	
-	
 	public void setReapStart(boolean value)
 	{
 		bReapStart = value;
@@ -313,4 +306,17 @@ public class FarmHouse extends WorkableBuilding implements SelectBoxListener
 		setSowCropType(CropType.findWithViewName(selectedString));
 	}
 
+	private void readObject(ObjectInputStream s) throws ClassNotFoundException, IOException {
+		s.defaultReadObject();
+		farmWindow.setCurCropType(curCropType);
+		updateProcess();
+	}
+	
+//	@Override
+//	protected void reloadViewWindow() {
+//		super.reloadViewWindow();
+//		farmWindow.setCurCropType(curCropType);
+//		
+//		updateProcess();
+//	}
 }

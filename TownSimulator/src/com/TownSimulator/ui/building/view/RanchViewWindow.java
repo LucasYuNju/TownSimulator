@@ -1,13 +1,12 @@
 package com.TownSimulator.ui.building.view;
 
-import java.io.Serializable;
-
 import com.TownSimulator.camera.CameraController;
+import com.TownSimulator.entity.RanchAnimalType;
 import com.TownSimulator.entity.building.BuildingType;
-import com.TownSimulator.entity.building.RanchAnimalType;
 import com.TownSimulator.utility.ResourceManager;
 import com.TownSimulator.utility.Settings;
 import com.TownSimulator.utility.Singleton;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector3;
@@ -27,12 +26,9 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
  * workers
  * 
  */
-public class RanchViewWindow extends WorkableViewWindow implements Serializable{
-	private static final long serialVersionUID = -5650616935662255577L;
+public class RanchViewWindow extends WorkableViewWindow {
 	private SelectBox<String> dropDown;
-	//private ProcessBar processBar;
 	private TextureRegion buttonBackground;
-	//private WorkerGroup builderGroup;
 	private float width;
 	private float height;
 	private SelectBoxListener selectBoxListener;
@@ -44,10 +40,8 @@ public class RanchViewWindow extends WorkableViewWindow implements Serializable{
 		height = LABEL_HEIGHT * 2 + WorkerGroup.HEIGHT + MARGIN * 2;
 		setSize(width, height);
 		addDropDown();
-
 		addCloseButton();
 		addHeader();
-		
 		updateLayout();
 	}
 
@@ -95,5 +89,11 @@ public class RanchViewWindow extends WorkableViewWindow implements Serializable{
 	
 	public void setSelectBoxListener(SelectBoxListener selectBoxListener) {
 		this.selectBoxListener = selectBoxListener;
+	}
+	
+	public void reload(RanchAnimalType animalType) {
+		Gdx.app.log("ranch", dropDown.toString());
+		Gdx.app.log("ranch", animalType.toString());
+		dropDown.setSelected(animalType.getViewName());
 	}
 }

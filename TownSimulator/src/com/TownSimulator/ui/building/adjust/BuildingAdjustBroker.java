@@ -33,6 +33,7 @@ import com.badlogic.gdx.math.Vector3;
  *
  */
 public class BuildingAdjustBroker extends Singleton implements EntityListener, CameraListener{
+	private static final long serialVersionUID = -6973380969754255405L;
 	private 		Building		mCurBuilding;
 	private 		boolean			mbBuildingMovable = false;
 	private			float			mMoveDeltaX = 0.0f;

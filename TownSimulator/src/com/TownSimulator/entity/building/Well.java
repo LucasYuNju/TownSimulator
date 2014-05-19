@@ -14,8 +14,4 @@ public class Well extends Building{
 	protected UndockedWindow createUndockedWindow() {
 		return UIManager.getInstance(UIManager.class).getGameUI().createWellViewWindow();
 	}
-
-	@Override
-	protected void updateViewWindow() {
-	}
 }

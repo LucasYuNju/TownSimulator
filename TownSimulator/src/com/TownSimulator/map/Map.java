@@ -38,7 +38,8 @@ public class Map extends Singleton implements Serializable{
 	private Map()
 	{
 		CameraController.getInstance(CameraController.class).addListener(new CameraListener() {
-			
+			private static final long serialVersionUID = -6926077892955100764L;
+
 			@Override
 			public void cameraZoomed(float prevWidth, float prevHeight, float curWidth,
 					float curHeight) {
@@ -137,10 +138,9 @@ public class Map extends Singleton implements Serializable{
 		long limit = 1000 / 30;
 		while(System.currentTimeMillis() - start < limit)
 		{
-			if( !doLoad() )
+			if(!doLoad())
 				return false;
 		}
-		
 		return true;
 	}
 	
@@ -156,5 +156,9 @@ public class Map extends Singleton implements Serializable{
 	private void readObject(ObjectInputStream s) throws ClassNotFoundException, IOException {
 		s.defaultReadObject();
 		init(prevSeed);
+		for(Tree tree : trees) {
+			CollisionDetector.getInstance(CollisionDetector.class).attachCollisionDetection(tree);
+			Renderer.getInstance(Renderer.class).attachDrawScissor(tree);
+		}
 	}
 }

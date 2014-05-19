@@ -15,6 +15,7 @@ import com.TownSimulator.render.Renderer;
 import com.TownSimulator.utility.Animation;
 import com.TownSimulator.utility.ResourceManager;
 import com.TownSimulator.utility.Settings;
+import com.TownSimulator.utility.Singleton;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
@@ -295,11 +296,11 @@ public class Man extends Entity{
 		anime.update(deltaTime);
 		setSprite(anime.getCurSprite());
 	}
-	
-	@Override
-	protected void readObject(ObjectInputStream s) throws ClassNotFoundException, IOException {
-		super.readObject(s);
+
+	private void readObject(ObjectInputStream s) throws ClassNotFoundException, IOException {
+		s.defaultReadObject();
 		initStatesIcons();
 		initAnimes();
+//		Singleton.getInstance(Renderer.class).attachDrawScissor(this);
 	}
 }

@@ -1,5 +1,7 @@
 package com.TownSimulator.entity;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -7,21 +9,23 @@ import java.util.List;
 import java.util.Map;
 
 import com.TownSimulator.ai.btnimpls.construct.ConstructionProject;
+import com.TownSimulator.collision.CollisionDetector;
 import com.TownSimulator.entity.building.Building;
 import com.TownSimulator.entity.building.BuildingType;
 import com.TownSimulator.entity.building.School;
 import com.TownSimulator.entity.building.Warehouse;
+import com.TownSimulator.render.Renderer;
 import com.TownSimulator.utility.Singleton;
-import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.Gdx;
 
 public class EntityInfoCollector extends Singleton 
 	implements Serializable
 {
 	private static final long serialVersionUID = -3062222237607985005L;
 	private List<Man> 							manList;
-	private transient List<Building>						buildingsList;
-	private transient List<ConstructionProject> 			constructProjsList;
-	private transient Map<BuildingType, List<Building>> 	buildingsMap;
+	private List<Building>						buildingsList;
+	private List<ConstructionProject> 			constructProjsList;
+	private Map<BuildingType, List<Building>> 	buildingsMap;
 	
 	private EntityInfoCollector()
 	{
@@ -29,6 +33,18 @@ public class EntityInfoCollector extends Singleton
 		buildingsList = new ArrayList<Building>();
 		buildingsMap = new HashMap<BuildingType, List<Building>>();
 		constructProjsList = new ArrayList<ConstructionProject>();
+	}
+	
+	public void printBuilding() {
+		for(Building b : buildingsList) {
+			Gdx.app.log("L/S", b.getType() + ":" + b);
+		}
+	}
+	
+	public void printMan() {
+		for(Man m : manList) {
+			Gdx.app.log("L/S", m.getInfo().getName() + ":" + m);
+		}
 	}
 	
 	public void addMan(Man man)
@@ -170,7 +186,6 @@ public class EntityInfoCollector extends Singleton
 				}
 			}
 		}
-		
 		return result;
 	}
 	
@@ -210,9 +225,6 @@ public class EntityInfoCollector extends Singleton
 			if(building.getType() == BuildingType.SCHOOL)
 			{
 				School tempSchool=(School)building;
-//				if(!tempSchool.isTeacherWork()){
-//					continue;
-//				}
 				if(tempSchool.getCurrentStudentNum()>=School.SingleSchoolStudentNum){
 					continue;
 				}
@@ -227,5 +239,16 @@ public class EntityInfoCollector extends Singleton
 			}
 		}
 		return school;
+	}
+	
+	private void readObject(ObjectInputStream s) throws ClassNotFoundException, IOException {
+		s.defaultReadObject();
+		for(Man man : manList) {
+			Singleton.getInstance(Renderer.class).attachDrawScissor(man);
+		}
+		for(Building building : buildingsList) {
+			Singleton.getInstance(Renderer.class).attachDrawScissor(building);
+			Singleton.getInstance(CollisionDetector.class).attachCollisionDetection(building);
+		}
 	}
 }

@@ -87,20 +87,4 @@ public class FellingHouse extends WorkableBuilding {
 	protected int getMaxJobCnt() {
 		return MAX_JOB_CNT;
 	}
-
-	/*
-	 * 增删工人都应该通知此方法
-	 */
-//	public void updateViewWindow() {
-//		WorkableViewWindow workableViewWindow = (WorkableViewWindow) viewWindow;
-//		workableViewWindow.addWorker();
-//	}
-	
-	/*
-	 * notification from viewWinodow
-	 */
-//	@Override
-//	public void workerLimitChanged(int limit) {
-//		Gdx.app.log("Felling House", "selected limit :" + limit);
-//	}
 }

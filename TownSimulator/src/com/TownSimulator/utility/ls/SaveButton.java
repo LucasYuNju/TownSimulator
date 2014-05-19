@@ -22,14 +22,13 @@ public class SaveButton extends BuildComsCategoryButton{
 			@Override
 			public void touchUp(InputEvent event, float x, float y,
 					int pointer, int button) {
-				LoadSave ls = new LoadSave();
-				ls.save();
+				LoadSave.getInstance().save();
 			}
 		};
 	}
 	
 	@Override
 	public void addBuild(String textureName, String labelText, BuildingType buildingType) {
-	
+		
 	}
 }

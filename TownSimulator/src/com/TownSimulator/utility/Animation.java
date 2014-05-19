@@ -57,7 +57,7 @@ public class Animation extends Publisher<AnimationListener> {
 		Animation animeFlip = new Animation();
 		for (AnimeFrame frame : mSprites) {
 			AnimeFrame frameFlip = new AnimeFrame();
-			frameFlip.sp = new Sprite(frame.sp);
+			frameFlip.sp = Singleton.getInstance(ResourceManager.class).createSprite(frame.sp);
 			frameFlip.sp.setFlip(true, false);
 			frameFlip.interval = frame.interval;
 			animeFlip.mSprites.add(frameFlip);

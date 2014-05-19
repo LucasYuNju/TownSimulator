@@ -143,12 +143,12 @@ public class TipsBillborad {
 		}
 	}
 	
-	private static TextureRegion allocTextureRegion(String textureName)
-	{
-		if( !textureMap.containsKey(textureName) )
-			textureMap.put(textureName, new TextureRegionAllocContainer(textureName));
-		return textureMap.get(textureName).alloc();
-	}
+//	private static TextureRegion allocTextureRegion(String textureName)
+//	{
+//		if( !textureMap.containsKey(textureName) )
+//			textureMap.put(textureName, new TextureRegionAllocContainer(textureName));
+//		return textureMap.get(textureName).alloc();
+//	}
 	
 	private static TipsBillborad allocTipsBillboard()
 	{

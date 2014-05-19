@@ -62,5 +62,4 @@ public class RenderBatch {
 	{
 		mSpriteBatch.dispose();
 	}
-
 }

@@ -2,6 +2,7 @@ package com.TownSimulator.ui.building.view;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.io.Serializable;
 
 import com.TownSimulator.camera.CameraController;
 import com.TownSimulator.camera.CameraListener;
@@ -44,7 +45,7 @@ public class UndockedWindow extends Group{
 	protected Label headerLabel;
 	private UndockedWindowListener listener;
 	
-	public interface UndockedWindowListener
+	public interface UndockedWindowListener extends Serializable
 	{
 		public void dynamiteButtonClicked();
 	}
@@ -162,6 +163,8 @@ public class UndockedWindow extends Group{
 	protected void initCameraListener()
 	{
 		CameraController.getInstance(CameraController.class).addListener(new CameraListener() {
+			private static final long serialVersionUID = 1811039619585047103L;
+
 			@Override
 			public void cameraZoomed(float prevWidth, float prevHeight, float curWidth,
 					float curHeight) {

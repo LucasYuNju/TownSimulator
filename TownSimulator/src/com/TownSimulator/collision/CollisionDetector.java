@@ -15,7 +15,6 @@ import com.TownSimulator.utility.quadtree.QuadTree;
 import com.TownSimulator.utility.quadtree.QuadTreeManageble;
 import com.TownSimulator.utility.quadtree.QuadTreeType;
 import com.badlogic.gdx.math.Vector3;
-import com.badlogic.gdx.utils.Array;
 
 public class CollisionDetector extends SingletonPublisher<CollisionDetectorListener>{
 	private QuadTree		mCollsionDetector;

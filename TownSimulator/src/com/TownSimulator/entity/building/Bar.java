@@ -13,6 +13,7 @@ import com.TownSimulator.ui.building.view.WorkableViewWindow;
 import com.TownSimulator.utility.Singleton;
 
 public class Bar extends WorkableBuilding{
+	private static final long serialVersionUID = 4094024332249625038L;
 	//一年掉120幸福度，多消耗600粮食
 	public static final int HAPPINESS_POINTS_PER_WINE = 10;
 	private static final int WHEAT_PER_WINE = 50;
@@ -89,4 +90,10 @@ public class Bar extends WorkableBuilding{
 	protected BehaviorTreeNode createBehavior(Man man) {
 		return new BarTenderBTN(man);
 	}
+	
+//	@Override
+//	protected void reloadViewWindow() {
+//		super.reloadViewWindow();
+//		barViewWindow.updateWineStorage(wineStorage);
+//	}
 }

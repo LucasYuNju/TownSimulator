@@ -1,5 +1,7 @@
 package com.TownSimulator.entity.building;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,11 +15,12 @@ import com.TownSimulator.ui.building.view.WorkableViewWindow;
 import com.TownSimulator.ui.building.view.WorkerGroupListener;
 
 /**
- * 可以在里面工作的建筑 
+ * 可以工作的建筑 
  */
 public abstract class WorkableBuilding extends Building
 	implements WorkerGroupListener
 {
+	private static final long serialVersionUID = 4219809748364138454L;
 	protected int maxJobCnt;
 	protected int openJobCnt;
 	protected JobType jobType;
@@ -41,8 +44,8 @@ public abstract class WorkableBuilding extends Building
 	
 	protected WorkableViewWindow createWorkableWindow()
 	{
-		//workableWindow = UIManager.getInstance(UIManager.class).getGameUI().createWorkableViewWindow(type, maxJobCnt);
-		return UIManager.getInstance(UIManager.class).getGameUI().createWorkableViewWindow(buildingType, getMaxJobCnt());
+		workableWindow = UIManager.getInstance(UIManager.class).getGameUI().createWorkableViewWindow(buildingType, getMaxJobCnt());
+		return workableWindow;
 	}
 	
 	abstract protected int getMaxJobCnt(); 
@@ -57,10 +60,6 @@ public abstract class WorkableBuilding extends Building
 			worker.setBehavior(new IdleBTN(worker));
 		}
 	}
-
-//	public int getMaxJobCnt() {
-//		return maxJobCnt;
-//	}
 
 	@Override
 	public void destroy() {
@@ -102,7 +101,7 @@ public abstract class WorkableBuilding extends Building
 		man.getInfo().job = jobType;
 		man.getInfo().workingBuilding = this;
 		man.setBehavior(createBehavior(man));
-		updateViewWindow();
+		updateWorker(1);
 	}
 	
 	public void removeWorker(Man man)
@@ -111,7 +110,7 @@ public abstract class WorkableBuilding extends Building
 		{
 			man.getInfo().job = null;
 			man.getInfo().workingBuilding = null;
-			updateViewWindow();
+			updateWorker(-1);
 		}
 	}
 	
@@ -131,9 +130,8 @@ public abstract class WorkableBuilding extends Building
 		}
 	}
 	
-	public void updateViewWindow() {
-		workableWindow.addWorker();
-		//System.out.println("Add Worker");
+	private boolean updateWorker(int addition) {
+		return workableWindow.addWorker(addition);
 	}
 	
 	/*
@@ -143,5 +141,14 @@ public abstract class WorkableBuilding extends Building
 	{
 		setOpenJobCnt(limit);
 	}
-
+	
+	private void readObject(ObjectInputStream s) throws ClassNotFoundException, IOException {
+		s.defaultReadObject();
+		workableWindow.reLoad(openJobCnt, workers.size());
+	}
+	
+//	@Override
+//	protected void reloadViewWindow() {
+//		workableWindow.reLoad(openJobCnt, workers.size());
+//	}
 }

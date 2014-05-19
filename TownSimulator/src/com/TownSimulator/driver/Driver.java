@@ -36,12 +36,9 @@ import com.TownSimulator.utility.particles.ParticleManager;
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.utils.Array;
 
 public class Driver extends SingletonPublisher<DriverListener> implements ApplicationListener{
-	private Driver()
-	{
-		
+	private Driver() {
 	}
 	
 	public void init()

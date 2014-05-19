@@ -1,5 +1,7 @@
 package com.TownSimulator.ui.building.view;
 
-public interface SelectBoxListener {
+import java.io.Serializable;
+
+public interface SelectBoxListener extends Serializable{
 	public void selectBoxSelected(String selectedString);
 }

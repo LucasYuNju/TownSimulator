@@ -9,14 +9,14 @@ import java.util.Map;
 
 import com.TownSimulator.driver.Driver;
 import com.TownSimulator.driver.DriverListenerBaseImpl;
-import com.TownSimulator.ui.utility.ls.SerializedTextureRegion;
+import com.TownSimulator.utility.ls.SerializedSprite;
+import com.TownSimulator.utility.ls.SerializedTextureRegion;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 
 public class ResourceManager extends Singleton implements Serializable{
@@ -33,6 +33,8 @@ public class ResourceManager extends Singleton implements Serializable{
 		preLoadSounds();
 		Driver.getInstance(Driver.class).addListener(new DriverListenerBaseImpl()
 		{
+			private static final long serialVersionUID = 2146745872421402154L;
+
 			@Override
 			public void dispose() {
 				mAssetsManager.clear();
@@ -69,22 +71,41 @@ public class ResourceManager extends Singleton implements Serializable{
 		mFontGenerator = new FreeTypeFontGenerator(Gdx.files.internal("data/visitor1.ttf"));
 	}
 	
-	public void reloadResources()
-	{
-		while( !mAssetsManager.update() );
+	public SerializedSprite createSprite(Sprite sp) {
+		if(sp instanceof SerializedSprite) {
+			SerializedSprite serializedSprite = (SerializedSprite) sp;
+			return createSprite(serializedSprite.getTextureName());
+		}
+		return null;
 	}
 	
-	public Sprite createSprite(String textureName)
+	public SerializedSprite createSprite(String textureName)
 	{
 		if( textureName == null)
 			return null;
+		if(!mTexturesMap.containsKey(textureName))
+			loadTexture(textureName);
 		
+		return new SerializedSprite(mTexturesMap.get(textureName), textureName);
+	}
+
+	public SerializedTextureRegion createTextureRegion(String textureName)
+	{
 		if(!mTexturesMap.containsKey(textureName))
 			loadTexture(textureName);
 			
-		return new Sprite(mTexturesMap.get(textureName));
+		return new SerializedTextureRegion(mTexturesMap.get(textureName), textureName);
 	}
 	
+	public Texture loadTexture(String textureName)
+	{
+		System.out.println("Load " + textureName);
+		mAssetsManager.load("data/" + textureName + ".png", Texture.class);
+		mAssetsManager.finishLoading();
+		mTexturesMap.put(textureName, mAssetsManager.get("data/" + textureName + ".png", Texture.class));
+		return mTexturesMap.get(textureName);
+	}
+
 	private void preLoadSounds(){
 		loadSound("voice/sound/cave3.wav");
 		loadSound("voice/sound/game.mp3");
@@ -103,29 +124,6 @@ public class ResourceManager extends Singleton implements Serializable{
 			loadSound(soundName);
 		}
 		return mSoundsMap.get(soundName);
-	}
-	
-	private void loadTexture(String textureName)
-	{
-		System.out.println("Load " + textureName);
-		mAssetsManager.load("data/" + textureName + ".png", Texture.class);
-		mAssetsManager.finishLoading();
-		mTexturesMap.put(textureName, mAssetsManager.get("data/" + textureName + ".png", Texture.class));
-	}
-	
-	public TextureRegion createTextureRegion(String textureName)
-	{
-		if(!mTexturesMap.containsKey(textureName))
-			loadTexture(textureName);
-			
-		return new SerializedTextureRegion(mTexturesMap.get(textureName), textureName);
-	}
-	
-	public void reloadTextureRegion(SerializedTextureRegion textureRegion) {
-		String textureName = textureRegion.getTextureName();
-		if(!mTexturesMap.containsKey(textureName))
-			loadTexture(textureName);
-		textureRegion.setRegion(mTexturesMap.get(textureName));
 	}
 	
 	@SuppressWarnings("deprecation")

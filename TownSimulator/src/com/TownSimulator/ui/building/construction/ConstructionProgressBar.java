@@ -1,10 +1,11 @@
-package com.TownSimulator.entity.building;
+package com.TownSimulator.ui.building.construction;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.TownSimulator.entity.building.Building;
 import com.TownSimulator.render.Drawable;
 import com.TownSimulator.render.Renderer;
 import com.TownSimulator.render.RendererListener;
@@ -26,7 +27,8 @@ public class ConstructionProgressBar implements Drawable{
 	static
 	{
 		Renderer.getInstance(Renderer.class).addListener(new RendererListener() {
-			
+			private static final long serialVersionUID = -4740891270521752279L;
+
 			@Override
 			public void renderEnded() {
 			}

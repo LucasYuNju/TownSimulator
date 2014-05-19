@@ -1,5 +1,8 @@
 package com.TownSimulator.entity.building;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
+
 import com.TownSimulator.ai.behaviortree.BehaviorTreeNode;
 import com.TownSimulator.ai.btnimpls.factoryworker.FactoryWorkerBTN;
 import com.TownSimulator.driver.Driver;
@@ -56,9 +59,7 @@ public class CoatFactory extends WorkableBuilding{
 					float originY = this.getAABBWorld(QuadTreeType.DRAW).maxY + Settings.UNIT * 0.6f + TipsBillborad.getTipsHeight();
 					Color color = Color.RED;
 					TipsBillborad.showTips(
-							ResourceType.RS_FUR + " - " + decre,
-							originX,
-							originY, color);
+							ResourceType.RS_FUR + " - " + decre, originX, originY, color);
 					remainAmount -= decre;
 					
 					if(remainAmount <= 0)
@@ -106,6 +107,7 @@ public class CoatFactory extends WorkableBuilding{
 		{
 			Driver.getInstance(Driver.class).addListener(new DriverListenerBaseImpl()
 			{
+				private static final long serialVersionUID = -8628748620963794602L;
 
 				@Override
 				public void update(float deltaTime) {
@@ -115,10 +117,8 @@ public class CoatFactory extends WorkableBuilding{
 						workTipsWindow.setTips("Need Power Station");
 						return;
 					}	
-					
 					produce(deltaTime);
 				}
-				
 			});
 		}
 	}
@@ -130,6 +130,8 @@ public class CoatFactory extends WorkableBuilding{
 		return workTipsWindow;
 	}
 	
-	
-
+	private void readObject(ObjectInputStream s) throws ClassNotFoundException, IOException {
+		s.defaultReadObject();
+		setState(buildingState);
+	}
 }

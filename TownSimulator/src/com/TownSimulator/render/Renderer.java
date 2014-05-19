@@ -18,7 +18,6 @@ import com.TownSimulator.utility.quadtree.QuadTreeManageble;
 import com.TownSimulator.utility.quadtree.QuadTreeType;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.utils.Array;
 
 public class Renderer extends SingletonPublisher<RendererListener>{
 	private RenderBatch		   		mRenderBatch;
@@ -38,6 +37,7 @@ public class Renderer extends SingletonPublisher<RendererListener>{
 		
 		Driver.getInstance(Driver.class).addListener(new DriverListenerBaseImpl()
 		{
+			private static final long serialVersionUID = -2163781980586299032L;
 
 			@Override
 			public void dispose() {

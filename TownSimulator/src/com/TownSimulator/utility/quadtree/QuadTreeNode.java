@@ -11,7 +11,7 @@ public class QuadTreeNode implements Serializable{
 	private static final long serialVersionUID = -5005395474154683597L;
 	private static final 	int 						LEAF_OBJ_CNT = 100;
 	private 				AxisAlignedBoundingBox 		mAABB;
-	private 				QuadTreeNode[]				mChildren;
+	private 				transient QuadTreeNode[]				mChildren;
 	private					List<QuadTreeManageble>	mObjs;
 	private 				QuadTreeType 				mType;
 	private					QuadTreeNode				mParent;
@@ -208,6 +208,4 @@ public class QuadTreeNode implements Serializable{
 		mObjs.clear();
 		mObjs = null;
 	}
-
-
 }

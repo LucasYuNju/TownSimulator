@@ -1,6 +1,7 @@
 package com.TownSimulator.entity.building;
 
-import java.io.Serializable;
+import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
@@ -14,6 +15,7 @@ import com.TownSimulator.entity.Resource;
 import com.TownSimulator.entity.ResourceType;
 import com.TownSimulator.render.Renderer;
 import com.TownSimulator.ui.UIManager;
+import com.TownSimulator.ui.building.construction.ConstructionProgressBar;
 import com.TownSimulator.ui.building.construction.ConstructionWindow;
 import com.TownSimulator.ui.building.construction.ConstructionWindowListener;
 import com.TownSimulator.ui.building.view.UndockedWindow;
@@ -22,20 +24,20 @@ import com.TownSimulator.ui.building.view.WorkerGroupListener;
 import com.TownSimulator.utility.quadtree.QuadTreeType;
 
 public abstract class Building extends Entity 
-	implements ConstructionWindowListener, WorkerGroupListener, Serializable
+	implements ConstructionWindowListener, WorkerGroupListener
 {
 	private static final long serialVersionUID = 3141326055708432L;
-	protected List<Resource>			constructionResources;
-	protected float						constructionWork;
-	protected float						finishedConstructionWork;
-	protected State						buildingState;
-	protected BuildingType				buildingType;
-	private	  ConstructionProject		constructionProject;
+	protected List<Resource>					constructionResources;
+	protected float								constructionWork;
+	protected float								finishedConstructionWork;
+	protected State								buildingState;
+	protected BuildingType						buildingType;
+	private	  ConstructionProject				constructionProject;
 	protected transient UndockedWindow			undockedWindow;
 	private   transient ConstructionWindow		constructionWindow;
 	private	  transient ConstructionProgressBar	constructionProgressBar;
-	private   int 						numAllowedBuilder = 3;
-	private   boolean					bDestroyable = true;
+	private   int 								numAllowedBuilder = 3;
+	private   boolean							bDestroyable = true;
 	
 	public enum State
 	{
@@ -61,7 +63,8 @@ public abstract class Building extends Entity
 		{
 			undockedWindow.setVisible(false);
 			undockedWindow.setUndockedWindowListener(new UndockedWindowListener() {
-				
+				private static final long serialVersionUID = 736644604441367043L;
+
 				@Override
 				public void dynamiteButtonClicked() {
 					destroy();
@@ -69,8 +72,6 @@ public abstract class Building extends Entity
 			});
 		}
 	}
-	
-	abstract protected UndockedWindow createUndockedWindow();
 	
 	public void setDestroyable(boolean v)
 	{
@@ -96,7 +97,7 @@ public abstract class Building extends Entity
 			isSelected = false;
 		}
 		
-		System.out.println("Destroy");
+//		System.out.println("Destroy");
 		EntityInfoCollector.getInstance(EntityInfoCollector.class).removeBuilding(this);
 		Renderer.getInstance(Renderer.class).dettachDrawScissor(this);
 		CollisionDetector.getInstance(CollisionDetector.class).dettachCollisionDetection(this);
@@ -240,9 +241,7 @@ public abstract class Building extends Entity
 			}
 		}
 	}
-	
-	abstract protected void updateViewWindow();
-	
+
 	public void setState(State state)
 	{
 		this.buildingState = state;
@@ -279,5 +278,44 @@ public abstract class Building extends Entity
 		constructionProject.setOpenWorkJobCnt(limit);
 	}
 	
+	abstract protected UndockedWindow createUndockedWindow();
+
+	/**
+	 * 用于Building反序列化后重新初始化ViewWindow
+	 */
+//	abstract protected void reloadViewWindow();
 	
+//	@Override
+//	protected void realReadObject(ObjectInputStream s) throws ClassNotFoundException, IOException {
+//		super.realReadObject(s);
+//		Gdx.app.log("L/S", "clazz" + getClass());
+//		undockedWindow = createUndockedWindow();
+//		reloadViewWindow();
+//	}
+//	
+//	private void readObject(ObjectInputStream s) throws ClassNotFoundException, IOException {
+//		Gdx.app.log("L/S", "Building readObj");
+//		realReadObject(s);
+//	reloadViewWindow(); 与在构造函数中调用子类方法相同，dangerous
+//	}
+	
+	private void reload() {
+		if(buildingState == State.UnderConstruction) {
+			constructionProgressBar = ConstructionProgressBar.create(this);
+			constructionProgressBar.setProgress(getProcess());
+			
+			constructionWindow = UIManager.getInstance(UIManager.class).getGameUI().createConstructionWindow(buildingType, constructionResources, numAllowedBuilder);
+			constructionWindow.setVisible(false);
+			constructionWindow.setConstructionListener(this);
+			constructionWindow.refreshResouceLabel();
+			constructionWindow.setProcess(getProcess());
+			constructionWindow.setBuildingPosWorld(getPositionXWorld(), getPositionYWorld());
+		}		
+	}
+	
+	private void readObject(ObjectInputStream s) throws ClassNotFoundException, IOException {
+		s.defaultReadObject();
+		undockedWindow = createUndockedWindow();
+		reload();
+	}
 }

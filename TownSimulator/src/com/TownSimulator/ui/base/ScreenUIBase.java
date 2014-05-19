@@ -12,6 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 public class ScreenUIBase implements DriverListener, InputMgrListener{
+	private static final long serialVersionUID = 1L;
 	protected final boolean 	SHOW_FPS = true;
 	protected Stage		 		mStage;
 	protected Label 			mFpsLabel;
