@@ -3,8 +3,8 @@ package com.TownSimulator.ui;
 import com.TownSimulator.entity.EntityInfoCollector;
 import com.TownSimulator.entity.Man;
 import com.TownSimulator.entity.ResourceInfoCollector;
+import com.TownSimulator.entity.ResourceType;
 import com.TownSimulator.entity.World;
-import com.TownSimulator.ui.building.view.UndockedWindow;
 import com.TownSimulator.utility.ResourceManager;
 import com.TownSimulator.utility.Settings;
 import com.TownSimulator.utility.Singleton;
@@ -24,15 +24,16 @@ import com.badlogic.gdx.scenes.scene2d.utils.Align;
  * food		| numFood
  * adult	| numAdult
  * children	| numChildren
+ * wood		| numWood
  * money	| numMoney
  *
  */
 public class StateBar extends Group{
 	private static final float LABEL_WIDTH = Settings.LABEL_WIDTH * 1.2f;
-	private static final float LABEL_HEIGHT = Settings.LABEL_HEIGHT;
-	private static final float MARGIN = UndockedWindow.MARGIN * 0.3f;
+	private static final float LABEL_HEIGHT = Settings.LABEL_HEIGHT * 0.8f;
+	private static final float MARGIN = Settings.MARGIN * 0.3f;
 	
-	private int line = 4;
+	private int line = 6;
 	private int column = 2;
 	
 	private TextureRegion background;
@@ -41,6 +42,7 @@ public class StateBar extends Group{
 	private Label numFoodLabel;
 	private Label numAdultLabel;
 	private Label numChildrenLabel;
+	private Label numWoodLabel;
 	private Label numMoneyLabel;
 	
 	public StateBar() {
@@ -55,7 +57,7 @@ public class StateBar extends Group{
 	
 	private void initLabels() {
 		LabelStyle labelStyle = new LabelStyle();
-		labelStyle.font = ResourceManager.getInstance(ResourceManager.class).getFont((int) (Settings.UNIT * 0.3f));
+		labelStyle.font = ResourceManager.getInstance(ResourceManager.class).getFont((int) (LABEL_HEIGHT));
 		labelStyle.fontColor = Color.WHITE;
 		
 		float x = MARGIN;
@@ -75,6 +77,21 @@ public class StateBar extends Group{
 		numMoneyLabel.setPosition(x, y);
 		numMoneyLabel.setAlignment(Align.left);
 		addActor(numMoneyLabel);
+		
+		x = MARGIN;
+		y += LABEL_HEIGHT + MARGIN;
+		Label woodLabel = new Label("Wood", labelStyle);
+		woodLabel.setSize(LABEL_WIDTH, LABEL_HEIGHT);
+		woodLabel.setPosition(x, y);
+		woodLabel.setAlignment(Align.left);
+		addActor(woodLabel);
+		
+		x += LABEL_WIDTH + MARGIN;
+		numWoodLabel = new Label("", labelStyle);
+		numWoodLabel.setSize(LABEL_WIDTH, LABEL_HEIGHT);
+		numWoodLabel.setPosition(x, y);
+		numWoodLabel.setAlignment(Align.left);
+		addActor(numWoodLabel);
 		
 		x = MARGIN;
 		y += LABEL_HEIGHT + MARGIN;
@@ -155,6 +172,9 @@ public class StateBar extends Group{
 		}
 		numAdultLabel.setText(numAdult + "");
 		numChildrenLabel.setText(numChildren + "");
+		
+		int numWood = ResourceInfoCollector.getInstance(ResourceInfoCollector.class).getResourceAmount(ResourceType.RS_WOOD);
+		numWoodLabel.setText(numWood + "");
 		
 		int numMoney = ResourceInfoCollector.getInstance(ResourceInfoCollector.class).getMoney();
 		numMoneyLabel.setText(numMoney + "");
