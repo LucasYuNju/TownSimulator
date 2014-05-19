@@ -115,7 +115,7 @@ public class FarmHouse extends WorkableBuilding implements SelectBoxListener
 			efficiency += man.getInfo().workEfficency;
 		}
 		efficiency /= workers.size();
-		efficiency = ManInfo.BASE_WORKEFFICIENCY + (efficiency - ManInfo.BASE_WORKEFFICIENCY) * MAN_EFFICENT_TRANS;
+		efficiency = ManInfo.WORKEFFICIENCY_BASE + (efficiency - ManInfo.WORKEFFICIENCY_BASE) * MAN_EFFICENT_TRANS;
 		float timeSpeed = 365.0f / World.SecondPerYear;// day/second
 		float fullNeedDays = GameMath.lerp(9.0f * 30.0f, 6.0f * 30.0f, getCurWorkerCnt() / maxJobCnt);
 		float speed = FarmLand.MAX_CROP_AMOUNT / (fullNeedDays / timeSpeed );

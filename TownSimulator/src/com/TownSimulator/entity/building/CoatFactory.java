@@ -7,7 +7,6 @@ import com.TownSimulator.driver.DriverListenerBaseImpl;
 import com.TownSimulator.entity.EntityInfoCollector;
 import com.TownSimulator.entity.JobType;
 import com.TownSimulator.entity.Man;
-import com.TownSimulator.entity.ManInfo;
 import com.TownSimulator.entity.ResourceInfoCollector;
 import com.TownSimulator.entity.ResourceType;
 import com.TownSimulator.ui.UIManager;

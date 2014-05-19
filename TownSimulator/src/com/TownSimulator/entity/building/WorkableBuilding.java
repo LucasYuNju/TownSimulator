@@ -52,7 +52,7 @@ public abstract class WorkableBuilding extends Building
 		System.out.println("Fire Worker " + cnt);
 		for (int i = 0; i < cnt; i++) {
 			Man worker = workers.remove(workers.size() - 1);
-			worker.getInfo().job = null;
+			worker.getInfo().job = JobType.NOJOB;
 			worker.getInfo().workingBuilding = null;
 			worker.setBehavior(new IdleBTN(worker));
 		}
@@ -109,7 +109,7 @@ public abstract class WorkableBuilding extends Building
 	{
 		if( workers.remove(man))
 		{
-			man.getInfo().job = null;
+			man.getInfo().job = JobType.NOJOB;
 			man.getInfo().workingBuilding = null;
 			updateViewWindow();
 		}

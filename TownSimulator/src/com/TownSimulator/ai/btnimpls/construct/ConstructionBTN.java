@@ -24,7 +24,7 @@ public class ConstructionBTN extends SequenceNode{
 
 			@Override
 			public ExecuteResult execute(float deltaTime) {
-				if(mMan.getInfo().getAge() >= ManInfo.ADULT_AGE)
+				if(mMan.getInfo().getAge() >= ManInfo.AGE_ADULT)
 					return ExecuteResult.TRUE;
 				else
 					return ExecuteResult.FALSE;
