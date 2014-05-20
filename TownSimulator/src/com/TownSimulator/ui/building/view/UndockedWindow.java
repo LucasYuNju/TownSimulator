@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.Serializable;
 
+import javax.swing.plaf.basic.BasicBorders.MarginBorder;
+
 import com.TownSimulator.camera.CameraController;
 import com.TownSimulator.camera.CameraListener;
 import com.TownSimulator.entity.building.BuildingType;
@@ -35,6 +37,7 @@ public class UndockedWindow extends Group{
 	public static final float MARGIN = Settings.MARGIN;
 	public static final float LABEL_WIDTH = Settings.LABEL_WIDTH;
 	public static final float LABEL_HEIGHT = Settings.LABEL_HEIGHT;
+	public static final float HEADER_HEIGHT = Settings.LABEL_HEIGHT * 1.1f;
 	public static final float ICON_WIDTH = Settings.UNIT;
 	public static final float MIN_WIDTH = LABEL_WIDTH * 2.5f;
 	protected BuildingType buildingType;
@@ -97,16 +100,16 @@ public class UndockedWindow extends Group{
 	protected void addHeader() {
 		if(headerLabel == null) {
 			LabelStyle labelStyle = new LabelStyle();
-			labelStyle.font = ResourceManager.getInstance(ResourceManager.class).getFont((int) (Settings.UNIT * 0.3f));
+			labelStyle.font = ResourceManager.getInstance(ResourceManager.class).getFont((int) HEADER_HEIGHT);
 			labelStyle.fontColor = Color.ORANGE;
 			headerLabel = new Label(buildingType.toString(), labelStyle);
-			headerLabel.setSize(LABEL_WIDTH, LABEL_HEIGHT);
-			headerLabel.setPosition(MARGIN, getHeight() - LABEL_HEIGHT);
+			headerLabel.setSize(LABEL_WIDTH, HEADER_HEIGHT);
+			headerLabel.setPosition(MARGIN, getHeight() - HEADER_HEIGHT);
 			headerLabel.setAlignment(Align.left);
 			addActor(headerLabel);
 		}
 		else {
-			headerLabel.setPosition(MARGIN, getHeight() - LABEL_HEIGHT);
+			headerLabel.setPosition(MARGIN, getHeight() - HEADER_HEIGHT);
 		}
 	}
 	
@@ -156,7 +159,7 @@ public class UndockedWindow extends Group{
 	protected void updateLayout()
 	{
 		closeButton.setPosition(getWidth() - closeButton.getWidth(), getHeight() - closeButton.getHeight());
-		headerLabel.setPosition(MARGIN, getHeight() - LABEL_HEIGHT);
+		headerLabel.setPosition(MARGIN, getHeight() - HEADER_HEIGHT);
 		dynamiteButton.setPosition(getWidth() - dynamiteButton.getWidth(), 0.0f);
 	}
 	

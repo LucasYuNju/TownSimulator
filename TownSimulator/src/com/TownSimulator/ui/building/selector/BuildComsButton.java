@@ -36,7 +36,8 @@ public class BuildComsButton extends IconLabelButton{
 				if(BuildComsButton.this.buildingType.isMoneyProducing())
 				{
 					int moneyCur = ResourceInfoCollector.getInstance(ResourceInfoCollector.class).getMoney();
-					if(moneyCur < BuildComsButton.this.buildingType.getMoneyCost())
+					int cost = Settings.mpBuildingDataMap.get(BuildComsButton.this.buildingType).cost;
+					if(moneyCur < cost)
 						return;
 				}
 				
@@ -86,12 +87,13 @@ public class BuildComsButton extends IconLabelButton{
 		
 		if(buildingType.isMoneyProducing())
 		{
+			int cost = Settings.mpBuildingDataMap.get(BuildComsButton.this.buildingType).cost;
 			if (ResourceInfoCollector.getInstance(ResourceInfoCollector.class).getMoney()
-					>= buildingType.getMoneyCost())
+					>= cost)
 				font.setColor(Color.ORANGE);
 			else
 				font.setColor(Color.RED);
-			String str = "$ " + buildingType.getMoneyCost();
+			String str = "$ " + cost;
 			float x = getWidth() * 0.5f - font.getBounds(str).width * 0.5f;
 			font.draw(batch, str, getX() + x, getY());
 		}

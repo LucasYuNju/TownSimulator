@@ -26,6 +26,7 @@ import com.TownSimulator.ui.building.adjust.BuildingAdjustGroup.BuildAjustUIList
 import com.TownSimulator.utility.AxisAlignedBoundingBox;
 import com.TownSimulator.utility.Settings;
 import com.TownSimulator.utility.Singleton;
+import com.TownSimulator.utility.Settings.MPData;
 import com.TownSimulator.utility.quadtree.QuadTreeManageble;
 import com.TownSimulator.utility.quadtree.QuadTreeType;
 import com.badlogic.gdx.math.Vector3;
@@ -120,7 +121,10 @@ public class BuildingAdjustBroker extends Singleton implements EntityListener, C
 		if(mCurBuilding instanceof MoneyProducingBuilding)
 		{
 			mCurBuilding.setState(Building.State.Constructed);
-			ResourceInfoCollector.getInstance(ResourceInfoCollector.class).addMoney(-mCurBuilding.getType().getMoneyCost());
+			MPData mpData = Settings.mpBuildingDataMap.get(mCurBuilding.getType());
+			int cost = mpData.cost;
+			mpData.incre();
+			ResourceInfoCollector.getInstance(ResourceInfoCollector.class).addMoney(-cost);
 		}
 		else
 		{

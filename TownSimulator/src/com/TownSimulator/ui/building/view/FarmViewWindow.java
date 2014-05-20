@@ -43,7 +43,7 @@ public class FarmViewWindow extends WorkableViewWindow {
 		super(BuildingType.FARM_HOUSE, numAllowedWorker);
 		buttonBackground = Singleton.getInstance(ResourceManager.class).createTextureRegion("background_button");
 		width = ProcessBar.PREFERED_WIDTH + LABEL_WIDTH + MARGIN * 2;
-		height = LABEL_HEIGHT * 4 + WorkerGroup.HEIGHT + MARGIN * 2;
+		height = getHeight() + LABEL_HEIGHT * 3 + MARGIN *  3;
 		setSize(width, height);
 		addRowOne();
 		addRowTwo();
@@ -57,12 +57,12 @@ public class FarmViewWindow extends WorkableViewWindow {
 		labelStyle.fontColor = Color.WHITE;
 		Label label = new Label("state", labelStyle);
 		label.setSize(LABEL_WIDTH, LABEL_HEIGHT);
-		label.setPosition(MARGIN, MARGIN + WorkerGroup.HEIGHT + LABEL_HEIGHT * 2);
+		label.setPosition(MARGIN, MARGIN * 5 + WorkerGroup.HEIGHT + LABEL_HEIGHT * 3);
 		label.setAlignment(Align.left);
 		addActor(label);
 		
 		processBar = new ProcessBar();
-		processBar.setPosition(MARGIN + LABEL_WIDTH, MARGIN + WorkerGroup.HEIGHT + LABEL_HEIGHT * 2);
+		processBar.setPosition(MARGIN + LABEL_WIDTH, MARGIN + WorkerGroup.HEIGHT + LABEL_HEIGHT * 3);
 		addActor(processBar);
 	}
 	
@@ -72,7 +72,7 @@ public class FarmViewWindow extends WorkableViewWindow {
 		labelStyle.fontColor = Color.WHITE;
 		
 		float x = MARGIN;
-		float y = MARGIN + WorkerGroup.HEIGHT + LABEL_HEIGHT;
+		float y = MARGIN * 4 + WorkerGroup.HEIGHT + LABEL_HEIGHT * 2;
 		Label label = new Label("curCrop", labelStyle);
 		label.setSize(LABEL_WIDTH, LABEL_HEIGHT);
 		label.setPosition(x, y);
@@ -95,7 +95,7 @@ public class FarmViewWindow extends WorkableViewWindow {
 		labelStyle.fontColor = Color.WHITE;
 		
 		float x = MARGIN;
-		float y = MARGIN + WorkerGroup.HEIGHT;
+		float y = MARGIN * 3 + WorkerGroup.HEIGHT + LABEL_HEIGHT;
 		Label label = new Label("sowCrop", labelStyle);
 		label.setSize(LABEL_WIDTH, LABEL_HEIGHT);
 		label.setPosition(x, y);

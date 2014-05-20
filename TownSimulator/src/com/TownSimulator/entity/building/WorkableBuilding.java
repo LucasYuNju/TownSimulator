@@ -13,6 +13,10 @@ import com.TownSimulator.ui.UIManager;
 import com.TownSimulator.ui.building.view.UndockedWindow;
 import com.TownSimulator.ui.building.view.WorkableViewWindow;
 import com.TownSimulator.ui.building.view.WorkerGroupListener;
+import com.TownSimulator.utility.ResourceManager;
+import com.TownSimulator.utility.Settings;
+import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 /**
  * 可以工作的建筑 
@@ -21,10 +25,12 @@ public abstract class WorkableBuilding extends Building
 	implements WorkerGroupListener
 {
 	private static final long serialVersionUID = 4219809748364138454L;
+	private static final float WARING_ICON_SIZE = Settings.UNIT * 0.7f;
 	protected int maxJobCnt;
 	protected int openJobCnt;
 	protected JobType jobType;
 	protected List<Man> workers;
+	private Sprite spWarning;
 	private transient WorkableViewWindow workableWindow;
 	
 	public WorkableBuilding(String textureName, BuildingType type, JobType jobType) {
@@ -33,8 +39,41 @@ public abstract class WorkableBuilding extends Building
 		this.maxJobCnt = getMaxJobCnt();
 		this.openJobCnt = maxJobCnt;//(int)(maxJobCnt * 0.5f);
 		workers = new ArrayList<Man>();
+		spWarning = ResourceManager.getInstance(ResourceManager.class).createSprite("warning");
 	}
 	
+	@Override
+	public void drawSelf(SpriteBatch batch) {
+		super.drawSelf(batch);
+		
+		if( !isWorking() )
+		{
+			float originX = mDrawAABBWorld.getCenterX();
+			float originY = mDrawAABBWorld.maxY;
+			spWarning.setBounds(originX - WARING_ICON_SIZE * 0.5f, originY, WARING_ICON_SIZE, WARING_ICON_SIZE);
+			spWarning.draw(batch);
+		}
+	}
+
+	public boolean isWorking()
+	{
+		return maxJobCnt == 0 || getCurWorkerCnt() > 0;
+	}
+	
+	protected String getWarningMessage()
+	{
+		if(isWorking())
+			return "";
+		else
+			return "No Worker";
+	}
+
+	@Override
+	public void detectTapped() {
+		super.detectTapped();
+		workableWindow.setWarningMsg(getWarningMessage());
+	}
+
 	@Override
 	final protected UndockedWindow createUndockedWindow() {
 		workableWindow = createWorkableWindow();
@@ -52,7 +91,6 @@ public abstract class WorkableBuilding extends Building
 
 	private void fireWorker(int cnt)
 	{
-		System.out.println("Fire Worker " + cnt);
 		for (int i = 0; i < cnt; i++) {
 			Man worker = workers.remove(workers.size() - 1);
 			worker.getInfo().job = JobType.NOJOB;

@@ -12,7 +12,7 @@ import com.TownSimulator.utility.Settings;
 import com.TownSimulator.utility.TipsBillborad;
 import com.badlogic.gdx.graphics.Color;
 
-public abstract class MoneyProducingBuilding extends WorkableBuilding{
+public class MoneyProducingBuilding extends WorkableBuilding{
 	private static final long serialVersionUID = 5902905240346346815L;
 	private DriverListener driverListener;
 	private float produceTimeAccum;
@@ -37,7 +37,7 @@ public abstract class MoneyProducingBuilding extends WorkableBuilding{
 		while(produceTimeAccum >= getProduceTimeInterval())
 		{
 			produceTimeAccum -= getProduceTimeInterval();
-			int amount = getProduceAmountPerMan() * getCurWorkerCnt();
+			int amount = getProduceAmount();
 			if(amount <= 0)
 				continue;
 			
@@ -48,9 +48,18 @@ public abstract class MoneyProducingBuilding extends WorkableBuilding{
 		}
 	}
 	
-	abstract protected float getProduceTimeInterval();
+	private float getProduceTimeInterval()
+	{
+		return Settings.mpBuildingDataMap.get(getType()).timeInterval;
+	}
 	
-	abstract protected int getProduceAmountPerMan();
+	private int getProduceAmount()
+	{
+		if(getMaxJobCnt() > 0)
+			return (Settings.mpBuildingDataMap.get(getType()).produceAmount * getCurWorkerCnt()) / getMaxJobCnt();
+		else
+			return Settings.mpBuildingDataMap.get(getType()).produceAmount;
+	}
 
 	@Override
 	protected BehaviorTreeNode createBehavior(Man man) {
@@ -69,6 +78,11 @@ public abstract class MoneyProducingBuilding extends WorkableBuilding{
 	public void destroy() {
 		super.destroy();
 		Driver.getInstance(Driver.class).removeListener(driverListener);
+	}
+
+	@Override
+	protected int getMaxJobCnt() {
+		return Settings.mpBuildingDataMap.get(buildingType).maxJobCnt;
 	}
 	
 	

@@ -9,7 +9,7 @@ import com.TownSimulator.entity.building.FarmHouse;
 import com.TownSimulator.entity.building.FellingHouse;
 import com.TownSimulator.entity.building.Hospital;
 import com.TownSimulator.entity.building.LowCostHouse;
-import com.TownSimulator.entity.building.MPStore;
+import com.TownSimulator.entity.building.MoneyProducingBuilding;
 import com.TownSimulator.entity.building.PowerStation;
 import com.TownSimulator.entity.building.Ranch;
 import com.TownSimulator.entity.building.School;
@@ -17,22 +17,23 @@ import com.TownSimulator.entity.building.Warehouse;
 import com.TownSimulator.entity.building.Well;
 import com.TownSimulator.utility.Settings;
 //github.com/LuciusYu/TownSimulator.git
+import com.TownSimulator.utility.Settings.MPData;
 
 public class EntityFactory {
 	
-	public static MapEntity createMapObj(MapEntityType objType)
-	{
-		MapEntity obj = null;
-		switch (objType) {
-		case TREE:
-			obj = new MapEntity("map_tree");
-			break;
-			
-		default:
-			break;
-		}
-		return obj;
-	}
+//	public static MapEntity createMapObj(MapEntityType objType)
+//	{
+//		MapEntity obj = null;
+//		switch (objType) {
+//		case TREE:
+//			obj = new MapEntity("map_tree");
+//			break;
+//			
+//		default:
+//			break;
+//		}
+//		return obj;
+//	}
 	
 	public static Building createBuilding(BuildingType buildingType)
 	{
@@ -40,6 +41,7 @@ public class EntityFactory {
 		int xGridSize = 0;
 		int yGridSize = 0;
 		float yDrawScale = 1.0f;
+		MPData mpData;
 		
 		switch (buildingType) {
 		case APARTMENT:
@@ -126,7 +128,7 @@ public class EntityFactory {
 			xGridSize=4;
 			yGridSize=3;
 			yDrawScale=1.5f;
-			building=new School();
+			building = new School();
 //			building.setNeededConstructionResource(ResourceType.RS_WOOD, 5000);
 //			building.setNeededConstructionWork(50);
 			break;
@@ -134,15 +136,51 @@ public class EntityFactory {
 			xGridSize=2;
 			yGridSize=2;
 			yDrawScale=1.5f;
-			building=new Well();
+			building = new Well();
 //			building.setNeededConstructionResource(ResourceType.RS_WOOD, 2000);
 //			building.setNeededConstructionWork(20);
+			break;
+		case MP_Dad_s_Coffers:
+			xGridSize=1;
+			yGridSize=1;
+			yDrawScale=1.1f;
+			mpData = Settings.mpBuildingDataMap.get(buildingType);
+			building = new MoneyProducingBuilding(mpData.textureName, buildingType);
 			break;
 		case MP_Store:
 			xGridSize=2;
 			yGridSize=2;
 			yDrawScale=1.1f;
-			building=new MPStore();
+			mpData = Settings.mpBuildingDataMap.get(buildingType);
+			building = new MoneyProducingBuilding(mpData.textureName, buildingType);
+			break;
+		case MP_Factory:
+			xGridSize=2;
+			yGridSize=2;
+			yDrawScale=1.0f;
+			mpData = Settings.mpBuildingDataMap.get(buildingType);
+			building = new MoneyProducingBuilding(mpData.textureName, buildingType);
+			break;
+		case MP_CandyRain:
+			xGridSize=3;
+			yGridSize=3;
+			yDrawScale=1.1f;
+			mpData = Settings.mpBuildingDataMap.get(buildingType);
+			building = new MoneyProducingBuilding(mpData.textureName, buildingType);
+			break;
+		case MP_Rocket:
+			xGridSize=2;
+			yGridSize=4;
+			yDrawScale=1.0f;
+			mpData = Settings.mpBuildingDataMap.get(buildingType);
+			building = new MoneyProducingBuilding(mpData.textureName, buildingType);
+			break;
+		case MP_BalckHole:
+			xGridSize=5;
+			yGridSize=5;
+			yDrawScale=1.0f;
+			mpData = Settings.mpBuildingDataMap.get(buildingType);
+			building = new MoneyProducingBuilding(mpData.textureName, buildingType);
 			break;
 		default:
 			break;

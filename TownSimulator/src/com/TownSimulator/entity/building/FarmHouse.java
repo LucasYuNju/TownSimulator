@@ -79,6 +79,19 @@ public class FarmHouse extends WorkableBuilding implements SelectBoxListener
 			}
 		};
 	}
+	
+	@Override
+	public boolean isWorking() {
+		return super.isWorking() && (curCropType != null || sowCropType != null);
+	}
+
+	@Override
+	protected String getWarningMessage() {
+		if(curCropType == null && sowCropType == null)
+			return "No Crop Selected";
+		else
+			return super.getWarningMessage();
+	}
 
 	@Override
 	protected WorkableViewWindow createWorkableWindow() {

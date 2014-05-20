@@ -26,9 +26,9 @@ public class CoatFactory extends WorkableBuilding{
 	private static final int 	MAX_JOB_CNT = 4;
 	private static final float 	PRODUCE_INTERVAL_TIME = 20.0f;
 	private static final int 	PRODUCE_FUR_PER_COAT = 4;
-	private static final int 	PRODUCE_COAT_AMOUNT = 10;
+	private static final int 	PRODUCE_COAT_AMOUNT = 20;
 	private float produceAccum = 0.0f;
-	private transient WorkableWithTipsWindow	workTipsWindow;
+//	private transient WorkableWithTipsWindow	workTipsWindow;
 	private DriverListener driverListener;
 	
 	public CoatFactory() {
@@ -40,23 +40,40 @@ public class CoatFactory extends WorkableBuilding{
 
 			@Override
 			public void update(float deltaTime) {
-				if(ResourceInfoCollector.getInstance(ResourceInfoCollector.class).getResourceAmount(ResourceType.RS_FUR) <= 0)
-				{
-					workTipsWindow.setTips("No 'Fur' Resource ( Ranch )");
-					return;
-				}
-				else if(EntityInfoCollector.getInstance(EntityInfoCollector.class)
-						.getBuildings(BuildingType.POWER_STATION).size() <= 0)
-				{
-					workTipsWindow.setTips("Need 'Power Station'");
-					return;
-				}
-				else
-					workTipsWindow.setTips("");
-				
-				produce(deltaTime);
+//				if(ResourceInfoCollector.getInstance(ResourceInfoCollector.class).getResourceAmount(ResourceType.RS_FUR) <= 0)
+//				{
+//					workTipsWindow.setWarningMsg("No 'Fur' Resource ( Ranch )");
+//					return;
+//				}
+//				else if(EntityInfoCollector.getInstance(EntityInfoCollector.class)
+//						.getBuildings(BuildingType.POWER_STATION).size() <= 0)
+//				{
+//					workTipsWindow.setWarningMsg("Need 'Power Station'");
+//					return;
+//				}
+//				else
+//					workTipsWindow.setWarningMsg("");
+				if(isWorking())
+					produce(deltaTime);
 			}
 		};
+	}
+	
+	
+
+	@Override
+	public boolean isWorking() {
+		return super.isWorking() && ResourceInfoCollector.getInstance(ResourceInfoCollector.class).getResourceAmount(ResourceType.RS_FUR) > 0;
+	}
+
+	@Override
+	protected String getWarningMessage() {
+		if(ResourceInfoCollector.getInstance(ResourceInfoCollector.class).getResourceAmount(ResourceType.RS_FUR) <= 0)
+		{
+			return "No 'Fur' Resource ( Ranch )";
+		}
+		else
+			return super.getWarningMessage();
 	}
 
 	@Override
@@ -148,12 +165,12 @@ public class CoatFactory extends WorkableBuilding{
 		}
 	}
 
-	@Override
-	protected WorkableViewWindow createWorkableWindow() {
-		workTipsWindow = UIManager.getInstance(UIManager.class).getGameUI()
-							.createWorkableWithTipsWindow(buildingType, getMaxJobCnt());
-		return workTipsWindow;
-	}
+//	@Override
+//	protected WorkableViewWindow createWorkableWindow() {
+//		workTipsWindow = UIManager.getInstance(UIManager.class).getGameUI()
+//							.createWorkableWithTipsWindow(buildingType, getMaxJobCnt());
+//		return workTipsWindow;
+//	}
 	
 	private void readObject(ObjectInputStream s) throws ClassNotFoundException, IOException {
 		s.defaultReadObject();
