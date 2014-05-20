@@ -52,7 +52,7 @@ public class LoadingScreenUI extends ScreenUIBase implements Serializable{
 			ParticleControl.getInstance(ParticleControl.class).init();
 			Renderer.getInstance(Renderer.class).setRenderScene(true);
 			
-			Settings.backgroundColor = Settings.gameNormalGroundColor.cpy();
+			World.getInstance(World.class).setGroundColor();;
 			//if(listener != null)
 			listener.loadingFinish();
 		}
