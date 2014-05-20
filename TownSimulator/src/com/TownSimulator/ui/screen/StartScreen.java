@@ -6,7 +6,6 @@ import com.TownSimulator.render.Renderer;
 import com.TownSimulator.ui.UIManager;
 import com.TownSimulator.ui.base.FlipButton;
 import com.TownSimulator.ui.base.ScreenUIBase;
-import com.TownSimulator.utility.Settings;
 import com.TownSimulator.utility.Singleton;
 import com.TownSimulator.utility.ls.LoadSave;
 import com.badlogic.gdx.Gdx;

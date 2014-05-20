@@ -2,6 +2,7 @@ package com.TownSimulator.driver;
 
 import java.util.Random;
 
+import com.TownSimulator.achivement.AchievementManager;
 import com.TownSimulator.camera.CameraController;
 import com.TownSimulator.collision.CollisionDetector;
 import com.TownSimulator.entity.Entity;
@@ -21,7 +22,6 @@ import com.TownSimulator.entity.building.FarmHouse;
 import com.TownSimulator.entity.building.FarmLand;
 import com.TownSimulator.entity.building.FellingHouse;
 import com.TownSimulator.entity.building.Hospital;
-import com.TownSimulator.entity.building.MoneyProducingBuilding;
 import com.TownSimulator.entity.building.PowerStation;
 import com.TownSimulator.entity.building.Ranch;
 import com.TownSimulator.entity.building.RanchLand;
@@ -73,14 +73,26 @@ public class Driver extends SingletonPublisher<DriverListener> implements Applic
 			Renderer.getInstance(Renderer.class).attachDrawScissor(man);
 		}
 		
-		ResourceInfoCollector.getInstance(ResourceInfoCollector.class).addMoney(1000);
+		ResourceInfoCollector.getInstance(ResourceInfoCollector.class).addMoney(Integer.MAX_VALUE);
 		
-		MoneyProducingBuilding mpStore = (MoneyProducingBuilding) EntityFactory.createBuilding(BuildingType.MP_Store);
-		mpStore.setState(Building.State.Constructed);
-		mpStore.setPositionWorld(originPosX + 6 * Settings.UNIT, originPoxY - 8 * Settings.UNIT);
-		EntityInfoCollector.getInstance(EntityInfoCollector.class).addBuilding(mpStore);
-		CollisionDetector.getInstance(CollisionDetector.class).attachCollisionDetection(mpStore);
-		Renderer.getInstance(Renderer.class).attachDrawScissor(mpStore);
+//		InputMgr.getInstance(InputMgr.class).addListener(new InputMgrListenerBaseImpl()
+//		{
+//
+//			@Override
+//			public boolean touchDown(float screenX, float screenY, int pointer,
+//					int button) {
+//				UIManager.getInstance(UIManager.class).getGameUI().getAchievementUI().pushToShow(new FirstMPBuildingAM());
+//				return true;
+//			}
+//			
+//		});
+		
+//		MoneyProducingBuilding mpStore = (MoneyProducingBuilding) EntityFactory.createBuilding(BuildingType.MP_Store);
+//		mpStore.setState(Building.State.Constructed);
+//		mpStore.setPositionWorld(originPosX + 6 * Settings.UNIT, originPoxY - 8 * Settings.UNIT);
+//		EntityInfoCollector.getInstance(EntityInfoCollector.class).addBuilding(mpStore);
+//		CollisionDetector.getInstance(CollisionDetector.class).attachCollisionDetection(mpStore);
+//		Renderer.getInstance(Renderer.class).attachDrawScissor(mpStore);
 		
 		Warehouse wareHouse = (Warehouse) EntityFactory.createBuilding(BuildingType.WAREHOUSE);
 		wareHouse.addStoredResource(ResourceType.RS_WOOD, 2300);
@@ -191,6 +203,7 @@ public class Driver extends SingletonPublisher<DriverListener> implements Applic
 		CameraController.getInstance(CameraController.class);
 		Renderer.getInstance(Renderer.class);
 		CollisionDetector.getInstance(CollisionDetector.class);
+		AchievementManager.getInstance(AchievementManager.class);
 		Entity.initStatic();
 		TipsBillborad.init();
 		ParticleManager.init();

@@ -21,7 +21,16 @@ public class ResourceInfoCollector extends Singleton
 	
 	public void addMoney(int amount)
 	{
-		moneyAmount += amount;
+		int addResult = moneyAmount + amount;
+		if(amount < 0)
+			moneyAmount = Math.max(addResult, 0);
+		else
+		{
+			if(addResult < 0)
+				moneyAmount = Integer.MAX_VALUE;
+			else
+				moneyAmount = addResult;
+		}
 	}
 	
 	public int getMoney()

@@ -46,7 +46,7 @@ public abstract class WorkableBuilding extends Building
 	public void drawSelf(SpriteBatch batch) {
 		super.drawSelf(batch);
 		
-		if( !isWorking() )
+		if( getState() == Building.State.Constructed && !isWorking() )
 		{
 			float originX = mDrawAABBWorld.getCenterX();
 			float originY = mDrawAABBWorld.maxY;

@@ -7,6 +7,7 @@ import com.TownSimulator.entity.Resource;
 import com.TownSimulator.entity.building.BuildingType;
 import com.TownSimulator.ui.MessageBoard;
 import com.TownSimulator.ui.StateBar;
+import com.TownSimulator.ui.achievement.AchievementUI;
 import com.TownSimulator.ui.base.IconButton;
 import com.TownSimulator.ui.base.ScreenUIBase;
 import com.TownSimulator.ui.building.adjust.BuildingAdjustGroup;
@@ -48,6 +49,7 @@ public class GameScreen extends ScreenUIBase{
 	private List<Actor> windows = new LinkedList<Actor>();
 	private StateBar stateBar;
 	private MessageBoard messageBoard;
+	private AchievementUI achievementUI;
 	
 	public GameScreen()
 	{
@@ -117,7 +119,14 @@ public class GameScreen extends ScreenUIBase{
 		MessageBoard.initStatic();
 		messageBoard = new MessageBoard();
 		mStage.addActor(messageBoard);
-
+		
+		achievementUI = new AchievementUI();
+		mStage.addActor(achievementUI);
+	}
+	
+	public AchievementUI getAchievementUI()
+	{
+		return achievementUI;
 	}
 	
 	public BuildingAdjustGroup getBuildAjustUI()
