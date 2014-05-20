@@ -8,7 +8,7 @@ lowMin: 5000.0
 lowMax: 5000.0
 - Count - 
 min: 0
-max: 10
+max: 3
 - Emission - 
 lowMin: 0.0
 lowMax: 0.0
@@ -75,7 +75,7 @@ timeline0: 0.0
 active: true
 lowMin: 0.0
 lowMax: 0.0
-highMin: 250.0
+highMin: 500.0
 highMax: 500.0
 relative: false
 scalingCount: 1
@@ -86,8 +86,8 @@ timeline0: 0.0
 active: true
 lowMin: 240.0
 lowMax: 240.0
-highMin: 250.0
-highMax: 300.0
+highMin: 240.0
+highMax: 240.0
 relative: false
 scalingCount: 3
 scaling0: 1.0
@@ -111,16 +111,7 @@ timelineCount: 2
 timeline0: 0.0
 timeline1: 1.0
 - Wind - 
-active: true
-lowMin: 0.0
-lowMax: 0.0
-highMin: 0.0
-highMax: 0.0
-relative: false
-scalingCount: 1
-scaling0: 1.0
-timelineCount: 1
-timeline0: 0.0
+active: false
 - Gravity - 
 active: false
 - Tint - 
