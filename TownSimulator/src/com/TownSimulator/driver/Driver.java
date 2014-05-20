@@ -73,7 +73,7 @@ public class Driver extends SingletonPublisher<DriverListener> implements Applic
 			Renderer.getInstance(Renderer.class).attachDrawScissor(man);
 		}
 		
-		ResourceInfoCollector.getInstance(ResourceInfoCollector.class).addMoney(Integer.MAX_VALUE);
+		ResourceInfoCollector.getInstance(ResourceInfoCollector.class).addCandy(Integer.MAX_VALUE);
 		
 //		InputMgr.getInstance(InputMgr.class).addListener(new InputMgrListenerBaseImpl()
 //		{

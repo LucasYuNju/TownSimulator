@@ -124,7 +124,7 @@ public class BuildingAdjustBroker extends Singleton implements EntityListener, C
 			MPData mpData = Settings.mpBuildingDataMap.get(mCurBuilding.getType());
 			int cost = mpData.cost;
 			mpData.incre();
-			ResourceInfoCollector.getInstance(ResourceInfoCollector.class).addMoney(-cost);
+			ResourceInfoCollector.getInstance(ResourceInfoCollector.class).addCandy(-cost);
 		}
 		else
 		{

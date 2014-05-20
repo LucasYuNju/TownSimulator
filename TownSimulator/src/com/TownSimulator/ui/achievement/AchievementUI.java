@@ -38,7 +38,7 @@ public class AchievementUI extends Actor{
 	
 	public void pushToShow(Achievement achieve)
 	{
-		achievesToShow.push(achieve);
+		achievesToShow.addLast(achieve);
 	}
 	
 	@Override
@@ -86,10 +86,30 @@ public class AchievementUI extends Actor{
 				y = originY + showHeight * 0.5f - Settings.MARGIN * 2.0f;
 				titleFont.setColor(Color.ORANGE);
 				titleFont.draw(batch, achieve.getTitle(), x, y);
-			
+				
 				y -= SHOW_TITLE_HEIGHT + Settings.MARGIN;
+				float minXBound = x; 
+				float maxXBound = originX + SHOW_WIDTH * 0.5f - SHOW_HEIGHT * 0.5f;
+				float spaceWidth = descripFont.getBounds(" ").width;
+				String[] splitStrs = achieve.getDescription().split(" ");
 				descripFont.setColor(Color.WHITE);
-				descripFont.draw(batch, achieve.getDescription(), x, y);
+				for (String str : splitStrs) {
+					float rx = x + descripFont.getBounds(str).width;
+					if(rx > maxXBound)
+					{
+						x = minXBound;
+						y -= SHOW_DESC_HEIGHT + Settings.MARGIN;
+						
+						descripFont.draw(batch, str, x, y);
+						x = minXBound + descripFont.getBounds(str).width + spaceWidth;
+					}
+					else
+					{
+						descripFont.draw(batch, str, x, y);
+						x = rx + spaceWidth;
+					}
+					
+				}
 			}
 		}
 	}
