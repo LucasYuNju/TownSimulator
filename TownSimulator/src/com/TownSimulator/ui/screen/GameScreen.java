@@ -114,6 +114,7 @@ public class GameScreen extends ScreenUIBase{
 		stateBar.setVisible(true);
 		mStage.addActor(stateBar);
 		
+		MessageBoard.initStatic();
 		messageBoard = new MessageBoard();
 		mStage.addActor(messageBoard);
 

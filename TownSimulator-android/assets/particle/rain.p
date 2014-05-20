@@ -8,7 +8,7 @@ lowMin: 5000.0
 lowMax: 5000.0
 - Count - 
 min: 0
-max: 3
+max: 10
 - Emission - 
 lowMin: 0.0
 lowMax: 0.0
@@ -20,10 +20,10 @@ scaling0: 1.0
 timelineCount: 1
 timeline0: 0.0
 - Life - 
-lowMin: 3000.0
-lowMax: 3000.0
-highMin: 5000.0
-highMax: 6000.0
+lowMin: 2000.0
+lowMax: 2000.0
+highMin: 3500.0
+highMax: 4000.0
 relative: false
 scalingCount: 3
 scaling0: 1.0

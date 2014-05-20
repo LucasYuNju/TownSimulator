@@ -11,9 +11,6 @@ import com.TownSimulator.utility.Singleton;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.MathUtils;
-import com.badlogic.gdx.math.Matrix3;
-import com.badlogic.gdx.math.Matrix4;
 
 public class ParticleControl extends Singleton{
 	public final static float weatherParticleIntervel=5.0f;
@@ -49,12 +46,13 @@ public class ParticleControl extends Singleton{
 							acountTime -= everyEmitterIntervel;
 							if (isRenderWeather) {
 //								isaddWeatherParticle = true;
+								acountIndex=(float)Math.random()*15.0f;
 								addWeatherParticleToList(World.getInstance(World.class).getCurSeason(),acountIndex);
 							}
-							acountIndex++;
-							if(acountIndex>=15.0){
-								acountIndex=0.0f;
-							}
+//							acountIndex++;
+//							if(acountIndex>=15.0){
+//								acountIndex=0.0f;
+//							}
 						}
 
 					}
@@ -84,6 +82,9 @@ public class ParticleControl extends Singleton{
 	}
 	
 	public void render() {
+//		Matrix4 matrix4=new Matrix4();
+//		matrix4.scale(0.5f, 0.5f, 1);
+//		batch.setTransformMatrix(matrix4);
 		batch.begin();
 		for (int i = 0; i < weatherParticlelist.size(); i++) {
 			weatherParticlelist.get(i).draw(batch, Gdx.graphics.getDeltaTime());
@@ -96,9 +97,13 @@ public class ParticleControl extends Singleton{
 		float tempLocation=0.0f;
 		switch (seasonType) {
 		case Winter:
-			tempLocation = (index + (float) Math.random())* Settings.UNIT;
+			tempLocation = index * Settings.UNIT;
 			tempEffect = snowParticle.getParticleEffect();
 			tempEffect.setPosition(tempLocation, Gdx.graphics.getHeight());
+//			Array<ParticleEmitter> particleEffectters=tempEffect.getEmitters();
+//			for(int i=0;i<particleEffectters.size;i++){
+//				ParticleEmitter.ScaledNumericValue scaledNumericValue=new ParticleEmitter.ScaledNumericValue();
+//			}
 			weatherParticlelist.add(tempEffect);
 			break;
 		case Summer:
