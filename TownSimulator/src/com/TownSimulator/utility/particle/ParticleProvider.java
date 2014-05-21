@@ -8,12 +8,14 @@ import com.badlogic.gdx.graphics.g2d.ParticleEffectPool;
 
 public class ParticleProvider{
     
-    ParticleEffect particle; 
-    ParticleEffect tem; 
-    ParticleEffectPool particlepool;  
+    private ParticleEffect particle; 
+    private ParticleEffect tem; 
+    private ParticleEffectPool particlepool; 
+    private float xPositionWorld;
+    private float yPositionWorld;
     
     public ParticleProvider(ParticleType particleType){
-    	particle = new ParticleEffect();      
+    	particle = new ParticleEffect();  
     	particle.load(Gdx.files.internal("particle/"+particleType.getFileName()), Gdx.files.internal("particle"));  
     	particlepool=new ParticleEffectPool(particle, 5, 30); 
     }
@@ -22,14 +24,11 @@ public class ParticleProvider{
     	return particlepool.obtain();
     }
     
-//	public void render() {
-//		if (Gdx.input.isTouched()) {
-//			tem = snowParticlepool.obtain();
-//			tem.setPosition(Gdx.input.getX(), Gdx.graphics.getHeight()
-//					- Gdx.input.getY());
-//			snowParticlelist.add(tem);
-//		}
-//	}
+    
+    public void setPositionWorld(float x,float y){
+    	this.xPositionWorld=x;
+    	this.yPositionWorld=y;
+    }
     
     public void dispose(){
     	particle.dispose();

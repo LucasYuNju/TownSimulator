@@ -1,5 +1,8 @@
 package com.TownSimulator.entity.building;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
+
 import com.TownSimulator.ai.behaviortree.BehaviorTreeNode;
 import com.TownSimulator.ai.btnimpls.lumerjack.LumerJackBTN;
 import com.TownSimulator.entity.JobType;
@@ -18,6 +21,10 @@ public class FellingHouse extends WorkableBuilding {
 	
 	public FellingHouse() {
 		super("building_felling_house", BuildingType.FELLING_HOUSE, JobType.LUMERJACK);
+		ListenToRenderer();
+	}
+	
+	private void ListenToRenderer() {
 		renderListener = new RendererListener() {
 			private static final long serialVersionUID = 9068085887350831160L;
 
@@ -86,5 +93,10 @@ public class FellingHouse extends WorkableBuilding {
 	@Override
 	protected int getMaxJobCnt() {
 		return MAX_JOB_CNT;
+	}
+	
+	private void readObject(ObjectInputStream s) throws ClassNotFoundException, IOException {
+		s.defaultReadObject();
+		ListenToRenderer();
 	}
 }

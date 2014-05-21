@@ -1,5 +1,8 @@
 package com.TownSimulator.entity.building;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
+
 import com.TownSimulator.ai.behaviortree.BehaviorTreeNode;
 import com.TownSimulator.ai.btnimpls.factoryworker.FactoryWorkerBTN;
 import com.TownSimulator.driver.Driver;
@@ -22,12 +25,12 @@ public class MoneyProducingBuilding extends WorkableBuilding{
 		
 		driverListener = new DriverListenerBaseImpl()
 		{
+			private static final long serialVersionUID = 6595004578287235291L;
 
 			@Override
 			public void update(float deltaTime) {
 				produce(deltaTime);
 			}
-			
 		};
 	}
 	
@@ -85,6 +88,8 @@ public class MoneyProducingBuilding extends WorkableBuilding{
 		return Settings.mpBuildingDataMap.get(buildingType).maxJobCnt;
 	}
 	
-	
-
+	private void readObject(ObjectInputStream s) throws ClassNotFoundException, IOException {
+		s.defaultReadObject();
+		setState(buildingState);
+	}
 }

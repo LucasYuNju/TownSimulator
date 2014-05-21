@@ -296,6 +296,7 @@ public class Ranch extends WorkableBuilding{
 		s.defaultReadObject();
 		if(ranchAnimalType != null)
 			ranchWindow.reload(ranchAnimalType);
+		setState(buildingState);
 	}
 	
 //	@Override

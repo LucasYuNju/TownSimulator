@@ -87,7 +87,6 @@ public class LivingHouse extends Building {
 	@Override
 	public void setState(State state) {
 		super.setState(state);
-		
 		if(state == Building.State.Constructed)
 		{
 			Driver.getInstance(Driver.class).addListener(driverListener);
@@ -158,6 +157,7 @@ public class LivingHouse extends Building {
 	private void readObject(ObjectInputStream s) throws ClassNotFoundException, IOException {
 		s.defaultReadObject();
 		updateViewWindow();
+		setState(buildingState);
 	}
 
 //	@Override

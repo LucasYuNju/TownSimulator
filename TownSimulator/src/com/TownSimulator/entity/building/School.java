@@ -149,6 +149,7 @@ public class School extends WorkableBuilding{
 	private void readObject(ObjectInputStream s) throws ClassNotFoundException, IOException {
 		s.defaultReadObject();
 		updateViewWindow();
+		setState(buildingState);
 	}
 
 //	

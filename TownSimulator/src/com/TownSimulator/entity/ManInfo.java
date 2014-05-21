@@ -281,12 +281,6 @@ public class ManInfo implements Serializable{
 		}
 	}
 	
-	//FIXME!
-	//暂时没被调用
-	public void hpColdWinter(float deltaTime) {
-		hpHomeless(deltaTime);
-	}
-	
 	/**
 	 * 每个月一次抽奖，生病的概率为1/24 
 	 */
@@ -296,7 +290,9 @@ public class ManInfo implements Serializable{
 		if(healthLotteryTime > World.SecondPerYear / 24) {
 			healthLotteryTime = 0;
 			if(Math.random() < 1/24f && isHealthy()) {
-				healthPoints = HEALTH_POINTS_SICK;
+				healthPoints -= (HEALTH_POINTS_MAX - HEALTH_POINTS_SICK)/2;
+				if(healthPoints < 0)
+					healthPoints = 0;
 				Gdx.app.log("healthInfo", "got lottery! health points:" + healthPoints + " isHealthy:" + isHealthy());
 			}
 		}

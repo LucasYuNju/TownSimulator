@@ -340,6 +340,7 @@ public class FarmHouse extends WorkableBuilding implements SelectBoxListener
 		s.defaultReadObject();
 		farmWindow.setCurCropType(curCropType);
 		updateProcess();
+		setState(buildingState);
 	}
 	
 //	@Override

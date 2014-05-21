@@ -2,6 +2,8 @@ package com.TownSimulator.utility.particle;
 
 import java.util.ArrayList;
 
+import com.TownSimulator.camera.CameraController;
+import com.TownSimulator.camera.CameraListener;
 import com.TownSimulator.driver.Driver;
 import com.TownSimulator.driver.DriverListenerBaseImpl;
 import com.TownSimulator.entity.SeasonType;
@@ -10,7 +12,9 @@ import com.TownSimulator.utility.Settings;
 import com.TownSimulator.utility.Singleton;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
+import com.badlogic.gdx.graphics.g2d.ParticleEmitter;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.utils.Array;
 
 public class ParticleControl extends Singleton{
 	public final static float weatherParticleIntervel=5.0f;
@@ -20,6 +24,9 @@ public class ParticleControl extends Singleton{
 	private float acountTime;
 	private float acountIndex;
 	private boolean isRenderWeather;
+	
+	private float renderStartX=0.0f;
+	private float renderStartY=0.0f;
 	
 	private ParticleProvider snowParticle;
 	private ParticleProvider rainParticle;
@@ -46,7 +53,9 @@ public class ParticleControl extends Singleton{
 							acountTime -= everyEmitterIntervel;
 							if (isRenderWeather) {
 //								isaddWeatherParticle = true;
-								acountIndex=(float)Math.random()*15.0f;
+								renderStartX=CameraController.getInstance(CameraController.class).getCameraViewAABB().minX;
+								renderStartY=CameraController.getInstance(CameraController.class).getCameraViewAABB().maxY;
+								acountIndex=(float)Math.random()*18.0f;
 								addWeatherParticleToList(World.getInstance(World.class).getCurSeason(),acountIndex);
 							}
 //							acountIndex++;
@@ -64,6 +73,22 @@ public class ParticleControl extends Singleton{
 					}
 
 				});
+		
+		CameraController.getInstance(CameraController.class).addListener(new CameraListener() {
+			
+			@Override
+			public void cameraZoomed(float prevWidth, float prevHeight, float curWidth,
+					float curHeight) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void cameraMoved(float deltaX, float deltaY) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
 	}
 	
 	public void init(){
@@ -95,21 +120,29 @@ public class ParticleControl extends Singleton{
 	
 	public void addWeatherParticleToList(SeasonType seasonType, float index) {
 		float tempLocation=0.0f;
+		Array<ParticleEmitter> particleEffectters;
 		switch (seasonType) {
 		case Winter:
-			tempLocation = index * Settings.UNIT;
+			tempLocation = (index + (float) Math.random())* Settings.UNIT;
 			tempEffect = snowParticle.getParticleEffect();
 			tempEffect.setPosition(tempLocation, Gdx.graphics.getHeight());
-//			Array<ParticleEmitter> particleEffectters=tempEffect.getEmitters();
-//			for(int i=0;i<particleEffectters.size;i++){
-//				ParticleEmitter.ScaledNumericValue scaledNumericValue=new ParticleEmitter.ScaledNumericValue();
-//			}
+			particleEffectters=tempEffect.getEmitters();
+			for(int i=0;i<particleEffectters.size;i++){
+				particleEffectters.get(i).getScale().setHigh(Settings.UNIT*0.5f);
+			}
+			System.out.println("aaaa:"+particleEffectters.size);
 			weatherParticlelist.add(tempEffect);
 			break;
 		case Summer:
 			tempLocation = (index + (float) Math.random())* Settings.UNIT;
 			tempEffect = rainParticle.getParticleEffect();
 			tempEffect.setPosition(tempLocation, Gdx.graphics.getHeight());
+			particleEffectters=tempEffect.getEmitters();
+			for(int i=0;i<particleEffectters.size;i++){
+				particleEffectters.get(i).getScale().setHigh(Settings.UNIT*0.5f);
+			}
+			System.out.println("aaaa:"+particleEffectters.size);
+//			tempEffect.setPosition(renderStartX+tempLocation, renderStartY);
 			weatherParticlelist.add(tempEffect);
 			break;
 		default:

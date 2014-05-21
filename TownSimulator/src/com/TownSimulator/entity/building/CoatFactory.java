@@ -155,7 +155,6 @@ public class CoatFactory extends WorkableBuilding{
 	@Override
 	public void setState(State state) {
 		super.setState(state);
-		
 		if( state == Building.State.Constructed )
 		{
 			Driver.getInstance(Driver.class).addListener(driverListener);

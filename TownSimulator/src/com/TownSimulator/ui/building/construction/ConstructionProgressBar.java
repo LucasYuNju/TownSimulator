@@ -42,7 +42,6 @@ public class ConstructionProgressBar implements Drawable{
 	
 	private ConstructionProgressBar()
 	{
-		
 	}
 	
 	private static void render()
