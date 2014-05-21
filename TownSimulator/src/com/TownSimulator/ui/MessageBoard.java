@@ -20,11 +20,17 @@ public class MessageBoard extends Actor{
 	private static final 	float 				HEIGHT 			= (LINE_HEIGHT + MARGIN) * lines + MARGIN;
 	private static final 	float 				BASE_ALPHA 		= Settings.UI_ALPHA;
 	private static final 	float 				SHOW_TIME 		= 10.0f;
-	private static final	TextureRegion 		background 		= ResourceManager.getInstance(ResourceManager.class).createTextureRegion("background");
-	private static final	BitmapFont 			font 			= ResourceManager.getInstance(ResourceManager.class).getFont((int)LINE_HEIGHT);
+	private static			TextureRegion 		background;
+	private static			BitmapFont 			font;
 	private 			 	float 				drawAlpha 		= 0.0f;
 	private 			 	float 				showTimeAccum 	= 0.0f;
 	private 				LinkedList<String> 	messages;
+	
+	public static void initStatic()
+	{
+		background 		= ResourceManager.getInstance(ResourceManager.class).createTextureRegion("background");
+		font 			= ResourceManager.getInstance(ResourceManager.class).getFont((int)LINE_HEIGHT);
+	}
 	
 	public MessageBoard()
 	{

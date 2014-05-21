@@ -5,14 +5,17 @@ import com.TownSimulator.entity.ResourceInfoCollector;
 import com.TownSimulator.entity.building.BuildingType;
 import com.TownSimulator.ui.base.IconLabelButton;
 import com.TownSimulator.ui.building.adjust.BuildingAdjustBroker;
+import com.TownSimulator.utility.ResourceManager;
 import com.TownSimulator.utility.Settings;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 
 public class BuildComsButton extends IconLabelButton{
 	private BuildingType buildingType;
+	private TextureRegion candyIcon;
 	//private ArrayList<String> pricesTexts;
 	
 	public BuildComsButton(String textureName, String labelText, BuildingType buildingType) {
@@ -35,14 +38,19 @@ public class BuildComsButton extends IconLabelButton{
 				
 				if(BuildComsButton.this.buildingType.isMoneyProducing())
 				{
-					int moneyCur = ResourceInfoCollector.getInstance(ResourceInfoCollector.class).getMoney();
-					if(moneyCur < BuildComsButton.this.buildingType.getMoneyCost())
+					int moneyCur = ResourceInfoCollector.getInstance(ResourceInfoCollector.class).getCandyAmount();
+					int cost = Settings.mpBuildingDataMap.get(BuildComsButton.this.buildingType).cost;
+					if(moneyCur < cost)
 						return;
 				}
 				
 				BuildingAdjustBroker.getInstance(BuildingAdjustBroker.class).startNewBuilding(BuildComsButton.this.buildingType);
 			}
 		});
+		
+		if(buildingType.isMoneyProducing())
+			candyIcon = ResourceManager.getInstance(ResourceManager.class).createTextureRegion("candy");
+		
 		//initPriceLabel();
 	}
 	
@@ -86,13 +94,18 @@ public class BuildComsButton extends IconLabelButton{
 		
 		if(buildingType.isMoneyProducing())
 		{
-			if (ResourceInfoCollector.getInstance(ResourceInfoCollector.class).getMoney()
-					>= buildingType.getMoneyCost())
+			int cost = Settings.mpBuildingDataMap.get(BuildComsButton.this.buildingType).cost;
+			if (ResourceInfoCollector.getInstance(ResourceInfoCollector.class).getCandyAmount()
+					>= cost)
 				font.setColor(Color.ORANGE);
 			else
 				font.setColor(Color.RED);
-			String str = "$ " + buildingType.getMoneyCost();
-			float x = getWidth() * 0.5f - font.getBounds(str).width * 0.5f;
+			String str = "" + cost;
+			float x = getWidth() * 0.5f - (font.getBounds(str).width + BuildComsUI.BUTTON_TOP_MARGIN)  * 0.5f;
+			Color c = getColor();
+			batch.setColor(c.r, c.g, c.b, c.a * parentAlpha);
+			batch.draw(candyIcon, getX() + x, getY() - font.getCapHeight(), BuildComsUI.BUTTON_TOP_MARGIN, BuildComsUI.BUTTON_TOP_MARGIN);
+			x += BuildComsUI.BUTTON_TOP_MARGIN;
 			font.draw(batch, str, getX() + x, getY());
 		}
 		else

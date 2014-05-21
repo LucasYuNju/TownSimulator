@@ -333,6 +333,9 @@ public abstract class Building extends Entity
 	private void readObject(ObjectInputStream s) throws ClassNotFoundException, IOException {
 		s.defaultReadObject();
 		undockedWindow = createUndockedWindow();
+		//风车
+		if(undockedWindow != null)
+			undockedWindow.setVisible(false);
 		reload();
 	}
 }

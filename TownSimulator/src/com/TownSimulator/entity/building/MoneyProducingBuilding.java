@@ -1,5 +1,8 @@
 package com.TownSimulator.entity.building;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
+
 import com.TownSimulator.ai.behaviortree.BehaviorTreeNode;
 import com.TownSimulator.ai.btnimpls.factoryworker.FactoryWorkerBTN;
 import com.TownSimulator.driver.Driver;
@@ -12,7 +15,7 @@ import com.TownSimulator.utility.Settings;
 import com.TownSimulator.utility.TipsBillborad;
 import com.badlogic.gdx.graphics.Color;
 
-public abstract class MoneyProducingBuilding extends WorkableBuilding{
+public class MoneyProducingBuilding extends WorkableBuilding{
 	private static final long serialVersionUID = 5902905240346346815L;
 	private DriverListener driverListener;
 	private float produceTimeAccum;
@@ -22,12 +25,12 @@ public abstract class MoneyProducingBuilding extends WorkableBuilding{
 		
 		driverListener = new DriverListenerBaseImpl()
 		{
+			private static final long serialVersionUID = 6595004578287235291L;
 
 			@Override
 			public void update(float deltaTime) {
 				produce(deltaTime);
 			}
-			
 		};
 	}
 	
@@ -37,20 +40,29 @@ public abstract class MoneyProducingBuilding extends WorkableBuilding{
 		while(produceTimeAccum >= getProduceTimeInterval())
 		{
 			produceTimeAccum -= getProduceTimeInterval();
-			int amount = getProduceAmountPerMan() * getCurWorkerCnt();
+			int amount = getProduceAmount();
 			if(amount <= 0)
 				continue;
 			
-			ResourceInfoCollector.getInstance(ResourceInfoCollector.class).addMoney(amount);
+			ResourceInfoCollector.getInstance(ResourceInfoCollector.class).addCandy(amount);
 			float originX = mDrawAABBWorld.getCenterX();
 			float originY = mDrawAABBWorld.maxY + Settings.UNIT * 0.5f;
 			TipsBillborad.showTips("$ + " + amount, originX, originY, Color.ORANGE);
 		}
 	}
 	
-	abstract protected float getProduceTimeInterval();
+	private float getProduceTimeInterval()
+	{
+		return Settings.mpBuildingDataMap.get(getType()).timeInterval;
+	}
 	
-	abstract protected int getProduceAmountPerMan();
+	private int getProduceAmount()
+	{
+		if(getMaxJobCnt() > 0)
+			return (Settings.mpBuildingDataMap.get(getType()).produceAmount * getCurWorkerCnt()) / getMaxJobCnt();
+		else
+			return Settings.mpBuildingDataMap.get(getType()).produceAmount;
+	}
 
 	@Override
 	protected BehaviorTreeNode createBehavior(Man man) {
@@ -70,7 +82,14 @@ public abstract class MoneyProducingBuilding extends WorkableBuilding{
 		super.destroy();
 		Driver.getInstance(Driver.class).removeListener(driverListener);
 	}
-	
-	
 
+	@Override
+	protected int getMaxJobCnt() {
+		return Settings.mpBuildingDataMap.get(buildingType).maxJobCnt;
+	}
+	
+	private void readObject(ObjectInputStream s) throws ClassNotFoundException, IOException {
+		s.defaultReadObject();
+		setState(buildingState);
+	}
 }

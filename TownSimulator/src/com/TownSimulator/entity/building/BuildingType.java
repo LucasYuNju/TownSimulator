@@ -14,21 +14,25 @@ public enum BuildingType {
 	Bar("bar"),
 	RANCH("Ranch"), 
 	
-	MP_Store("Store", true, 300);
+//	MoneyProducing("");
+	MP_Dad_s_Coffers("Dad's Coffers", true),
+	MP_Store("Store", true),
+	MP_Factory("Dad's Coffers", true),
+	MP_CandyRain("Candy Rain", true),
+	MP_Rocket("Rocket", true),
+	MP_BalckHole("Black Hole", true);
 
 	
 	private String name;
 	boolean bMP;
-	int mpCostMoney;
 	
 	private BuildingType(String name) {
-		this(name, false, 0);
+		this(name, false);
 	}
 	
-	private BuildingType(String name, boolean bMP, int cost) {
+	private BuildingType(String name, boolean bMP) {
 		this.name = name;
 		this.bMP = bMP;
-		this.mpCostMoney = cost;
 	}
 	
 	@Override
@@ -39,10 +43,5 @@ public enum BuildingType {
 	public boolean isMoneyProducing()
 	{
 		return bMP;
-	}
-	
-	public int getMoneyCost()
-	{
-		return mpCostMoney;
 	}
 }

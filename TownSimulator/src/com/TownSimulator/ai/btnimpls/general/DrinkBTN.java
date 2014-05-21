@@ -39,7 +39,7 @@ public class DrinkBTN extends SequenceNode{
 		
 		ActionNode headForBarNode = new ActionNode() {
 			private static final long serialVersionUID = 2936435038993189629L;
-
+			
 			@Override
 			public ExecuteResult execute(float deltaTime) {
 				if(man.getInfo().isDepressed()) {
@@ -48,15 +48,16 @@ public class DrinkBTN extends SequenceNode{
 						float destX = bar.getAABBWorld(QuadTreeType.COLLISION).getCenterX();
 						float destY = bar.getAABBWorld(QuadTreeType.COLLISION).getCenterY();
 						man.setMoveDestination(destX, destY);
-						if( !man.move(deltaTime) )
+						if(!man.move(deltaTime))
 						{
 							man.getInfo().animeType = ManAnimeType.STANDING;
 							if(bar.getWine()) {
 								man.getInfo().drinkWine();					
 							}
 						}
-						else
+						else {
 							man.getInfo().animeType = ManAnimeType.MOVE;
+						}
 						return ExecuteResult.TRUE;
 					}
 				}

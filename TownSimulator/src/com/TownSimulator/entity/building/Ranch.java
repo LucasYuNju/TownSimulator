@@ -35,7 +35,7 @@ public class Ranch extends WorkableBuilding{
 	private static final int 		MAX_JOB_CNT = 4;
 	private static final float 		PRODUCE_INTERVAL = 20.0f;
 	private static final int		PRODUCE_MEAT_AMOUNT = 50;
-	private static final int		PRODUCE_FUR_AMOUNT = 40;
+	private static final int		PRODUCE_FUR_AMOUNT = 80;
 	private float					produceAccum;
 	private AxisAlignedBoundingBox 	collisionAABBLocalWithLands;
 	private AxisAlignedBoundingBox 	collisionAABBWorldWithLands;
@@ -71,6 +71,21 @@ public class Ranch extends WorkableBuilding{
 		};
 	}
 	
+	
+	
+	@Override
+	public boolean isWorking() {
+		return super.isWorking() && ranchAnimalType != null;
+	}
+
+	@Override
+	protected String getWarningMessage() {
+		if(ranchAnimalType == null)
+			return "No Animal Selected";
+		else
+			return super.getWarningMessage();
+	}
+
 	private void initLands()
 	{
 		ranchLands = new ArrayList<RanchLand>();
@@ -281,6 +296,7 @@ public class Ranch extends WorkableBuilding{
 		s.defaultReadObject();
 		if(ranchAnimalType != null)
 			ranchWindow.reload(ranchAnimalType);
+		setState(buildingState);
 	}
 	
 //	@Override
