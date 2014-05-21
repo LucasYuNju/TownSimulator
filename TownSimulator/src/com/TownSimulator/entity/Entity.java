@@ -322,6 +322,5 @@ public class Entity implements Drawable, QuadTreeManageble, Serializable{
 		mDrawQuadNodes = new ArrayList<QuadTreeNode>();
 		mCollisionQuadNodes = new ArrayList<QuadTreeNode>();
 //		System.err.println("Entity.mSprite: "+ mSprite.toString());
-		
 	}
 }
