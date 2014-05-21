@@ -26,7 +26,6 @@ public class SeeADoctorBTN extends SequenceNode{
 
 	private void initSubNodes() {		
 		ActionNode seeADoctorNode = new ActionNode() {
-
 			private static final long serialVersionUID = -6422737239494273816L;
 
 			@Override

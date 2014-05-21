@@ -7,6 +7,4 @@ public class ApartmentHouse extends LivingHouse{
 	public ApartmentHouse() {
 		super("building_apartment_house", BuildingType.APARTMENT);
 	}
-	
-
 }
