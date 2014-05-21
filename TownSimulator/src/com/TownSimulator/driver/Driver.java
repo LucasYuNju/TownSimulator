@@ -2,6 +2,7 @@ package com.TownSimulator.driver;
 
 import java.util.Random;
 
+import com.TownSimulator.achivement.AchievementManager;
 import com.TownSimulator.camera.CameraController;
 import com.TownSimulator.collision.CollisionDetector;
 import com.TownSimulator.entity.Entity;
@@ -10,6 +11,7 @@ import com.TownSimulator.entity.EntityInfoCollector;
 import com.TownSimulator.entity.Man;
 import com.TownSimulator.entity.ManInfo;
 import com.TownSimulator.entity.ManInfo.Gender;
+import com.TownSimulator.entity.ResourceInfoCollector;
 import com.TownSimulator.entity.ResourceType;
 import com.TownSimulator.entity.building.Bar;
 import com.TownSimulator.entity.building.Building;
@@ -35,15 +37,18 @@ import com.TownSimulator.utility.Settings;
 import com.TownSimulator.utility.Singleton;
 import com.TownSimulator.utility.SingletonPublisher;
 import com.TownSimulator.utility.TipsBillborad;
+import com.TownSimulator.utility.particle.ParticleControl;
 import com.TownSimulator.utility.particles.ParticleManager;
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 
 public class Driver extends SingletonPublisher<DriverListener> implements ApplicationListener{
-	private Driver() {
+	private Driver()
+	{
+		
 	}
-	
+		
 	public void init()
 	{
 		Random rand = new Random(System.currentTimeMillis());
@@ -67,6 +72,27 @@ public class Driver extends SingletonPublisher<DriverListener> implements Applic
 			EntityInfoCollector.getInstance(EntityInfoCollector.class).addMan(man);
 			Renderer.getInstance(Renderer.class).attachDrawScissor(man);
 		}
+		
+		ResourceInfoCollector.getInstance(ResourceInfoCollector.class).addCandy(Integer.MAX_VALUE);
+		
+//		InputMgr.getInstance(InputMgr.class).addListener(new InputMgrListenerBaseImpl()
+//		{
+//
+//			@Override
+//			public boolean touchDown(float screenX, float screenY, int pointer,
+//					int button) {
+//				UIManager.getInstance(UIManager.class).getGameUI().getAchievementUI().pushToShow(new FirstMPBuildingAM());
+//				return true;
+//			}
+//			
+//		});
+		
+//		MoneyProducingBuilding mpStore = (MoneyProducingBuilding) EntityFactory.createBuilding(BuildingType.MP_Store);
+//		mpStore.setState(Building.State.Constructed);
+//		mpStore.setPositionWorld(originPosX + 6 * Settings.UNIT, originPoxY - 8 * Settings.UNIT);
+//		EntityInfoCollector.getInstance(EntityInfoCollector.class).addBuilding(mpStore);
+//		CollisionDetector.getInstance(CollisionDetector.class).attachCollisionDetection(mpStore);
+//		Renderer.getInstance(Renderer.class).attachDrawScissor(mpStore);
 		
 		Warehouse wareHouse = (Warehouse) EntityFactory.createBuilding(BuildingType.WAREHOUSE);
 		wareHouse.addStoredResource(ResourceType.RS_WOOD, 2300);
@@ -153,6 +179,7 @@ public class Driver extends SingletonPublisher<DriverListener> implements Applic
 		
 		for (FarmLand land : ((FarmHouse)farmHouse).getFarmLands()) {
 			Renderer.getInstance(Renderer.class).attachDrawScissor(land);
+			CollisionDetector.getInstance(CollisionDetector.class).attachCollisionDetection(land);
 		}
 		
 		Ranch ranch = (Ranch)EntityFactory.createBuilding(BuildingType.RANCH);
@@ -176,6 +203,7 @@ public class Driver extends SingletonPublisher<DriverListener> implements Applic
 		CameraController.getInstance(CameraController.class);
 		Renderer.getInstance(Renderer.class);
 		CollisionDetector.getInstance(CollisionDetector.class);
+		AchievementManager.getInstance(AchievementManager.class);
 		Entity.initStatic();
 		TipsBillborad.init();
 		ParticleManager.init();
@@ -195,6 +223,7 @@ public class Driver extends SingletonPublisher<DriverListener> implements Applic
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		
 		Renderer.getInstance(Renderer.class).render();
+		ParticleControl.getInstance(ParticleControl.class).render();
 		UIManager.getInstance(UIManager.class).render();
 		
 		float deltaTime = Gdx.graphics.getDeltaTime();

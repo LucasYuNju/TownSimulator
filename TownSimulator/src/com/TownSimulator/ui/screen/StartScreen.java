@@ -6,7 +6,6 @@ import com.TownSimulator.render.Renderer;
 import com.TownSimulator.ui.UIManager;
 import com.TownSimulator.ui.base.FlipButton;
 import com.TownSimulator.ui.base.ScreenUIBase;
-import com.TownSimulator.utility.Settings;
 import com.TownSimulator.utility.Singleton;
 import com.TownSimulator.utility.ls.LoadSave;
 import com.badlogic.gdx.Gdx;
@@ -67,7 +66,7 @@ public class StartScreen extends ScreenUIBase {
 				if(isSucessful) {
 					World.getInstance(World.class).init();
 					Renderer.getInstance(Renderer.class).setRenderScene(true);
-					Settings.backgroundColor = Settings.gameGroundColor.cpy();
+					World.getInstance(World.class).setGroundColor();
 					Singleton.getInstance(UIManager.class).finishLoading();
 //					Singleton.getInstance(UIManager.class).listenToDriver();
 				}

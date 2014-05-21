@@ -5,8 +5,8 @@ import com.TownSimulator.ai.behaviortree.ExecuteResult;
 import com.TownSimulator.ai.behaviortree.SelectorNode;
 import com.TownSimulator.ai.behaviortree.SequenceNode;
 import com.TownSimulator.entity.Man;
+import com.TownSimulator.entity.SeasonType;
 import com.TownSimulator.entity.World;
-import com.TownSimulator.entity.World.SeasonType;
 import com.TownSimulator.entity.building.FarmHouse;
 import com.TownSimulator.entity.building.FarmLand;
 

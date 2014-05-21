@@ -28,7 +28,7 @@ public class BarViewWindow extends WorkableViewWindow {
 		labelStyle.fontColor = Color.WHITE;
 		Label label = new Label(getWineStorageText(), labelStyle);
 		label.setSize(LABEL_WIDTH, LABEL_HEIGHT);
-		label.setPosition(MARGIN, MARGIN + WorkerGroup.HEIGHT);
+		label.setPosition(MARGIN, MARGIN + WorkerGroup.HEIGHT + LABEL_HEIGHT);
 		label.setAlignment(Align.left);
 		addActor(label);
 		wineStorageLabel = label;

@@ -20,7 +20,7 @@ import com.TownSimulator.ui.building.view.UndockedWindow;
 
 public class LivingHouse extends Building {
 	private static final long serialVersionUID = 6577679479943487313L;
-	private static final float MAN_INCREASE_PROBABILITY = 0.01f;
+	private static final float MAN_INCREASE_PROBABILITY = 0.02f;
 	protected List<ManInfo> residents;
 	protected int capacity;
 	protected transient ScrollViewWindow scrollWindow;
@@ -30,7 +30,7 @@ public class LivingHouse extends Building {
 	public LivingHouse(String textureName, BuildingType type) {
 		super(textureName, type);
 		residents = new ArrayList<ManInfo>();
-		capacity = 8;
+		capacity = 5;
 		
 		driverListener = new DriverListenerBaseImpl()
 		{

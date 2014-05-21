@@ -37,7 +37,7 @@ public class RanchViewWindow extends WorkableViewWindow {
 		super(BuildingType.RANCH, numAllowedWorker);
 		buttonBackground = Singleton.getInstance(ResourceManager.class).createTextureRegion("background_button");
 		width = ProcessBar.PREFERED_WIDTH + LABEL_WIDTH + MARGIN * 2;
-		height = LABEL_HEIGHT * 2 + WorkerGroup.HEIGHT + MARGIN * 2;
+		height = getHeight() + LABEL_HEIGHT + MARGIN * 2;
 		setSize(width, height);
 		addDropDown();
 		addCloseButton();
@@ -65,7 +65,7 @@ public class RanchViewWindow extends WorkableViewWindow {
 		}
 		dropDown.setItems(strs);
 		dropDown.setSize(style.font.getBounds(strs[0]).width, LABEL_HEIGHT);
-		dropDown.setPosition(MARGIN, MARGIN + WorkerGroup.HEIGHT);
+		dropDown.setPosition(MARGIN, MARGIN + WorkerGroup.HEIGHT + LABEL_HEIGHT);
 		dropDown.addListener(new EventListener() {
 			@Override
 			public boolean handle(Event event) {

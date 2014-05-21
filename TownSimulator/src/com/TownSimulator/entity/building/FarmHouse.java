@@ -9,12 +9,13 @@ import com.TownSimulator.ai.behaviortree.BehaviorTreeNode;
 import com.TownSimulator.ai.btnimpls.farmer.FarmerBTN;
 import com.TownSimulator.collision.CollisionDetector;
 import com.TownSimulator.driver.Driver;
+import com.TownSimulator.driver.DriverListener;
 import com.TownSimulator.driver.DriverListenerBaseImpl;
 import com.TownSimulator.entity.JobType;
 import com.TownSimulator.entity.Man;
 import com.TownSimulator.entity.ManInfo;
+import com.TownSimulator.entity.SeasonType;
 import com.TownSimulator.entity.World;
-import com.TownSimulator.entity.World.SeasonType;
 import com.TownSimulator.render.Renderer;
 import com.TownSimulator.ui.UIManager;
 import com.TownSimulator.ui.building.view.FarmViewWindow;
@@ -41,6 +42,7 @@ public class FarmHouse extends WorkableBuilding implements SelectBoxListener
 	private AxisAlignedBoundingBox collisionAABBLocalWithLands;
 	private AxisAlignedBoundingBox collisionAABBWorldWithLands;
 	private transient FarmViewWindow farmWindow;
+	private DriverListener driverListener;
 	
 	public FarmHouse() {
 		super("building_farm_house", BuildingType.FARM_HOUSE, JobType.FARMER);
@@ -48,6 +50,47 @@ public class FarmHouse extends WorkableBuilding implements SelectBoxListener
 		
 		collisionAABBLocalWithLands = new AxisAlignedBoundingBox();
 		collisionAABBWorldWithLands = new AxisAlignedBoundingBox();
+		
+		driverListener = new DriverListenerBaseImpl()
+		{
+			private static final long serialVersionUID = -8286725623019997146L;
+
+			@Override
+			public void update(float deltaTime) {
+				//updateUI();
+				
+				if(bSowed)
+				{
+					if(World.getInstance(World.class).getCurSeason() != SeasonType.Winter && bReapStart == false)
+						cropGrow(deltaTime);
+					else
+					{
+						if(World.getInstance(World.class).getCurMonth() == 12 
+								|| World.getInstance(World.class).getCurMonth() == 1)
+							cropDie(deltaTime);
+					}
+					
+					for (FarmLand land : farmLands) {
+						land.updateView();
+					}
+					
+					updateProcess();
+				}
+			}
+		};
+	}
+	
+	@Override
+	public boolean isWorking() {
+		return super.isWorking() && (curCropType != null || sowCropType != null);
+	}
+
+	@Override
+	protected String getWarningMessage() {
+		if(curCropType == null && sowCropType == null)
+			return "No Crop Selected";
+		else
+			return super.getWarningMessage();
 	}
 
 	@Override
@@ -64,6 +107,8 @@ public class FarmHouse extends WorkableBuilding implements SelectBoxListener
 			Renderer.getInstance(Renderer.class).dettachDrawScissor(land);
 			CollisionDetector.getInstance(CollisionDetector.class).dettachCollisionDetection(land);
 		}
+		
+		Driver.getInstance(Driver.class).removeListener(driverListener);
 	}
 
 	@Override
@@ -146,33 +191,7 @@ public class FarmHouse extends WorkableBuilding implements SelectBoxListener
 		super.setState(state);
 		if(state == State.Constructed)
 		{
-			Driver.getInstance(Driver.class).addListener(new DriverListenerBaseImpl()
-			{
-				private static final long serialVersionUID = -8286725623019997146L;
-
-				@Override
-				public void update(float deltaTime) {
-					//updateUI();
-					
-					if(bSowed)
-					{
-						if(World.getInstance(World.class).getCurSeason() != SeasonType.Winter && bReapStart == false)
-							cropGrow(deltaTime);
-						else
-						{
-							if(World.getInstance(World.class).getCurMonth() == 12 
-									|| World.getInstance(World.class).getCurMonth() == 1)
-								cropDie(deltaTime);
-						}
-						
-						for (FarmLand land : farmLands) {
-							land.updateView();
-						}
-						
-						updateProcess();
-					}
-				}
-			});
+			Driver.getInstance(Driver.class).addListener(driverListener);
 		}
 	}
 

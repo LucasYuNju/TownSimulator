@@ -9,6 +9,7 @@ import com.TownSimulator.ai.behaviortree.BehaviorTreeNode;
 import com.TownSimulator.ai.btnimpls.grazier.GrazierBTN;
 import com.TownSimulator.collision.CollisionDetector;
 import com.TownSimulator.driver.Driver;
+import com.TownSimulator.driver.DriverListener;
 import com.TownSimulator.driver.DriverListenerBaseImpl;
 import com.TownSimulator.entity.EntityInfoCollector;
 import com.TownSimulator.entity.JobType;
@@ -34,7 +35,7 @@ public class Ranch extends WorkableBuilding{
 	private static final int 		MAX_JOB_CNT = 4;
 	private static final float 		PRODUCE_INTERVAL = 20.0f;
 	private static final int		PRODUCE_MEAT_AMOUNT = 50;
-	private static final int		PRODUCE_FUR_AMOUNT = 40;
+	private static final int		PRODUCE_FUR_AMOUNT = 80;
 	private float					produceAccum;
 	private AxisAlignedBoundingBox 	collisionAABBLocalWithLands;
 	private AxisAlignedBoundingBox 	collisionAABBWorldWithLands;
@@ -42,6 +43,7 @@ public class Ranch extends WorkableBuilding{
 	private List<RanchAnimal>		ranchAnimals;
 	private RanchAnimalType			ranchAnimalType;
 	private transient RanchViewWindow	ranchWindow;
+	private DriverListener	driverListener;
 	
 	public Ranch() {
 		super("building_ranch", BuildingType.RANCH, JobType.GRAZIER);
@@ -50,8 +52,40 @@ public class Ranch extends WorkableBuilding{
 		collisionAABBWorldWithLands = new AxisAlignedBoundingBox();
 		initLands();
 		initAnimals();
+		
+		driverListener = new DriverListenerBaseImpl()
+		{
+			private static final long serialVersionUID = 8806760497739177385L;
+
+			@Override
+			public void update(float deltaTime) {
+				if(ranchAnimalType == null)
+					return;
+				
+				for (RanchAnimal animal : ranchAnimals) {
+					animal.update(deltaTime);
+				}
+				produce(deltaTime);
+			}
+			
+		};
 	}
 	
+	
+	
+	@Override
+	public boolean isWorking() {
+		return super.isWorking() && ranchAnimalType != null;
+	}
+
+	@Override
+	protected String getWarningMessage() {
+		if(ranchAnimalType == null)
+			return "No Animal Selected";
+		else
+			return super.getWarningMessage();
+	}
+
 	private void initLands()
 	{
 		ranchLands = new ArrayList<RanchLand>();
@@ -152,22 +186,7 @@ public class Ranch extends WorkableBuilding{
 				Renderer.getInstance(Renderer.class).attachDrawScissor(animal);
 			}
 			
-			Driver.getInstance(Driver.class).addListener(new DriverListenerBaseImpl()
-			{
-				private static final long serialVersionUID = 8806760497739177385L;
-
-				@Override
-				public void update(float deltaTime) {
-					if(ranchAnimalType == null)
-						return;
-					
-					for (RanchAnimal animal : ranchAnimals) {
-						animal.update(deltaTime);
-					}
-					produce(deltaTime);
-				}
-				
-			});
+			Driver.getInstance(Driver.class).addListener(driverListener);
 		}
 	}
 	
@@ -180,6 +199,8 @@ public class Ranch extends WorkableBuilding{
 			Renderer.getInstance(Renderer.class).dettachDrawScissor(land);
 			CollisionDetector.getInstance(CollisionDetector.class).dettachCollisionDetection(land);
 		}
+		
+		Driver.getInstance(Driver.class).removeListener(driverListener);
 	}
 
 	@Override

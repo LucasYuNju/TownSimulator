@@ -56,7 +56,7 @@ public class ScrollViewWindow extends UndockedWindow {
 			for(int j=0; j<data.get(i).size(); j++) {
 				Label label = new Label(data.get(i).get(j), labelStyle);
 				label.setSize(LABEL_WIDTH, LABEL_HEIGHT);
-				label.setPosition(LABEL_WIDTH * j + MARGIN, getHeight() - LABEL_HEIGHT * i - LABEL_HEIGHT - MARGIN * 2.0f);
+				label.setPosition(LABEL_WIDTH * j + MARGIN, getHeight() - LABEL_HEIGHT * (i + 1) - HEADER_HEIGHT - MARGIN);
 				addActor(label);
 				labels.add(label);
 			}

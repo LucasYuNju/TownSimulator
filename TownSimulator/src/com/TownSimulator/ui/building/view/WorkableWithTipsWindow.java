@@ -34,7 +34,7 @@ public class WorkableWithTipsWindow extends WorkableViewWindow {
 		headerLabel.setPosition(MARGIN, getHeight() - LABEL_HEIGHT);
 	}
 	
-	public void setTips(String tips)
+	public void setWarningMsg(String tips)
 	{
 		float width = tipsLabel.getStyle().font.getBounds(tips).width + dynamiteButton.getWidth() + MARGIN * 2;
 		setSize(Math.max(getWidth(), width), getHeight());

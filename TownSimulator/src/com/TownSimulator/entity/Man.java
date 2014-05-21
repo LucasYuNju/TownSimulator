@@ -10,7 +10,6 @@ import com.TownSimulator.ai.btnimpls.idle.IdleBTN;
 import com.TownSimulator.driver.Driver;
 import com.TownSimulator.driver.DriverListener;
 import com.TownSimulator.driver.DriverListenerBaseImpl;
-import com.TownSimulator.entity.World.SeasonType;
 import com.TownSimulator.entity.building.BuildingType;
 import com.TownSimulator.entity.building.School;
 import com.TownSimulator.render.Renderer;
