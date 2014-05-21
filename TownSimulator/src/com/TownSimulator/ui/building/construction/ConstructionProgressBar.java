@@ -24,7 +24,7 @@ public class ConstructionProgressBar implements Drawable{
 	private Building building;
 	private float progress;
 	
-	static
+	public static void initStatic()
 	{
 		Renderer.getInstance(Renderer.class).addListener(new RendererListener() {
 			private static final long serialVersionUID = -4740891270521752279L;

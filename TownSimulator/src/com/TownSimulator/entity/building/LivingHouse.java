@@ -91,6 +91,7 @@ public class LivingHouse extends Building {
 		if(state == Building.State.Constructed)
 		{
 			Driver.getInstance(Driver.class).addListener(driverListener);
+			updateViewWindow();
 		}
 	}
 

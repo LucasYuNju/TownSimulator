@@ -16,6 +16,7 @@ import com.badlogic.gdx.scenes.scene2d.InputListener;
 public class BuildComsButton extends IconLabelButton{
 	private BuildingType buildingType;
 	private TextureRegion candyIcon;
+	private TextureRegion woodIcon;
 	//private ArrayList<String> pricesTexts;
 	
 	public BuildComsButton(String textureName, String labelText, BuildingType buildingType) {
@@ -50,7 +51,8 @@ public class BuildComsButton extends IconLabelButton{
 		
 		if(buildingType.isMoneyProducing())
 			candyIcon = ResourceManager.getInstance(ResourceManager.class).createTextureRegion("candy");
-		
+		else
+			woodIcon = ResourceManager.getInstance(ResourceManager.class).createTextureRegion("resource_wood");
 		//initPriceLabel();
 	}
 	
@@ -90,7 +92,7 @@ public class BuildComsButton extends IconLabelButton{
 	public void draw(Batch batch, float parentAlpha) {
 		super.draw(batch, parentAlpha);
 		
-		Color preColor = font.getColor();
+		Color preColor = batch.getColor();
 		
 		if(buildingType.isMoneyProducing())
 		{
@@ -104,7 +106,7 @@ public class BuildComsButton extends IconLabelButton{
 			float x = getWidth() * 0.5f - (font.getBounds(str).width + BuildComsUI.BUTTON_TOP_MARGIN)  * 0.5f;
 			Color c = getColor();
 			batch.setColor(c.r, c.g, c.b, c.a * parentAlpha);
-			batch.draw(candyIcon, getX() + x, getY() - font.getCapHeight(), BuildComsUI.BUTTON_TOP_MARGIN, BuildComsUI.BUTTON_TOP_MARGIN);
+			batch.draw(candyIcon, getX() + x, getY() - BuildComsUI.BUTTON_TOP_MARGIN, BuildComsUI.BUTTON_TOP_MARGIN, BuildComsUI.BUTTON_TOP_MARGIN);
 			x += BuildComsUI.BUTTON_TOP_MARGIN;
 			font.draw(batch, str, getX() + x, getY());
 		}
@@ -117,13 +119,18 @@ public class BuildComsButton extends IconLabelButton{
 					font.setColor(Color.GREEN);
 				else
 					font.setColor(Color.RED);
-				String str = rs.getType().toString() + " " + rs.getAmount();
-				float x = getWidth() * 0.5f - font.getBounds(str).width * 0.5f;
+				String str = "" + rs.getAmount();
+				float x = getWidth() * 0.5f - (font.getBounds(str).width + BuildComsUI.BUTTON_TOP_MARGIN)  * 0.5f;
+				Color c = getColor();
+				batch.setColor(c.r, c.g, c.b, c.a * parentAlpha);
+				batch.draw(woodIcon, getX() + x, getY() + y - BuildComsUI.BUTTON_TOP_MARGIN, BuildComsUI.BUTTON_TOP_MARGIN, BuildComsUI.BUTTON_TOP_MARGIN);
+				x += BuildComsUI.BUTTON_TOP_MARGIN;
 				font.draw(batch, str, getX() + x, getY() + y);
+				
 				y += BuildComsUI.BUTTON_TOP_MARGIN;
 			}
 		}
-		font.setColor(preColor);
+		batch.setColor(preColor);
 	}
 	
 	

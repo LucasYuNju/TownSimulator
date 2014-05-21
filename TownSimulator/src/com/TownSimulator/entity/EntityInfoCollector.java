@@ -10,15 +10,17 @@ import java.util.Map;
 
 import com.TownSimulator.ai.btnimpls.construct.ConstructionProject;
 import com.TownSimulator.collision.CollisionDetector;
+import com.TownSimulator.entity.EntityInfoCollector.EntityInfoCollectorListener;
 import com.TownSimulator.entity.building.Building;
 import com.TownSimulator.entity.building.BuildingType;
 import com.TownSimulator.entity.building.School;
 import com.TownSimulator.entity.building.Warehouse;
 import com.TownSimulator.render.Renderer;
 import com.TownSimulator.utility.Singleton;
+import com.TownSimulator.utility.SingletonPublisher;
 import com.badlogic.gdx.Gdx;
 
-public class EntityInfoCollector extends Singleton 
+public class EntityInfoCollector extends SingletonPublisher<EntityInfoCollectorListener> 
 	implements Serializable
 {
 	private static final long serialVersionUID = -3062222237607985005L;
@@ -26,6 +28,11 @@ public class EntityInfoCollector extends Singleton
 	private List<Building>						buildingsList;
 	private List<ConstructionProject> 			constructProjsList;
 	private Map<BuildingType, List<Building>> 	buildingsMap;
+	
+	public interface EntityInfoCollectorListener
+	{
+		public void newBuildingAdded(Building building);
+	}
 	
 	private EntityInfoCollector()
 	{
@@ -85,6 +92,10 @@ public class EntityInfoCollector extends Singleton
 		
 		buildingsMap.get(type).add(building);
 		buildingsList.add(building);
+		
+		for (EntityInfoCollectorListener l : mListeners) {
+			l.newBuildingAdded(building);
+		}
 	}
 	
 	public void removeBuilding(Building building)
@@ -189,15 +200,16 @@ public class EntityInfoCollector extends Singleton
 		return result;
 	}
 	
-	public class BuildingFindResult{
-		public BuildingType buildingType;
-		public Building building;
-	}
+//	public class BuildingFindResult{
+//		public BuildingType buildingType;
+//		public Building building;
+//	}
 	
-	public BuildingFindResult findNearestBuilding(BuildingType buildingType,float x, float y)
+	public Building findNearestBuilding(BuildingType buildingType,float x, float y)
 	{
 		double dstMin = -1.0f;
-		BuildingFindResult buildingFindResult=new BuildingFindResult();
+//		BuildingFindResult buildingFindResult=new BuildingFindResult();
+		Building result = null;
 		for (Building building : buildingsList) {
 			if(building.getType() == buildingType)
 			{
@@ -207,14 +219,15 @@ public class EntityInfoCollector extends Singleton
 				if(dstMin == -1.0f || dst < dstMin)
 				{
 					dstMin = dst;
-					buildingFindResult.building=building;
+					result = building;
 				}
 			}
 		}
-		buildingFindResult.buildingType=buildingType;
 		
-		return buildingFindResult;
+		return result;
 	}
+	
+
 	
 	//只找到还能放学生的最近学校
 	public School findNearestSchool(float x, float y)

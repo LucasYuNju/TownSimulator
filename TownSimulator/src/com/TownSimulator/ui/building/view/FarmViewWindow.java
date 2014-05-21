@@ -62,7 +62,7 @@ public class FarmViewWindow extends WorkableViewWindow {
 		addActor(label);
 		
 		processBar = new ProcessBar();
-		processBar.setPosition(MARGIN + LABEL_WIDTH, MARGIN + WorkerGroup.HEIGHT + LABEL_HEIGHT * 3);
+		processBar.setPosition(MARGIN + LABEL_WIDTH, MARGIN * 5 + WorkerGroup.HEIGHT + LABEL_HEIGHT * 3);
 		addActor(processBar);
 	}
 	

@@ -17,6 +17,7 @@ import com.TownSimulator.entity.building.Bar;
 import com.TownSimulator.entity.building.Building;
 import com.TownSimulator.entity.building.BuildingType;
 import com.TownSimulator.entity.building.CoatFactory;
+import com.TownSimulator.entity.building.ConstructionProgressBar;
 //github.com/LuciusYu/TownSimulator.git
 import com.TownSimulator.entity.building.FarmHouse;
 import com.TownSimulator.entity.building.FarmLand;
@@ -52,7 +53,7 @@ public class Driver extends SingletonPublisher<DriverListener> implements Applic
 	public void init()
 	{
 		Random rand = new Random(System.currentTimeMillis());
-		int initPepleCnt = 15;
+		int initPepleCnt = 14;
 		float originPosX = CameraController.getInstance(CameraController.class).getX();
 		float originPoxY = CameraController.getInstance(CameraController.class).getY();
 		int minAge = ManInfo.AGE_ADULT;
@@ -112,9 +113,16 @@ public class Driver extends SingletonPublisher<DriverListener> implements Applic
 		CollisionDetector.getInstance(CollisionDetector.class).attachCollisionDetection(lowCostHouse);
 		Renderer.getInstance(Renderer.class).attachDrawScissor(lowCostHouse);
 		
+		lowCostHouse = EntityFactory.createBuilding(BuildingType.LOW_COST_HOUSE);
+		lowCostHouse.setState(Building.State.Constructed);
+		lowCostHouse.setPositionWorld(originPosX + 5 * Settings.UNIT, originPoxY);
+		EntityInfoCollector.getInstance(EntityInfoCollector.class).addBuilding(lowCostHouse);
+		CollisionDetector.getInstance(CollisionDetector.class).attachCollisionDetection(lowCostHouse);
+		Renderer.getInstance(Renderer.class).attachDrawScissor(lowCostHouse);
+		
 		Building apartmentHouse = EntityFactory.createBuilding(BuildingType.APARTMENT);
 		apartmentHouse.setState(Building.State.Constructed);
-		apartmentHouse.setPositionWorld(originPosX + 5 * Settings.UNIT, originPoxY);
+		apartmentHouse.setPositionWorld(originPosX + 8 * Settings.UNIT, originPoxY);
 		EntityInfoCollector.getInstance(EntityInfoCollector.class).addBuilding(apartmentHouse);
 		CollisionDetector.getInstance(CollisionDetector.class).attachCollisionDetection(apartmentHouse);
 		Renderer.getInstance(Renderer.class).attachDrawScissor(apartmentHouse);
@@ -205,6 +213,7 @@ public class Driver extends SingletonPublisher<DriverListener> implements Applic
 		CollisionDetector.getInstance(CollisionDetector.class);
 		AchievementManager.getInstance(AchievementManager.class);
 		Entity.initStatic();
+		
 		TipsBillborad.init();
 		ParticleManager.init();
 	}

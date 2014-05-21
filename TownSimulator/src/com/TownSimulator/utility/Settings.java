@@ -192,7 +192,7 @@ public class Settings {
 		data.costInit = data.cost = 500000;
 		data.costIncreInit = data.costIncre = 40000;
 		data.costIncre2 = 10000;
-		data.textureName = "building_mp_shipment";
+		data.textureName = "building_mp_rocket";
 		data.maxJobCnt = 2;
 		mpBuildingDataMap.put(BuildingType.MP_Rocket, data);
 		
