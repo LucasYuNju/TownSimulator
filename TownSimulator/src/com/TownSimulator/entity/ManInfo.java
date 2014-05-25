@@ -43,7 +43,7 @@ public class ManInfo implements Serializable{
 	public float				hungerPoints = HUNGER_POINTS_MAX;
 	
 	public static final int 	AGE_MAX = 50;
-	public static final int 	AGE_ADULT = 15;
+	public static final int 	AGE_ADULT = 10;
 	public static final int 	AGE_MIN_STUDENT = AGE_ADULT - 10;
 	private int 				age;
 

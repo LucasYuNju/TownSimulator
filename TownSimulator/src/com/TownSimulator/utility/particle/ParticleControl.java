@@ -17,8 +17,11 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Array;
 
 public class ParticleControl extends Singleton{
-	public final static float weatherParticleIntervel=5.0f;
-	private float everyEmitterIntervel=weatherParticleIntervel/15.0f;
+	public final static float WeatherParticleTimeIntervel=5.0f;
+	private float EveryEmitterTimeIntervel=WeatherParticleTimeIntervel/15.0f;
+	private float ParticleHeight=Settings.UNIT*0.5f;
+	private float ParticleLocationIntervel;
+	
 	private SpriteBatch batch;
 	private ParticleEffect tempEffect;
 	private float acountTime;
@@ -27,6 +30,8 @@ public class ParticleControl extends Singleton{
 	
 	private float renderStartX=0.0f;
 	private float renderStartY=0.0f;
+	
+	private ParticleProvider waterParticle;
 	
 	private ParticleProvider snowParticle;
 	private ParticleProvider rainParticle;
@@ -37,6 +42,9 @@ public class ParticleControl extends Singleton{
 		acountTime = 0.0f;
 		acountIndex=0.0f;
 		isRenderWeather = false;
+		ParticleLocationIntervel=CameraController.getInstance(CameraController.class).getViewPortWidth()/15.0f;
+		
+		waterParticle=new ParticleProvider(ParticleType.Water);
 
 		snowParticle = new ParticleProvider(ParticleType.Snow);
 		rainParticle=new ParticleProvider(ParticleType.Rain);
@@ -49,19 +57,15 @@ public class ParticleControl extends Singleton{
 					public void update(float deltaTime) {
 						// TODO Auto-generated method stub
 						acountTime += deltaTime;
-						if (acountTime >= everyEmitterIntervel) {
-							acountTime -= everyEmitterIntervel;
+						if (acountTime >= EveryEmitterTimeIntervel) {
+							acountTime -= EveryEmitterTimeIntervel;
 							if (isRenderWeather) {
 //								isaddWeatherParticle = true;
 								renderStartX=CameraController.getInstance(CameraController.class).getCameraViewAABB().minX;
 								renderStartY=CameraController.getInstance(CameraController.class).getCameraViewAABB().maxY;
-								acountIndex=(float)Math.random()*18.0f;
+								acountIndex=(float)Math.random()*20.0f-2.0f;
 								addWeatherParticleToList(World.getInstance(World.class).getCurSeason(),acountIndex);
 							}
-//							acountIndex++;
-//							if(acountIndex>=15.0){
-//								acountIndex=0.0f;
-//							}
 						}
 
 					}
@@ -80,13 +84,13 @@ public class ParticleControl extends Singleton{
 			public void cameraZoomed(float prevWidth, float prevHeight, float curWidth,
 					float curHeight) {
 				// TODO Auto-generated method stub
-				
+				zoomed(curWidth/prevWidth, curHeight/prevHeight);
 			}
 			
 			@Override
 			public void cameraMoved(float deltaX, float deltaY) {
 				// TODO Auto-generated method stub
-				
+				moved(deltaX, deltaY);
 			}
 		});
 	}
@@ -95,21 +99,39 @@ public class ParticleControl extends Singleton{
 		this.isRenderWeather=true;
 	}
 	
+	public void moved(float deltaX, float deltaY){
+		for(int i=0;i<weatherParticlelist.size();i++){
+			float x=weatherParticlelist.get(i).getEmitters().get(0).getX();
+			float y=weatherParticlelist.get(i).getEmitters().get(0).getY();
+			weatherParticlelist.get(i).setPosition(x+deltaX, y+deltaY);
+		}
+	}
+	
+	public void zoomed(float widthScale,float heightScale){
+		this.ParticleHeight*=heightScale;
+		this.ParticleLocationIntervel*=heightScale;
+	}
+
 	public void reset(){
-		this.acountTime=weatherParticleIntervel;
+		this.acountTime=WeatherParticleTimeIntervel;
 		clearWeatherList();
 	}
     
 	public void clearWeatherList(){
 		for(int i=0;i<weatherParticlelist.size();i++){
+			weatherParticlelist.get(i).allowCompletion();
 			weatherParticlelist.get(i).dispose();
 		}
 	}
 	
 	public void render() {
+		if(!isRenderWeather){
+			return;
+		}
 //		Matrix4 matrix4=new Matrix4();
 //		matrix4.scale(0.5f, 0.5f, 1);
 //		batch.setTransformMatrix(matrix4);
+		batch.setProjectionMatrix(CameraController.getInstance(CameraController.class).getCameraCombined());
 		batch.begin();
 		for (int i = 0; i < weatherParticlelist.size(); i++) {
 			weatherParticlelist.get(i).draw(batch, Gdx.graphics.getDeltaTime());
@@ -123,32 +145,37 @@ public class ParticleControl extends Singleton{
 		Array<ParticleEmitter> particleEffectters;
 		switch (seasonType) {
 		case Winter:
-			tempLocation = (index + (float) Math.random())* Settings.UNIT;
+			tempLocation = (index + (float) Math.random())* ParticleLocationIntervel;
 			tempEffect = snowParticle.getParticleEffect();
-			tempEffect.setPosition(tempLocation, Gdx.graphics.getHeight());
+			tempEffect.setPosition(renderStartX+tempLocation, renderStartY);
 			particleEffectters=tempEffect.getEmitters();
 			for(int i=0;i<particleEffectters.size;i++){
-				particleEffectters.get(i).getScale().setHigh(Settings.UNIT*0.5f);
+				particleEffectters.get(i).getScale().setHigh(ParticleHeight);
 			}
-			System.out.println("aaaa:"+particleEffectters.size);
 			weatherParticlelist.add(tempEffect);
 			break;
 		case Summer:
-			tempLocation = (index + (float) Math.random())* Settings.UNIT;
+			tempLocation = (index + (float) Math.random())* ParticleLocationIntervel;
 			tempEffect = rainParticle.getParticleEffect();
-			tempEffect.setPosition(tempLocation, Gdx.graphics.getHeight());
+			tempEffect.setPosition(renderStartX+tempLocation, renderStartY);
 			particleEffectters=tempEffect.getEmitters();
 			for(int i=0;i<particleEffectters.size;i++){
-				particleEffectters.get(i).getScale().setHigh(Settings.UNIT*0.5f);
+				particleEffectters.get(i).getScale().setHigh(ParticleHeight);
 			}
-			System.out.println("aaaa:"+particleEffectters.size);
-//			tempEffect.setPosition(renderStartX+tempLocation, renderStartY);
 			weatherParticlelist.add(tempEffect);
+//			tempEffect=waterParticle.getParticleEffect();
+//			float x=CameraController.getInstance(CameraController.class).getViewPortWidth();
+//			float y=CameraController.getInstance(CameraController.class).getViewPortHeight();
+//			tempEffect.setPosition(renderStartX+(float)Math.random()*x, renderStartY-(float)Math.random()*y);
+//			particleEffectters=tempEffect.getEmitters();
+//			for(int i=0;i<particleEffectters.size;i++){
+//				particleEffectters.get(i).getScale().setHigh(ParticleHeight*0.6f);
+//			}
+//			weatherParticlelist.add(tempEffect);
 			break;
 		default:
 			break;
 		}
-		// this.isaddWeatherParticle=false;
 	}
 	
 	/**
@@ -159,6 +186,12 @@ public class ParticleControl extends Singleton{
 		for (int i = 0; i < weatherParticlelist.size(); i++) {
 			temparticle = weatherParticlelist.get(i);
 			if (temparticle.isComplete()) {
+//				float x=temparticle.getBoundingBox().min.x;
+//				float y=temparticle.getBoundingBox().min.y;
+//				ParticleEffect waterParti = waterParticle.getParticleEffect();
+//				waterParti.setPosition(x, y);
+//				System.out.println("x:"+x+"y:"+y);
+//				weatherParticlelist.add(waterParti);
 				if(temparticle!=null){
 					temparticle.dispose();
 				}
@@ -170,7 +203,9 @@ public class ParticleControl extends Singleton{
     public void dispose(){
 		batch.dispose();
 		
+		waterParticle.dispose();
 		snowParticle.dispose();
+		rainParticle.dispose();
 		
 		clearIsComplete();
 		

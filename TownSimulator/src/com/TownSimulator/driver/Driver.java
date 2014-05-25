@@ -1,5 +1,6 @@
 package com.TownSimulator.driver;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 import com.TownSimulator.achivement.AchievementManager;
@@ -42,8 +43,12 @@ import com.TownSimulator.utility.particles.ParticleManager;
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.g2d.ParticleEffect;
+import com.badlogic.gdx.graphics.g2d.ParticleEffectPool;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class Driver extends SingletonPublisher<DriverListener> implements ApplicationListener{
+	
 	private Driver()
 	{
 		
