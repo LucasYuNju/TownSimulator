@@ -50,13 +50,13 @@ public class DrinkBTN extends SequenceNode{
 						man.setMoveDestination(destX, destY);
 						if(!man.move(deltaTime))
 						{
-							man.getInfo().animeType = ManAnimeType.STANDING;
+							man.getInfo().animeType = ManAnimeType.Standing;
 							if(bar.getWine()) {
 								man.getInfo().drinkWine();					
 							}
 						}
 						else {
-							man.getInfo().animeType = ManAnimeType.MOVE;
+							man.getInfo().animeType = ManAnimeType.Move;
 						}
 						return ExecuteResult.TRUE;
 					}

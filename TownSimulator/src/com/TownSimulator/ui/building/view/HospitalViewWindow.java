@@ -26,7 +26,7 @@ public class HospitalViewWindow extends WorkableViewWindow {
 		int numLabelPerRow = 2;
 		if(!data.isEmpty())
 			numLabelPerRow = data.get(0).size();
-		setSize(Math.max(LABEL_WIDTH * numLabelPerRow + MARGIN * 2, getWidth()), LABEL_HEIGHT * numLabel + LABEL_HEIGHT + WorkerGroup.HEIGHT + MARGIN * 2);
+		setSize(Math.max(LABEL_WIDTH * numLabelPerRow + MARGIN * 2 + dynamiteButton.getWidth(), getWidth()), LABEL_HEIGHT * numLabel + LABEL_HEIGHT + WorkerGroup.HEIGHT + MARGIN * 2);
 		getParent().setSize(getWidth(), getHeight());
 		addLabels();
 		addCloseButton();

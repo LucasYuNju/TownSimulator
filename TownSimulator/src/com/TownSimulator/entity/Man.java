@@ -137,21 +137,21 @@ public class Man extends Entity{
 		
 		Animation standAnime = new Animation();
 		standAnime.addFrame("pixar_man_1", 0.0f);
-		mAnimesMap.put(ManAnimeType.STANDING, standAnime);
+		mAnimesMap.put(ManAnimeType.Standing, standAnime);
 		
 		Animation moveAnime = new Animation();
 		moveAnime.addFrame("pixar_man_1", 1.0f);
 		moveAnime.addFrame("pixar_man_2", 1.0f);
-		mAnimesMap.put(ManAnimeType.MOVE, moveAnime);
+		mAnimesMap.put(ManAnimeType.Move, moveAnime);
 		
 		Animation dieAnime = new Animation();
 		dieAnime.addFrame("man_dead", 0.0f);
-		mAnimesMap.put(ManAnimeType.DIE, dieAnime);
+		mAnimesMap.put(ManAnimeType.Die, dieAnime);
 		
 		Animation workAnime = new Animation();
 		workAnime.addFrame("pixar_man_1", 0.1f);
 		workAnime.addFrame("pixar_man_2", 1.0f);
-		mAnimesMap.put(ManAnimeType.WORK, workAnime);
+		mAnimesMap.put(ManAnimeType.Working, workAnime);
 		
 		Iterator<ManAnimeType> itr = mAnimesMap.keySet().iterator();
 		while(itr.hasNext())
@@ -214,12 +214,12 @@ public class Man extends Entity{
 	private void updateHappinessPoints(float deltaTime) {
 		if(mInfo.home == null)
 			mInfo.hpHomeless(deltaTime);
-		else if(mInfo.home.getType() == BuildingType.LOW_COST_HOUSE)
+		else if(mInfo.home.getType() == BuildingType.LowCostHouse)
 			mInfo.hpResideInLowCostHouse(deltaTime);
-		else if(mInfo.home.getType() == BuildingType.APARTMENT)
+		else if(mInfo.home.getType() == BuildingType.Apartment)
 			mInfo.hpResideInApartment(deltaTime);
 		
-		if(mInfo.job == JobType.NOJOB)
+		if(mInfo.job == JobType.NoJob)
 			mInfo.hpWorkless(deltaTime);
 	}
 	
@@ -266,7 +266,7 @@ public class Man extends Entity{
 		EntityInfoCollector.getInstance(EntityInfoCollector.class).removeMan(this);
 		
 		setBehavior(null);
-		mInfo.animeType = ManAnimeType.DIE;
+		mInfo.animeType = ManAnimeType.Die;
 		mInfo.isDead = true;
 		
 		if(message != null)

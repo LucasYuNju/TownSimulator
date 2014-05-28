@@ -50,7 +50,7 @@ public class SowExecuteBTN extends ActionNode{
 		float destX = middleFarmLand.getAABBWorld(QuadTreeType.COLLISION).getCenterX();
 		float destY = middleFarmLand.getAABBWorld(QuadTreeType.COLLISION).getCenterY();
 		man.setMoveDestination(destX, destY);
-		man.getInfo().animeType = ManAnimeType.MOVE;
+		man.getInfo().animeType = ManAnimeType.Move;
 		man.getInfo().manStates.add( ManStateType.Working );
 		
 		if( !man.move(deltaTime) )

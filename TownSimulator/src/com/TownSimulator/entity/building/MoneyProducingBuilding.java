@@ -11,6 +11,9 @@ import com.TownSimulator.driver.DriverListenerBaseImpl;
 import com.TownSimulator.entity.JobType;
 import com.TownSimulator.entity.Man;
 import com.TownSimulator.entity.ResourceInfoCollector;
+import com.TownSimulator.ui.UIManager;
+import com.TownSimulator.ui.building.view.MPBuildingViewWindow;
+import com.TownSimulator.ui.building.view.WorkableViewWindow;
 import com.TownSimulator.utility.Settings;
 import com.TownSimulator.utility.TipsBillborad;
 import com.badlogic.gdx.graphics.Color;
@@ -34,6 +37,13 @@ public class MoneyProducingBuilding extends WorkableBuilding{
 		};
 	}
 	
+	@Override
+	protected WorkableViewWindow createWorkableWindow() {
+		MPBuildingViewWindow window = UIManager.getInstance(UIManager.class).getGameUI().createMPBuildingViewWindow(buildingType, getMaxJobCnt());
+		window.setDesc(Settings.mpBuildingDataMap.get(buildingType).desc, Color.WHITE);
+		return window;
+	}
+
 	private void produce(float deltaTime)
 	{
 		produceTimeAccum += deltaTime;

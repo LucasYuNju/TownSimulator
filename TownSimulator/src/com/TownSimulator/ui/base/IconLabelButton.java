@@ -1,5 +1,6 @@
 package com.TownSimulator.ui.base;
 
+import com.TownSimulator.ui.building.selector.BuildComsUI;
 import com.TownSimulator.utility.ResourceManager;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
@@ -14,14 +15,16 @@ public class IconLabelButton extends IconButton{
 	protected	Array<Label>	labels;
 	protected	TextureRegion	mLabelBackgroud;
 	protected	int				mFontSize = 0;
+	protected	float			labelHeight;
 	protected	String			labelText;
 	protected	BitmapFont		font;
 	public static final float LABEL_BUTTON_MARGIN = 1.0f;
 	
-	public IconLabelButton(String textureName, String labelText, int fontSize) {
+	public IconLabelButton(String textureName, String labelText, float labelHeight) {
 		super(textureName);
-		mFontSize = fontSize;
+		this.labelHeight = labelHeight;
 		this.labelText = labelText;
+		mFontSize = (int)labelHeight;
 		labels = new Array<Label>();
 		font = ResourceManager.getInstance(ResourceManager.class).getFont(mFontSize);
 		mLabelBackgroud = ResourceManager.getInstance(ResourceManager.class).createTextureRegion("background");
@@ -71,6 +74,7 @@ public class IconLabelButton extends IconButton{
 			if(widthCur + widthNext > width)
 			{
 				Label label = new LabelWithBackgroud(strBuilder.toString(), labelStyle);
+				label.setSize(BuildComsUI.BUTTON_WIDTH, labelHeight);
 				label.setAlignment(Align.center);
 				addActor(label);
 				labels.add(label);
@@ -90,6 +94,7 @@ public class IconLabelButton extends IconButton{
 		if(strBuilder.length() > 0)
 		{
 			Label label = new LabelWithBackgroud(strBuilder.toString(), labelStyle);
+			label.setSize(BuildComsUI.BUTTON_WIDTH, labelHeight);
 			label.setAlignment(Align.center);
 			addActor(label);
 			labels.add(label);
@@ -102,7 +107,7 @@ public class IconLabelButton extends IconButton{
 	{
 		for (int i = 0; i < labels.size; i++) {
 			Label label = labels.get(i);
-			label.setPosition( (getWidth() - label.getWidth()) * 0.5f, getHeight() + LABEL_BUTTON_MARGIN + label.getHeight() * (labels.size - i - 1));
+			label.setPosition( (getWidth() - label.getWidth()) * 0.5f, getHeight() + LABEL_BUTTON_MARGIN + labelHeight * (labels.size - i - 1));
 		}
 	}
 

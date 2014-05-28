@@ -6,6 +6,7 @@ import com.TownSimulator.render.Renderer;
 import com.TownSimulator.ui.UIManager;
 import com.TownSimulator.ui.base.FlipButton;
 import com.TownSimulator.ui.base.ScreenUIBase;
+import com.TownSimulator.utility.ResourceManager;
 import com.TownSimulator.utility.Singleton;
 import com.TownSimulator.utility.ls.LoadSave;
 import com.badlogic.gdx.Gdx;
@@ -31,7 +32,7 @@ public class StartScreen extends ScreenUIBase {
 	
 	private void initComponents()
 	{
-		mStartButton = new FlipButton("button_up", "button_down", "Start");
+		mStartButton = new FlipButton("button_up", "button_down", ResourceManager.stringMap.get("startUI_start"));
 		mStartButton.setSize(mButtonWidth, mButtonHeight );
 		mStartButton.addListener(new InputListener()
 		{
@@ -49,7 +50,7 @@ public class StartScreen extends ScreenUIBase {
 		});
 		mButtonList.add(mStartButton);
 		
-		mLoadButton = new FlipButton("button_up", "button_down", "Load");
+		mLoadButton = new FlipButton("button_up", "button_down", ResourceManager.stringMap.get("startUI_load"));
 		mLoadButton.setSize(mButtonWidth, mButtonHeight );	
 		mButtonList.add(mLoadButton);
 		mLoadButton.addListener(new InputListener() {
@@ -73,7 +74,7 @@ public class StartScreen extends ScreenUIBase {
 			}
 		});
 		
-		mQuitButton = new FlipButton("button_up", "button_down", "Quit");
+		mQuitButton = new FlipButton("button_up", "button_down", ResourceManager.stringMap.get("startUI_quit"));
 		mQuitButton.setSize(mButtonWidth, mButtonHeight );
 		mQuitButton.addListener(new InputListener()
 		{

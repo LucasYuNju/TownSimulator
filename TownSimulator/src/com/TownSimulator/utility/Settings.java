@@ -49,64 +49,69 @@ public class Settings {
 		BuildingRSMapData data;
 		
 		data = new BuildingRSMapData();
-		data.needResource.add(new Resource(ResourceType.RS_WOOD, 2000));
+		data.needResource.add(new Resource(ResourceType.Wood, 2000));
 		data.needWork = 20;
-		normalBuildingRSMap.put(BuildingType.APARTMENT, data);
+		normalBuildingRSMap.put(BuildingType.Apartment, data);
 		
 		data = new BuildingRSMapData();
-		data.needResource.add(new Resource(ResourceType.RS_WOOD, 2000));
+		data.needResource.add(new Resource(ResourceType.Wood, 2000));
 		data.needWork = 20;
-		normalBuildingRSMap.put(BuildingType.LOW_COST_HOUSE, data);
+		normalBuildingRSMap.put(BuildingType.LowCostHouse, data);
 		
 		data = new BuildingRSMapData();
-		data.needResource.add(new Resource(ResourceType.RS_WOOD, 4000));
+		data.needResource.add(new Resource(ResourceType.Wood, 4000));
 		data.needWork = 40;
-		normalBuildingRSMap.put(BuildingType.WAREHOUSE, data);
+		normalBuildingRSMap.put(BuildingType.Warehouse, data);
 		
 		data = new BuildingRSMapData();
-		data.needResource.add(new Resource(ResourceType.RS_WOOD, 2500));
+		data.needResource.add(new Resource(ResourceType.Wood, 2500));
 		data.needWork = 25;
-		normalBuildingRSMap.put(BuildingType.FARM_HOUSE, data);
+		normalBuildingRSMap.put(BuildingType.FarmHouse, data);
 		
 		data = new BuildingRSMapData();
-		data.needResource.add(new Resource(ResourceType.RS_WOOD, 2500));
+		data.needResource.add(new Resource(ResourceType.Wood, 2500));
 		data.needWork = 25;
-		normalBuildingRSMap.put(BuildingType.FELLING_HOUSE, data);
+		normalBuildingRSMap.put(BuildingType.FellingHouse, data);
 		
 		data = new BuildingRSMapData();
-		data.needResource.add(new Resource(ResourceType.RS_WOOD, 5000));
+		data.needResource.add(new Resource(ResourceType.Wood, 5000));
 		data.needWork = 50;
-		normalBuildingRSMap.put(BuildingType.POWER_STATION, data);
+		normalBuildingRSMap.put(BuildingType.PowerStation, data);
 		
 		data = new BuildingRSMapData();
-		data.needResource.add(new Resource(ResourceType.RS_WOOD, 4000));
+		data.needResource.add(new Resource(ResourceType.Wood, 4000));
 		data.needWork = 40;
-		normalBuildingRSMap.put(BuildingType.COAT_FACTORY, data);
+		normalBuildingRSMap.put(BuildingType.CoatFactory, data);
 		
 		data = new BuildingRSMapData();
-		data.needResource.add(new Resource(ResourceType.RS_WOOD, 2500));
+		data.needResource.add(new Resource(ResourceType.Wood, 2500));
 		data.needWork = 25;
-		normalBuildingRSMap.put(BuildingType.RANCH, data);
+		normalBuildingRSMap.put(BuildingType.Ranch, data);
 		
 		data = new BuildingRSMapData();
-		data.needResource.add(new Resource(ResourceType.RS_WOOD, 4000));
+		data.needResource.add(new Resource(ResourceType.Wood, 4000));
 		data.needWork = 40;
 		normalBuildingRSMap.put(BuildingType.Hospital, data);
 		
 		data = new BuildingRSMapData();
-		data.needResource.add(new Resource(ResourceType.RS_WOOD, 4000));
+		data.needResource.add(new Resource(ResourceType.Wood, 4000));
 		data.needWork = 40;
 		normalBuildingRSMap.put(BuildingType.Bar, data);
 		
 		data = new BuildingRSMapData();
-		data.needResource.add(new Resource(ResourceType.RS_WOOD, 5000));
+		data.needResource.add(new Resource(ResourceType.Wood, 5000));
 		data.needWork = 50;
-		normalBuildingRSMap.put(BuildingType.SCHOOL, data);
+		normalBuildingRSMap.put(BuildingType.School, data);
 		
 		data = new BuildingRSMapData();
-		data.needResource.add(new Resource(ResourceType.RS_WOOD, 2000));
+		data.needResource.add(new Resource(ResourceType.Wood, 2000));
 		data.needWork = 20;
-		normalBuildingRSMap.put(BuildingType.WELL, data);
+		normalBuildingRSMap.put(BuildingType.Well, data);
+		
+		data = new BuildingRSMapData();
+		data.needResource.add(new Resource(ResourceType.Wood, 1000));
+		data.needWork = 10;
+		normalBuildingRSMap.put(BuildingType.ConstrctionCompany, data);
 	}
 	
 	public static HashMap<BuildingType, MPData> mpBuildingDataMap = new HashMap<BuildingType, Settings.MPData>();
@@ -122,6 +127,7 @@ public class Settings {
 		private int costIncre2;
 		public String textureName;
 		public int maxJobCnt;
+		public String desc;
 		
 		public void incre()
 		{
@@ -152,9 +158,10 @@ public class Settings {
 		data.costInit = data.cost = 100;
 		data.costIncreInit = data.costIncre = 20;
 		data.costIncre2 = 5;
-		data.textureName = "building_mp_dad_s_coffers";
+		data.textureName = "building_mp_potato";
+		data.desc = ResourceManager.stringMap.get("mp_desc_potato");
 		data.maxJobCnt = 0;
-		mpBuildingDataMap.put(BuildingType.MP_Dad_s_Coffers, data);
+		mpBuildingDataMap.put(BuildingType.MP_Potato, data);
 		
 		data = new MPData();
 		data.produceAmount = 5;
@@ -162,9 +169,10 @@ public class Settings {
 		data.costInit = data.cost = 1000;
 		data.costIncreInit = data.costIncre = 200;
 		data.costIncre2 = 20;
-		data.textureName = "building_mp_store";
+		data.textureName = "building_mp_mouse_wheel";
+		data.desc = ResourceManager.stringMap.get("mp_desc_mouseWheel");
 		data.maxJobCnt = 1;
-		mpBuildingDataMap.put(BuildingType.MP_Store, data);
+		mpBuildingDataMap.put(BuildingType.MP_MouseWheel, data);
 		
 		data = new MPData();
 		data.produceAmount = 100;
@@ -173,6 +181,7 @@ public class Settings {
 		data.costIncreInit = data.costIncre = 2000;
 		data.costIncre2 = 500;
 		data.textureName = "building_mp_factory";
+		data.desc = ResourceManager.stringMap.get("mp_desc_factory");
 		data.maxJobCnt = 1;
 		mpBuildingDataMap.put(BuildingType.MP_Factory, data);
 		
@@ -182,9 +191,10 @@ public class Settings {
 		data.costInit = data.cost = 40000;
 		data.costIncreInit = data.costIncre = 5000;
 		data.costIncre2 = 1000;
-		data.textureName = "building_mp_candy_rain";
+		data.textureName = "building_mp_storm";
+		data.desc = ResourceManager.stringMap.get("mp_desc_storm");
 		data.maxJobCnt = 2;
-		mpBuildingDataMap.put(BuildingType.MP_CandyRain, data);
+		mpBuildingDataMap.put(BuildingType.MP_Storm, data);
 		
 		data = new MPData();
 		data.produceAmount = 20000;
@@ -192,9 +202,10 @@ public class Settings {
 		data.costInit = data.cost = 500000;
 		data.costIncreInit = data.costIncre = 40000;
 		data.costIncre2 = 10000;
-		data.textureName = "building_mp_rocket";
+		data.textureName = "building_mp_vocalno";
+		data.desc = ResourceManager.stringMap.get("mp_desc_vocalno");
 		data.maxJobCnt = 2;
-		mpBuildingDataMap.put(BuildingType.MP_Rocket, data);
+		mpBuildingDataMap.put(BuildingType.MP_Vocalno, data);
 		
 		data = new MPData();
 		data.produceAmount = 999999;
@@ -203,6 +214,7 @@ public class Settings {
 		data.costIncreInit = data.costIncre = 999999;
 		data.costIncre2 = 99999;
 		data.textureName = "building_mp_black_hole";
+		data.desc = ResourceManager.stringMap.get("mp_desc_blackHole");
 		data.maxJobCnt = 0;
 		mpBuildingDataMap.put(BuildingType.MP_BalckHole, data);
 	}

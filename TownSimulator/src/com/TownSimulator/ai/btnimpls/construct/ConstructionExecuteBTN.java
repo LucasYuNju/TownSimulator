@@ -46,7 +46,7 @@ public class ConstructionExecuteBTN extends ActionNode{
 		destination.y = destination.y - moveVec.y * (float)radius + mMan.getPositionYWorld();
 		
 		mMan.setMoveDestination(destination.x, destination.y);
-		mMan.getInfo().animeType = ManAnimeType.MOVE;
+		mMan.getInfo().animeType = ManAnimeType.Move;
 		mMan.move(deltaTime);
 	}
 	

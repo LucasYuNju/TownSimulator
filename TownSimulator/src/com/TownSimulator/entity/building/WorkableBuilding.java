@@ -65,13 +65,13 @@ public abstract class WorkableBuilding extends Building
 		if(isWorking())
 			return "";
 		else
-			return "No Worker";
+			return ResourceManager.stringMap.get("building_warning_noWorker");
 	}
 
 	@Override
 	public void detectTapped() {
 		super.detectTapped();
-		workableWindow.setWarningMsg(getWarningMessage());
+		workableWindow.setTips(getWarningMessage());
 	}
 
 	@Override
@@ -93,7 +93,7 @@ public abstract class WorkableBuilding extends Building
 	{
 		for (int i = 0; i < cnt; i++) {
 			Man worker = workers.remove(workers.size() - 1);
-			worker.getInfo().job = JobType.NOJOB;
+			worker.getInfo().job = JobType.NoJob;
 			worker.getInfo().workingBuilding = null;
 			worker.setBehavior(new IdleBTN(worker));
 		}
@@ -146,7 +146,7 @@ public abstract class WorkableBuilding extends Building
 	{
 		if( workers.remove(man))
 		{
-			man.getInfo().job = JobType.NOJOB;
+			man.getInfo().job = JobType.NoJob;
 			man.getInfo().workingBuilding = null;
 			updateWorker(-1);
 		}

@@ -142,6 +142,7 @@ public class ConstructionProject implements Serializable{
 		mBuilding.setConstructionProject(null);
 		mBuilding.setState(Building.State.Constructed);
 		EntityInfoCollector.getInstance(EntityInfoCollector.class).removeConstructProj(this);
+		EntityInfoCollector.getInstance(EntityInfoCollector.class).buildingConstructed(mBuilding);
 		
 		for (Man man : mWorkers) {
 			man.getInfo().constructionInfo.proj = null;

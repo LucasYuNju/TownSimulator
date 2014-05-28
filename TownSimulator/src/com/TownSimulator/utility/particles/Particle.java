@@ -49,7 +49,7 @@ public class Particle extends AllocManaged implements Drawable{
 //		});
 //	}
 	
-	public static void init()
+	public static void initStatic()
 	{
 		ParticleManager.register(Particle.class);
 	}

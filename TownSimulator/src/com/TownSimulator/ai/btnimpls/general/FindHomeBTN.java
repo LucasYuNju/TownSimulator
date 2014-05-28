@@ -28,13 +28,28 @@ public class FindHomeBTN extends SequenceNode{
 			
 			@Override
 			public void newBuildingAdded(Building building) {
+			}
+
+			@Override
+			public void buildingConstructed(Building building) {
 				if(building instanceof LivingHouse)
 					bNewLivingBuilding = true;
 			}
 		};
+		
+		EntityInfoCollector.getInstance(EntityInfoCollector.class).addListener(entityInfoListener);
 	}
 	
 	
+	
+	@Override
+	public void destroy() {
+		super.destroy();
+		EntityInfoCollector.getInstance(EntityInfoCollector.class).removeListener(entityInfoListener);
+	}
+
+
+
 	public LivingHouse findBestLivingHouse(float x, float y)
 	{
 		LivingHouse result = null;
@@ -46,13 +61,13 @@ public class FindHomeBTN extends SequenceNode{
 		
 		if(man.getInfo().home != null)
 		{
-			if(man.getInfo().home.getType() == BuildingType.LOW_COST_HOUSE)
+			if(man.getInfo().home.getType() == BuildingType.LowCostHouse)
 			{
 				lowcost = man.getInfo().home;
 				dstMin0 =	Math.pow(man.getInfo().home.getPositionXWorld() - x, 2)
 						+	Math.pow(man.getInfo().home.getPositionYWorld() - y, 2);
 			}
-			else if(man.getInfo().home.getType() == BuildingType.APARTMENT)
+			else if(man.getInfo().home.getType() == BuildingType.Apartment)
 			{
 				apartment = man.getInfo().home;
 				dstMin1 =	Math.pow(man.getInfo().home.getPositionXWorld() - x, 2)
@@ -69,7 +84,7 @@ public class FindHomeBTN extends SequenceNode{
 				if( !lm.hasAvailableRoom() )
 					continue;
 				
-				if(lm.getType() == BuildingType.LOW_COST_HOUSE)
+				if(lm.getType() == BuildingType.LowCostHouse)
 				{
 					double dst = 	Math.pow(building.getPositionXWorld() - x, 2)
 								+	Math.pow(building.getPositionYWorld() - y, 2);
@@ -80,7 +95,7 @@ public class FindHomeBTN extends SequenceNode{
 						lowcost = (LivingHouse) building;
 					}
 				}
-				else if(lm.getType() == BuildingType.APARTMENT)
+				else if(lm.getType() == BuildingType.Apartment)
 				{
 					double dst = 	Math.pow(building.getPositionXWorld() - x, 2)
 								+	Math.pow(building.getPositionYWorld() - y, 2);
@@ -124,7 +139,7 @@ public class FindHomeBTN extends SequenceNode{
 	
 	private LivingHouse findHome()
 	{
-		LivingHouse house = null;
+//		LivingHouse house = null;
 		
 		float x;
 		float y;
@@ -190,6 +205,8 @@ public class FindHomeBTN extends SequenceNode{
 					
 					home.addResident(man.getInfo());
 				}
+				
+				bNewLivingBuilding = false;
 				return ExecuteResult.FALSE;
 			}
 		};

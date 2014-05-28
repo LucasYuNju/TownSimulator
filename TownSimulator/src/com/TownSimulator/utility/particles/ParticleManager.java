@@ -18,11 +18,11 @@ public class ParticleManager extends AllocManaged{
 		return ParticleManager.class;
 	}
 	
-	public static void init()
+	public static void initStatic()
 	{
-		Particle.init();
-		BounceParticle.init();
-		RandomJetBounceParticleSystem.init();
+		Particle.initStatic();
+		BounceParticle.initStatic();
+		RandomJetBounceParticleSystem.initStatic();
 		
 		Driver.getInstance(Driver.class).addListener(new DriverListenerBaseImpl()
 		{

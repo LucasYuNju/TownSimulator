@@ -1,7 +1,9 @@
 package com.TownSimulator.entity;
 
+import com.TownSimulator.utility.ResourceManager;
+
 public enum RanchAnimalType {
-	COW("animal_cow", "Cow");
+	Cow("animal_cow", ResourceManager.stringMap.get("animal_cow"));
 	
 	private String textureName;
 	private String viewName;

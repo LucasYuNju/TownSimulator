@@ -34,7 +34,7 @@ public class RanchViewWindow extends WorkableViewWindow {
 	private SelectBoxListener selectBoxListener;
 	
 	public RanchViewWindow(int numAllowedWorker) {
-		super(BuildingType.RANCH, numAllowedWorker);
+		super(BuildingType.Ranch, numAllowedWorker);
 		buttonBackground = Singleton.getInstance(ResourceManager.class).createTextureRegion("background_button");
 		width = ProcessBar.PREFERED_WIDTH + LABEL_WIDTH + MARGIN * 2;
 		height = getHeight() + LABEL_HEIGHT + MARGIN * 2;
@@ -59,7 +59,7 @@ public class RanchViewWindow extends WorkableViewWindow {
 		dropDown = new SelectBox<String>(style);
 		RanchAnimalType[] types = RanchAnimalType.values();
 		String[] strs = new String[types.length + 1];
-		strs[0] = "<Empty>";
+		strs[0] = ResourceManager.stringMap.get("dropDown_empty");
 		for (int i = 1; i < strs.length; i++) {
 			strs[i] = types[i-1].getViewName();
 		}

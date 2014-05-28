@@ -35,7 +35,7 @@ public class RandomMoveBTN extends ActionNode{
 				mStadingTime = GameMath.lerp(STADING_MIN_TIME, STADING_MAX_TIME, mRand.nextFloat());
 				
 				ManInfo info = mMan.getInfo();
-				info.animeType = ManAnimeType.MOVE;
+				info.animeType = ManAnimeType.Move;
 				float randX = (mRand.nextFloat() - 0.5f) * Settings.UNIT * 4.0f;
 				float randY = (mRand.nextFloat() - 0.5f) * Settings.UNIT * 4.0f;
 				mMan.setMoveDestination(mMan.getPositionXWorld() + randX, mMan.getPositionYWorld() + randY);
@@ -46,7 +46,7 @@ public class RandomMoveBTN extends ActionNode{
 			{
 				mStadingTime -= deltaTime;
 				ManInfo info = mMan.getInfo();
-				info.animeType = ManAnimeType.STANDING;
+				info.animeType = ManAnimeType.Standing;
 			}
 		}
 		

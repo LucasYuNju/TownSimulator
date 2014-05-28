@@ -42,12 +42,12 @@ public class SeeADoctorBTN extends SequenceNode{
 							
 							if( !man.move(deltaTime) )
 							{
-								man.getInfo().animeType = ManAnimeType.STANDING;
+								man.getInfo().animeType = ManAnimeType.Standing;
 								man.getInfo().receiveTreatment(deltaTime);
 								hospital.updateHospitalViewWindow();
 							}
 							else
-								man.getInfo().animeType = ManAnimeType.MOVE;
+								man.getInfo().animeType = ManAnimeType.Move;
 							
 							return ExecuteResult.RUNNING;
 						}
@@ -69,11 +69,11 @@ public class SeeADoctorBTN extends SequenceNode{
 						
 						if( !man.move(deltaTime) )
 						{
-							man.getInfo().animeType = ManAnimeType.STANDING;
+							man.getInfo().animeType = ManAnimeType.Standing;
 							hospital.addPatient(man);
 						}
 						else
-							man.getInfo().animeType = ManAnimeType.MOVE;
+							man.getInfo().animeType = ManAnimeType.Move;
 
 						return ExecuteResult.TRUE;
 					}

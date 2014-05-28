@@ -40,7 +40,7 @@ public class FarmViewWindow extends WorkableViewWindow {
 	private SelectBoxListener selectBoxListener;
 	
 	public FarmViewWindow(int numAllowedWorker) {
-		super(BuildingType.FARM_HOUSE, numAllowedWorker);
+		super(BuildingType.FarmHouse, numAllowedWorker);
 		buttonBackground = Singleton.getInstance(ResourceManager.class).createTextureRegion("background_button");
 		width = ProcessBar.PREFERED_WIDTH + LABEL_WIDTH + MARGIN * 2;
 		height = getHeight() + LABEL_HEIGHT * 3 + MARGIN *  3;
@@ -63,6 +63,7 @@ public class FarmViewWindow extends WorkableViewWindow {
 		
 		processBar = new ProcessBar();
 		processBar.setPosition(MARGIN + LABEL_WIDTH, MARGIN * 5 + WorkerGroup.HEIGHT + LABEL_HEIGHT * 3);
+		processBar.setSize(getWidth() - processBar.getX() - MARGIN, ProcessBar.HEIGHT);
 		addActor(processBar);
 	}
 	
@@ -123,7 +124,7 @@ public class FarmViewWindow extends WorkableViewWindow {
 		dropDown = new SelectBox<String>(style);
 		CropType[] types = CropType.values();
 		String[] strs = new String[types.length + 1];
-		strs[0] = "<Empty>";
+		strs[0] = ResourceManager.stringMap.get("dropDown_empty");
 		for (int i = 1; i < strs.length; i++) {
 			strs[i] = types[i-1].getViewName();
 		}
@@ -146,7 +147,7 @@ public class FarmViewWindow extends WorkableViewWindow {
 		if(type != null)
 			curCropLabel.setText(type.getViewName());
 		else
-			curCropLabel.setText("<Empty>");
+			curCropLabel.setText(ResourceManager.stringMap.get("dropDown_empty"));
 	}
 	
 	public void updateProcessBar(float process)

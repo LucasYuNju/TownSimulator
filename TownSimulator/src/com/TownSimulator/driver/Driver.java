@@ -17,7 +17,7 @@ import com.TownSimulator.entity.building.Bar;
 import com.TownSimulator.entity.building.Building;
 import com.TownSimulator.entity.building.BuildingType;
 import com.TownSimulator.entity.building.CoatFactory;
-import com.TownSimulator.entity.building.ConstructionProgressBar;
+import com.TownSimulator.entity.building.ConstructionCompany;
 //github.com/LuciusYu/TownSimulator.git
 import com.TownSimulator.entity.building.FarmHouse;
 import com.TownSimulator.entity.building.FarmLand;
@@ -32,6 +32,7 @@ import com.TownSimulator.entity.building.Well;
 import com.TownSimulator.io.InputMgr;
 import com.TownSimulator.render.Renderer;
 import com.TownSimulator.ui.UIManager;
+import com.TownSimulator.ui.building.construction.ConstructionProgressBar;
 import com.TownSimulator.utility.GameMath;
 import com.TownSimulator.utility.ResourceManager;
 import com.TownSimulator.utility.Settings;
@@ -45,6 +46,8 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 
 public class Driver extends SingletonPublisher<DriverListener> implements ApplicationListener{
+	private boolean bIgnoreNextUpdate = false;
+	
 	private Driver()
 	{
 		
@@ -95,10 +98,10 @@ public class Driver extends SingletonPublisher<DriverListener> implements Applic
 //		CollisionDetector.getInstance(CollisionDetector.class).attachCollisionDetection(mpStore);
 //		Renderer.getInstance(Renderer.class).attachDrawScissor(mpStore);
 		
-		Warehouse wareHouse = (Warehouse) EntityFactory.createBuilding(BuildingType.WAREHOUSE);
-		wareHouse.addStoredResource(ResourceType.RS_WOOD, 2300);
-		wareHouse.addStoredResource(ResourceType.RS_COAT, 1200);
-		wareHouse.addStoredResource(ResourceType.RS_WHEAT, 20000);
+		Warehouse wareHouse = (Warehouse) EntityFactory.createBuilding(BuildingType.Warehouse);
+		wareHouse.addStoredResource(ResourceType.Wood, 2300);
+		wareHouse.addStoredResource(ResourceType.Coat, 1200);
+		wareHouse.addStoredResource(ResourceType.Wheat, 20000);
 		wareHouse.setState(Building.State.Constructed);
 		wareHouse.setPositionWorld(originPosX - 2 * Settings.UNIT, originPoxY - 8 * Settings.UNIT);
 		wareHouse.setDestroyable(false);
@@ -106,28 +109,37 @@ public class Driver extends SingletonPublisher<DriverListener> implements Applic
 		CollisionDetector.getInstance(CollisionDetector.class).attachCollisionDetection(wareHouse);
 		Renderer.getInstance(Renderer.class).attachDrawScissor(wareHouse);
 		
-		Building lowCostHouse = EntityFactory.createBuilding(BuildingType.LOW_COST_HOUSE);
+		ConstructionCompany constructionCom = (ConstructionCompany) EntityFactory.createBuilding(BuildingType.ConstrctionCompany);
+		constructionCom.setState(Building.State.Constructed);
+		constructionCom.setDestroyable(false);
+		constructionCom.setPositionWorld(originPosX - 10 * Settings.UNIT, originPoxY - 8 * Settings.UNIT);
+		constructionCom.setDestroyable(false);
+		EntityInfoCollector.getInstance(EntityInfoCollector.class).addBuilding(constructionCom);
+		CollisionDetector.getInstance(CollisionDetector.class).attachCollisionDetection(constructionCom);
+		Renderer.getInstance(Renderer.class).attachDrawScissor(constructionCom);
+		
+		Building lowCostHouse = EntityFactory.createBuilding(BuildingType.LowCostHouse);
 		lowCostHouse.setState(Building.State.Constructed);
 		lowCostHouse.setPositionWorld(originPosX + 2 * Settings.UNIT, originPoxY);
 		EntityInfoCollector.getInstance(EntityInfoCollector.class).addBuilding(lowCostHouse);
 		CollisionDetector.getInstance(CollisionDetector.class).attachCollisionDetection(lowCostHouse);
 		Renderer.getInstance(Renderer.class).attachDrawScissor(lowCostHouse);
 		
-		lowCostHouse = EntityFactory.createBuilding(BuildingType.LOW_COST_HOUSE);
+		lowCostHouse = EntityFactory.createBuilding(BuildingType.LowCostHouse);
 		lowCostHouse.setState(Building.State.Constructed);
 		lowCostHouse.setPositionWorld(originPosX + 5 * Settings.UNIT, originPoxY);
 		EntityInfoCollector.getInstance(EntityInfoCollector.class).addBuilding(lowCostHouse);
 		CollisionDetector.getInstance(CollisionDetector.class).attachCollisionDetection(lowCostHouse);
 		Renderer.getInstance(Renderer.class).attachDrawScissor(lowCostHouse);
 		
-		Building apartmentHouse = EntityFactory.createBuilding(BuildingType.APARTMENT);
+		Building apartmentHouse = EntityFactory.createBuilding(BuildingType.Apartment);
 		apartmentHouse.setState(Building.State.Constructed);
 		apartmentHouse.setPositionWorld(originPosX + 8 * Settings.UNIT, originPoxY);
 		EntityInfoCollector.getInstance(EntityInfoCollector.class).addBuilding(apartmentHouse);
 		CollisionDetector.getInstance(CollisionDetector.class).attachCollisionDetection(apartmentHouse);
 		Renderer.getInstance(Renderer.class).attachDrawScissor(apartmentHouse);
 		
-		FellingHouse fellingHouse = (FellingHouse)EntityFactory.createBuilding(BuildingType.FELLING_HOUSE);
+		FellingHouse fellingHouse = (FellingHouse)EntityFactory.createBuilding(BuildingType.FellingHouse);
 		fellingHouse.setState(Building.State.Constructed);
 		fellingHouse.setPositionWorld(originPosX - 12 * Settings.UNIT, originPoxY - 12 * Settings.UNIT);
 		EntityInfoCollector.getInstance(EntityInfoCollector.class).addBuilding(fellingHouse);
@@ -148,14 +160,14 @@ public class Driver extends SingletonPublisher<DriverListener> implements Applic
 		Singleton.getInstance(CollisionDetector.class).attachCollisionDetection(bar);
 		Singleton.getInstance(Renderer.class).attachDrawScissor(bar);
 		
-		School school=(School)EntityFactory.createBuilding(BuildingType.SCHOOL);
+		School school=(School)EntityFactory.createBuilding(BuildingType.School);
 		//school.setState(Building.State.Constructed);
 		school.setPositionWorld(originPosX - 25 * Settings.UNIT, originPoxY - 8 * Settings.UNIT);
 		Singleton.getInstance(EntityInfoCollector.class).addBuilding(school);
 		Singleton.getInstance(CollisionDetector.class).attachCollisionDetection(school);
 		Singleton.getInstance(Renderer.class).attachDrawScissor(school);
 		
-		Well well=(Well)EntityFactory.createBuilding(BuildingType.WELL);
+		Well well=(Well)EntityFactory.createBuilding(BuildingType.Well);
 		well.setState(Building.State.Constructed);
 		well.setPositionWorld(originPosX - 30 * Settings.UNIT, originPoxY - 8 * Settings.UNIT);
 		Singleton.getInstance(EntityInfoCollector.class).addBuilding(well);
@@ -163,7 +175,7 @@ public class Driver extends SingletonPublisher<DriverListener> implements Applic
 		Singleton.getInstance(Renderer.class).attachDrawScissor(well);
 		
 		
-		CoatFactory coatFactory = (CoatFactory)EntityFactory.createBuilding(BuildingType.COAT_FACTORY);
+		CoatFactory coatFactory = (CoatFactory)EntityFactory.createBuilding(BuildingType.CoatFactory);
 		coatFactory.setState(Building.State.Constructed);
 		coatFactory.setPositionWorld(originPosX - 8 * Settings.UNIT, originPoxY - 8 * Settings.UNIT);
 		EntityInfoCollector.getInstance(EntityInfoCollector.class).addBuilding(coatFactory);
@@ -171,14 +183,14 @@ public class Driver extends SingletonPublisher<DriverListener> implements Applic
 		Renderer.getInstance(Renderer.class).attachDrawScissor(coatFactory);
 		
 
-		PowerStation powerStation = (PowerStation)EntityFactory.createBuilding(BuildingType.POWER_STATION);
+		PowerStation powerStation = (PowerStation)EntityFactory.createBuilding(BuildingType.PowerStation);
 		powerStation.setState(Building.State.Constructed);
 		powerStation.setPositionWorld(originPosX + 5 * Settings.UNIT, originPoxY - 5 * Settings.UNIT);
 		EntityInfoCollector.getInstance(EntityInfoCollector.class).addBuilding(powerStation);
 		CollisionDetector.getInstance(CollisionDetector.class).attachCollisionDetection(powerStation);
 		Renderer.getInstance(Renderer.class).attachDrawScissor(powerStation);
 
-		FarmHouse farmHouse=(FarmHouse)EntityFactory.createBuilding(BuildingType.FARM_HOUSE);
+		FarmHouse farmHouse=(FarmHouse)EntityFactory.createBuilding(BuildingType.FarmHouse);
 		farmHouse.setState(Building.State.Constructed);
 		farmHouse.setPositionWorld(originPosX, originPoxY - 3 * Settings.UNIT);
 		EntityInfoCollector.getInstance(EntityInfoCollector.class).addBuilding(farmHouse);
@@ -190,7 +202,7 @@ public class Driver extends SingletonPublisher<DriverListener> implements Applic
 			CollisionDetector.getInstance(CollisionDetector.class).attachCollisionDetection(land);
 		}
 		
-		Ranch ranch = (Ranch)EntityFactory.createBuilding(BuildingType.RANCH);
+		Ranch ranch = (Ranch)EntityFactory.createBuilding(BuildingType.Ranch);
 		ranch.setPositionWorld(originPosX - 8 * Settings.UNIT, originPoxY + 2 * Settings.UNIT);
 		ranch.setState(Building.State.Constructed);
 		EntityInfoCollector.getInstance(EntityInfoCollector.class).addBuilding(ranch);
@@ -213,9 +225,9 @@ public class Driver extends SingletonPublisher<DriverListener> implements Applic
 		CollisionDetector.getInstance(CollisionDetector.class);
 		AchievementManager.getInstance(AchievementManager.class);
 		Entity.initStatic();
-		
-		TipsBillborad.init();
-		ParticleManager.init();
+		ConstructionProgressBar.initStatic();
+		TipsBillborad.initStatic();
+		ParticleManager.initStatic();
 	}
 
 	@Override
@@ -235,10 +247,20 @@ public class Driver extends SingletonPublisher<DriverListener> implements Applic
 		ParticleControl.getInstance(ParticleControl.class).render();
 		UIManager.getInstance(UIManager.class).render();
 		
-		float deltaTime = Gdx.graphics.getDeltaTime();
-		for (int i = 0; i < mListeners.size(); i++) {
-			mListeners.get(i).update(deltaTime * Settings.gameSpeed);
+		if(bIgnoreNextUpdate == false)
+		{
+			float deltaTime = Gdx.graphics.getDeltaTime();
+			for (int i = 0; i < mListeners.size(); i++) {
+				mListeners.get(i).update(deltaTime * Settings.gameSpeed);
+			}
 		}
+		else
+			bIgnoreNextUpdate = false;
+	}
+	
+	public void ignoreNextUpdate()
+	{
+		bIgnoreNextUpdate = true;
 	}
 
 	@Override

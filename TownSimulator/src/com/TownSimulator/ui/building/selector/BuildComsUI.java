@@ -7,6 +7,7 @@ import com.TownSimulator.entity.building.BuildingType;
 import com.TownSimulator.ui.building.selector.BuildComsCategoryButton.BuildComsCategoryButtonListener;
 import com.TownSimulator.ui.screen.GameScreen;
 import com.TownSimulator.utility.GameMath;
+import com.TownSimulator.utility.ResourceManager;
 //github.com/LuciusYu/TownSimulator.git
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -56,35 +57,37 @@ public class BuildComsUI extends Group {
 		mInitButton.setListener(catgogryListner);
 		addActor(mInitButton);
 		
-		BuildComsCategoryButton buildHouse = new BuildComsCategoryButton("button_build_house", "House");
-		buildHouse.addBuild("button_build_low_cost_house", "low-cost house", BuildingType.LOW_COST_HOUSE);
-		buildHouse.addBuild("button_build_apartment_house", "apartment", BuildingType.APARTMENT);
+		BuildComsCategoryButton buildHouse = new BuildComsCategoryButton("button_build_house", ResourceManager.stringMap.get("buildSelect_livingHouse"));
+		buildHouse.addBuild("button_build_low_cost_house", BuildingType.LowCostHouse);
+		buildHouse.addBuild("button_build_apartment_house", BuildingType.Apartment);
 		buildHouse.setVisible(false);
 		mBuildButtonsList.add(buildHouse);
 		
-		BuildComsCategoryButton buildFood = new BuildComsCategoryButton("button_build_food", "Food");
-		buildFood.addBuild("button_build_farm_house", "farm", BuildingType.FARM_HOUSE);
-		buildFood.addBuild("button_build_ranch", "ranch", BuildingType.RANCH);
+		BuildComsCategoryButton buildFood = new BuildComsCategoryButton("button_build_food", ResourceManager.stringMap.get("buildSelect_food"));
+		buildFood.addBuild("button_build_farm_house", BuildingType.FarmHouse);
+		buildFood.addBuild("button_build_ranch", BuildingType.Ranch);
 		buildFood.setVisible(false);
 		mBuildButtonsList.add(buildFood);
 		
-		BuildComsCategoryButton buildInfrastruction = new BuildComsCategoryButton("button_build_infrastructure", "Infras- tructure");
-		buildInfrastruction.addBuild("button_build_warehouse", "warehouse", BuildingType.WAREHOUSE);
-		buildInfrastruction.addBuild("button_build_felling_house", "felling", BuildingType.FELLING_HOUSE);
-		buildInfrastruction.addBuild("button_build_hospital", "hospital", BuildingType.Hospital);
-		buildInfrastruction.addBuild("button_build_bar", "bar", BuildingType.Bar);
-		buildInfrastruction.addBuild("button_build_power_station", "power station", BuildingType.POWER_STATION);
-		buildInfrastruction.addBuild("button_build_coat_factory", "coat factory", BuildingType.COAT_FACTORY);
+		BuildComsCategoryButton buildInfrastruction = new BuildComsCategoryButton("button_build_infrastructure", ResourceManager.stringMap.get("buildSelect_infrastructure"));
+		buildInfrastruction.addBuild("button_build_warehouse", BuildingType.Warehouse);
+		buildInfrastruction.addBuild("button_build_felling_house", BuildingType.FellingHouse);
+		buildInfrastruction.addBuild("button_build_hospital", BuildingType.Hospital);
+		buildInfrastruction.addBuild("button_build_bar", BuildingType.Bar);
+//		buildInfrastruction.addBuild("button_build_power_station", "power station", BuildingType.POWER_STATION);
+		buildInfrastruction.addBuild("button_build_coat_factory", BuildingType.CoatFactory);
+		buildInfrastruction.addBuild("button_build_school", BuildingType.School);
+		buildInfrastruction.addBuild("button_build_construction_company", BuildingType.ConstrctionCompany);
 		buildInfrastruction.setVisible(false);
 		mBuildButtonsList.add(buildInfrastruction);
 		
-		BuildComsCategoryButton buildMp = new BuildComsCategoryButton("button_build_mp", "Money");
-		buildMp.addBuild("button_build_mp_dad_s_coffers", "dad's coffers", BuildingType.MP_Dad_s_Coffers);
-		buildMp.addBuild("button_build_mp_store", "store", BuildingType.MP_Store);
-		buildMp.addBuild("button_build_mp_factory", "factory", BuildingType.MP_Factory);
-		buildMp.addBuild("button_build_mp_candy_rain", "candy rain", BuildingType.MP_CandyRain);
-		buildMp.addBuild("button_build_mp_rocket", "rocket", BuildingType.MP_Rocket);
-		buildMp.addBuild("button_build_mp_black_hole", "black hole", BuildingType.MP_BalckHole);
+		BuildComsCategoryButton buildMp = new BuildComsCategoryButton("button_build_mp", ResourceManager.stringMap.get("buildSelect_energy"));
+		buildMp.addBuild("button_build_mp_potato", BuildingType.MP_Potato);
+		buildMp.addBuild("button_build_mp_mouse_wheel", BuildingType.MP_MouseWheel);
+		buildMp.addBuild("button_build_mp_factory", BuildingType.MP_Factory);
+		buildMp.addBuild("button_build_mp_storm", BuildingType.MP_Storm);
+		buildMp.addBuild("button_build_mp_vocalno", BuildingType.MP_Vocalno);
+		buildMp.addBuild("button_build_mp_black_hole", BuildingType.MP_BalckHole);
 		buildMp.setVisible(false);
 		mBuildButtonsList.add(buildMp);
 		

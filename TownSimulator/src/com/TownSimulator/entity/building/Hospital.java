@@ -23,7 +23,7 @@ public class Hospital extends WorkableBuilding{
 	protected transient HospitalViewWindow hospitalViewWindow;
 	
 	public Hospital() {
-		super("building_hospital", BuildingType.Hospital, JobType.BARTENDER);
+		super("building_hospital", BuildingType.Hospital, JobType.Bartender);
 		patients = new ArrayList<Man>();
 		updateHospitalViewWindow();
 	}

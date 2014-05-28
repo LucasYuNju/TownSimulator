@@ -25,7 +25,7 @@ public class BuildComsCategoryButton extends IconLabelButton{
 	}
 	
 	public BuildComsCategoryButton(String textureName, String labelText) {
-		super(textureName, labelText, (int)BuildComsUI.BUTTON_TOP_MARGIN);
+		super(textureName, labelText, BuildComsUI.BUTTON_TOP_MARGIN);
 		setSize(BuildComsUI.BUTTON_WIDTH, BuildComsUI.BUTTON_WIDTH);
 		
 		mButtonsGroup = new BuildComsButtonsGroup();
@@ -58,8 +58,8 @@ public class BuildComsCategoryButton extends IconLabelButton{
 		this.listener = l;
 	}
 	
-	public void addBuild(String textureName, String labelText, BuildingType buildingType)
+	public void addBuild(String textureName, BuildingType buildingType)
 	{
-		mButtonsGroup.addBuild(textureName, labelText, buildingType);
+		mButtonsGroup.addBuild(textureName, buildingType);
 	}
 }

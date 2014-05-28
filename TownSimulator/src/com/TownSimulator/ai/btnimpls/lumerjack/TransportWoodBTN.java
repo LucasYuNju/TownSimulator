@@ -19,7 +19,7 @@ public class TransportWoodBTN extends ActionNode{
 	private Man man;
 	private FellingInfo fellingInfo;
 	//private Warehouse warehouse;
-	private static final int FELLING_WOOD_AMOUNT = 40;
+	private static final int FELLING_WOOD_AMOUNT = 80;
 	
 	public TransportWoodBTN(Man man, FellingInfo fellingInfo)
 	{
@@ -46,19 +46,19 @@ public class TransportWoodBTN extends ActionNode{
 		
 		if( !man.move(deltaTime) )
 		{
-			man.getInfo().animeType = ManAnimeType.STANDING;
+			man.getInfo().animeType = ManAnimeType.Standing;
 			Warehouse warehouse = EntityInfoCollector.getInstance(EntityInfoCollector.class)
 									.findNearestWareHouse(man.getPositionXWorld(), man.getPositionYWorld());
 			if(warehouse != null)
 			{
 				float efficency = man.getInfo().workEfficency;
 				int amount = (int)(FELLING_WOOD_AMOUNT * efficency);
-				warehouse.addStoredResource(ResourceType.RS_WOOD, amount, false);
+				warehouse.addStoredResource(ResourceType.Wood, amount, false);
 				float originX = house.getAABBWorld(QuadTreeType.DRAW).getCenterX();
 				float originY = house.getAABBWorld(QuadTreeType.DRAW).maxY + Settings.UNIT * 0.4f;
 				Color color = Color.WHITE;
 				TipsBillborad.showTips(
-						ResourceType.RS_WOOD + " + " + amount,
+						ResourceType.Wood + " + " + amount,
 						originX,
 						originY, color);
 			}
@@ -66,7 +66,7 @@ public class TransportWoodBTN extends ActionNode{
 			fellingInfo.hasWood = false;
 		}
 		else
-			man.getInfo().animeType = ManAnimeType.MOVE;
+			man.getInfo().animeType = ManAnimeType.Move;
 		
 		return ExecuteResult.TRUE;
 	}

@@ -5,6 +5,7 @@ import com.TownSimulator.entity.building.Bar;
 import com.TownSimulator.entity.building.Building;
 import com.TownSimulator.entity.building.BuildingType;
 import com.TownSimulator.entity.building.CoatFactory;
+import com.TownSimulator.entity.building.ConstructionCompany;
 import com.TownSimulator.entity.building.FarmHouse;
 import com.TownSimulator.entity.building.FellingHouse;
 import com.TownSimulator.entity.building.Hospital;
@@ -44,113 +45,95 @@ public class EntityFactory {
 		MPData mpData;
 		
 		switch (buildingType) {
-		case APARTMENT:
+		case Apartment:
 			xGridSize = 3;
 			yGridSize = 2;
 			yDrawScale = 1.5f;
 			building = new ApartmentHouse();
-//			building.setNeededConstructionResource(ResourceType.RS_WOOD, 2000);
-//			building.setNeededConstructionWork(20);
 			break;
-		case LOW_COST_HOUSE:
+		case LowCostHouse:
 			xGridSize = 3;
 			yGridSize = 2;
 			yDrawScale = 1.5f;
 			building = new LowCostHouse();
-//			building.setNeededConstructionResource(ResourceType.RS_WOOD, 2000);
-//			building.setNeededConstructionWork(20);
 			break;
-		case WAREHOUSE:
+		case Warehouse:
 			xGridSize = 3;
 			yGridSize = 1;
 			yDrawScale = 1.5f;
 			building = new Warehouse();
-//			building.setNeededConstructionResource(ResourceType.RS_WOOD, 4000);
-//			building.setNeededConstructionWork(40);
 			break;
-		case FARM_HOUSE:
+		case FarmHouse:
 			xGridSize = 2;
 			yGridSize = 2;
 			yDrawScale = 1.0f;
 			building = new FarmHouse();
-//			building.setNeededConstructionResource(ResourceType.RS_WOOD, 2500);
-//			building.setNeededConstructionWork(25);
 			break;
-		case FELLING_HOUSE:
+		case FellingHouse:
 			xGridSize = 3;
 			yGridSize = 2;
 			yDrawScale = 1.0f;
 			building = new FellingHouse();
-//			building.setNeededConstructionResource(ResourceType.RS_WOOD, 2500);
-//			building.setNeededConstructionWork(25);
 			break;
-		case POWER_STATION:
+		case PowerStation:
 			xGridSize = 1;
 			yGridSize = 1;
 			yDrawScale = 2.0f;
 			building = new PowerStation();
-//			building.setNeededConstructionResource(ResourceType.RS_WOOD, 5000);
-//			building.setNeededConstructionWork(50);
 			break;
-		case COAT_FACTORY:
+		case CoatFactory:
 			xGridSize = 4;
 			yGridSize = 3;
 			yDrawScale = 1.0f;
 			building = new CoatFactory();
-//			building.setNeededConstructionResource(ResourceType.RS_WOOD, 4000);
-//			building.setNeededConstructionWork(40);
 			break;
-		case RANCH:
+		case Ranch:
 			xGridSize = 2;
 			yGridSize = 1;
 			yDrawScale = 1.5f;
 			building = new Ranch();
-//			building.setNeededConstructionResource(ResourceType.RS_WOOD, 2500);
-//			building.setNeededConstructionWork(25);
 			break;
 		case Hospital:
 			xGridSize = 3;
 			yGridSize = 3;
 			yDrawScale = 1.3f;
 			building = new Hospital();
-//			building.setNeededConstructionResource(ResourceType.RS_WOOD, 4000);
-//			building.setNeededConstructionWork(40);
 			break;
 		case Bar:
 			xGridSize = 3;
 			yGridSize = 2;
 			yDrawScale = 1.5f;
 			building = new Bar();
-//			building.setNeededConstructionResource(ResourceType.RS_WOOD, 4000);
-//			building.setNeededConstructionWork(40);
 			break;
-		case SCHOOL:
+		case School:
 			xGridSize=4;
 			yGridSize=3;
 			yDrawScale=1.5f;
 			building = new School();
-//			building.setNeededConstructionResource(ResourceType.RS_WOOD, 5000);
-//			building.setNeededConstructionWork(50);
 			break;
-		case WELL:
+		case Well:
 			xGridSize=2;
 			yGridSize=2;
 			yDrawScale=1.5f;
 			building = new Well();
-//			building.setNeededConstructionResource(ResourceType.RS_WOOD, 2000);
-//			building.setNeededConstructionWork(20);
 			break;
-		case MP_Dad_s_Coffers:
-			xGridSize=1;
-			yGridSize=1;
-			yDrawScale=1.1f;
-			mpData = Settings.mpBuildingDataMap.get(buildingType);
-			building = new MoneyProducingBuilding(mpData.textureName, buildingType);
-			break;
-		case MP_Store:
+		case ConstrctionCompany:
 			xGridSize=2;
 			yGridSize=2;
 			yDrawScale=1.1f;
+			building = new ConstructionCompany();
+			break;
+		case MP_Potato:
+			xGridSize=1;
+			yGridSize=1;
+			yDrawScale=1.0f;
+			mpData = Settings.mpBuildingDataMap.get(buildingType);
+			building = new MoneyProducingBuilding(mpData.textureName, buildingType);
+			break;
+		case MP_MouseWheel:
+			xGridSize=2;
+			yGridSize=2;
+			yDrawScale=1.0f;
 			mpData = Settings.mpBuildingDataMap.get(buildingType);
 			building = new MoneyProducingBuilding(mpData.textureName, buildingType);
 			break;
@@ -161,15 +144,15 @@ public class EntityFactory {
 			mpData = Settings.mpBuildingDataMap.get(buildingType);
 			building = new MoneyProducingBuilding(mpData.textureName, buildingType);
 			break;
-		case MP_CandyRain:
+		case MP_Storm:
 			xGridSize=3;
 			yGridSize=3;
-			yDrawScale=1.1f;
+			yDrawScale=1.0f;
 			mpData = Settings.mpBuildingDataMap.get(buildingType);
 			building = new MoneyProducingBuilding(mpData.textureName, buildingType);
 			break;
-		case MP_Rocket:
-			xGridSize=2;
+		case MP_Vocalno:
+			xGridSize=4;
 			yGridSize=4;
 			yDrawScale=1.0f;
 			mpData = Settings.mpBuildingDataMap.get(buildingType);

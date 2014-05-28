@@ -82,18 +82,18 @@ public class FindCoatBTN extends SequenceNode{
 //		}
 		
 		int needCoatAmount = (int) ((ManInfo.TEMPERATURE_POINTS_MAX - man.getInfo().temperature) / COAT_TO_TEMPERATURE);
-		int takeCoatAmount = Math.min(needCoatAmount, ResourceInfoCollector.getInstance(ResourceInfoCollector.class).getResourceAmount(ResourceType.RS_COAT));
+		int takeCoatAmount = Math.min(needCoatAmount, ResourceInfoCollector.getInstance(ResourceInfoCollector.class).getResourceAmount(ResourceType.Coat));
 		
 		man.getInfo().temperature += takeCoatAmount * COAT_TO_TEMPERATURE;
 		
 		int reamainAmount = takeCoatAmount;
 		for (Building building : EntityInfoCollector.getInstance(
-				EntityInfoCollector.class).getBuildings(BuildingType.WAREHOUSE)) {
+				EntityInfoCollector.class).getBuildings(BuildingType.Warehouse)) {
 			Warehouse wareHouse = (Warehouse) building;
 			Iterator<Resource> itr = wareHouse.getStoredResource();
 			while (itr.hasNext()) {
 				Resource resource = itr.next();
-				if (resource.getType() == ResourceType.RS_COAT) {
+				if (resource.getType() == ResourceType.Coat) {
 					int decre = Math.min(reamainAmount, resource.getAmount());
 					reamainAmount -= decre;
 					wareHouse.addStoredResource(resource.getType(), -decre);
@@ -120,7 +120,7 @@ public class FindCoatBTN extends SequenceNode{
 			doGetCoat(deltaTime);
 		}
 		else
-			man.getInfo().animeType = ManAnimeType.MOVE;
+			man.getInfo().animeType = ManAnimeType.Move;
 		
 		return ExecuteResult.FALSE;
 	}
@@ -144,7 +144,7 @@ public class FindCoatBTN extends SequenceNode{
 
 			@Override
 			public ExecuteResult execute(float deltaTime) {
-				if(ResourceInfoCollector.getInstance(ResourceInfoCollector.class).getResourceAmount(ResourceType.RS_COAT)
+				if(ResourceInfoCollector.getInstance(ResourceInfoCollector.class).getResourceAmount(ResourceType.Coat)
 						> 0)
 					return ExecuteResult.TRUE;
 				else

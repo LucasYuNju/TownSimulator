@@ -52,7 +52,8 @@ public class LoadingScreenUI extends ScreenUIBase implements Serializable{
 			ParticleControl.getInstance(ParticleControl.class).init();
 			Renderer.getInstance(Renderer.class).setRenderScene(true);
 			
-			World.getInstance(World.class).setGroundColor();;
+			World.getInstance(World.class).setGroundColor();
+			Settings.gameSpeed = 1;
 			//if(listener != null)
 			listener.loadingFinish();
 		}

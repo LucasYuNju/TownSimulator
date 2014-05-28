@@ -14,7 +14,7 @@ public class WellViewWindow extends UndockedWindow {
 	private Label textLabel;
 
 	public WellViewWindow() {
-		super(BuildingType.WELL);
+		super(BuildingType.Well);
 		
 		width=UndockedWindow.LABEL_WIDTH*2+UndockedWindow.MARGIN*2;
 		height=UndockedWindow.LABEL_HEIGHT*2+UndockedWindow.MARGIN*2;

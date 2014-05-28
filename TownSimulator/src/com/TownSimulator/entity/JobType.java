@@ -2,5 +2,5 @@ package com.TownSimulator.entity;
 
 
 public enum JobType {
-	NOJOB, FARMER, LUMERJACK, FACTORY_WORKER, TEACHER, GRAZIER, BARTENDER, DOCTOR, MP_Worker;
+	NoJob, Farmer, LumerJack, FactoryWorker, Teacher, Grazier, Bartender, Doctor, Builder, MP_Worker;
 }

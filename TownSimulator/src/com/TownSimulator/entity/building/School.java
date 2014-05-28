@@ -24,7 +24,7 @@ public class School extends WorkableBuilding{
 	private transient SchoolViewWindow schoolViewWindow;
 	
 	public School(){
-		super("building_school", BuildingType.SCHOOL,JobType.TEACHER);
+		super("building_school", BuildingType.School,JobType.Teacher);
 		currentStudentNum=0;
 		schoolViewWindow=(SchoolViewWindow)undockedWindow;
 	}

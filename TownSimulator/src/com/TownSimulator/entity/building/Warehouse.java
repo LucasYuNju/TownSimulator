@@ -26,7 +26,7 @@ public class Warehouse extends Building {
 	protected transient ScrollViewWindow scrollWindow;
 	
 	public Warehouse() {
-		super("building_warehouse", BuildingType.WAREHOUSE);
+		super("building_warehouse", BuildingType.Warehouse);
 		storedResources = new LinkedList<Resource>();
 	}
 	
@@ -110,17 +110,17 @@ public class Warehouse extends Building {
 	}
 	
 	public int requestWheat(int requiredAmount) {
-		if(!storedResources.contains(new Resource(ResourceType.RS_WHEAT)))
+		if(!storedResources.contains(new Resource(ResourceType.Wheat)))
 			return 0;
-		Resource wheat = storedResources.get(storedResources.indexOf(new Resource(ResourceType.RS_WHEAT)));
+		Resource wheat = storedResources.get(storedResources.indexOf(new Resource(ResourceType.Wheat)));
 		if(wheat.getAmount() >= requiredAmount) {
 			wheat.addAmount(-requiredAmount);
-			Singleton.getInstance(ResourceInfoCollector.class).addResourceAmount(ResourceType.RS_WHEAT, -requiredAmount);
+			Singleton.getInstance(ResourceInfoCollector.class).addResourceAmount(ResourceType.Wheat, -requiredAmount);
 			return requiredAmount;
 		}
 		int resWheatAmount = wheat.getAmount();
 		wheat.addAmount(-resWheatAmount);
-		Singleton.getInstance(ResourceInfoCollector.class).addResourceAmount(ResourceType.RS_WHEAT, -resWheatAmount);
+		Singleton.getInstance(ResourceInfoCollector.class).addResourceAmount(ResourceType.Wheat, -resWheatAmount);
 		return resWheatAmount;
 	}
 

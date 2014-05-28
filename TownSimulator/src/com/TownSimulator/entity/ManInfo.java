@@ -15,7 +15,7 @@ import com.badlogic.gdx.Gdx;
 
 public class ManInfo implements Serializable{
 	private static final long serialVersionUID = 6185641512377240722L;
-	public 	ManAnimeType 		animeType = ManAnimeType.STANDING;
+	public 	ManAnimeType 		animeType = ManAnimeType.Standing;
 	public 	boolean 			animeFlip = false;
 	public 	Set<ManStateType>	manStates = new HashSet<ManStateType>();
 	public 	ConstructionInfo 	constructionInfo = new ConstructionInfo();

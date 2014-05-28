@@ -16,7 +16,7 @@ public class RandomJetBounceParticleSystem {
 	//private static final float LIFE = 5.0f;
 	private static TextureRegion rectTex;
 	
-	public static void init()
+	public static void initStatic()
 	{
 		rectTex = ResourceManager.getInstance(ResourceManager.class).createTextureRegion("particle_rect");
 	}

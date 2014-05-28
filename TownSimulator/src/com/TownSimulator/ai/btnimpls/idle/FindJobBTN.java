@@ -23,6 +23,21 @@ public class FindJobBTN extends ActionNode{
 			return ExecuteResult.FALSE;
 		}
 		
+		float x = 0.0f;
+		float y = 0.0f;
+		if(man.getInfo().home == null)
+		{
+			x = man.getPositionXWorld();
+			y = man.getPositionYWorld();
+		}
+		else
+		{
+			x = man.getInfo().home.getPositionXWorld();
+			y = man.getInfo().home.getPositionYWorld();
+		}
+		
+		WorkableBuilding result = null;
+		double dstMin = -1.0f;
 		for (Building buidling : EntityInfoCollector.getInstance(EntityInfoCollector.class).getAllBuildings()) {
 			if(buidling instanceof WorkableBuilding)
 			{
@@ -30,13 +45,24 @@ public class FindJobBTN extends ActionNode{
 				if(workingBuilding.getState() == Building.State.Constructed 
 						&& workingBuilding.getCurWorkerCnt() < workingBuilding.getOpenJobCnt())
 				{
-					workingBuilding.addWorker(man);
-					return ExecuteResult.TRUE;
+					double dst = 	Math.pow(workingBuilding.getPositionXWorld(), x)
+								+	Math.pow(workingBuilding.getPositionYWorld(), y);
+					if(dstMin == -1.0f || dst < dstMin)
+					{
+						dstMin = dst;
+						result = workingBuilding;
+					}
 				}
 			}
 		}
-//		man.getInfo().hpWorkless(deltaTime);
-		return ExecuteResult.FALSE;
+		
+		if(result != null)
+		{
+			result.addWorker(man);
+			return ExecuteResult.TRUE;
+		}
+		else
+			return ExecuteResult.FALSE;
 	}
 
 }

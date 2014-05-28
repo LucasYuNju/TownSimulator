@@ -41,16 +41,16 @@ public class FellingExecuteBTN extends ActionNode{
 				}
 			}
 		};
-		man.getAnimation(ManAnimeType.WORK, true).addListener(workAnimeListener);
-		man.getAnimation(ManAnimeType.WORK, false).addListener(workAnimeListener);
+		man.getAnimation(ManAnimeType.Working, true).addListener(workAnimeListener);
+		man.getAnimation(ManAnimeType.Working, false).addListener(workAnimeListener);
 		
-		fellingInterval = man.getAnimation(ManAnimeType.WORK, false).getLength();
+		fellingInterval = man.getAnimation(ManAnimeType.Working, false).getLength();
 	}
 	
 	@Override
 	public void destroy() {
-		man.getAnimation(ManAnimeType.WORK, true).removeListener(workAnimeListener);
-		man.getAnimation(ManAnimeType.WORK, false).removeListener(workAnimeListener);
+		man.getAnimation(ManAnimeType.Working, true).removeListener(workAnimeListener);
+		man.getAnimation(ManAnimeType.Working, false).removeListener(workAnimeListener);
 		//System.out.println("FellingExecuteBTN Destroy");
 	}
 	
@@ -98,10 +98,10 @@ public class FellingExecuteBTN extends ActionNode{
 		if( !man.move(deltaTime) )
 		{
 			doFelling(deltaTime);
-			man.getInfo().animeType = ManAnimeType.WORK;
+			man.getInfo().animeType = ManAnimeType.Working;
 		}
 		else
-			man.getInfo().animeType = ManAnimeType.MOVE;
+			man.getInfo().animeType = ManAnimeType.Move;
 	}
 	
 	@Override

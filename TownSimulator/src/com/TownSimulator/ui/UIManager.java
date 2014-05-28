@@ -32,6 +32,7 @@ public class UIManager extends Singleton {
 			@Override
 			public void loadingFinish() {
 				mCurScreenUI = mGameUI;
+				Driver.getInstance(Driver.class).ignoreNextUpdate();
 			}
 		});
 		

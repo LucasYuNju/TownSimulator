@@ -20,7 +20,7 @@ public class FellingHouse extends WorkableBuilding {
 	private RendererListener renderListener;
 	
 	public FellingHouse() {
-		super("building_felling_house", BuildingType.FELLING_HOUSE, JobType.LUMERJACK);
+		super("building_felling_house", BuildingType.FellingHouse, JobType.LumerJack);
 		ListenToRenderer();
 	}
 	

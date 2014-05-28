@@ -6,7 +6,7 @@ import com.badlogic.gdx.math.Vector2;
 
 public class BounceParticle extends Particle{
 	
-	public static void init()
+	public static void initStatic()
 	{
 		ParticleManager.register(BounceParticle.class);
 	}

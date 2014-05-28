@@ -17,7 +17,7 @@ public class SchoolViewWindow extends WorkableViewWindow {
 	private float height;
 
 	public SchoolViewWindow(int numAllowedWorker,int currentStudentNum) {
-		super(BuildingType.SCHOOL, numAllowedWorker);
+		super(BuildingType.School, numAllowedWorker);
 		width = UndockedWindow.LABEL_WIDTH*2 + UndockedWindow.MARGIN * 2;
 		height = getHeight() + UndockedWindow.LABEL_HEIGHT + MARGIN;
 		setSize(width, height);
@@ -46,6 +46,6 @@ public class SchoolViewWindow extends WorkableViewWindow {
 	}
 	
 	private String getStudentLabelString(){
-		return "Student:  "+currentStudentNum+"/"+maxStudentNum;
+		return ResourceManager.stringMap.get("schoolUI_student") + ":  "+currentStudentNum+"/"+maxStudentNum;
 	}
 }

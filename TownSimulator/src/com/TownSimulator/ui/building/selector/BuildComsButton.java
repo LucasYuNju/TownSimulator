@@ -5,6 +5,8 @@ import com.TownSimulator.entity.ResourceInfoCollector;
 import com.TownSimulator.entity.building.BuildingType;
 import com.TownSimulator.ui.base.IconLabelButton;
 import com.TownSimulator.ui.building.adjust.BuildingAdjustBroker;
+import com.TownSimulator.ui.screen.GameScreen;
+import com.TownSimulator.utility.GameMath;
 import com.TownSimulator.utility.ResourceManager;
 import com.TownSimulator.utility.Settings;
 import com.badlogic.gdx.graphics.Color;
@@ -15,7 +17,7 @@ import com.badlogic.gdx.scenes.scene2d.InputListener;
 
 public class BuildComsButton extends IconLabelButton{
 	private BuildingType buildingType;
-	private TextureRegion candyIcon;
+	private TextureRegion energyIcon;
 	private TextureRegion woodIcon;
 	//private ArrayList<String> pricesTexts;
 	
@@ -50,7 +52,7 @@ public class BuildComsButton extends IconLabelButton{
 		});
 		
 		if(buildingType.isMoneyProducing())
-			candyIcon = ResourceManager.getInstance(ResourceManager.class).createTextureRegion("candy");
+			energyIcon = ResourceManager.getInstance(ResourceManager.class).createTextureRegion("energy");
 		else
 			woodIcon = ResourceManager.getInstance(ResourceManager.class).createTextureRegion("resource_wood");
 		//initPriceLabel();
@@ -94,6 +96,8 @@ public class BuildComsButton extends IconLabelButton{
 		
 		Color preColor = batch.getColor();
 		
+		float iconSize = Settings.UNIT * 0.3f;
+		
 		if(buildingType.isMoneyProducing())
 		{
 			int cost = Settings.mpBuildingDataMap.get(BuildComsButton.this.buildingType).cost;
@@ -103,11 +107,11 @@ public class BuildComsButton extends IconLabelButton{
 			else
 				font.setColor(Color.RED);
 			String str = "" + cost;
-			float x = getWidth() * 0.5f - (font.getBounds(str).width + BuildComsUI.BUTTON_TOP_MARGIN)  * 0.5f;
+			float x = getWidth() * 0.5f - (font.getBounds(str).width + iconSize)  * 0.5f;
 			Color c = getColor();
 			batch.setColor(c.r, c.g, c.b, c.a * parentAlpha);
-			batch.draw(candyIcon, getX() + x, getY() - BuildComsUI.BUTTON_TOP_MARGIN, BuildComsUI.BUTTON_TOP_MARGIN, BuildComsUI.BUTTON_TOP_MARGIN);
-			x += BuildComsUI.BUTTON_TOP_MARGIN;
+			batch.draw(energyIcon, getX() + x, getY() - GameScreen.SUBBUTTONS_TO_LABRL_MARGIN, iconSize, iconSize);
+			x += iconSize;
 			font.draw(batch, str, getX() + x, getY());
 		}
 		else
@@ -120,14 +124,16 @@ public class BuildComsButton extends IconLabelButton{
 				else
 					font.setColor(Color.RED);
 				String str = "" + rs.getAmount();
-				float x = getWidth() * 0.5f - (font.getBounds(str).width + BuildComsUI.BUTTON_TOP_MARGIN)  * 0.5f;
+				float x = getWidth() * 0.5f - (font.getBounds(str).width + iconSize)  * 0.5f;
 				Color c = getColor();
-				batch.setColor(c.r, c.g, c.b, c.a * parentAlpha);
-				batch.draw(woodIcon, getX() + x, getY() + y - BuildComsUI.BUTTON_TOP_MARGIN, BuildComsUI.BUTTON_TOP_MARGIN, BuildComsUI.BUTTON_TOP_MARGIN);
-				x += BuildComsUI.BUTTON_TOP_MARGIN;
+				Color woodC = GameMath.rgbaIntToColor(106, 57, 6, 255);
+				woodC.a = c.a * parentAlpha;
+				batch.setColor(woodC);
+				batch.draw(woodIcon, getX() + x, getY() + y - GameScreen.SUBBUTTONS_TO_LABRL_MARGIN, iconSize, iconSize);
+				x += iconSize;
 				font.draw(batch, str, getX() + x, getY() + y);
 				
-				y += BuildComsUI.BUTTON_TOP_MARGIN;
+				y += iconSize;
 			}
 		}
 		batch.setColor(preColor);

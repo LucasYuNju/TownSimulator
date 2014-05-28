@@ -71,11 +71,11 @@ public class ConstructionWindow extends UndockedWindow{
 		windowWidth = Math.max(pairsWidth, builderGroup.getWidth());
 		windowWidth = Math.max(windowWidth, headerLabel.getStyle().font.getBounds(headerLabel.getText()).width + closeButton.getWidth() + MARGIN);
 		windowWidth += Settings.MARGIN * 2;
-		windowHeight = ProcessBar.HEIGHT + WorkerGroup.HEIGHT + LABEL_HEIGHT + ICON_WIDTH;
+		windowHeight = ProcessBar.HEIGHT + WorkerGroup.HEIGHT + LABEL_HEIGHT + ICON_WIDTH + HEADER_HEIGHT;
 		setSize(windowWidth + MARGIN * 2, windowHeight + MARGIN * 2);
 		setPosition( (Gdx.graphics.getWidth() - getWidth())/2, 
 						(Gdx.graphics.getHeight() - getHeight())/2 );
-		processBar.setSize(windowWidth - MARGIN * 2, ProcessBar.HEIGHT);
+		processBar.setSize(windowWidth - MARGIN * 2 - dynamiteButton.getWidth(), ProcessBar.HEIGHT);
 		
 		updateLayout();
 	}

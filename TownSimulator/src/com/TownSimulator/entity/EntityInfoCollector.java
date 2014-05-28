@@ -32,6 +32,8 @@ public class EntityInfoCollector extends SingletonPublisher<EntityInfoCollectorL
 	public interface EntityInfoCollectorListener
 	{
 		public void newBuildingAdded(Building building);
+		
+		public void buildingConstructed(Building building);
 	}
 	
 	private EntityInfoCollector()
@@ -84,6 +86,13 @@ public class EntityInfoCollector extends SingletonPublisher<EntityInfoCollectorL
 		return constructProjsList;
 	}
 	
+	public void buildingConstructed(Building building)
+	{
+		for (EntityInfoCollectorListener l : mListeners) {
+			l.buildingConstructed(building);
+		}
+	}
+	
 	public void addBuilding(Building building)
 	{
 		BuildingType type = building.getType();
@@ -128,13 +137,13 @@ public class EntityInfoCollector extends SingletonPublisher<EntityInfoCollectorL
 	
 	public Warehouse findNearestWareHouse(float x, float y)
 	{
-		if( !buildingsMap.containsKey(BuildingType.WAREHOUSE) )
+		if( !buildingsMap.containsKey(BuildingType.Warehouse) )
 			return null;
 		
 		double dstMin = -1.0f;
 		Warehouse house = null;
-		for (Building building : buildingsMap.get(BuildingType.WAREHOUSE)) {
-			if(building.getType() == BuildingType.WAREHOUSE)
+		for (Building building : buildingsMap.get(BuildingType.Warehouse)) {
+			if(building.getType() == BuildingType.Warehouse)
 			{
 				Warehouse wareHouse = (Warehouse)building;
 				double dst = 	Math.pow(wareHouse.getPositionXWorld() - x, 2)
@@ -153,16 +162,16 @@ public class EntityInfoCollector extends SingletonPublisher<EntityInfoCollectorL
 	
 	public WareHouseFindResult findNearestWareHouseWithRs( ResourceType type, int amount, float x, float y )
 	{
-		if( !buildingsMap.containsKey(BuildingType.WAREHOUSE) )
+		if( !buildingsMap.containsKey(BuildingType.Warehouse) )
 			return null;
 		
 		WareHouseFindResult result = new WareHouseFindResult();
-		List<Building> allBuildings = getBuildings(BuildingType.WAREHOUSE);
+		List<Building> allBuildings = getBuildings(BuildingType.Warehouse);
 		List<Warehouse> wareHouseWithRs = new ArrayList<Warehouse>();
 		double dstMin = -1.0f;
 		for (int i = 0; i < allBuildings.size(); i++) {
 			Building building = allBuildings.get(i);
-			if(building.getType() == BuildingType.WAREHOUSE)
+			if(building.getType() == BuildingType.Warehouse)
 			{
 				Warehouse wareHouse = (Warehouse) building;
 				if(wareHouse.getStoredResourceAmount(type) >= amount)
@@ -235,7 +244,7 @@ public class EntityInfoCollector extends SingletonPublisher<EntityInfoCollectorL
 		double dstMin = -1.0f;
 		School school=null;
 		for (Building building : buildingsList) {
-			if(building.getType() == BuildingType.SCHOOL)
+			if(building.getType() == BuildingType.School)
 			{
 				School tempSchool=(School)building;
 				if(tempSchool.getCurrentStudentNum()>=School.SingleSchoolStudentNum){

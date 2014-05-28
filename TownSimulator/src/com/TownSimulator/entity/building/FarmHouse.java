@@ -23,6 +23,7 @@ import com.TownSimulator.ui.building.view.SelectBoxListener;
 import com.TownSimulator.ui.building.view.WorkableViewWindow;
 import com.TownSimulator.utility.AxisAlignedBoundingBox;
 import com.TownSimulator.utility.GameMath;
+import com.TownSimulator.utility.ResourceManager;
 import com.TownSimulator.utility.Settings;
 import com.TownSimulator.utility.quadtree.QuadTreeType;
 
@@ -45,7 +46,7 @@ public class FarmHouse extends WorkableBuilding implements SelectBoxListener
 	private DriverListener driverListener;
 	
 	public FarmHouse() {
-		super("building_farm_house", BuildingType.FARM_HOUSE, JobType.FARMER);
+		super("building_farm_house", BuildingType.FarmHouse, JobType.Farmer);
 		initFarmLands();
 		
 		collisionAABBLocalWithLands = new AxisAlignedBoundingBox();
@@ -88,7 +89,7 @@ public class FarmHouse extends WorkableBuilding implements SelectBoxListener
 	@Override
 	protected String getWarningMessage() {
 		if(curCropType == null && sowCropType == null)
-			return "No Crop Selected";
+			return ResourceManager.stringMap.get("building_warning_noCropSelected");
 		else
 			return super.getWarningMessage();
 	}

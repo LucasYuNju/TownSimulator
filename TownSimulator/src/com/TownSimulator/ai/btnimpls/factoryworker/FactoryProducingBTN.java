@@ -33,10 +33,10 @@ public class FactoryProducingBTN extends SequenceNode{
 				
 				if( !man.move(deltaTime) )
 				{
-					man.getInfo().animeType = ManAnimeType.STANDING;
+					man.getInfo().animeType = ManAnimeType.Standing;
 				}
 				else
-					man.getInfo().animeType = ManAnimeType.MOVE;
+					man.getInfo().animeType = ManAnimeType.Move;
 				
 				return ExecuteResult.TRUE;
 			}

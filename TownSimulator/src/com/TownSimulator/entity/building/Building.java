@@ -22,6 +22,7 @@ import com.TownSimulator.ui.building.view.UndockedWindow;
 import com.TownSimulator.ui.building.view.UndockedWindow.UndockedWindowListener;
 import com.TownSimulator.ui.building.view.WorkerGroupListener;
 import com.TownSimulator.utility.quadtree.QuadTreeType;
+import com.badlogic.gdx.graphics.Texture.TextureFilter;
 
 public abstract class Building extends Entity 
 	implements ConstructionWindowListener, WorkerGroupListener
@@ -49,6 +50,8 @@ public abstract class Building extends Entity
 		super(textureName);
 		this.buildingType = type;
 		init();
+		
+		mSprite.getTexture().setFilter(TextureFilter.Linear, TextureFilter.Linear);
 	}
 		
 	private void init()

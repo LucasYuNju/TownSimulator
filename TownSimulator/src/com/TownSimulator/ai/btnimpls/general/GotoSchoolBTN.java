@@ -88,7 +88,7 @@ public class GotoSchoolBTN extends SequenceNode{
 		man.getInfo().manStates.add( ManStateType.Working );
 		
 		if(man.move(deltaTime)){
-			man.getInfo().animeType=ManAnimeType.MOVE;
+			man.getInfo().animeType=ManAnimeType.Move;
 		}
 		if((acountTime+=deltaTime)>=World.SecondPerYear){
 			acountTime-=World.SecondPerYear;

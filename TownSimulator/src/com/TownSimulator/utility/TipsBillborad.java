@@ -20,8 +20,8 @@ import com.badlogic.gdx.math.Vector2;
  *
  */
 public class TipsBillborad {
-	private static List<TipsBillborad> tipsActiveList = new ArrayList<TipsBillborad>();
-	private static List<TipsBillborad> tipsInActiveList = new ArrayList<TipsBillborad>();
+	private static List<TipsBillborad> tipsActiveList;
+	private static List<TipsBillborad> tipsInActiveList;
 	private static BitmapFont font;
 	private static SpriteBatch spriteBatch;
 	private static HashMap<String, TextureRegionAllocContainer> textureMap = new HashMap<String, TipsBillborad.TextureRegionAllocContainer>();
@@ -84,8 +84,10 @@ public class TipsBillborad {
 //		//screenCamera.setToOrtho(false);
 //	}
 	
-	public static void init()
+	public static void initStatic()
 	{
+		tipsActiveList = new ArrayList<TipsBillborad>();
+		tipsInActiveList = new ArrayList<TipsBillborad>();
 		font = ResourceManager.getInstance(ResourceManager.class).getFont( (int)(Settings.UNIT * 0.6f) );
 		spriteBatch = new SpriteBatch();
 		textureMap.clear();

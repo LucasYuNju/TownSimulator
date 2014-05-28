@@ -1,13 +1,15 @@
 package com.TownSimulator.entity;
 
+import com.TownSimulator.utility.ResourceManager;
+
 
 public enum ResourceType {
-	RS_WOOD("wood", false, "resource_wood"), 
-	RS_WHEAT("wheat", true, null),
-	RS_CORN("corn", true, null),
-	RS_MEAT("meat", true, null),
-	RS_FUR("fur", false, null),
-	RS_COAT("coat", false, null);
+	Wood(ResourceManager.stringMap.get("rs_wood"), false, "resource_wood"), 
+	Wheat(ResourceManager.stringMap.get("rs_wheat"), true, null),
+	Corn(ResourceManager.stringMap.get("rs_corn"), true, null),
+	Meat(ResourceManager.stringMap.get("rs_meat"), true, null),
+	Fur(ResourceManager.stringMap.get("rs_fur"), false, null),
+	Coat(ResourceManager.stringMap.get("rs_coat"), false, null);
 	
 	private String resName;
 	private boolean isFood;

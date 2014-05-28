@@ -7,6 +7,7 @@ import com.TownSimulator.entity.EntityInfoCollector;
 import com.TownSimulator.entity.Man;
 import com.TownSimulator.entity.ResourceInfoCollector;
 import com.TownSimulator.entity.ResourceType;
+import com.TownSimulator.entity.SeasonType;
 import com.TownSimulator.entity.World;
 import com.TownSimulator.ui.base.FlipButton;
 import com.TownSimulator.utility.ResourceManager;
@@ -68,7 +69,7 @@ public class StateBar extends Group{
 		float x = MARGIN;
 		float y = MARGIN;
 		
-		FlipButton candyIcon = new FlipButton("candy", "candy", null);
+		FlipButton candyIcon = new FlipButton("energy", "energy", null);
 		candyIcon.setSize(LABEL_HEIGHT, LABEL_HEIGHT);
 		candyIcon.setPosition(x, y);
 		addActor(candyIcon);
@@ -83,7 +84,7 @@ public class StateBar extends Group{
 		
 		x = MARGIN;
 		y += LABEL_HEIGHT + MARGIN;
-		Label woodLabel = new Label("Wood", labelStyle);
+		Label woodLabel = new Label(ResourceManager.stringMap.get("stateBar_wood"), labelStyle);
 		woodLabel.setSize(LABEL_WIDTH_COL_0, LABEL_HEIGHT);
 		woodLabel.setPosition(x, y);
 		woodLabel.setAlignment(Align.left);
@@ -98,7 +99,7 @@ public class StateBar extends Group{
 		
 		x = MARGIN;
 		y += LABEL_HEIGHT + MARGIN;
-		Label childrenLabel = new Label("Children", labelStyle);
+		Label childrenLabel = new Label(ResourceManager.stringMap.get("stateBar_children"), labelStyle);
 		childrenLabel.setSize(LABEL_WIDTH_COL_0, LABEL_HEIGHT);
 		childrenLabel.setPosition(x, y);
 		childrenLabel.setAlignment(Align.left);
@@ -113,7 +114,7 @@ public class StateBar extends Group{
 		
 		x = MARGIN;
 		y += LABEL_HEIGHT + MARGIN;
-		Label adultLabel = new Label("Adult", labelStyle);
+		Label adultLabel = new Label(ResourceManager.stringMap.get("stateBar_adult"), labelStyle);
 		adultLabel.setSize(LABEL_WIDTH_COL_0, LABEL_HEIGHT);
 		adultLabel.setPosition(x, y);
 		adultLabel.setAlignment(Align.left);
@@ -128,7 +129,7 @@ public class StateBar extends Group{
 		
 		x = MARGIN;
 		y += LABEL_HEIGHT + MARGIN;
-		Label foodLabel = new Label("Food", labelStyle);
+		Label foodLabel = new Label(ResourceManager.stringMap.get("stateBar_food"), labelStyle);
 		foodLabel.setSize(LABEL_WIDTH_COL_0, LABEL_HEIGHT);
 		foodLabel.setPosition(x, y);
 		foodLabel.setAlignment(Align.left);
@@ -158,9 +159,25 @@ public class StateBar extends Group{
 		
 	}
 	
+	private String seasonToString(SeasonType season)
+	{
+		switch (season) {
+		case Spring:
+			return ResourceManager.stringMap.get("stateBar_spring");
+		case Summer:
+			return ResourceManager.stringMap.get("stateBar_summer");
+		case Autumn:
+			return ResourceManager.stringMap.get("stateBar_autumn");
+		case Winter:
+			return ResourceManager.stringMap.get("stateBar_winter");
+		default:
+			return null;
+		}
+	}
+	
 	public void update() {
 		World world = World.getInstance(World.class);
-		seasonLabel.setText(  world.getCurSeason().toString() );
+		seasonLabel.setText(  seasonToString(world.getCurSeason()) );
 		dateLabel.setText(world.getCurYear() + "/" + world.getCurMonth() + "/" + world.getCurDay());
 		
 		
@@ -178,7 +195,7 @@ public class StateBar extends Group{
 		int numFood = ResourceInfoCollector.getInstance(ResourceInfoCollector.class).getFoodAmount();
 		numFoodLabel.setText(NumberFormat.getNumberInstance(Locale.US).format(numFood));
 		
-		int numWood = ResourceInfoCollector.getInstance(ResourceInfoCollector.class).getResourceAmount(ResourceType.RS_WOOD);
+		int numWood = ResourceInfoCollector.getInstance(ResourceInfoCollector.class).getResourceAmount(ResourceType.Wood);
 		numWoodLabel.setText(NumberFormat.getNumberInstance(Locale.US).format(numWood));
 		
 		int numMoney = ResourceInfoCollector.getInstance(ResourceInfoCollector.class).getCandyAmount();

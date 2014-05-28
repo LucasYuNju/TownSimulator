@@ -13,14 +13,15 @@ import com.TownSimulator.utility.AxisAlignedBoundingBox;
 import com.TownSimulator.utility.ResourceManager;
 import com.TownSimulator.utility.Settings;
 import com.TownSimulator.utility.quadtree.QuadTreeType;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 public class ConstructionProgressBar implements Drawable{
-	private static TextureRegion spBackgroud = ResourceManager.getInstance(ResourceManager.class).createTextureRegion("background");
-	private static TextureRegion spBar = ResourceManager.getInstance(ResourceManager.class).createTextureRegion("process_bar");
-	private static List<ConstructionProgressBar> barsAlloced = new ArrayList<ConstructionProgressBar>();
-	private static List<ConstructionProgressBar> barsFree = new ArrayList<ConstructionProgressBar>();
+	private static TextureRegion spBackgroud;
+	private static TextureRegion spBar;
+	private static List<ConstructionProgressBar> barsAlloced;
+	private static List<ConstructionProgressBar> barsFree;
 	private Building building;
 	private float progress;
 	
@@ -38,6 +39,11 @@ public class ConstructionProgressBar implements Drawable{
 				render();
 			}
 		});
+		
+		spBackgroud = ResourceManager.getInstance(ResourceManager.class).createTextureRegion("background");
+		spBar = ResourceManager.getInstance(ResourceManager.class).createTextureRegion("process_bar");
+		barsAlloced = new ArrayList<ConstructionProgressBar>();
+		barsFree = new ArrayList<ConstructionProgressBar>();
 	}
 	
 	private ConstructionProgressBar()
@@ -63,7 +69,10 @@ public class ConstructionProgressBar implements Drawable{
 	public void realease()
 	{
 		if( barsAlloced.remove(this) )
+		{
 			barsFree.add(this);
+			setProgress(0.0f);
+		}
 	}
 	
 	public static ConstructionProgressBar create(Building building)
@@ -80,6 +89,8 @@ public class ConstructionProgressBar implements Drawable{
 
 	@Override
 	public void drawSelf(SpriteBatch batch) {
+		batch.setColor(Color.WHITE);
+		
 		AxisAlignedBoundingBox aabb = building.getAABBWorld(QuadTreeType.DRAW);
 		float width = Settings.UNIT * 2.5f;
 		float height = Settings.UNIT * 0.3f;

@@ -81,7 +81,7 @@ public class ConstructionTransportBTN extends ActionNode{
 			}
 			
 			mMan.setMoveDestination(wareHouse.getPositionXWorld(), wareHouse.getPositionYWorld());
-			mMan.getInfo().animeType = ManAnimeType.MOVE;
+			mMan.getInfo().animeType = ManAnimeType.Move;
 			
 			if( !mMan.move(deltaTime) )
 			{
@@ -116,7 +116,7 @@ public class ConstructionTransportBTN extends ActionNode{
 			mMan.getInfo().manStates.add( ManStateType.Working );
 			Building building = mMan.getInfo().constructionInfo.transportBuilding;
 			mMan.setMoveDestination(building.getPositionXWorld(), building.getPositionYWorld());
-			mMan.getInfo().animeType = ManAnimeType.MOVE;
+			mMan.getInfo().animeType = ManAnimeType.Move;
 			
 			if( !mMan.move(deltaTime) )
 			{
@@ -143,7 +143,7 @@ public class ConstructionTransportBTN extends ActionNode{
 			
 		case CONSTRUCT_TRANSPORT_NO_RESOURCE:
 			mMan.stopMove();
-			mMan.getInfo().animeType = ManAnimeType.STANDING;
+			mMan.getInfo().animeType = ManAnimeType.Standing;
 			break;
 		}
 		

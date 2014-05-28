@@ -17,12 +17,12 @@ import com.TownSimulator.ui.building.selector.BuildComsUI.BuildComsUIListener;
 import com.TownSimulator.ui.building.view.BarViewWindow;
 import com.TownSimulator.ui.building.view.FarmViewWindow;
 import com.TownSimulator.ui.building.view.HospitalViewWindow;
+import com.TownSimulator.ui.building.view.MPBuildingViewWindow;
 import com.TownSimulator.ui.building.view.RanchViewWindow;
 import com.TownSimulator.ui.building.view.SchoolViewWindow;
 import com.TownSimulator.ui.building.view.ScrollViewWindow;
 import com.TownSimulator.ui.building.view.WellViewWindow;
 import com.TownSimulator.ui.building.view.WorkableViewWindow;
-import com.TownSimulator.ui.building.view.WorkableWithTipsWindow;
 import com.TownSimulator.ui.speed.SpeedSettingUI;
 import com.TownSimulator.ui.speed.SpeedSettingUI.SpeedSettingUIListener;
 import com.TownSimulator.utility.GdxInputListnerEx;
@@ -186,8 +186,8 @@ public class GameScreen extends ScreenUIBase{
 		return window;
 	}
 	
-	public WorkableWithTipsWindow createWorkableWithTipsWindow(BuildingType buildingType, int numAllowedWorker) {
-		WorkableWithTipsWindow window = new WorkableWithTipsWindow(buildingType, numAllowedWorker);
+	public MPBuildingViewWindow createMPBuildingViewWindow(BuildingType buildingType, int numAllowedWorker) {
+		MPBuildingViewWindow window = new MPBuildingViewWindow(buildingType, numAllowedWorker);
 		mStage.addActor(window);
 		windows.add(window);
 		return window;

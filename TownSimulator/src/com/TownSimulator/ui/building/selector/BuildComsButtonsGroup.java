@@ -5,7 +5,6 @@ import java.util.List;
 
 import com.TownSimulator.entity.building.BuildingType;
 import com.TownSimulator.ui.base.IconLabelButton;
-import com.TownSimulator.ui.screen.GameScreen;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Group;
@@ -18,9 +17,9 @@ public class BuildComsButtonsGroup extends Group{
 		mButtonsList = new ArrayList<BuildComsButton>();
 	}
 	
-	public void addBuild(String textureName, String labelText, BuildingType buildingType)
+	public void addBuild(String textureName, BuildingType buildingType)
 	{
-		BuildComsButton button = new BuildComsButton(textureName, labelText, buildingType);
+		BuildComsButton button = new BuildComsButton(textureName, buildingType.toString(), buildingType);
 		addActor(button);
 		mButtonsList.add(button);
 	}
@@ -34,8 +33,8 @@ public class BuildComsButtonsGroup extends Group{
 		float x = 	(BuildComsUI.BUTTON_WIDTH - getWidth()) * 0.5f;
 		float offsetX = (Gdx.graphics.getWidth() - categoryPos.x - BuildComsUI.BUTTON_WIDTH * 0.5f) - getWidth() * 0.5f;
 		offsetX = Math.min(0.0f, offsetX);
-		setPosition( x + offsetX, BuildComsUI.BUTTON_HEIGHT + BuildComsUI.BUTTON_TOP_MARGIN * 2
-									+ IconLabelButton.LABEL_BUTTON_MARGIN + GameScreen.SUBBUTTONS_TO_LABRL_MARGIN);
+		setPosition( x + offsetX, BuildComsUI.BUTTON_HEIGHT + IconLabelButton.LABEL_BUTTON_MARGIN + BuildComsUI.BUTTON_TOP_MARGIN * 2.0f
+									+ BuildComsUI.BUTTON_TOP_MARGIN);
 		
 
 		for (int i = 0; i < mButtonsList.size(); i++) {

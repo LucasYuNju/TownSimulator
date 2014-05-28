@@ -60,9 +60,9 @@ public class BuildingAdjustBroker extends Singleton implements EntityListener, C
 		int gridY = (int) (CameraController.getInstance(CameraController.class).getY() / Settings.UNIT);
 		int gridSerchSize = 0;
 		AxisAlignedBoundingBox buildingCollisionAABB;
-		if(type == BuildingType.FARM_HOUSE)
+		if(type == BuildingType.FarmHouse)
 			buildingCollisionAABB = ((FarmHouse)newBuildingObject).getCollisionAABBLocalWithLands();
-		else if(type == BuildingType.RANCH)
+		else if(type == BuildingType.Ranch)
 			buildingCollisionAABB = ((Ranch)newBuildingObject).getCollisionAABBLocalWithLands();
 		else
 			buildingCollisionAABB = newBuildingObject.getCollisionAABBLocal();
@@ -90,11 +90,11 @@ public class BuildingAdjustBroker extends Singleton implements EntityListener, C
 		}
 		newBuildingObject.setPositionWorld(posX, posY);
 		Renderer.getInstance(Renderer.class).attachDrawScissor(newBuildingObject);
-		if(type == BuildingType.FARM_HOUSE)
+		if(type == BuildingType.FarmHouse)
 			for (FarmLand land : ((FarmHouse)newBuildingObject).getFarmLands()) {
 				Renderer.getInstance(Renderer.class).attachDrawScissor(land);
 			}
-		else if(type == BuildingType.RANCH)
+		else if(type == BuildingType.Ranch)
 			for (RanchLand land : ((Ranch)newBuildingObject).getRanchLands()) {
 				Renderer.getInstance(Renderer.class).attachDrawScissor(land);
 			}
@@ -132,11 +132,11 @@ public class BuildingAdjustBroker extends Singleton implements EntityListener, C
 
 			mCurBuilding.setState(State.UnderConstruction);
 			
-			if(mCurBuilding.getType() == BuildingType.FARM_HOUSE)
+			if(mCurBuilding.getType() == BuildingType.FarmHouse)
 				for (FarmLand land : ((FarmHouse)mCurBuilding).getFarmLands()) {
 					CollisionDetector.getInstance(CollisionDetector.class).attachCollisionDetection(land);
 				}
-			else if(mCurBuilding.getType() == BuildingType.RANCH)
+			else if(mCurBuilding.getType() == BuildingType.Ranch)
 				for (RanchLand land : ((Ranch)mCurBuilding).getRanchLands()) {
 					CollisionDetector.getInstance(CollisionDetector.class).attachCollisionDetection(land);
 				}
@@ -157,11 +157,11 @@ public class BuildingAdjustBroker extends Singleton implements EntityListener, C
 	{
 		Renderer.getInstance(Renderer.class).setDrawGrid(false);
 		Renderer.getInstance(Renderer.class).dettachDrawScissor(mCurBuilding);
-		if(mCurBuilding.getType() == BuildingType.FARM_HOUSE)
+		if(mCurBuilding.getType() == BuildingType.FarmHouse)
 			for (FarmLand land : ((FarmHouse)mCurBuilding).getFarmLands()) {
 				Renderer.getInstance(Renderer.class).dettachDrawScissor(land);
 			}
-		if(mCurBuilding.getType() == BuildingType.RANCH)
+		if(mCurBuilding.getType() == BuildingType.Ranch)
 			for (RanchLand land : ((Ranch)mCurBuilding).getRanchLands()) {
 				Renderer.getInstance(Renderer.class).dettachDrawScissor(land);
 			}

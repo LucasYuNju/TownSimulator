@@ -13,6 +13,7 @@ import com.TownSimulator.entity.JobType;
 import com.TownSimulator.entity.Man;
 import com.TownSimulator.entity.ResourceInfoCollector;
 import com.TownSimulator.entity.ResourceType;
+import com.TownSimulator.utility.ResourceManager;
 import com.TownSimulator.utility.Settings;
 import com.TownSimulator.utility.TipsBillborad;
 import com.TownSimulator.utility.quadtree.QuadTreeType;
@@ -29,7 +30,7 @@ public class CoatFactory extends WorkableBuilding{
 	private DriverListener driverListener;
 	
 	public CoatFactory() {
-		super("building_coat_factory", BuildingType.COAT_FACTORY, JobType.FACTORY_WORKER);
+		super("building_coat_factory", BuildingType.CoatFactory, JobType.FactoryWorker);
 		
 		driverListener = new DriverListenerBaseImpl()
 		{
@@ -60,14 +61,14 @@ public class CoatFactory extends WorkableBuilding{
 
 	@Override
 	public boolean isWorking() {
-		return super.isWorking() && ResourceInfoCollector.getInstance(ResourceInfoCollector.class).getResourceAmount(ResourceType.RS_FUR) > 0;
+		return super.isWorking() && ResourceInfoCollector.getInstance(ResourceInfoCollector.class).getResourceAmount(ResourceType.Fur) > 0;
 	}
 
 	@Override
 	protected String getWarningMessage() {
-		if(ResourceInfoCollector.getInstance(ResourceInfoCollector.class).getResourceAmount(ResourceType.RS_FUR) <= 0)
+		if(ResourceInfoCollector.getInstance(ResourceInfoCollector.class).getResourceAmount(ResourceType.Fur) <= 0)
 		{
-			return "No 'Fur' Resource ( Ranch )";
+			return ResourceManager.stringMap.get("building_warning_noFur");
 		}
 		else
 			return super.getWarningMessage();
@@ -86,20 +87,20 @@ public class CoatFactory extends WorkableBuilding{
 	private void decreFurResource(int amount)
 	{
 		int remainAmount = amount;
-		for (Building building : EntityInfoCollector.getInstance(EntityInfoCollector.class).getBuildings(BuildingType.WAREHOUSE)) {
+		for (Building building : EntityInfoCollector.getInstance(EntityInfoCollector.class).getBuildings(BuildingType.Warehouse)) {
 //			if(building.getType() == BuildingType.WAREHOUSE)
 //			{
 				Warehouse warehouse = (Warehouse)building;
-				int stored = warehouse.getStoredResourceAmount(ResourceType.RS_FUR);
+				int stored = warehouse.getStoredResourceAmount(ResourceType.Fur);
 				if(stored > 0)
 				{
 					int decre = Math.min(remainAmount, stored);
-					warehouse.addStoredResource(ResourceType.RS_FUR, -decre, false);
+					warehouse.addStoredResource(ResourceType.Fur, -decre, false);
 					float originX = this.getAABBWorld(QuadTreeType.DRAW).getCenterX();
 					float originY = this.getAABBWorld(QuadTreeType.DRAW).maxY + Settings.UNIT * 0.6f + TipsBillborad.getTipsHeight();
 					Color color = Color.RED;
 					TipsBillborad.showTips(
-							ResourceType.RS_FUR + " - " + decre, originX, originY, color);
+							ResourceType.Fur + " - " + decre, originX, originY, color);
 					remainAmount -= decre;
 					
 					if(remainAmount <= 0)
@@ -112,7 +113,7 @@ public class CoatFactory extends WorkableBuilding{
 	private void produce(float deltaTime)
 	{
 		int furAmount = ResourceInfoCollector.getInstance(ResourceInfoCollector.class)
-							.getResourceAmount(ResourceType.RS_FUR);
+							.getResourceAmount(ResourceType.Fur);
 		if( furAmount <= PRODUCE_FUR_PER_COAT )
 			return;
 		
@@ -133,12 +134,12 @@ public class CoatFactory extends WorkableBuilding{
 				continue;
 			
 			decreFurResource(produceAmount * PRODUCE_FUR_PER_COAT);
-			warehouse.addStoredResource(ResourceType.RS_COAT, produceAmount, false);
+			warehouse.addStoredResource(ResourceType.Coat, produceAmount, false);
 			float originX = this.getAABBWorld(QuadTreeType.DRAW).getCenterX();
 			float originY = this.getAABBWorld(QuadTreeType.DRAW).maxY + Settings.UNIT * 0.4f;
 			Color color = Color.WHITE;
 			TipsBillborad.showTips(
-					ResourceType.RS_COAT + " + " + produceAmount,
+					ResourceType.Coat + " + " + produceAmount,
 					originX,
 					originY, color);
 		}

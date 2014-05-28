@@ -7,7 +7,7 @@ public class Well extends Building{
 	private static final long serialVersionUID = -5096398900245896495L;
 
 	public Well() {
-		super("building_well",BuildingType.WELL);
+		super("building_well",BuildingType.Well);
 	}
 
 	@Override

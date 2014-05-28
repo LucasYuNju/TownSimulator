@@ -24,7 +24,7 @@ public class Bar extends WorkableBuilding{
 	private transient BarViewWindow barViewWindow;
 	
 	public Bar() {
-		super("building_bar", BuildingType.Bar, JobType.BARTENDER);
+		super("building_bar", BuildingType.Bar, JobType.Bartender);
 		makeWine();
 		updateBarViewWindow();
 	}
@@ -53,7 +53,7 @@ public class Bar extends WorkableBuilding{
 	
 	private void makeWine() {
 		@SuppressWarnings({ "unchecked", "rawtypes" })
-		List<Warehouse> warehouses = (List)Singleton.getInstance(EntityInfoCollector.class).getBuildings(BuildingType.WAREHOUSE);
+		List<Warehouse> warehouses = (List)Singleton.getInstance(EntityInfoCollector.class).getBuildings(BuildingType.Warehouse);
 		for(Warehouse warehouse : warehouses) {
 			if(warehouse.isWheatAbundant()) {
 				int wheatCount = warehouse.requestWheat((int)getNeededWheat());

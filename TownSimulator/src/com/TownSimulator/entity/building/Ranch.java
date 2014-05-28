@@ -46,7 +46,7 @@ public class Ranch extends WorkableBuilding{
 	private DriverListener	driverListener;
 	
 	public Ranch() {
-		super("building_ranch", BuildingType.RANCH, JobType.GRAZIER);
+		super("building_ranch", BuildingType.Ranch, JobType.Grazier);
 		
 		collisionAABBLocalWithLands = new AxisAlignedBoundingBox();
 		collisionAABBWorldWithLands = new AxisAlignedBoundingBox();
@@ -81,7 +81,7 @@ public class Ranch extends WorkableBuilding{
 	@Override
 	protected String getWarningMessage() {
 		if(ranchAnimalType == null)
-			return "No Animal Selected";
+			return ResourceManager.stringMap.get("building_warning_noAnimalSelected");
 		else
 			return super.getWarningMessage();
 	}
@@ -150,19 +150,19 @@ public class Ranch extends WorkableBuilding{
 				furAmount += man.getInfo().workEfficency * PRODUCE_FUR_AMOUNT;
 			}
 			
-			warehouse.addStoredResource(ResourceType.RS_MEAT, meatAmount, false);
+			warehouse.addStoredResource(ResourceType.Meat, meatAmount, false);
 			float originX = this.getAABBWorld(QuadTreeType.DRAW).getCenterX();
 			float originY = this.getAABBWorld(QuadTreeType.DRAW).maxY + Settings.UNIT * 0.6f + TipsBillborad.getTipsHeight();
 			Color color = Color.WHITE;
 			TipsBillborad.showTips(
-					ResourceType.RS_MEAT + " + " + meatAmount,
+					ResourceType.Meat + " + " + meatAmount,
 					originX,
 					originY, color);
 			
-			warehouse.addStoredResource(ResourceType.RS_FUR, furAmount, false);
+			warehouse.addStoredResource(ResourceType.Fur, furAmount, false);
 			originY = this.getAABBWorld(QuadTreeType.DRAW).maxY + Settings.UNIT * 0.4f;
 			TipsBillborad.showTips(
-					ResourceType.RS_FUR + " + " + furAmount,
+					ResourceType.Fur + " + " + furAmount,
 					originX,
 					originY, color);
 		}

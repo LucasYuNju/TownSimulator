@@ -130,7 +130,7 @@ public class ParticleControl extends Singleton{
 			for(int i=0;i<particleEffectters.size;i++){
 				particleEffectters.get(i).getScale().setHigh(Settings.UNIT*0.5f);
 			}
-			System.out.println("aaaa:"+particleEffectters.size);
+//			System.out.println("aaaa:"+particleEffectters.size);
 			weatherParticlelist.add(tempEffect);
 			break;
 		case Summer:
@@ -141,7 +141,7 @@ public class ParticleControl extends Singleton{
 			for(int i=0;i<particleEffectters.size;i++){
 				particleEffectters.get(i).getScale().setHigh(Settings.UNIT*0.5f);
 			}
-			System.out.println("aaaa:"+particleEffectters.size);
+//			System.out.println("aaaa:"+particleEffectters.size);
 //			tempEffect.setPosition(renderStartX+tempLocation, renderStartY);
 			weatherParticlelist.add(tempEffect);
 			break;

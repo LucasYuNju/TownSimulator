@@ -41,7 +41,7 @@ public class ReapExexcuteBTN extends ActionNode{
 	{
 		double minDest = Double.MAX_VALUE;
 		Warehouse result = null;
-		for( Building building : EntityInfoCollector.getInstance(EntityInfoCollector.class).getBuildings(BuildingType.WAREHOUSE) )
+		for( Building building : EntityInfoCollector.getInstance(EntityInfoCollector.class).getBuildings(BuildingType.Warehouse) )
 		{
 //			if(building.getType() == BuildingType.WAREHOUSE)
 //			{
@@ -100,7 +100,7 @@ public class ReapExexcuteBTN extends ActionNode{
 		float destX = middleFarmLand.getAABBWorld(QuadTreeType.COLLISION).getCenterX();
 		float destY = middleFarmLand.getAABBWorld(QuadTreeType.COLLISION).getCenterY();
 		man.setMoveDestination(destX, destY);
-		man.getInfo().animeType = ManAnimeType.MOVE;
+		man.getInfo().animeType = ManAnimeType.Move;
 		man.getInfo().manStates.add( ManStateType.Working );
 		
 		if( !man.move(deltaTime) )

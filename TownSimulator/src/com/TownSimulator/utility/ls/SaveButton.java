@@ -28,7 +28,7 @@ public class SaveButton extends BuildComsCategoryButton{
 	}
 	
 	@Override
-	public void addBuild(String textureName, String labelText, BuildingType buildingType) {
+	public void addBuild(String textureName, BuildingType buildingType) {
 		
 	}
 }

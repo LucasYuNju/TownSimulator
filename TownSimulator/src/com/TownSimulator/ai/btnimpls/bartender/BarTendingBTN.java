@@ -29,11 +29,11 @@ public class BarTendingBTN extends SequenceNode{
 				
 				if( !man.move(deltaTime) )
 				{
-					man.getInfo().animeType = ManAnimeType.STANDING;
+					man.getInfo().animeType = ManAnimeType.Standing;
 					return ExecuteResult.TRUE;
 				}
 				else {
-					man.getInfo().animeType = ManAnimeType.MOVE;
+					man.getInfo().animeType = ManAnimeType.Move;
 					return ExecuteResult.FALSE;
 				}
 			}
