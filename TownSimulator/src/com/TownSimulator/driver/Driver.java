@@ -18,7 +18,6 @@ import com.TownSimulator.entity.building.Building;
 import com.TownSimulator.entity.building.BuildingType;
 import com.TownSimulator.entity.building.CoatFactory;
 import com.TownSimulator.entity.building.ConstructionCompany;
-//github.com/LuciusYu/TownSimulator.git
 import com.TownSimulator.entity.building.FarmHouse;
 import com.TownSimulator.entity.building.FarmLand;
 import com.TownSimulator.entity.building.FellingHouse;

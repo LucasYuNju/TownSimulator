@@ -201,7 +201,7 @@ public class Man extends Entity{
 	private void updateAge(float deltaTime){
 		tempAcountTime += deltaTime;
 		if(tempAcountTime >= World.SecondPerYear){
-			int newAge = mInfo.getAge() + 1;
+			int newAge = mInfo.getAge() + 2;
 			mInfo.setAge(newAge);
 			checkAgeEvent(newAge);
 			if( mInfo.isOldEnough() )

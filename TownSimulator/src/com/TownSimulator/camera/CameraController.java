@@ -184,6 +184,14 @@ public class CameraController extends SingletonPublisher<CameraListener>{
 		return deltaY * mCamera.viewportHeight / Gdx.graphics.getHeight();
 	}
 	
+	public float getViewPortWidth(){
+		return mCamera.viewportWidth;
+	}
+	
+	public float getViewPortHeight(){
+		return mCamera.viewportHeight;
+	}
+	
 	public boolean zoom(float initialDistance, float distance) {
 		float prevWidth = mCamera.viewportWidth;
 		float prevHeight = mCamera.viewportHeight;

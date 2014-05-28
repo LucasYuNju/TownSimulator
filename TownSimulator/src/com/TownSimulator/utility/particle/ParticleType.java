@@ -2,7 +2,8 @@ package com.TownSimulator.utility.particle;
 
 public enum ParticleType {
 	Snow("snow.p"),
-	Rain("rain.p");
+	Rain("rain.p"),
+	Water("water.p");
 	
 	private String particleFileName;
 	
