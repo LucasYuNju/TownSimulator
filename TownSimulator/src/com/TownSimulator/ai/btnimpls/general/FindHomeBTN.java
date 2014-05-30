@@ -25,7 +25,8 @@ public class FindHomeBTN extends SequenceNode{
 		init();
 		
 		entityInfoListener = new EntityInfoCollectorListener() {
-			
+			private static final long serialVersionUID = -4356135946481814389L;
+
 			@Override
 			public void newBuildingAdded(Building building) {
 			}
@@ -40,15 +41,11 @@ public class FindHomeBTN extends SequenceNode{
 		EntityInfoCollector.getInstance(EntityInfoCollector.class).addListener(entityInfoListener);
 	}
 	
-	
-	
 	@Override
 	public void destroy() {
 		super.destroy();
 		EntityInfoCollector.getInstance(EntityInfoCollector.class).removeListener(entityInfoListener);
 	}
-
-
 
 	public LivingHouse findBestLivingHouse(float x, float y)
 	{

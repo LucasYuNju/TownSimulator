@@ -29,7 +29,7 @@ public class EntityInfoCollector extends SingletonPublisher<EntityInfoCollectorL
 	private List<ConstructionProject> 			constructProjsList;
 	private Map<BuildingType, List<Building>> 	buildingsMap;
 	
-	public interface EntityInfoCollectorListener
+	public interface EntityInfoCollectorListener extends Serializable
 	{
 		public void newBuildingAdded(Building building);
 		
