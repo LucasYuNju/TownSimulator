@@ -83,7 +83,10 @@ public class SpeedSettingUI extends Group{
 				public void touchUp(InputEvent event, float x, float y,
 						int pointer, int button) {
 					if(touchDownX == x && touchDownY == y)
+					{
 						changeSpeed(index);
+						setShowButtons(false);
+					}
 						
 				}
 				

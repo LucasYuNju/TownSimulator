@@ -33,7 +33,6 @@ public class Settings {
 	public static final float GRAVITY_X = 0.0f;
 	public static final float GRAVITY_Y = UNIT * -6.0f;
 	
-	
 	/**
 	 * Building
 	 */

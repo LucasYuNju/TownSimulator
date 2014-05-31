@@ -7,7 +7,6 @@ import java.util.List;
 
 import com.TownSimulator.ai.behaviortree.BehaviorTreeNode;
 import com.TownSimulator.ai.btnimpls.grazier.GrazierBTN;
-import com.TownSimulator.collision.CollisionDetector;
 import com.TownSimulator.driver.Driver;
 import com.TownSimulator.driver.DriverListener;
 import com.TownSimulator.driver.DriverListenerBaseImpl;
@@ -196,8 +195,13 @@ public class Ranch extends WorkableBuilding{
 	public void destroy() {
 		super.destroy();
 		for (RanchLand land : ranchLands) {
-			Renderer.getInstance(Renderer.class).dettachDrawScissor(land);
-			CollisionDetector.getInstance(CollisionDetector.class).dettachCollisionDetection(land);
+//			Renderer.getInstance(Renderer.class).dettachDrawScissor(land);
+//			CollisionDetector.getInstance(CollisionDetector.class).dettachCollisionDetection(land);
+			land.destroy();
+		}
+		
+		for (RanchAnimal animal : ranchAnimals) {
+			animal.destroy();
 		}
 		
 		Driver.getInstance(Driver.class).removeListener(driverListener);

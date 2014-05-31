@@ -12,7 +12,6 @@ import com.TownSimulator.driver.DriverListener;
 import com.TownSimulator.driver.DriverListenerBaseImpl;
 import com.TownSimulator.entity.building.BuildingType;
 import com.TownSimulator.entity.building.School;
-import com.TownSimulator.render.Renderer;
 import com.TownSimulator.ui.UIManager;
 import com.TownSimulator.utility.Animation;
 import com.TownSimulator.utility.GameMath;
@@ -72,7 +71,7 @@ public class Man extends Entity{
 				{
 					dieAccum += deltaTime;
 					if(dieAccum >= dieElapseTime)
-						Renderer.getInstance(Renderer.class).dettachDrawScissor(Man.this);;
+						destroy();
 				}
 				else{
 					updateHungerPoints(deltaTime);
@@ -114,6 +113,14 @@ public class Man extends Entity{
 			}
 		}
 		
+	}
+	
+	
+
+	@Override
+	public void destroy() {
+		super.destroy();
+		EntityInfoCollector.getInstance(EntityInfoCollector.class).removeMan(this);
 	}
 
 	private void initInfo()

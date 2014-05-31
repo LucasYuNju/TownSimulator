@@ -41,13 +41,15 @@ public class BuildComsButton extends IconLabelButton{
 				
 				if(BuildComsButton.this.buildingType.isMoneyProducing())
 				{
-					int moneyCur = ResourceInfoCollector.getInstance(ResourceInfoCollector.class).getCandyAmount();
+					int moneyCur = ResourceInfoCollector.getInstance(ResourceInfoCollector.class).getEnergyAmount();
 					int cost = Settings.mpBuildingDataMap.get(BuildComsButton.this.buildingType).cost;
 					if(moneyCur < cost)
 						return;
 				}
 				
 				BuildingAdjustBroker.getInstance(BuildingAdjustBroker.class).startNewBuilding(BuildComsButton.this.buildingType);
+				
+				BuildComsCategoryButton.hideBuildButtonsGroup();
 			}
 		});
 		
@@ -101,7 +103,7 @@ public class BuildComsButton extends IconLabelButton{
 		if(buildingType.isMoneyProducing())
 		{
 			int cost = Settings.mpBuildingDataMap.get(BuildComsButton.this.buildingType).cost;
-			if (ResourceInfoCollector.getInstance(ResourceInfoCollector.class).getCandyAmount()
+			if (ResourceInfoCollector.getInstance(ResourceInfoCollector.class).getEnergyAmount()
 					>= cost)
 				font.setColor(Color.ORANGE);
 			else

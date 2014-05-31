@@ -54,7 +54,7 @@ public class MoneyProducingBuilding extends WorkableBuilding{
 			if(amount <= 0)
 				continue;
 			
-			ResourceInfoCollector.getInstance(ResourceInfoCollector.class).addCandy(amount);
+			ResourceInfoCollector.getInstance(ResourceInfoCollector.class).addEnergy(amount);
 			float originX = mDrawAABBWorld.getCenterX();
 			float originY = mDrawAABBWorld.maxY + Settings.UNIT * 0.5f;
 			TipsBillborad.showTips("$ + " + amount, originX, originY, Color.ORANGE);

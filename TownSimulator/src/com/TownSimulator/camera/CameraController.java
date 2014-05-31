@@ -111,6 +111,13 @@ public class CameraController extends SingletonPublisher<CameraListener>{
 		});
 	}
 	
+	public void reset()
+	{
+		mCamera.position.x = Map.MAP_WIDTH  * Settings.UNIT * 0.5f;
+		mCamera.position.y = Map.MAP_HEIGHT * Settings.UNIT * 0.5f;
+		mCameraScale = 1.0f;
+	}
+	
 	public void updateCamera()
 	{
 		mCamera.update();

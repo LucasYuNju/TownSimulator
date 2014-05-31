@@ -18,6 +18,7 @@ public class World extends Singleton implements Serializable{
 	private float secondDuringLastDay;
 	private int maxStudentAmount;
 	private SeasonType curSeasonType;
+	private int livedDays = 0;
 //	private int currentStudentNum;
 	
 	private int[] startSeasonMonth={2,5,8,11};
@@ -42,9 +43,10 @@ public class World extends Singleton implements Serializable{
 			@Override
 			public void update(float deltaTime) {
 				secondDuringLastDay += deltaTime;
-				if(secondDuringLastDay>secondPerDay){
+				if(secondDuringLastDay > secondPerDay){
 					calendar.add(Calendar.DATE, 1);
 					secondDuringLastDay -= secondPerDay;
+					livedDays ++;
 //					System.out.println(getCurYear()+"/"+getCurMonth()+"/"+getCurDay());
 				}
 				if(curSeasonType!=getCurSeason()){
@@ -54,6 +56,11 @@ public class World extends Singleton implements Serializable{
 				}
 			}
 		});
+	}
+	
+	public int getLivedDays()
+	{
+		return livedDays;
 	}
 	
 	/**

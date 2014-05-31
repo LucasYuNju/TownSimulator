@@ -25,7 +25,7 @@ public class AchievementManager extends Singleton{
 		initAchievements();
 	}
 	
-	private void initAchievements()
+	public void initAchievements()
 	{
 		achievements = new ArrayList<Achievement>();
 		

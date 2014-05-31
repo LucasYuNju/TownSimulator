@@ -99,6 +99,11 @@ public class ParticleControl extends Singleton{
 		this.isRenderWeather=true;
 	}
 	
+	public void clear()
+	{
+		this.isRenderWeather = false;
+	}
+	
 	public void moved(float deltaX, float deltaY){
 		for(int i=0;i<weatherParticlelist.size();i++){
 			float x=weatherParticlelist.get(i).getEmitters().get(0).getX();

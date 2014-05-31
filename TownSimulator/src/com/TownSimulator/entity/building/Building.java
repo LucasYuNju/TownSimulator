@@ -8,12 +8,10 @@ import java.util.List;
 import java.util.Set;
 
 import com.TownSimulator.ai.btnimpls.construct.ConstructionProject;
-import com.TownSimulator.collision.CollisionDetector;
 import com.TownSimulator.entity.Entity;
 import com.TownSimulator.entity.EntityInfoCollector;
 import com.TownSimulator.entity.Resource;
 import com.TownSimulator.entity.ResourceType;
-import com.TownSimulator.render.Renderer;
 import com.TownSimulator.ui.UIManager;
 import com.TownSimulator.ui.building.construction.ConstructionProgressBar;
 import com.TownSimulator.ui.building.construction.ConstructionWindow;
@@ -91,10 +89,13 @@ public abstract class Building extends Entity
 			undockedWindow.setShowDynamiteButton(v);
 	}
 	
+	@Override
 	public void destroy()
 	{
 		if(bDestroyable == false)
 			return;
+		
+		super.destroy();
 		
 		if(undockedWindow != null)
 		{
@@ -102,13 +103,6 @@ public abstract class Building extends Entity
 			undockedWindow = null;
 		}
 		
-		if(selectedEntity == this)
-		{
-			selectedEntity = null;
-			isSelected = false;
-		}
-		
-
 		if(getConstructionProject() != null)
 		{
 			getConstructionProject().destroy();
@@ -117,10 +111,7 @@ public abstract class Building extends Entity
 			constructionWindow.setVisible(false);
 		}
 		
-		System.out.println("Destroy");
 		EntityInfoCollector.getInstance(EntityInfoCollector.class).removeBuilding(this);
-		Renderer.getInstance(Renderer.class).dettachDrawScissor(this);
-		CollisionDetector.getInstance(CollisionDetector.class).dettachCollisionDetection(this);
 	}
 	
 	@Override

@@ -111,6 +111,13 @@ public class ResourceManager extends Singleton implements Serializable{
 		stringMap.put("mp_desc_vocalno", "火山爆发能产生巨大的能量");
 		stringMap.put("mp_desc_blackHole", "黑洞能够吸收各种物质，释放巨大的能量");
 		
+		stringMap.put("gameOverWindow_livedTime", "存货时间");
+		stringMap.put("gameOverWindow_day", "天");
+		stringMap.put("gameOverWindow_year", "年");
+		stringMap.put("gameOverWindow_maxMan", "最大人口");
+		stringMap.put("gameOverWindow_maxEnergy", "最大能量");
+		stringMap.put("gameOverWindow_return", "返回");
+		
 		Iterator<String> itr = stringMap.keySet().iterator();
 		StringBuilder strBuilder = new StringBuilder(FreeTypeFontGenerator.DEFAULT_CHARS);
 		while(itr.hasNext())

@@ -12,7 +12,7 @@ public class AmountAM extends Achievement{
 
 	@Override
 	protected boolean doCheckAchievement() {
-		if(ResourceInfoCollector.getInstance(ResourceInfoCollector.class).getCandyAmount() > amount)
+		if(ResourceInfoCollector.getInstance(ResourceInfoCollector.class).getEnergyAmount() > amount)
 			return true;
 		else
 			return false;
