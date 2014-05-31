@@ -335,6 +335,7 @@ public class FarmHouse extends WorkableBuilding implements SelectBoxListener
 	@Override
 	public void selectBoxSelected(String selectedString) {
 		setSowCropType(CropType.findWithViewName(selectedString));
+		updateWarningMsg();
 	}
 
 	private void readObject(ObjectInputStream s) throws ClassNotFoundException, IOException {

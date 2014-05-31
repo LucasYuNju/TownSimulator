@@ -260,6 +260,7 @@ public class Ranch extends WorkableBuilding{
 			@Override
 			public void selectBoxSelected(String selectedString) {
 				setType(RanchAnimalType.findWithViewName(selectedString));
+				updateWarningMsg();
 			}
 		});
 		return ranchWindow;

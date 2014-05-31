@@ -55,7 +55,7 @@ public class FarmViewWindow extends WorkableViewWindow {
 		LabelStyle labelStyle = new LabelStyle();
 		labelStyle.font = ResourceManager.getInstance(ResourceManager.class).getFont((int) (Settings.UNIT * 0.3f));
 		labelStyle.fontColor = Color.WHITE;
-		Label label = new Label("state", labelStyle);
+		Label label = new Label(ResourceManager.stringMap.get("farmView_state"), labelStyle);
 		label.setSize(LABEL_WIDTH, LABEL_HEIGHT);
 		label.setPosition(MARGIN, MARGIN * 5 + WorkerGroup.HEIGHT + LABEL_HEIGHT * 3);
 		label.setAlignment(Align.left);
@@ -74,14 +74,14 @@ public class FarmViewWindow extends WorkableViewWindow {
 		
 		float x = MARGIN;
 		float y = MARGIN * 4 + WorkerGroup.HEIGHT + LABEL_HEIGHT * 2;
-		Label label = new Label("curCrop", labelStyle);
+		Label label = new Label(ResourceManager.stringMap.get("farmView_curCrop"), labelStyle);
 		label.setSize(LABEL_WIDTH, LABEL_HEIGHT);
 		label.setPosition(x, y);
 		label.setAlignment(Align.left);
 		addActor(label);
 		
 		x += label.getWidth() + MARGIN;
-		curCropLabel = new Label("<Empty>", labelStyle);
+		curCropLabel = new Label(ResourceManager.stringMap.get("dropDown_empty"), labelStyle);
 		curCropLabel.setSize(LABEL_WIDTH, LABEL_HEIGHT);
 		curCropLabel.setPosition(x, y);
 		curCropLabel.setAlignment(Align.left);
@@ -97,7 +97,7 @@ public class FarmViewWindow extends WorkableViewWindow {
 		
 		float x = MARGIN;
 		float y = MARGIN * 3 + WorkerGroup.HEIGHT + LABEL_HEIGHT;
-		Label label = new Label("sowCrop", labelStyle);
+		Label label = new Label(ResourceManager.stringMap.get("farmView_sowCrop"), labelStyle);
 		label.setSize(LABEL_WIDTH, LABEL_HEIGHT);
 		label.setPosition(x, y);
 		label.setAlignment(Align.left);
