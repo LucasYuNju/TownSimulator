@@ -10,7 +10,6 @@ import com.TownSimulator.ui.screen.GameScreen;
 import com.TownSimulator.ui.screen.LoadingScreenUI;
 import com.TownSimulator.ui.screen.LoadingScreenUI.LoadingUIListener;
 import com.TownSimulator.ui.screen.StartScreen;
-//github.com/LuciusYu/TownSimulator.git
 import com.TownSimulator.utility.Settings;
 import com.TownSimulator.utility.Singleton;
 import com.TownSimulator.utility.VoicePlayer;
@@ -39,7 +38,8 @@ public class UIManager extends Singleton {
 		mGameUI = new GameScreen();
 		
 		mCurScreenUI = mStartUI;
-		Settings.backgroundColor = Color.BLACK.cpy();
+		//Settings.backgroundColor = Color.BLACK.cpy();
+		Settings.backgroundColor=Settings.gameNormalGroundColor.cpy();
 		VoicePlayer.getInstance(VoicePlayer.class).playBgmMusic("start.mp3");
 		VoicePlayer.getInstance(VoicePlayer.class).playMusicForDuringTime("rain.mp3", 60.0f);
 		

@@ -29,7 +29,7 @@ public class World extends Singleton implements Serializable{
 	public void init()
 	{
 		calendar=Calendar.getInstance();
-		calendar.set(2014, 4, 29);//设置初始日期
+		calendar.set(2014, 1, 29);//设置初始日期
 		curSeasonType=getCurSeason();
 		secondPerDay = SecondPerYear / 365.0f;
 		secondDuringLastDay = 0f;
