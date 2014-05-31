@@ -46,7 +46,6 @@ public class LoadingScreenUI extends ScreenUIBase implements Serializable{
 		
 		if( !Map.getInstance(Map.class).load() )
 		{
-			
 			Driver.getInstance(Driver.class).init();
 			World.getInstance(World.class).init();
 			ParticleControl.getInstance(ParticleControl.class).init();
@@ -55,6 +54,7 @@ public class LoadingScreenUI extends ScreenUIBase implements Serializable{
 			World.getInstance(World.class).setGroundColor();
 			Settings.gameSpeed = 1;
 			//if(listener != null)
+			
 			listener.loadingFinish();
 		}
 	}

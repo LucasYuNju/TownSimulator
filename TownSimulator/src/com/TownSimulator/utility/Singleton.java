@@ -31,6 +31,16 @@ public class Singleton {
 		mInstaceMap.clear();
 	}
 	
+	protected static <T extends Singleton> void clearInstance(Class<T> classType)
+	{
+		mInstaceMap.remove(classType);
+	}
+	
+	protected static <T extends Singleton> void setInstance(Class<T> classType, T instance)
+	{
+		mInstaceMap.put(classType, instance);
+	}
+	
 	public static void print() {
 		
 	}

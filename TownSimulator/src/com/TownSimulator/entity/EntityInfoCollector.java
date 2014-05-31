@@ -10,6 +10,7 @@ import java.util.Map;
 
 import com.TownSimulator.ai.btnimpls.construct.ConstructionProject;
 import com.TownSimulator.collision.CollisionDetector;
+import com.TownSimulator.driver.Driver;
 import com.TownSimulator.entity.EntityInfoCollector.EntityInfoCollectorListener;
 import com.TownSimulator.entity.building.Building;
 import com.TownSimulator.entity.building.BuildingType;
@@ -28,6 +29,7 @@ public class EntityInfoCollector extends SingletonPublisher<EntityInfoCollectorL
 	private List<Building>						buildingsList;
 	private List<ConstructionProject> 			constructProjsList;
 	private Map<BuildingType, List<Building>> 	buildingsMap;
+	private int 								maxManCnt = 0;
 	
 	public interface EntityInfoCollectorListener
 	{
@@ -56,14 +58,43 @@ public class EntityInfoCollector extends SingletonPublisher<EntityInfoCollectorL
 		}
 	}
 	
+	public void clear()
+	{
+		ArrayList<Man> manCpy = new ArrayList<Man>(manList);
+		for (Man man : manCpy) {
+			man.destroy();
+		}
+		manList.clear();
+		
+		ArrayList<Building> buildingCpy = new ArrayList<Building>(buildingsList);
+		for (Building building : buildingCpy) {
+			building.destroy();
+		}
+		buildingsList.clear();
+		
+		constructProjsList.clear();
+		buildingsMap.clear();
+		maxManCnt = 0;
+	}
+	
+	public int getMaxManCnt()
+	{
+		return maxManCnt;
+	}
+	
 	public void addMan(Man man)
 	{
 		manList.add(man);
+		
+		maxManCnt = Math.max(maxManCnt, manList.size());
 	}
 	
 	public void removeMan(Man man)
 	{
 		manList.remove(man);
+		
+		if(manList.size() <= 0)
+			Driver.getInstance(Driver.class).gameOver();
 	}
 	
 	public List<Man> getAllMan()

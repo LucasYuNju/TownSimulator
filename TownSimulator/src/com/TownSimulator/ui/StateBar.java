@@ -198,7 +198,7 @@ public class StateBar extends Group{
 		int numWood = ResourceInfoCollector.getInstance(ResourceInfoCollector.class).getResourceAmount(ResourceType.Wood);
 		numWoodLabel.setText(NumberFormat.getNumberInstance(Locale.US).format(numWood));
 		
-		int numMoney = ResourceInfoCollector.getInstance(ResourceInfoCollector.class).getCandyAmount();
+		int numMoney = ResourceInfoCollector.getInstance(ResourceInfoCollector.class).getEnergyAmount();
 		numMoneyLabel.setText(NumberFormat.getNumberInstance(Locale.US).format(numMoney));
 	}
 

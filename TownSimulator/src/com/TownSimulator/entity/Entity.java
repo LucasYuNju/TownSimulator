@@ -76,6 +76,18 @@ public class Entity implements Drawable, QuadTreeManageble, Serializable{
 		setSprite(sp);
 	}
 	
+	public void destroy()
+	{
+		if(selectedEntity == this)
+		{
+			selectedEntity = null;
+			isSelected = false;
+		}
+		
+		Renderer.getInstance(Renderer.class).dettachDrawScissor(this);
+		CollisionDetector.getInstance(CollisionDetector.class).dettachCollisionDetection(this);
+	}
+	
 	public void setSelected(boolean value)
 	{
 		isSelected = value;

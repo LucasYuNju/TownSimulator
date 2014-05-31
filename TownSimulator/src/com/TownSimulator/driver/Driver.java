@@ -29,6 +29,7 @@ import com.TownSimulator.entity.building.School;
 import com.TownSimulator.entity.building.Warehouse;
 import com.TownSimulator.entity.building.Well;
 import com.TownSimulator.io.InputMgr;
+import com.TownSimulator.map.Map;
 import com.TownSimulator.render.Renderer;
 import com.TownSimulator.ui.UIManager;
 import com.TownSimulator.ui.building.construction.ConstructionProgressBar;
@@ -42,6 +43,7 @@ import com.TownSimulator.utility.particle.ParticleControl;
 import com.TownSimulator.utility.particles.ParticleManager;
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 
 public class Driver extends SingletonPublisher<DriverListener> implements ApplicationListener{
@@ -55,7 +57,7 @@ public class Driver extends SingletonPublisher<DriverListener> implements Applic
 	public void init()
 	{
 		Random rand = new Random(System.currentTimeMillis());
-		int initPepleCnt = 14;
+		int initPepleCnt = 5;
 		float originPosX = CameraController.getInstance(CameraController.class).getX();
 		float originPoxY = CameraController.getInstance(CameraController.class).getY();
 		int minAge = ManInfo.AGE_ADULT;
@@ -76,7 +78,7 @@ public class Driver extends SingletonPublisher<DriverListener> implements Applic
 			Renderer.getInstance(Renderer.class).attachDrawScissor(man);
 		}
 		
-		ResourceInfoCollector.getInstance(ResourceInfoCollector.class).addCandy(Integer.MAX_VALUE);
+		ResourceInfoCollector.getInstance(ResourceInfoCollector.class).addEnergy(Integer.MAX_VALUE);
 		
 //		InputMgr.getInstance(InputMgr.class).addListener(new InputMgrListenerBaseImpl()
 //		{
@@ -84,7 +86,8 @@ public class Driver extends SingletonPublisher<DriverListener> implements Applic
 //			@Override
 //			public boolean touchDown(float screenX, float screenY, int pointer,
 //					int button) {
-//				UIManager.getInstance(UIManager.class).getGameUI().getAchievementUI().pushToShow(new FirstMPBuildingAM());
+////				UMHelper.shareUtil.share(ShareType.Sina);
+//				UIManager.getInstance(UIManager.class).getGameUI().showGameOverWindow();
 //				return true;
 //			}
 //			
@@ -99,7 +102,7 @@ public class Driver extends SingletonPublisher<DriverListener> implements Applic
 		
 		Warehouse wareHouse = (Warehouse) EntityFactory.createBuilding(BuildingType.Warehouse);
 		wareHouse.addStoredResource(ResourceType.Wood, 2300);
-		wareHouse.addStoredResource(ResourceType.Coat, 1200);
+//		wareHouse.addStoredResource(ResourceType.Coat, 400);
 		wareHouse.addStoredResource(ResourceType.Wheat, 20000);
 		wareHouse.setState(Building.State.Constructed);
 		wareHouse.setPositionWorld(originPosX - 2 * Settings.UNIT, originPoxY - 8 * Settings.UNIT);
@@ -260,6 +263,29 @@ public class Driver extends SingletonPublisher<DriverListener> implements Applic
 	public void ignoreNextUpdate()
 	{
 		bIgnoreNextUpdate = true;
+	}
+	
+	public void gameOver()
+	{
+		Settings.gameSpeed = 0;
+		UIManager.getInstance(UIManager.class).getGameUI().showGameOverWindow();
+	}
+	
+	private void clear()
+	{
+		Singleton.getInstance(EntityInfoCollector.class).clear();
+		Singleton.getInstance(AchievementManager.class).initAchievements();
+		Singleton.getInstance(Map.class).clear();
+		Singleton.getInstance(ResourceInfoCollector.class).clear();
+		Singleton.getInstance(ParticleControl.class).clear();
+	}
+	
+	public void returnToStartUI()
+	{
+		clear();
+		UIManager.getInstance(UIManager.class).returnToStartUI();
+		Renderer.getInstance(Renderer.class).setRenderScene(false);
+		Settings.backgroundColor = Color.BLACK;
 	}
 
 	@Override

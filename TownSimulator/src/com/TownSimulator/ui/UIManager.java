@@ -87,6 +87,11 @@ public class UIManager extends Singleton {
 		mCurScreenUI = mLoadingUI;
 //		VoicePlayer.getInstance(VoicePlayer.class).playMusic("game.mp3");
 	}
+	
+	public void returnToStartUI()
+	{
+		mCurScreenUI = mStartUI;
+	}
 
 	public void render()
 	{

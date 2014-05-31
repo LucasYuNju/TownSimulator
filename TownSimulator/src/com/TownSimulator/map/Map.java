@@ -34,10 +34,11 @@ public class Map extends Singleton implements Serializable{
 	private float						initProcess;
 	private List<Tree>					trees = new LinkedList<Tree>();
 	private int 						prevSeed;
+	private CameraListener				cameraListener;
 	
 	private Map()
 	{
-		CameraController.getInstance(CameraController.class).addListener(new CameraListener() {
+		cameraListener = new CameraListener() {
 			private static final long serialVersionUID = -6926077892955100764L;
 
 			@Override
@@ -50,7 +51,20 @@ public class Map extends Singleton implements Serializable{
 			public void cameraMoved(float deltaX, float deltaY) {
 				updateTreeActivity();
 			}
-		});
+		};
+		
+		CameraController.getInstance(CameraController.class).addListener(cameraListener);
+	}
+	
+	public void clear()
+	{
+		initCnt = 0;
+		initProcess = 0.0f;
+		for (Tree t : trees) {
+			t.destroy();
+		}
+		
+		trees.clear();
 	}
 	
 	public List<Tree> getTrees() {

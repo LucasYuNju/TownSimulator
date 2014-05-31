@@ -12,30 +12,41 @@ public class ResourceInfoCollector extends Singleton
 	private static final long serialVersionUID = -3695490079998930235L;
 	private List<Resource> resourceMap;
 	private int foodAmount = 0;
-	private int candyAmount = 0;
+	private int energyAmount = 0;
+	private int maxEnergyAmount = 0;
 	
 	private ResourceInfoCollector()
 	{
 		resourceMap = new ArrayList<Resource>();
 	}
 	
-	public void addCandy(int amount)
+	public void clear()
 	{
-		int addResult = candyAmount + amount;
+		resourceMap.clear();
+		foodAmount = 0;
+		energyAmount = 0;
+		maxEnergyAmount = 0;
+	}
+	
+	public void addEnergy(int amount)
+	{
+		int addResult = energyAmount + amount;
 		if(amount < 0)
-			candyAmount = Math.max(addResult, 0);
+			energyAmount = Math.max(addResult, 0);
 		else
 		{
 			if(addResult < 0)
-				candyAmount = Integer.MAX_VALUE;
+				energyAmount = Integer.MAX_VALUE;
 			else
-				candyAmount = addResult;
+				energyAmount = addResult;
 		}
+		
+		maxEnergyAmount = Math.max(maxEnergyAmount, energyAmount);
 	}
 	
-	public int getCandyAmount()
+	public int getEnergyAmount()
 	{
-		return candyAmount;
+		return energyAmount;
 	}
 	
 	public void addResourceAmount(ResourceType type, int amount)
@@ -60,5 +71,9 @@ public class ResourceInfoCollector extends Singleton
 	public int getFoodAmount()
 	{
 		return foodAmount;
+	}
+
+	public int getMaxEnergyAmount() {
+		return maxEnergyAmount;
 	}
 }

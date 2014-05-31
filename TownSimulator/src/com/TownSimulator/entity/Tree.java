@@ -53,6 +53,17 @@ public class Tree extends MapEntity{
 		growToMaxTime = GROW_TO_MAX_TIME_BASE * ( 1.0f + rand.nextFloat() * 0.5f);
 	}
 	
+	
+	
+	@Override
+	public void destroy() {
+		super.destroy();
+		
+		Driver.getInstance(Driver.class).removeListener(driverListener);
+	}
+
+
+
 	public void setCutting(boolean value)
 	{
 		bCutting = value;

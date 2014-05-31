@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.TownSimulator.entity.Resource;
 import com.TownSimulator.entity.building.BuildingType;
+import com.TownSimulator.ui.GameOverWindow;
 import com.TownSimulator.ui.MessageBoard;
 import com.TownSimulator.ui.StateBar;
 import com.TownSimulator.ui.achievement.AchievementUI;
@@ -34,6 +35,7 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
+import com.badlogic.gdx.utils.ScreenUtils;
 
 public class GameScreen extends ScreenUIBase{
 	private static final long serialVersionUID = -5791358765820581413L;
@@ -50,6 +52,7 @@ public class GameScreen extends ScreenUIBase{
 	private StateBar stateBar;
 	private MessageBoard messageBoard;
 	private AchievementUI achievementUI;
+	private GameOverWindow gameOverWindow;
 	
 	public GameScreen()
 	{
@@ -122,6 +125,15 @@ public class GameScreen extends ScreenUIBase{
 		
 		achievementUI = new AchievementUI();
 		mStage.addActor(achievementUI);
+		
+		gameOverWindow = new GameOverWindow();
+		mStage.addActor(gameOverWindow);
+	}
+	
+	public void showGameOverWindow()
+	{
+		gameOverWindow.updateValues();
+		gameOverWindow.setVisible(true);
 	}
 	
 	public AchievementUI getAchievementUI()
@@ -137,6 +149,13 @@ public class GameScreen extends ScreenUIBase{
 	public MessageBoard getMessageBoard()
 	{
 		return messageBoard;
+	}
+	
+	public byte[] getShareImg()
+	{
+		byte[] data = ScreenUtils.getFrameBufferPixels(true);
+		
+		return data;
 	}
 	
 	public ConstructionWindow createConstructionWindow(BuildingType buildingType, List<Resource> resouces, int numAllowedBuilder) {
