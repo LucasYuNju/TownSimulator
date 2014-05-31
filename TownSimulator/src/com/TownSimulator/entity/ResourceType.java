@@ -6,6 +6,8 @@ import com.TownSimulator.utility.ResourceManager;
 public enum ResourceType {
 	Wood(ResourceManager.stringMap.get("rs_wood"), false, "resource_wood"), 
 	Wheat(ResourceManager.stringMap.get("rs_wheat"), true, null),
+	Mimosa(ResourceManager.stringMap.get("rs_mimosa"), true, null),
+	Rose(ResourceManager.stringMap.get("rs_rose"), true, null),
 	Corn(ResourceManager.stringMap.get("rs_corn"), true, null),
 	Meat(ResourceManager.stringMap.get("rs_meat"), true, null),
 	Fur(ResourceManager.stringMap.get("rs_fur"), false, null),

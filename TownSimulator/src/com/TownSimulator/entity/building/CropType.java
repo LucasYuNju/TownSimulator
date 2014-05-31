@@ -4,7 +4,9 @@ import com.TownSimulator.entity.ResourceType;
 import com.TownSimulator.utility.ResourceManager;
 
 public enum CropType {
-	Wheat("crop_wheat", ResourceManager.stringMap.get("crop_wheat"), ResourceType.Wheat);
+	Wheat("crop_wheat", ResourceManager.stringMap.get("crop_wheat"), ResourceType.Wheat),
+	Rose("crop_mimosa", ResourceManager.stringMap.get("crop_mimosa"), ResourceType.Mimosa),
+	Mimose("crop_rose", ResourceManager.stringMap.get("crop_rose"), ResourceType.Rose);
 	
 	private String textureName;
 	private String viewName;

@@ -129,7 +129,7 @@ public class FarmViewWindow extends WorkableViewWindow {
 			strs[i] = types[i-1].getViewName();
 		}
 		dropDown.setItems(strs);
-		dropDown.setSize(style.font.getBounds(strs[0]).width, LABEL_HEIGHT);
+		dropDown.setSize(style.font.getBounds(strs[0]).width*2, LABEL_HEIGHT);
 		//dropDown.setPosition(getWidth() - MARGIN - LABEL_WIDTH, MARGIN + WorkerGroup.HEIGHT + LABEL_WIDTH);
 		dropDown.addListener(new EventListener() {
 			@Override

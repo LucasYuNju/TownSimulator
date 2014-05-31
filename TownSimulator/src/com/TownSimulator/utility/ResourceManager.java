@@ -85,15 +85,21 @@ public class ResourceManager extends Singleton implements Serializable{
 		stringMap.put("achivement_desc_level_3", "你的能量可以引发宇宙爆炸 (100,000,000)");
 		
 		stringMap.put("dropDown_empty", "<空>");
-		
+	
 		stringMap.put("animal_cow", "牛");
+		stringMap.put("animal_sheep", "羊");
+		stringMap.put("animal_caonima", "草泥马");
 		
 		stringMap.put("crop_wheat", "小麦");
+		stringMap.put("crop_mimosa", "含羞草");
+		stringMap.put("crop_rose", "玫瑰");
 		
 		stringMap.put("schoolUI_student", "学生");
 		
 		stringMap.put("rs_wood", "木材");
 		stringMap.put("rs_wheat", "小麦");
+		stringMap.put("rs_mimosa", "含羞草");
+		stringMap.put("rs_rose", "玫瑰");
 		stringMap.put("rs_corn", "玉米");
 		stringMap.put("rs_meat", "肉");
 		stringMap.put("rs_fur", "皮毛");

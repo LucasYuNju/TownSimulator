@@ -16,6 +16,7 @@ public class FarmLand extends Entity{
 	private float curCropAmount;
 	private boolean bCropDieStart = false;
 	private float cropDieSpeed = 0.0f;
+	private float cropScale=0.0f;
 	private Sprite soil;
 	//private float cropStartDieAmount = 0.0f;
 	
@@ -90,7 +91,8 @@ public class FarmLand extends Entity{
 	public void updateView()
 	{
 		float size = GameMath.lerp(0.0f, 1.0f, curCropAmount / MAX_CROP_AMOUNT);
-		mSprite.setSize(size * mDrawAABBLocal.getWidth(), size * mDrawAABBLocal.getHeight());
+		cropScale=1.4f;
+		mSprite.setSize(size * mDrawAABBLocal.getWidth()*cropScale, size * mDrawAABBLocal.getHeight()*cropScale);
 		mSprite.setPosition(mDrawAABBWorld.getCenterX() - mSprite.getWidth() * 0.5f, mDrawAABBWorld.minY);
 	}
 

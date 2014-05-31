@@ -64,7 +64,7 @@ public class RanchViewWindow extends WorkableViewWindow {
 			strs[i] = types[i-1].getViewName();
 		}
 		dropDown.setItems(strs);
-		dropDown.setSize(style.font.getBounds(strs[0]).width, LABEL_HEIGHT);
+		dropDown.setSize(style.font.getBounds(strs[0]).width*2, LABEL_HEIGHT);
 		dropDown.setPosition(MARGIN, MARGIN + WorkerGroup.HEIGHT + LABEL_HEIGHT);
 		dropDown.addListener(new EventListener() {
 			@Override
