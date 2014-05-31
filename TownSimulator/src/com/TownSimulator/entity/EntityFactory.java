@@ -114,7 +114,7 @@ public class EntityFactory {
 		case Well:
 			xGridSize=2;
 			yGridSize=2;
-			yDrawScale=1.5f;
+			yDrawScale=0.8f;
 			building = new Well();
 			break;
 		case ConstrctionCompany:

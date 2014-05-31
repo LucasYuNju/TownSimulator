@@ -155,7 +155,7 @@ public class ParticleControl extends Singleton{
 			tempEffect.setPosition(renderStartX+tempLocation, renderStartY);
 			particleEffectters=tempEffect.getEmitters();
 			for(int i=0;i<particleEffectters.size;i++){
-				particleEffectters.get(i).getScale().setHigh(ParticleHeight);
+				particleEffectters.get(i).getScale().setHigh(ParticleHeight*1.5f);
 			}
 			weatherParticlelist.add(tempEffect);
 			break;

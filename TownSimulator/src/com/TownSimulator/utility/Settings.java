@@ -17,6 +17,7 @@ public class Settings {
 	public static Color gameNormalGroundColor = GameMath.rgbaIntToColor(205, 163, 95, 255);
 	public static Color gameWinterGroundColor = GameMath.rgbaIntToColor(250, 235, 215, 255);
 	public static Color gameSummerGroundColor = GameMath.rgbaIntToColor(137, 109, 64, 255);
+	public static Color gameBackGroundColor = GameMath.rgbaIntToColor(0,34,40, 255);
 	/*
 	 * UI Settings
 	 */
