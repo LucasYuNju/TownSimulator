@@ -31,7 +31,7 @@ public class EntityInfoCollector extends SingletonPublisher<EntityInfoCollectorL
 	private Map<BuildingType, List<Building>> 	buildingsMap;
 	private int 								maxManCnt = 0;
 	
-	public interface EntityInfoCollectorListener
+	public interface EntityInfoCollectorListener extends Serializable
 	{
 		public void newBuildingAdded(Building building);
 		
