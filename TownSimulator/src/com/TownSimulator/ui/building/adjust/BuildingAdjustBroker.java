@@ -51,7 +51,7 @@ public class BuildingAdjustBroker extends Singleton implements EntityListener, C
 	public void startNewBuilding(BuildingType type)
 	{
 		if(isIdle() == false)
-			return;
+			cancelBuilding();
 		
 		Renderer.getInstance(Renderer.class).setDrawGrid(true);
 		
@@ -156,16 +156,17 @@ public class BuildingAdjustBroker extends Singleton implements EntityListener, C
 	private void cancelBuilding()
 	{
 		Renderer.getInstance(Renderer.class).setDrawGrid(false);
-		Renderer.getInstance(Renderer.class).dettachDrawScissor(mCurBuilding);
-		if(mCurBuilding.getType() == BuildingType.FarmHouse)
-			for (FarmLand land : ((FarmHouse)mCurBuilding).getFarmLands()) {
-				Renderer.getInstance(Renderer.class).dettachDrawScissor(land);
-			}
-		if(mCurBuilding.getType() == BuildingType.Ranch)
-			for (RanchLand land : ((Ranch)mCurBuilding).getRanchLands()) {
-				Renderer.getInstance(Renderer.class).dettachDrawScissor(land);
-			}
-		CollisionDetector.getInstance(CollisionDetector.class).dettachCollisionDetection(mCurBuilding);
+//		Renderer.getInstance(Renderer.class).dettachDrawScissor(mCurBuilding);
+//		if(mCurBuilding.getType() == BuildingType.FarmHouse)
+//			for (FarmLand land : ((FarmHouse)mCurBuilding).getFarmLands()) {
+//				Renderer.getInstance(Renderer.class).dettachDrawScissor(land);
+//			}
+//		if(mCurBuilding.getType() == BuildingType.Ranch)
+//			for (RanchLand land : ((Ranch)mCurBuilding).getRanchLands()) {
+//				Renderer.getInstance(Renderer.class).dettachDrawScissor(land);
+//			}
+//		CollisionDetector.getInstance(CollisionDetector.class).dettachCollisionDetection(mCurBuilding);
+		mCurBuilding.destroy();
 		CameraController.getInstance(CameraController.class).removeListener(BuildingAdjustBroker.this);
 
 		mCurBuilding.setListener(null);
