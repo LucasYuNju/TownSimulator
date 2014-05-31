@@ -94,6 +94,10 @@ public class ResourceManager extends Singleton implements Serializable{
 		stringMap.put("crop_mimosa", "含羞草");
 		stringMap.put("crop_rose", "玫瑰");
 		
+		stringMap.put("farmView_state", "状态");
+		stringMap.put("farmView_curCrop", "当前作物");
+		stringMap.put("farmView_sowCrop", "种植作物");
+		
 		stringMap.put("schoolUI_student", "学生");
 		
 		stringMap.put("rs_wood", "木材");

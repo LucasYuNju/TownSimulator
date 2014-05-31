@@ -14,7 +14,6 @@ import com.TownSimulator.utility.Settings;
 import com.TownSimulator.utility.Singleton;
 import com.TownSimulator.utility.VoicePlayer;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
 
 public class UIManager extends Singleton {
 	private StartScreen 	mStartUI;
@@ -39,7 +38,7 @@ public class UIManager extends Singleton {
 		
 		mCurScreenUI = mStartUI;
 		//Settings.backgroundColor = Color.BLACK.cpy();
-		Settings.backgroundColor=Settings.gameNormalGroundColor.cpy();
+		Settings.backgroundColor = Settings.gameNormalGroundColor.cpy();
 		VoicePlayer.getInstance(VoicePlayer.class).playBgmMusic("start.mp3");
 		VoicePlayer.getInstance(VoicePlayer.class).playMusicForDuringTime("rain.mp3", 60.0f);
 		

@@ -71,6 +71,11 @@ public abstract class WorkableBuilding extends Building
 	@Override
 	public void detectTapped() {
 		super.detectTapped();
+		updateWarningMsg();
+	}
+	
+	protected void updateWarningMsg()
+	{
 		workableWindow.setTips(getWarningMessage());
 	}
 
