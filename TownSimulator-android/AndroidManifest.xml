@@ -72,7 +72,7 @@
             android:name="UMENG_APPKEY"
             android:value="5386c48656240b1d50005a7f" >
         </meta-data>
+        <meta-data android:value="Monochannel" android:name="UMENG_CHANNEL"/>
         
     </application>
-
 </manifest>
