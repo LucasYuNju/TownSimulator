@@ -32,8 +32,8 @@ public class GameOverWindow extends Group{
 	private Label maxEnergyValueLabel;
 	private TextureRegion background;
 	private ArrayList<FlipButton> shareButtons;
-	private String[] shareIconsMap = new String[]{"share_sina", "share_weixin", "share_renren", "share_qqzone"};
-	private ShareType[] shareTypesMap = new ShareType[]{ShareType.Sina, ShareType.WeiXin, ShareType.RenRen, ShareType.QQZone};
+	private String[] shareIconsMap = new String[]{"share_sina", "share_weixin", "share_renren"};
+	private ShareType[] shareTypesMap = new ShareType[]{ShareType.Sina, ShareType.WeiXin, ShareType.RenRen};
 	private Label returnLabel;
 	
 	public GameOverWindow()
@@ -99,7 +99,7 @@ public class GameOverWindow extends Group{
 		addActor(maxEnergyValueLabel);
 		
 		shareButtons = new ArrayList<FlipButton>();
-		float iconsHPad = (WINDOW_WIDTH - shareIconsMap.length * ICON_HEIGHT) / 5.0f;
+		float iconsHPad = (WINDOW_WIDTH - shareIconsMap.length * ICON_HEIGHT) / (float)(shareIconsMap.length + 1);
 		x = iconsHPad;
 		y -= MARGIN + ICON_HEIGHT;
 		for (int i = 0; i < shareIconsMap.length; i++) {
