@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.TownSimulator.utility.SingletonPublisher;
+import com.TownSimulator.utility.VoicePlayer;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 
@@ -25,6 +26,7 @@ public class InputMgr extends SingletonPublisher<InputMgrListener> implements In
 	
 	@Override
 	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+		
 		mActiveListeners.clear();
 		mCancelTouchDown = false;
 		

@@ -7,6 +7,7 @@ import com.TownSimulator.driver.Driver;
 import com.TownSimulator.utility.share.UMHelper;
 import com.badlogic.gdx.backends.android.AndroidApplication;
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
+import com.umeng.analytics.MobclickAgent;
 
 public class MainActivity extends AndroidApplication {
 	private ShareHelper shareHelper;
@@ -27,13 +28,21 @@ public class MainActivity extends AndroidApplication {
         System.out.println(d);
         initialize(Driver.getInstance(Driver.class), cfg);
     }
+    
+    @Override
+    public void onResume() {
+    	super.onResume();
+    	MobclickAgent.onResume(this);
+    }
 
+    public void onPause() {
+    	super.onPause();
+    	MobclickAgent.onPause(this);
+    }
+    
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
-		
 		shareHelper.onActivityResult(requestCode, resultCode, data);
 	}
-    
-    
 }
