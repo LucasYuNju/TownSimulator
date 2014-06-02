@@ -2,16 +2,8 @@ package com.TownSimulator.ui.screen.introduction;
 
 import java.util.ArrayList;
 
-import aurelienribon.tweenengine.Tween;
-import aurelienribon.tweenengine.equations.Bounce;
-
-import com.TownSimulator.entity.Man;
 import com.TownSimulator.utility.ResourceManager;
 import com.TownSimulator.utility.Settings;
-import com.TownSimulator.utility.animation.ActorAccessor;
-import com.TownSimulator.utility.animation.AnimationManager;
-import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 
@@ -52,10 +44,10 @@ public class IntroStoryWindow extends BaseIntroductionWindow{
 		
 		blackholeImage=new Image(ResourceManager.getInstance(ResourceManager.class).createSprite("button_build_mp_black_hole"));
 		blackholeImage.setBounds(11.5f*ButtonWidth, 0.25f*ButtonHeight+ButtonMargin, blackholeWidth, blackholeHeight);
-		addActor(blackholeImage);
-		Tween.registerAccessor(Image.class, new ActorAccessor());
-		Tween.to(blackholeImage, ActorAccessor.POS_XY, 1.0f).ease(Bounce.OUT)
-		.target(7*ButtonWidth,0).start(AnimationManager.getInstance(AnimationManager.class).getManager());
+//		addActor(blackholeImage);
+//		Tween.registerAccessor(Image.class, new ActorAccessor());
+//		Tween.to(blackholeImage, ActorAccessor.POS_XY, 1.0f).ease(Bounce.OUT)
+//		.target(7*ButtonWidth,0).start(AnimationManager.getInstance(AnimationManager.class).getManager());
 	}
 	
 	
