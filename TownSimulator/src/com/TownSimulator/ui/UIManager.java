@@ -10,20 +10,37 @@ import com.TownSimulator.ui.screen.GameScreen;
 import com.TownSimulator.ui.screen.LoadingScreenUI;
 import com.TownSimulator.ui.screen.LoadingScreenUI.LoadingUIListener;
 import com.TownSimulator.ui.screen.StartScreen;
+import com.TownSimulator.ui.screen.introduction.IntroductionUI;
+import com.TownSimulator.ui.screen.introduction.IntroductionUI.IntroductionListener;
 import com.TownSimulator.utility.Settings;
 import com.TownSimulator.utility.Singleton;
 import com.TownSimulator.utility.VoicePlayer;
 import com.badlogic.gdx.Gdx;
+import com.sun.org.apache.bcel.internal.generic.NEW;
 
 public class UIManager extends Singleton {
 	private StartScreen 	mStartUI;
 	private LoadingScreenUI mLoadingUI;
 	private GameScreen	mGameUI;
 	private ScreenUIBase	mCurScreenUI;
+	private IntroductionUI mIntroductionUI;
 	
 	private UIManager()
 	{
 		mStartUI = new StartScreen();
+		
+
+		mIntroductionUI=new IntroductionUI();
+		mIntroductionUI.setListener(new IntroductionListener() {
+			
+			@Override
+			public void introductionFinish() {
+				// TODO Auto-generated method stub
+				mLoadingUI.startLoading();
+				mCurScreenUI = mLoadingUI;
+			}
+		});
+		
 		mLoadingUI = new LoadingScreenUI();
 		mLoadingUI.setListener(new LoadingUIListener() {
 			
@@ -82,9 +99,7 @@ public class UIManager extends Singleton {
 
 	public void startGame() 
 	{
-		mLoadingUI.startLoading();
-		mCurScreenUI = mLoadingUI;
-//		VoicePlayer.getInstance(VoicePlayer.class).playMusic("game.mp3");
+		mCurScreenUI=mIntroductionUI;
 	}
 	
 	public void returnToStartUI()
@@ -113,6 +128,7 @@ public class UIManager extends Singleton {
 			@Override
 			public void dispose() {
 				mStartUI.dispose();
+				mIntroductionUI.dispose();
 				mGameUI.dispose();
 				Singleton.clearInstanceMap();
 			}

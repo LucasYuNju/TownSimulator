@@ -11,6 +11,7 @@ import com.badlogic.gdx.graphics.Color;
 
 public class Settings {
 	public static float UNIT = Gdx.graphics.getWidth() / 15.0f;
+	public static float HEIGHTUNIT=Gdx.graphics.getHeight()/10.0f;
 	
 	public static int gameSpeed = 1;
 	public static Color backgroundColor = new Color(Color.BLACK);

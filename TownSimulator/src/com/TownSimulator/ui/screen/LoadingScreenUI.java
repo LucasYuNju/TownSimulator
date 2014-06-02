@@ -2,6 +2,9 @@ package com.TownSimulator.ui.screen;
 
 import java.io.Serializable;
 
+import aurelienribon.tweenengine.Tween;
+import aurelienribon.tweenengine.TweenManager;
+
 import com.TownSimulator.driver.Driver;
 import com.TownSimulator.entity.World;
 import com.TownSimulator.map.Map;
