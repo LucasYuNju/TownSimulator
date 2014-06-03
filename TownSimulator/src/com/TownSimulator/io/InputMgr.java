@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.TownSimulator.utility.SingletonPublisher;
-import com.TownSimulator.utility.VoicePlayer;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 

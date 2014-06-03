@@ -37,6 +37,10 @@ public class FellingHouse extends WorkableBuilding {
 				if(isSelected || getState() == Building.State.PosUnconfirmed)
 					drawRange();
 			}
+
+			@Override
+			public void emptyTapped() {
+			}
 		};
 		Renderer.getInstance(Renderer.class).addListener(renderListener);
 	}

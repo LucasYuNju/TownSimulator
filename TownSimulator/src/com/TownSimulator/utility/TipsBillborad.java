@@ -120,6 +120,12 @@ public class TipsBillborad {
 			@Override
 			public void renderBegined() {
 			}
+
+			@Override
+			public void emptyTapped() {
+				// TODO Auto-generated method stub
+				
+			}
 		});
 	}
 	

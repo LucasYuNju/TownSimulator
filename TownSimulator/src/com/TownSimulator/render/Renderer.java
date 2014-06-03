@@ -7,6 +7,9 @@ import com.TownSimulator.camera.CameraController;
 import com.TownSimulator.collision.CollisionDetector;
 import com.TownSimulator.driver.Driver;
 import com.TownSimulator.driver.DriverListenerBaseImpl;
+import com.TownSimulator.entity.Entity;
+import com.TownSimulator.io.InputMgr;
+import com.TownSimulator.io.InputMgrListenerBaseImpl;
 import com.TownSimulator.map.Map;
 import com.TownSimulator.utility.AxisAlignedBoundingBox;
 import com.TownSimulator.utility.ResourceManager;
@@ -18,6 +21,7 @@ import com.TownSimulator.utility.quadtree.QuadTreeManageble;
 import com.TownSimulator.utility.quadtree.QuadTreeType;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Vector3;
 
 public class Renderer extends SingletonPublisher<RendererListener>{
 	private RenderBatch		   		mRenderBatch;
@@ -26,13 +30,16 @@ public class Renderer extends SingletonPublisher<RendererListener>{
 	private boolean 				mbDrawGrid = false;
 	private	int						allocIndex = 0;
 	private boolean					mbRenderScene = false;
+	private	List<Entity> 			mEventsListeningObjs;
+	private float 					touchDownXWorld;
+	private float 					touchDownYWorld;
 	
 	private Renderer()
 	{
 		mRenderBatch = new RenderBatch();
 		mDrawScissor = new QuadTree(QuadTreeType.DRAW, 0.0f, 0.0f, Map.MAP_WIDTH * Settings.UNIT, Map.MAP_HEIGHT * Settings.UNIT);
 		mGridIdleList = new ArrayList<Grid>();
-//		mGroundDrawMap = new HashMap<String, GroundDrawContainer>();
+		mEventsListeningObjs = new ArrayList<Entity>();
 		
 		Driver.getInstance(Driver.class).addListener(new DriverListenerBaseImpl()
 		{
@@ -44,6 +51,93 @@ public class Renderer extends SingletonPublisher<RendererListener>{
 				Singleton.clearInstanceMap();
 			}
 		});
+		
+		InputMgr.getInstance(InputMgr.class).addListener(new InputMgrListenerBaseImpl()
+		{
+
+			@Override
+			public boolean touchDown(float screenX, float screenY, int pointer,
+					int button) {
+				Vector3 pos = new Vector3(screenX, screenY, 0.0f);
+				CameraController.getInstance(CameraController.class).screenToWorld(pos);
+				touchDownWorldSpace(pos.x, pos.y);
+				return true;
+			}
+
+			@Override
+			public boolean touchUp(float screenX, float screenY, int pointer,
+					int button) {
+				Vector3 pos = new Vector3(screenX, screenY, 0.0f);
+				CameraController.getInstance(CameraController.class).screenToWorld(pos);
+				touchUpWorldSpace(pos.x, pos.y);
+				return true;
+			}
+
+			@Override
+			public void touchDragged(float screenX, float screenY, float deltaX, float deltaY, int pointer) {
+				Vector3 pos = new Vector3(screenX, screenY, 0.0f);
+				CameraController.getInstance(CameraController.class).screenToWorld(pos);
+				touchDraggedWorldSpace(	pos.x, pos.y,
+										CameraController.getInstance(CameraController.class).screenToWorldDeltaX(deltaX),
+										CameraController.getInstance(CameraController.class).screenToWorldDeltaX(-deltaY));
+			}
+
+			
+			
+		});
+	}
+	
+	private void touchDownWorldSpace(float x, float y)
+	{
+		mEventsListeningObjs.clear();
+		
+		List<QuadTreeManageble> objs = new ArrayList<QuadTreeManageble>();
+		if(mDrawScissor.detectIntersection(x, y, objs))
+		{
+			for (int i = 0; i < objs.size(); i++) {
+				if(objs.get(i) instanceof Entity)
+				{
+					Entity obj = (Entity)objs.get(i);
+					if(obj.detectTouchDown())
+						mEventsListeningObjs.add(obj);
+				}
+			}
+		}
+		
+		touchDownXWorld = x;
+		touchDownYWorld = y;
+	}
+	
+	private void touchUpWorldSpace(float x, float y)
+	{
+		for (int i = 0; i < mEventsListeningObjs.size(); i++) {
+			mEventsListeningObjs.get(i).detectTouchUp();
+		}
+		
+		if(x == touchDownXWorld && y == touchDownYWorld)
+		{
+			if(mEventsListeningObjs.size() == 0)
+			{
+				for (int i = 0; i < mListeners.size(); i++) {
+					mListeners.get(i).emptyTapped();
+				}
+			}
+			else
+			{
+				for (int i = 0; i < mEventsListeningObjs.size(); i++) {
+					mEventsListeningObjs.get(i).detectTapped();
+				}
+			}
+			
+		}
+			
+	}
+	
+	private void touchDraggedWorldSpace(float x, float y, float deltaX, float deltaY)
+	{
+		for (int i = 0; i < mEventsListeningObjs.size(); i++) {
+			mEventsListeningObjs.get(i).detectTouchDragged(x, y, deltaX, deltaY);
+		}
 	}
 	
 	public boolean attachDrawScissor(QuadTreeManageble obj)

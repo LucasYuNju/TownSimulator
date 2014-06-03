@@ -50,8 +50,8 @@ public class Settings {
 		BuildingRSMapData data;
 		
 		data = new BuildingRSMapData();
-		data.needResource.add(new Resource(ResourceType.Wood, 2000));
-		data.needWork = 20;
+		data.needResource.add(new Resource(ResourceType.Wood, 3000));
+		data.needWork = 30;
 		normalBuildingRSMap.put(BuildingType.Apartment, data);
 		
 		data = new BuildingRSMapData();
