@@ -1,5 +1,6 @@
 package com.TownSimulator.utility.animation;
 
+import aurelienribon.tweenengine.Tween;
 import aurelienribon.tweenengine.TweenManager;
 
 import com.TownSimulator.driver.Driver;
@@ -14,6 +15,10 @@ public class AnimationManager extends Singleton{
 		manager=new TweenManager();
 		
 		Driver.getInstance(Driver.class).addListener(new DriverListenerBaseImpl(){
+			@Override
+			public void dispose(){
+				manager.killAll();
+			}
 
 			@Override
 			public void update(float deltaTime) {

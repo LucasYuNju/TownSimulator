@@ -99,6 +99,7 @@ public class UIManager extends Singleton {
 	public void startGame() 
 	{
 		mCurScreenUI=mIntroductionUI;
+		mIntroductionUI.startShow();
 	}
 	
 	public void returnToStartUI()

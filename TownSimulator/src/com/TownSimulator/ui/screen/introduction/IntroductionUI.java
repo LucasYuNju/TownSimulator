@@ -54,6 +54,7 @@ public class IntroductionUI extends ScreenUIBase{
 					previousButton.setVisible(false);
 				}
 				windowPages.get(currentIndex).setVisible(true);
+				windowPages.get(currentIndex).startPlay();
 			}
 			
 		});
@@ -85,6 +86,7 @@ public class IntroductionUI extends ScreenUIBase{
 					previousButton.setVisible(true);
 				}
 				windowPages.get(currentIndex).setVisible(true);
+				windowPages.get(currentIndex).startPlay();
 			}
 			
 		});
@@ -96,14 +98,19 @@ public class IntroductionUI extends ScreenUIBase{
 	}
 	
 	public void initWindowPages(){
+		windowPages.add(new IntroButtonWindow());
 		windowPages.add(new IntroStoryWindow());
 		windowPages.add(new IntroStoryWindow());
-		windowPages.add(new IntroStoryWindow());
+		windowPages.add(new IntroButtonWindow());
 		
 		for(int i=0;i<windowPages.size();i++){
 			mStage.addActor(windowPages.get(i));
 		}
 		windowPages.get(0).setVisible(true);
+	}
+	
+	public void startShow(){
+		windowPages.get(0).startPlay();
 	}
 	
 	public interface IntroductionListener{
