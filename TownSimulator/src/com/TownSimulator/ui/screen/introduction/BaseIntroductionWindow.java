@@ -4,7 +4,7 @@ import com.TownSimulator.utility.Settings;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Group;
 
-public  class BaseIntroductionWindow extends Group{
+public abstract class BaseIntroductionWindow extends Group{
 	protected float ButtonWidth=Settings.UNIT;
 	protected float ButtonHeight=Settings.HEIGHTUNIT;
 	protected float ButtonMargin=ButtonWidth*0.1f;
@@ -18,6 +18,8 @@ public  class BaseIntroductionWindow extends Group{
 		setBounds(locationX, locationY, windowWidth, windowHeight);
 		setVisible(false);
 	}
+	
+	public abstract void startPlay();
 	
 	public void dispose(){
 		this.dispose();
