@@ -9,6 +9,7 @@ import com.TownSimulator.render.Renderer;
 import com.TownSimulator.ui.base.ScreenUIBase;
 import com.TownSimulator.utility.ResourceManager;
 import com.TownSimulator.utility.Settings;
+import com.TownSimulator.utility.VoicePlayer;
 import com.TownSimulator.utility.particle.ParticleControl;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
@@ -54,6 +55,8 @@ public class LoadingScreenUI extends ScreenUIBase implements Serializable{
 			World.getInstance(World.class).setGroundColor();
 			Settings.gameSpeed = 1;
 			//if(listener != null)
+			
+			VoicePlayer.getInstance(VoicePlayer.class).playBgmMusic("bgm.mp3");
 			
 			listener.loadingFinish();
 		}
