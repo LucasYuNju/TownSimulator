@@ -38,6 +38,12 @@ public class ConstructionProgressBar implements Drawable{
 			public void renderBegined() {
 				render();
 			}
+
+			@Override
+			public void emptyTapped() {
+				// TODO Auto-generated method stub
+				
+			}
 		});
 		
 		spBackgroud = ResourceManager.getInstance(ResourceManager.class).createTextureRegion("background");

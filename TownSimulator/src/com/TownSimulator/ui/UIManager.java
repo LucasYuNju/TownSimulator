@@ -16,7 +16,6 @@ import com.TownSimulator.utility.Settings;
 import com.TownSimulator.utility.Singleton;
 import com.TownSimulator.utility.VoicePlayer;
 import com.badlogic.gdx.Gdx;
-import com.sun.org.apache.bcel.internal.generic.NEW;
 
 public class UIManager extends Singleton {
 	private StartScreen 	mStartUI;

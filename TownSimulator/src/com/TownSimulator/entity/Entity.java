@@ -7,9 +7,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.TownSimulator.collision.CollisionDetector;
-import com.TownSimulator.collision.CollisionDetectorListener;
 import com.TownSimulator.render.Drawable;
 import com.TownSimulator.render.Renderer;
+import com.TownSimulator.render.RendererListener;
 import com.TownSimulator.utility.AxisAlignedBoundingBox;
 import com.TownSimulator.utility.ResourceManager;
 import com.TownSimulator.utility.quadtree.QuadTreeManageble;
@@ -40,7 +40,20 @@ public class Entity implements Drawable, QuadTreeManageble, Serializable{
 	{
 		selectedEntity = null;
 		
-		CollisionDetector.getInstance(CollisionDetector.class).addListener(new CollisionDetectorListener() {
+		Renderer.getInstance(Renderer.class).addListener(new RendererListener() {
+			private static final long serialVersionUID = 188405286971895937L;
+
+			@Override
+			public void renderEnded() {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void renderBegined() {
+				// TODO Auto-generated method stub
+				
+			}
 			
 			@Override
 			public void emptyTapped() {

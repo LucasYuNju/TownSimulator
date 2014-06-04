@@ -63,6 +63,12 @@ public class ParticleManager extends AllocManaged{
 						}
 				}
 			}
+
+			@Override
+			public void emptyTapped() {
+				// TODO Auto-generated method stub
+				
+			}
 		});
 	}
 	

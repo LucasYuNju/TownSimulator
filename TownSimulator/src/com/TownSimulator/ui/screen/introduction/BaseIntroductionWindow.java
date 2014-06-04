@@ -1,7 +1,6 @@
 package com.TownSimulator.ui.screen.introduction;
 
 import com.TownSimulator.utility.Settings;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Group;
 
 public abstract class BaseIntroductionWindow extends Group{
