@@ -1,17 +1,13 @@
 package com.TownSimulator.ui;
 
-import java.util.ArrayList;
-
 import com.TownSimulator.driver.Driver;
 import com.TownSimulator.entity.EntityInfoCollector;
 import com.TownSimulator.entity.ResourceInfoCollector;
 import com.TownSimulator.entity.World;
-import com.TownSimulator.ui.base.FlipButton;
+import com.TownSimulator.ui.options.ShareUIComs;
 import com.TownSimulator.utility.GdxInputListnerEx;
 import com.TownSimulator.utility.ResourceManager;
 import com.TownSimulator.utility.Settings;
-import com.TownSimulator.utility.share.ShareType;
-import com.TownSimulator.utility.share.UMHelper;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
@@ -25,16 +21,17 @@ public class GameOverWindow extends Group{
 	private static final float WINDOW_WIDTH = Gdx.graphics.getWidth() * 0.4f;
 	private static final float WINDOW_HEIGHT = Gdx.graphics.getHeight() * 0.4f;
 	private static final float MARGIN = Settings.MARGIN * 2.0f;
-	private static final float ICON_HEIGHT = WINDOW_HEIGHT * 0.2f;
+	public static final float ICON_HEIGHT = Settings.UNIT * 0.8f;
 	private static final float LABEL_HEIGHT = WINDOW_HEIGHT * 0.1f;
 	private Label livedTimeValueLabel;
 	private Label maxManValueLabel;
 	private Label maxEnergyValueLabel;
 	private TextureRegion background;
-	private ArrayList<FlipButton> shareButtons;
-	private String[] shareIconsMap = new String[]{"share_sina", "share_weixin", "share_renren"};
-	private ShareType[] shareTypesMap = new ShareType[]{ShareType.Sina, ShareType.WeiXin, ShareType.RenRen};
+//	private ArrayList<FlipButton> shareButtons;
+//	private String[] shareIconsMap = new String[]{"share_sina", "share_weixin", "share_renren"};
+//	private ShareType[] shareTypesMap = new ShareType[]{ShareType.Sina, ShareType.WeiXin, ShareType.RenRen};
 	private Label returnLabel;
+	private ShareUIComs shareComs;
 	
 	public GameOverWindow()
 	{
@@ -98,31 +95,35 @@ public class GameOverWindow extends Group{
 		maxEnergyValueLabel.setPosition(x, y);
 		addActor(maxEnergyValueLabel);
 		
-		shareButtons = new ArrayList<FlipButton>();
-		float iconsHPad = (WINDOW_WIDTH - shareIconsMap.length * ICON_HEIGHT) / (float)(shareIconsMap.length + 1);
-		x = iconsHPad;
-		y -= MARGIN + ICON_HEIGHT;
-		for (int i = 0; i < shareIconsMap.length; i++) {
-			FlipButton btn = new FlipButton(shareIconsMap[i], shareIconsMap[i], null);
-			btn.setPosition(x, y);
-			btn.setSize(ICON_HEIGHT, ICON_HEIGHT);
-			final int index = i;
-			btn.addListener(new GdxInputListnerEx()
-			{
-				int btnIndex = index;
-				@Override
-				public void tapped(InputEvent event, float x, float y,
-						int pointer, int button) {
-//					Gdx.graphics.setContinuousRendering(false);
-					UMHelper.shareUtil.share(shareTypesMap[btnIndex]);
-				}
-				
-			});
-			addActor(btn);
-			shareButtons.add(btn);
-			
-			x += iconsHPad + ICON_HEIGHT;
-		}
+//		shareButtons = new ArrayList<FlipButton>();
+//		float iconsHPad = (WINDOW_WIDTH - shareIconsMap.length * ICON_HEIGHT) / (float)(shareIconsMap.length + 1);
+//		x = iconsHPad;
+//		y -= MARGIN + ICON_HEIGHT;
+//		for (int i = 0; i < shareIconsMap.length; i++) {
+//			FlipButton btn = new FlipButton(shareIconsMap[i], shareIconsMap[i], null);
+//			btn.setPosition(x, y);
+//			btn.setSize(ICON_HEIGHT, ICON_HEIGHT);
+//			final int index = i;
+//			btn.addListener(new GdxInputListnerEx()
+//			{
+//				int btnIndex = index;
+//				@Override
+//				public void tapped(InputEvent event, float x, float y,
+//						int pointer, int button) {
+////					Gdx.graphics.setContinuousRendering(false);
+//					UMHelper.shareUtil.share(shareTypesMap[btnIndex]);
+//				}
+//				
+//			});
+//			addActor(btn);
+//			shareButtons.add(btn);
+//			
+//			x += iconsHPad + ICON_HEIGHT;
+//		}
+		shareComs = new ShareUIComs();
+		shareComs.setSize(getWidth(), ICON_HEIGHT);
+		shareComs.setPosition(0.0f, MARGIN * 2.0f + LABEL_HEIGHT);
+		addActor(shareComs);
 		
 		returnLabel = new Label(ResourceManager.stringMap.get("gameOverWindow_return"), labelStyle);
 		returnLabel.setSize(labelStyle.font.getBounds(returnLabel.getText()).width, LABEL_HEIGHT);

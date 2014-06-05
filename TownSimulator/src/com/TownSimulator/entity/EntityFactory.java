@@ -11,11 +11,9 @@ import com.TownSimulator.entity.building.FellingHouse;
 import com.TownSimulator.entity.building.Hospital;
 import com.TownSimulator.entity.building.LowCostHouse;
 import com.TownSimulator.entity.building.MoneyProducingBuilding;
-import com.TownSimulator.entity.building.PowerStation;
 import com.TownSimulator.entity.building.Ranch;
 import com.TownSimulator.entity.building.School;
 import com.TownSimulator.entity.building.Warehouse;
-import com.TownSimulator.entity.building.Well;
 import com.TownSimulator.utility.Settings;
 //github.com/LuciusYu/TownSimulator.git
 import com.TownSimulator.utility.Settings.MPData;
@@ -75,12 +73,12 @@ public class EntityFactory {
 			yDrawScale = 1.0f;
 			building = new FellingHouse();
 			break;
-		case PowerStation:
-			xGridSize = 1;
-			yGridSize = 1;
-			yDrawScale = 2.0f;
-			building = new PowerStation();
-			break;
+//		case PowerStation:
+//			xGridSize = 1;
+//			yGridSize = 1;
+//			yDrawScale = 2.0f;
+//			building = new PowerStation();
+//			break;
 		case CoatFactory:
 			xGridSize = 4;
 			yGridSize = 3;
@@ -111,12 +109,12 @@ public class EntityFactory {
 			yDrawScale=1.5f;
 			building = new School();
 			break;
-		case Well:
-			xGridSize=2;
-			yGridSize=2;
-			yDrawScale=0.8f;
-			building = new Well();
-			break;
+//		case Well:
+//			xGridSize=2;
+//			yGridSize=2;
+//			yDrawScale=0.8f;
+//			building = new Well();
+//			break;
 		case ConstrctionCompany:
 			xGridSize=2;
 			yGridSize=2;

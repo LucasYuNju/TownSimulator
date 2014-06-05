@@ -1,6 +1,5 @@
 package com.TownSimulator.ui.building.view;
 
-import com.TownSimulator.entity.building.BuildingType;
 import com.TownSimulator.utility.ResourceManager;
 import com.TownSimulator.utility.Settings;
 import com.badlogic.gdx.graphics.Color;
@@ -14,7 +13,7 @@ public class WellViewWindow extends UndockedWindow {
 	private Label textLabel;
 
 	public WellViewWindow() {
-		super(BuildingType.Well);
+		super(null);
 		
 		width=UndockedWindow.LABEL_WIDTH*2+UndockedWindow.MARGIN*2;
 		height=UndockedWindow.LABEL_HEIGHT*2+UndockedWindow.MARGIN*2;

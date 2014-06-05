@@ -90,11 +90,16 @@ public abstract class Building extends Entity
 			undockedWindow.setShowDynamiteButton(v);
 	}
 	
+	public boolean isDestroyable()
+	{
+		return bDestroyable;
+	}
+	
 	@Override
 	public void destroy()
 	{
-		if(bDestroyable == false)
-			return;
+//		if(bDestroyable == false)
+//			return;
 		
 		super.destroy();
 		

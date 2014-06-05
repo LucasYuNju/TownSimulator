@@ -25,7 +25,6 @@ import com.umeng.socialize.controller.listener.SocializeListeners.UMAuthListener
 import com.umeng.socialize.db.OauthHelper;
 import com.umeng.socialize.exception.SocializeException;
 import com.umeng.socialize.media.UMImage;
-import com.umeng.socialize.sso.QZoneSsoHandler;
 import com.umeng.socialize.sso.UMSsoHandler;
 import com.umeng.socialize.sso.UMWXHandler;
 

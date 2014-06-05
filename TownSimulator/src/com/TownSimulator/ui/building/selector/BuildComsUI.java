@@ -1,6 +1,7 @@
 package com.TownSimulator.ui.building.selector;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import com.TownSimulator.entity.building.BuildingType;
@@ -16,11 +17,35 @@ import com.badlogic.gdx.scenes.scene2d.InputListener;
 public class BuildComsUI extends Group {
 	public 	static 	float							BUTTON_WIDTH  			= GameScreen.BUTTON_WIDTH;
 	public 	static 	float							BUTTON_HEIGHT 			= GameScreen.BUTTON_HEIGHT;
-	public 	static 	float							BUTTON_TOP_MARGIN 		= GameScreen.BUTTON_LABEL_HEIGHT;
+	public 	static 	float							BUTTON_LABEL_HEIGHT 	= GameScreen.BUTTON_LABEL_HEIGHT;
 	public 	static 	float							BUTTONS_H_MARGIN 		= GameScreen.BUTTONS_H_MARGIN;
 	private 		List<BuildComsCategoryButton> 					mBuildButtonsList;
 	private 		BuildComsCategoryButton			mInitButton;
 	private			BuildComsUIListener listener;
+	public static 	HashMap<BuildingType, String> buildingIconMap = new HashMap<BuildingType, String>();
+	static
+	{
+		buildingIconMap.put(BuildingType.LowCostHouse, "button_build_low_cost_house");
+		buildingIconMap.put(BuildingType.Apartment, "button_build_apartment_house");
+		
+		buildingIconMap.put(BuildingType.FarmHouse, "button_build_farm_house");
+		buildingIconMap.put(BuildingType.Ranch, "button_build_ranch");
+		
+		buildingIconMap.put(BuildingType.Warehouse, "button_build_warehouse");
+		buildingIconMap.put(BuildingType.FellingHouse, "button_build_felling_house");
+		buildingIconMap.put(BuildingType.Hospital, "button_build_hospital");
+		buildingIconMap.put(BuildingType.Bar, "button_build_bar");
+		buildingIconMap.put(BuildingType.CoatFactory, "button_build_coat_factory");
+		buildingIconMap.put(BuildingType.School, "button_build_school");
+		buildingIconMap.put(BuildingType.ConstrctionCompany, "button_build_construction_company");
+		
+		buildingIconMap.put(BuildingType.MP_Potato, "button_build_mp_potato");
+		buildingIconMap.put(BuildingType.MP_MouseWheel, "button_build_mp_mouse_wheel");
+		buildingIconMap.put(BuildingType.MP_Factory, "button_build_mp_factory");
+		buildingIconMap.put(BuildingType.MP_Storm, "button_build_mp_storm");
+		buildingIconMap.put(BuildingType.MP_Vocalno, "button_build_mp_vocalno");
+		buildingIconMap.put(BuildingType.MP_BalckHole, "button_build_mp_black_hole");
+	}
 	
 	enum State
 	{
@@ -58,36 +83,35 @@ public class BuildComsUI extends Group {
 		addActor(mInitButton);
 		
 		BuildComsCategoryButton buildHouse = new BuildComsCategoryButton("button_build_house", ResourceManager.stringMap.get("buildSelect_livingHouse"));
-		buildHouse.addBuild("button_build_low_cost_house", BuildingType.LowCostHouse);
-		buildHouse.addBuild("button_build_apartment_house", BuildingType.Apartment);
+		buildHouse.addBuild(buildingIconMap.get(BuildingType.LowCostHouse), BuildingType.LowCostHouse);
+		buildHouse.addBuild(buildingIconMap.get(BuildingType.Apartment), BuildingType.Apartment);
 		buildHouse.setVisible(false);
 		mBuildButtonsList.add(buildHouse);
 		
 		BuildComsCategoryButton buildFood = new BuildComsCategoryButton("button_build_food", ResourceManager.stringMap.get("buildSelect_food"));
-		buildFood.addBuild("button_build_farm_house", BuildingType.FarmHouse);
-		buildFood.addBuild("button_build_ranch", BuildingType.Ranch);
+		buildFood.addBuild(buildingIconMap.get(BuildingType.FarmHouse), BuildingType.FarmHouse);
+		buildFood.addBuild(buildingIconMap.get(BuildingType.Ranch), BuildingType.Ranch);
 		buildFood.setVisible(false);
 		mBuildButtonsList.add(buildFood);
 		
 		BuildComsCategoryButton buildInfrastruction = new BuildComsCategoryButton("button_build_infrastructure", ResourceManager.stringMap.get("buildSelect_infrastructure"));
-		buildInfrastruction.addBuild("button_build_warehouse", BuildingType.Warehouse);
-		buildInfrastruction.addBuild("button_build_felling_house", BuildingType.FellingHouse);
-		buildInfrastruction.addBuild("button_build_hospital", BuildingType.Hospital);
-		buildInfrastruction.addBuild("button_build_bar", BuildingType.Bar);
-//		buildInfrastruction.addBuild("button_build_power_station", "power station", BuildingType.POWER_STATION);
-		buildInfrastruction.addBuild("button_build_coat_factory", BuildingType.CoatFactory);
-		buildInfrastruction.addBuild("button_build_school", BuildingType.School);
-		buildInfrastruction.addBuild("button_build_construction_company", BuildingType.ConstrctionCompany);
+		buildInfrastruction.addBuild(buildingIconMap.get(BuildingType.Warehouse), BuildingType.Warehouse);
+		buildInfrastruction.addBuild(buildingIconMap.get(BuildingType.FellingHouse), BuildingType.FellingHouse);
+		buildInfrastruction.addBuild(buildingIconMap.get(BuildingType.Hospital), BuildingType.Hospital);
+		buildInfrastruction.addBuild(buildingIconMap.get(BuildingType.Bar), BuildingType.Bar);
+		buildInfrastruction.addBuild(buildingIconMap.get(BuildingType.CoatFactory), BuildingType.CoatFactory);
+		buildInfrastruction.addBuild(buildingIconMap.get(BuildingType.School), BuildingType.School);
+		buildInfrastruction.addBuild(buildingIconMap.get(BuildingType.ConstrctionCompany), BuildingType.ConstrctionCompany);
 		buildInfrastruction.setVisible(false);
 		mBuildButtonsList.add(buildInfrastruction);
 		
 		BuildComsCategoryButton buildMp = new BuildComsCategoryButton("button_build_mp", ResourceManager.stringMap.get("buildSelect_energy"));
-		buildMp.addBuild("button_build_mp_potato", BuildingType.MP_Potato);
-		buildMp.addBuild("button_build_mp_mouse_wheel", BuildingType.MP_MouseWheel);
-		buildMp.addBuild("button_build_mp_factory", BuildingType.MP_Factory);
-		buildMp.addBuild("button_build_mp_storm", BuildingType.MP_Storm);
-		buildMp.addBuild("button_build_mp_vocalno", BuildingType.MP_Vocalno);
-		buildMp.addBuild("button_build_mp_black_hole", BuildingType.MP_BalckHole);
+		buildMp.addBuild(buildingIconMap.get(BuildingType.MP_Potato), BuildingType.MP_Potato);
+		buildMp.addBuild(buildingIconMap.get(BuildingType.MP_MouseWheel), BuildingType.MP_MouseWheel);
+		buildMp.addBuild(buildingIconMap.get(BuildingType.MP_Factory), BuildingType.MP_Factory);
+		buildMp.addBuild(buildingIconMap.get(BuildingType.MP_Storm), BuildingType.MP_Storm);
+		buildMp.addBuild(buildingIconMap.get(BuildingType.MP_Vocalno), BuildingType.MP_Vocalno);
+		buildMp.addBuild(buildingIconMap.get(BuildingType.MP_BalckHole), BuildingType.MP_BalckHole);
 		buildMp.setVisible(false);
 		mBuildButtonsList.add(buildMp);
 		
@@ -101,7 +125,7 @@ public class BuildComsUI extends Group {
 			mBuildButtonsList.get(i).setListener(catgogryListner);
 		}
 		
-		setSize((mBuildButtonsList.size() + 1) * BUTTON_WIDTH + mBuildButtonsList.size() * BUTTONS_H_MARGIN, BUTTON_HEIGHT + BUTTON_TOP_MARGIN);
+		setSize((mBuildButtonsList.size() + 1) * BUTTON_WIDTH + mBuildButtonsList.size() * BUTTONS_H_MARGIN, BUTTON_HEIGHT + BUTTON_LABEL_HEIGHT);
 		mInitButton.setPosition(getWidth() - mInitButton.getWidth(), 0.0f);
 		
 		mInitButton.addListener(new InputListener()

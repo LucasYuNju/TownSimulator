@@ -1,6 +1,7 @@
 package com.TownSimulator.ui.screen;
 
 import java.io.Serializable;
+import java.util.Random;
 
 import com.TownSimulator.driver.Driver;
 import com.TownSimulator.entity.World;
@@ -38,7 +39,7 @@ public class LoadingScreenUI extends ScreenUIBase implements Serializable{
 	
 	public void startLoading()
 	{
-		Map.getInstance(Map.class).init(100);
+		Map.getInstance(Map.class).init(new Random(System.nanoTime()).nextInt());
 	}
 
 	@Override

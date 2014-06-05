@@ -10,7 +10,6 @@ import java.util.Map;
 
 import com.TownSimulator.ai.btnimpls.construct.ConstructionProject;
 import com.TownSimulator.collision.CollisionDetector;
-import com.TownSimulator.driver.Driver;
 import com.TownSimulator.entity.EntityInfoCollector.EntityInfoCollectorListener;
 import com.TownSimulator.entity.building.Building;
 import com.TownSimulator.entity.building.BuildingType;
@@ -93,8 +92,8 @@ public class EntityInfoCollector extends SingletonPublisher<EntityInfoCollectorL
 	{
 		manList.remove(man);
 		
-		if(manList.size() <= 0)
-			Driver.getInstance(Driver.class).gameOver();
+//		if(manList.size() <= 0)
+//			Driver.getInstance(Driver.class).gameOver();
 	}
 	
 	public List<Man> getAllMan()

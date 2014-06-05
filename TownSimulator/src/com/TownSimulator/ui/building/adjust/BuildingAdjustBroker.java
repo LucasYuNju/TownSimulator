@@ -24,11 +24,13 @@ import com.TownSimulator.render.Renderer;
 import com.TownSimulator.ui.UIManager;
 import com.TownSimulator.ui.building.adjust.BuildingAdjustGroup.BuildAjustUIListener;
 import com.TownSimulator.utility.AxisAlignedBoundingBox;
+import com.TownSimulator.utility.BuildingAdjustHelper;
 import com.TownSimulator.utility.Settings;
 import com.TownSimulator.utility.Settings.MPData;
 import com.TownSimulator.utility.Singleton;
 import com.TownSimulator.utility.quadtree.QuadTreeManageble;
 import com.TownSimulator.utility.quadtree.QuadTreeType;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 
 /**
@@ -56,9 +58,9 @@ public class BuildingAdjustBroker extends Singleton implements EntityListener, C
 		Renderer.getInstance(Renderer.class).setDrawGrid(true);
 		
 		Building newBuildingObject = EntityFactory.createBuilding(type);
-		int gridX = (int) (CameraController.getInstance(CameraController.class).getX() / Settings.UNIT);
-		int gridY = (int) (CameraController.getInstance(CameraController.class).getY() / Settings.UNIT);
-		int gridSerchSize = 0;
+//		int gridX = (int) (CameraController.getInstance(CameraController.class).getX() / Settings.UNIT);
+//		int gridY = (int) (CameraController.getInstance(CameraController.class).getY() / Settings.UNIT);
+//		int gridSerchSize = 0;
 		AxisAlignedBoundingBox buildingCollisionAABB;
 		if(type == BuildingType.FarmHouse)
 			buildingCollisionAABB = ((FarmHouse)newBuildingObject).getCollisionAABBLocalWithLands();
@@ -66,29 +68,32 @@ public class BuildingAdjustBroker extends Singleton implements EntityListener, C
 			buildingCollisionAABB = ((Ranch)newBuildingObject).getCollisionAABBLocalWithLands();
 		else
 			buildingCollisionAABB = newBuildingObject.getCollisionAABBLocal();
-		
-		boolean bPosFind = false;
-		float posX = 0.0f;
-		float posY = 0.0f;
-		AxisAlignedBoundingBox aabb = new AxisAlignedBoundingBox();
-		while(!bPosFind)
-		{
-			for (int x = gridX - gridSerchSize; x <= gridX + gridSerchSize && !bPosFind; x++) {
-				for (int y = gridY - gridSerchSize; y <= gridY + gridSerchSize && !bPosFind; y++) {
-					posX = x * Settings.UNIT;
-					posY = y * Settings.UNIT;
-					aabb.minX = posX + buildingCollisionAABB.minX;
-					aabb.minY = posY + buildingCollisionAABB.minY;
-					aabb.maxX = posX + buildingCollisionAABB.maxX;
-					aabb.maxY = posY + buildingCollisionAABB.maxY;
-					if( !CollisionDetector.getInstance(CollisionDetector.class).detect(aabb) )
-						bPosFind = true;
-				}
-			}
-			gridSerchSize ++;
-			
-		}
-		newBuildingObject.setPositionWorld(posX, posY);
+//		
+//		boolean bPosFind = false;
+//		float posX = 0.0f;
+//		float posY = 0.0f;
+//		AxisAlignedBoundingBox aabb = new AxisAlignedBoundingBox();
+//		while(!bPosFind)
+//		{
+//			for (int x = gridX - gridSerchSize; x <= gridX + gridSerchSize && !bPosFind; x++) {
+//				for (int y = gridY - gridSerchSize; y <= gridY + gridSerchSize && !bPosFind; y++) {
+//					posX = x * Settings.UNIT;
+//					posY = y * Settings.UNIT;
+//					aabb.minX = posX + buildingCollisionAABB.minX;
+//					aabb.minY = posY + buildingCollisionAABB.minY;
+//					aabb.maxX = posX + buildingCollisionAABB.maxX;
+//					aabb.maxY = posY + buildingCollisionAABB.maxY;
+//					if( !CollisionDetector.getInstance(CollisionDetector.class).detect(aabb) )
+//						bPosFind = true;
+//				}
+//			}
+//			gridSerchSize ++;
+//			
+//		}
+		float searchOriginX = CameraController.getInstance(CameraController.class).getX();
+		float searchOriginY = CameraController.getInstance(CameraController.class).getY();
+		Vector2 pos = BuildingAdjustHelper.searchBuildingPosition(searchOriginX, searchOriginY, buildingCollisionAABB);
+		newBuildingObject.setPositionWorld(pos.x, pos.y);
 		Renderer.getInstance(Renderer.class).attachDrawScissor(newBuildingObject);
 		if(type == BuildingType.FarmHouse)
 			for (FarmLand land : ((FarmHouse)newBuildingObject).getFarmLands()) {

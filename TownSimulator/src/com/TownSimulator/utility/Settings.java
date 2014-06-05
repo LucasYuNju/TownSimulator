@@ -74,10 +74,10 @@ public class Settings {
 		data.needWork = 25;
 		normalBuildingRSMap.put(BuildingType.FellingHouse, data);
 		
-		data = new BuildingRSMapData();
-		data.needResource.add(new Resource(ResourceType.Wood, 5000));
-		data.needWork = 50;
-		normalBuildingRSMap.put(BuildingType.PowerStation, data);
+//		data = new BuildingRSMapData();
+//		data.needResource.add(new Resource(ResourceType.Wood, 5000));
+//		data.needWork = 50;
+//		normalBuildingRSMap.put(BuildingType.PowerStation, data);
 		
 		data = new BuildingRSMapData();
 		data.needResource.add(new Resource(ResourceType.Wood, 4000));
@@ -104,10 +104,10 @@ public class Settings {
 		data.needWork = 50;
 		normalBuildingRSMap.put(BuildingType.School, data);
 		
-		data = new BuildingRSMapData();
-		data.needResource.add(new Resource(ResourceType.Wood, 2000));
-		data.needWork = 20;
-		normalBuildingRSMap.put(BuildingType.Well, data);
+//		data = new BuildingRSMapData();
+//		data.needResource.add(new Resource(ResourceType.Wood, 2000));
+//		data.needWork = 20;
+//		normalBuildingRSMap.put(BuildingType.Well, data);
 		
 		data = new BuildingRSMapData();
 		data.needResource.add(new Resource(ResourceType.Wood, 1000));

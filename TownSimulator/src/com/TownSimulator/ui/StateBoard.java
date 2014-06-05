@@ -33,7 +33,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.Align;
  * money	| numMoney
  *
  */
-public class StateBar extends Group{
+public class StateBoard extends Group{
 	private static final float LABEL_WIDTH_COL_0 = Settings.LABEL_WIDTH * 1.2f;
 	private static final float LABEL_WIDTH_COL_1 = Settings.LABEL_WIDTH * 1.5f;
 	private static final float LABEL_HEIGHT = Settings.LABEL_HEIGHT * 0.75f;
@@ -51,7 +51,7 @@ public class StateBar extends Group{
 	private Label numWoodLabel;
 	private Label numMoneyLabel;
 	
-	public StateBar() {
+	public StateBoard() {
 		super();
 		background = Singleton.getInstance(ResourceManager.class).createTextureRegion("background");
 		setSize( MARGIN * (column + 1) + LABEL_WIDTH_COL_0 + LABEL_WIDTH_COL_1 + MARGIN, (MARGIN + LABEL_HEIGHT) * line + MARGIN);

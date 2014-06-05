@@ -2,7 +2,6 @@ package com.TownSimulator.ui.screen.introduction;
 
 import aurelienribon.tweenengine.Timeline;
 import aurelienribon.tweenengine.Tween;
-import aurelienribon.tweenengine.equations.Bounce;
 import aurelienribon.tweenengine.equations.Quint;
 
 import com.TownSimulator.ui.base.IconButton;
