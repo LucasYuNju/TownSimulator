@@ -68,7 +68,6 @@ public class IntroStoryWindow extends BaseIntroductionWindow{
 	
 	public void startPlay(){
 		Tween.registerAccessor(Image.class, new ActorAccessor());
-		Tween.registerAccessor(IconButton.class, new ActorAccessor());
 		
 		Timeline.createParallel().beginParallel()
 		           .push(Tween.to(introductionImage, ActorAccessor.OPACITY, 10.0f)

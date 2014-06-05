@@ -100,6 +100,7 @@ public class IntroductionUI extends ScreenUIBase{
 	public void initWindowPages(){
 		windowPages.add(new IntroStoryWindow());
 		windowPages.add(new IntroButtonWindow());
+		windowPages.add(new IntroFinalWindow());
 		
 		for(int i=0;i<windowPages.size();i++){
 			mStage.addActor(windowPages.get(i));
