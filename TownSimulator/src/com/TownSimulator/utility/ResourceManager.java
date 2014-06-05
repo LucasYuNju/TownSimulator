@@ -9,6 +9,7 @@ import java.util.Map;
 
 import com.TownSimulator.driver.Driver;
 import com.TownSimulator.driver.DriverListenerBaseImpl;
+import com.TownSimulator.entity.building.BuildingType;
 import com.TownSimulator.utility.ls.SerializedSprite;
 import com.TownSimulator.utility.ls.SerializedTextureRegion;
 import com.badlogic.gdx.Gdx;
@@ -28,7 +29,8 @@ public class ResourceManager extends Singleton implements Serializable{
 	private transient FreeTypeFontGenerator		mFontGenerator;
 	private transient AssetManager				mAssetsManager;
 	
-	public static HashMap<String, String>		stringMap = new HashMap<String, String>();		
+	public static HashMap<String, String>		stringMap = new HashMap<String, String>();
+	public static HashMap<BuildingType, String> buildingInfoMap = new HashMap<BuildingType, String>();
 	private static String 						usedStr = null;
 	static
 	{
@@ -127,6 +129,53 @@ public class ResourceManager extends Singleton implements Serializable{
 		stringMap.put("gameOverWindow_maxMan", "最大人口");
 		stringMap.put("gameOverWindow_maxEnergy", "最大能量");
 		stringMap.put("gameOverWindow_return", "返回");
+		
+		stringMap.put("returnConfirm_text", "未保存的进度将会丢失，确定要退出吗？");
+		stringMap.put("returnConfirm_confirm", "确认");
+		stringMap.put("returnConfirm_cancel", "取消");
+		
+		stringMap.put("save_tips_running", "保存中");
+		stringMap.put("save_tips_finish", "保存成功");
+		
+		stringMap.put("buildingInfo_lowCostHouse", "廉租房供居民居住，可以增加人口");
+		buildingInfoMap.put(BuildingType.LowCostHouse, stringMap.get("buildingInfo_lowCostHouse"));
+		
+		stringMap.put("buildingInfo_apartment", "公寓供居民居住，可以增加人口，居民的幸福度减少得更慢");
+		buildingInfoMap.put(BuildingType.Apartment, stringMap.get("buildingInfo_apartment"));
+		
+		stringMap.put("buildingInfo_warehouse", "仓库能够储存资源，没有住房的居民会前往仓库消耗资源");
+		buildingInfoMap.put(BuildingType.Warehouse, stringMap.get("buildingInfo_warehouse"));
+		
+		stringMap.put("buildingInfo_farmHouse", "农田可以提供食物，更多的农民可以提高产量");
+		buildingInfoMap.put(BuildingType.FarmHouse, stringMap.get("buildingInfo_farmHouse"));
+		
+		stringMap.put("buildingInfo_fellingHouse", "伐木小屋可以砍伐一定范围内的树木获得木材");
+		buildingInfoMap.put(BuildingType.FellingHouse, stringMap.get("buildingInfo_fellingHouse"));
+		
+		stringMap.put("buildingInfo_coatFactory", "制衣厂可以用毛皮制作衣服，衣服可以帮助居民抵御寒冷");
+		buildingInfoMap.put(BuildingType.CoatFactory, stringMap.get("buildingInfo_coatFactory"));
+		
+		stringMap.put("buildingInfo_school", "学校可以让未成年的居民入学，居民将会获得更高的工作效率");
+		buildingInfoMap.put(BuildingType.School, stringMap.get("buildingInfo_school"));
+		
+		stringMap.put("buildingInfo_hospital", "医院可以帮助生病的居民恢复健康");
+		buildingInfoMap.put(BuildingType.Hospital, stringMap.get("buildingInfo_hospital"));
+		
+		stringMap.put("buildingInfo_bar", "酒吧可以帮助居民提升幸福度");
+		buildingInfoMap.put(BuildingType.Bar, stringMap.get("buildingInfo_bar"));
+		
+		stringMap.put("buildingInfo_ranch", "牧场可以出产毛皮和少量的肉");
+		buildingInfoMap.put(BuildingType.Ranch, stringMap.get("buildingInfo_ranch"));
+		
+		stringMap.put("buildingInfo_constructionCompany", "建筑公司可以建造新的建筑");
+		buildingInfoMap.put(BuildingType.ConstrctionCompany, stringMap.get("buildingInfo_constructionCompany"));
+		
+		stringMap.put("buildingInfo_mp_template", "每秒产生 @ 点能量");
+		
+		stringMap.put("manInfo_hunger", "居民的饥饿度会随时间减少，过低居民会饿死");
+		stringMap.put("manInfo_cold", "居民的保暖度会在冬天随时间减少，过低居民会冻死");
+		stringMap.put("manInfo_health", "居民的偶尔会生病，健康度过低的居民会死去");
+		stringMap.put("manInfo_happiness", "居民的幸福度会随时间减少，过低会影响居民的工作效率");
 		
 		Iterator<String> itr = stringMap.keySet().iterator();
 		StringBuilder strBuilder = new StringBuilder(FreeTypeFontGenerator.DEFAULT_CHARS);

@@ -1,6 +1,5 @@
 package com.TownSimulator.utility.animation;
 
-import aurelienribon.tweenengine.Tween;
 import aurelienribon.tweenengine.TweenManager;
 
 import com.TownSimulator.driver.Driver;

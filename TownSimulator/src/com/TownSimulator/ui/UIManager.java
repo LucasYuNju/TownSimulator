@@ -53,10 +53,7 @@ public class UIManager extends Singleton {
 		mGameUI = new GameScreen();
 		
 		mCurScreenUI = mStartUI;
-		//Settings.backgroundColor = Color.BLACK.cpy();
 		Settings.backgroundColor = Settings.gameNormalGroundColor.cpy();
-		VoicePlayer.getInstance(VoicePlayer.class).playBgmMusic("start.mp3");
-		VoicePlayer.getInstance(VoicePlayer.class).playMusicForDuringTime("rain.mp3", 60.0f);
 		
 		listenToDriver();
 		
@@ -68,7 +65,10 @@ public class UIManager extends Singleton {
 					int button) {
 				boolean bProcessed = mCurScreenUI.touchDown(screenX, screenY, pointer, button);
 				if(bProcessed)
+				{
 					InputMgr.getInstance(InputMgr.class).cancelTouchDown();
+					VoicePlayer.getInstance(VoicePlayer.class).playSound("click.mp3");
+				}
 				return bProcessed;
 			}
 

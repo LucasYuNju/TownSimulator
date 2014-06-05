@@ -22,7 +22,7 @@ public class BuildComsButton extends IconLabelButton{
 	//private ArrayList<String> pricesTexts;
 	
 	public BuildComsButton(String textureName, String labelText, BuildingType buildingType) {
-		super(textureName, labelText, (int)BuildComsUI.BUTTON_TOP_MARGIN);
+		super(textureName, labelText, (int)BuildComsUI.BUTTON_LABEL_HEIGHT);
 		setSize(BuildComsUI.BUTTON_WIDTH, BuildComsUI.BUTTON_WIDTH);
 		
 		this.buildingType = buildingType;

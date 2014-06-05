@@ -2,6 +2,7 @@ package com.TownSimulator.ui.screen;
 
 
 import com.TownSimulator.entity.World;
+import com.TownSimulator.map.Map;
 import com.TownSimulator.render.Renderer;
 import com.TownSimulator.ui.UIManager;
 import com.TownSimulator.ui.base.FlipButton;
@@ -65,6 +66,7 @@ public class StartScreen extends ScreenUIBase {
 					int pointer, int button) {
 				boolean isSucessful = LoadSave.getInstance().load();
 				if(isSucessful) {
+					Map.getInstance(Map.class).initGrass();
 					World.getInstance(World.class).init();
 					Renderer.getInstance(Renderer.class).setRenderScene(true);
 					World.getInstance(World.class).setGroundColor();

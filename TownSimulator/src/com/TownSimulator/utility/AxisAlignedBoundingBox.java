@@ -25,6 +25,24 @@ public class AxisAlignedBoundingBox implements Serializable{
 		this.maxY = maxY;
 	}
 	
+	public AxisAlignedBoundingBox cpy()
+	{
+		AxisAlignedBoundingBox cpy = new AxisAlignedBoundingBox();
+		cpy.minX = minX;
+		cpy.minY = minY;
+		cpy.maxX = maxX;
+		cpy.maxY = maxY;
+		return cpy;
+	}
+	
+	public void union(AxisAlignedBoundingBox aabb)
+	{
+		minX = Math.min(minX, aabb.minX);
+		minY = Math.min(minY, aabb.minY);
+		maxX = Math.max(maxX, aabb.maxX);
+		maxY = Math.max(maxY, aabb.maxY);
+	}
+	
 	public float getCenterX()
 	{
 		return (minX + maxX) * 0.5f;

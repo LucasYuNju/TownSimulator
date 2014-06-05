@@ -7,9 +7,9 @@ import com.TownSimulator.entity.Resource;
 import com.TownSimulator.entity.building.BuildingType;
 import com.TownSimulator.ui.GameOverWindow;
 import com.TownSimulator.ui.MessageBoard;
-import com.TownSimulator.ui.StateBar;
+import com.TownSimulator.ui.StateBoard;
+import com.TownSimulator.ui.TipsWindow;
 import com.TownSimulator.ui.achievement.AchievementUI;
-import com.TownSimulator.ui.base.IconButton;
 import com.TownSimulator.ui.base.ScreenUIBase;
 import com.TownSimulator.ui.building.adjust.BuildingAdjustGroup;
 import com.TownSimulator.ui.building.construction.ConstructionWindow;
@@ -24,16 +24,18 @@ import com.TownSimulator.ui.building.view.SchoolViewWindow;
 import com.TownSimulator.ui.building.view.ScrollViewWindow;
 import com.TownSimulator.ui.building.view.WellViewWindow;
 import com.TownSimulator.ui.building.view.WorkableViewWindow;
+import com.TownSimulator.ui.options.InfoWindow;
+import com.TownSimulator.ui.options.OptionsUI;
+import com.TownSimulator.ui.options.OptionsUI.OptionsUIListner;
+import com.TownSimulator.ui.options.ReturnConfirmWindow;
+import com.TownSimulator.ui.options.ShareWindow;
 import com.TownSimulator.ui.speed.SpeedSettingUI;
 import com.TownSimulator.ui.speed.SpeedSettingUI.SpeedSettingUIListener;
-import com.TownSimulator.utility.GdxInputListnerEx;
 import com.TownSimulator.utility.Settings;
-import com.TownSimulator.utility.ls.LoadSave;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
-import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.utils.ScreenUtils;
 
@@ -46,13 +48,18 @@ public class GameScreen extends ScreenUIBase{
 	public 	static 	float 	SUBBUTTONS_TO_LABRL_MARGIN = Settings.UNIT * 0.1f;
 	private BuildComsUI		mBuildComsUI;
 	private SpeedSettingUI	mSpeedSettingUI;
-	private Button			mSaveButton;
+	private OptionsUI		mOptionUI;
+//	private Button			mSaveButton;
 	private BuildingAdjustGroup	mBuildAjustUI;
-	private List<Actor> windows = new LinkedList<Actor>();
-	private StateBar stateBar;
+	private List<Actor> buildingViewWindows = new LinkedList<Actor>();
+	private StateBoard stateBoard;
 	private MessageBoard messageBoard;
 	private AchievementUI achievementUI;
 	private GameOverWindow gameOverWindow;
+	private ReturnConfirmWindow returnConfirmWindow;
+	private ShareWindow	shareWindow;
+	private TipsWindow tipsWindow;
+	private InfoWindow infoWindow;
 	
 	public GameScreen()
 	{
@@ -65,27 +72,17 @@ public class GameScreen extends ScreenUIBase{
 		float x = Gdx.graphics.getWidth() - BUTTON_WIDTH;
 		float y = 0.0f;
 		
-		mSaveButton = new IconButton("button_save");
-		mSaveButton.setSize(BUTTON_WIDTH, BUTTON_HEIGHT);
-		mSaveButton.setPosition(x, y);
-		mSaveButton.addListener(new GdxInputListnerEx()
-		{
-
-			@Override
-			public void tapped(InputEvent event, float x, float y, int pointer,
-					int button) {
-				/**
-				 * FIX
-				 */
-				System.out.println("Save");
-				LoadSave.getInstance().save();
-				
-				mSpeedSettingUI.setShowButtons(false);
-				mBuildComsUI.hideBuildButtonsGroup();
-			}
+		mOptionUI = new OptionsUI();
+		mOptionUI.setPosition(x, y);
+		mOptionUI.setListener(new OptionsUIListner() {
 			
+			@Override
+			public void clicked() {
+				mBuildComsUI.hideBuildButtonsGroup();
+				mSpeedSettingUI.setShowButtons(false);
+			}
 		});
-		mStage.addActor(mSaveButton);
+		mStage.addActor(mOptionUI);
 		x -= BUTTON_WIDTH + BUTTONS_H_MARGIN;
 		
 		mSpeedSettingUI = new SpeedSettingUI();
@@ -95,6 +92,7 @@ public class GameScreen extends ScreenUIBase{
 			@Override
 			public void clicked() {
 				mBuildComsUI.hideBuildButtonsGroup();
+				mOptionUI.setShowButtons(false);
 			}
 		});
 		mStage.addActor(mSpeedSettingUI);
@@ -107,6 +105,7 @@ public class GameScreen extends ScreenUIBase{
 			@Override
 			public void clicked() {
 				mSpeedSettingUI.setShowButtons(false);
+				mOptionUI.setShowButtons(false);
 			}
 		});
 		mStage.addActor(mBuildComsUI);
@@ -115,9 +114,9 @@ public class GameScreen extends ScreenUIBase{
 		mBuildAjustUI.setVisible(false);
 		mStage.addActor(mBuildAjustUI);
 		
-		stateBar = new StateBar();
-		stateBar.setVisible(true);
-		mStage.addActor(stateBar);
+		stateBoard = new StateBoard();
+		stateBoard.setVisible(true);
+		mStage.addActor(stateBoard);
 		
 		MessageBoard.initStatic();
 		messageBoard = new MessageBoard();
@@ -128,12 +127,44 @@ public class GameScreen extends ScreenUIBase{
 		
 		gameOverWindow = new GameOverWindow();
 		mStage.addActor(gameOverWindow);
+		
+		returnConfirmWindow = new ReturnConfirmWindow();
+		mStage.addActor(returnConfirmWindow);
+		
+		shareWindow = new ShareWindow();
+		mStage.addActor(shareWindow);
+		
+		tipsWindow = new TipsWindow();
+		mStage.addActor(tipsWindow);
+		
+		infoWindow = new InfoWindow();
+		mStage.addActor(infoWindow);
 	}
 	
 	public void showGameOverWindow()
 	{
 		gameOverWindow.updateValues();
 		gameOverWindow.setVisible(true);
+	}
+	
+	public void showInfoWindow()
+	{
+		infoWindow.setVisible(true);
+	}
+	
+	public void showReturnConfirmWindow()
+	{
+		returnConfirmWindow.setVisible(true);
+	}
+	
+	public void showShareWindow()
+	{
+		shareWindow.setVisible(true);
+	}
+	
+	public TipsWindow getTipsWindow()
+	{
+		return tipsWindow;
 	}
 	
 	public AchievementUI getAchievementUI()
@@ -162,7 +193,7 @@ public class GameScreen extends ScreenUIBase{
 		ConstructionWindow constructionWindow = new ConstructionWindow(buildingType, resouces, numAllowedBuilder);
 		constructionWindow.setVisible(false);
 		mStage.addActor(constructionWindow);
-		windows.add(constructionWindow);
+		buildingViewWindows.add(constructionWindow);
 		return constructionWindow;
 	}
 	
@@ -180,68 +211,68 @@ public class GameScreen extends ScreenUIBase{
 			}
 		});
 		mStage.addActor(scrollPane);
-		windows.add(window);
+		buildingViewWindows.add(window);
 		return window;
 	}
 	
 	public FarmViewWindow createFarmViewWindow(int numAllowedWorker) {
 		FarmViewWindow window = new FarmViewWindow(numAllowedWorker);
 		mStage.addActor(window);
-		windows.add(window);
+		buildingViewWindows.add(window);
 		return window;
 	}
 	
 	public RanchViewWindow createRanchViewWindow(int numAllowedWorker) {
 		RanchViewWindow window = new RanchViewWindow(numAllowedWorker);
 		mStage.addActor(window);
-		windows.add(window);
+		buildingViewWindows.add(window);
 		return window;
 	}
 	
 	public WorkableViewWindow createWorkableViewWindow(BuildingType buildingType, int numAllowedWorker) {
 		WorkableViewWindow window = new WorkableViewWindow(buildingType, numAllowedWorker);
 		mStage.addActor(window);
-		windows.add(window);
+		buildingViewWindows.add(window);
 		return window;
 	}
 	
 	public MPBuildingViewWindow createMPBuildingViewWindow(BuildingType buildingType, int numAllowedWorker) {
 		MPBuildingViewWindow window = new MPBuildingViewWindow(buildingType, numAllowedWorker);
 		mStage.addActor(window);
-		windows.add(window);
+		buildingViewWindows.add(window);
 		return window;
 	}
 	
 	public BarViewWindow createBarViewWindow(int numAllowedWorker, int maxWineStorage) {
 		BarViewWindow window = new BarViewWindow(numAllowedWorker, maxWineStorage);
 		mStage.addActor(window);
-		windows.add(window);
+		buildingViewWindows.add(window);
 		return window;
 	}
 	
 	public HospitalViewWindow createHospitalViewWindow(int numAllowedWorker) {
 		HospitalViewWindow window = new HospitalViewWindow(numAllowedWorker);
 		mStage.addActor(window);
-		windows.add(window);
+		buildingViewWindows.add(window);
 		return window;
 	}
 	
 	public SchoolViewWindow createSchoolViewWindow(int numAllowedWorker,int currentStudentNum){
 		SchoolViewWindow schoolViewWindow=new SchoolViewWindow(numAllowedWorker,currentStudentNum);
 		mStage.addActor(schoolViewWindow);
-		windows.add(schoolViewWindow);
+		buildingViewWindows.add(schoolViewWindow);
 		return schoolViewWindow;
 	}
 	
 	public WellViewWindow createWellViewWindow(){
 		WellViewWindow wellViewWindow=new WellViewWindow();
 		mStage.addActor(wellViewWindow);
-		windows.add(wellViewWindow);
+		buildingViewWindows.add(wellViewWindow);
 		return wellViewWindow;
 	}
 	
 	public void hideAllWindow() {
-		for(Actor window : windows) {
+		for(Actor window : buildingViewWindows) {
 			window.setVisible(false);
 		}
 	}
@@ -253,6 +284,6 @@ public class GameScreen extends ScreenUIBase{
 //		int numFood = ResourceInfoCollector.getInstance(ResourceInfoCollector.class).getFoodAmount();
 //		stateBar.update(numPeople, numFood);
 		super.update(deltaTime);
-		stateBar.update();
+		stateBoard.update();
 	}
 }

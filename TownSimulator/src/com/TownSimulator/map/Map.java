@@ -146,6 +146,24 @@ public class Map extends Singleton implements Serializable{
 		return true;
 	}
 	
+	public void initGrass()
+	{
+		for (int x = 0; x < MAP_WIDTH; x++) {
+			for (int y = 0; y < MAP_HEIGHT; y++) {
+				if(rand.nextFloat() <= 0.03)
+				{
+					float randX = (rand.nextFloat() - 0.5f) * Settings.UNIT ;
+					float randY = (rand.nextFloat() - 0.5f) * Settings.UNIT ;
+					int grassIndex = rand.nextInt(3);
+					Grass grass = new Grass("grass_" + grassIndex);
+					grass.setPositionWorld(	Settings.UNIT * x + Settings.UNIT * 0.5f + randX,
+											Settings.UNIT * y + Settings.UNIT * 0.5f + randY);
+					Renderer.getInstance(Renderer.class).attachDrawScissor(grass);
+				}
+			}
+		}
+	}
+	
 	public boolean load()
 	{
 		long start = System.currentTimeMillis();

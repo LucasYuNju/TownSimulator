@@ -3,10 +3,13 @@ package com.TownSimulator.camera;
 
 import java.util.ArrayList;
 
+import com.TownSimulator.driver.Driver;
+import com.TownSimulator.driver.DriverListenerBaseImpl;
 import com.TownSimulator.io.InputMgr;
 import com.TownSimulator.io.InputMgrListener;
 import com.TownSimulator.map.Map;
 import com.TownSimulator.utility.AxisAlignedBoundingBox;
+import com.TownSimulator.utility.GameMath;
 import com.TownSimulator.utility.Settings;
 import com.TownSimulator.utility.SingletonPublisher;
 import com.badlogic.gdx.Gdx;
@@ -30,6 +33,13 @@ public class CameraController extends SingletonPublisher<CameraListener>{
 	private			boolean					mbMovalble = true;
 	private 		AxisAlignedBoundingBox	mCameraViewAABB;
 	private 		GestureDetector			mGestureDetector;
+	private			float					mMoveStartX = 0.0f;
+	private			float					mMoveStartY = 0.0f;
+	private			float					mMoveDestX = 0.0f;
+	private			float					mMoveDestY = 0.0f;
+	private			boolean					mbInMove = false;
+	private			float					mMoveTimeAccum = 0.0f;
+	private	static final float				MOVE_TIME = 0.3f;
 	
 	private CameraController()
 	{
@@ -109,6 +119,52 @@ public class CameraController extends SingletonPublisher<CameraListener>{
 				return mGestureDetector.touchDown(screenX, screenY, pointer, button);
 			}
 		});
+		
+		Driver.getInstance(Driver.class).addListener(new DriverListenerBaseImpl() {
+			private static final long serialVersionUID = -8721043914572133675L;
+
+			@Override
+			public void update(float deltaTime) {
+				if(mbInMove)
+					doMove(deltaTime);
+			}
+			
+		});
+	}
+	
+	public void setPosition(float x, float y)
+	{
+		mCamera.position.x = x;
+		mCamera.position.y = y;
+	}
+	
+	public void moveTo(float x, float y)
+	{
+		mMoveStartX = mCamera.position.x;
+		mMoveStartY = mCamera.position.y;
+		mMoveDestX = x;
+		mMoveDestY = y;
+		mbInMove = true;
+		mMoveTimeAccum = 0.0f;
+	}
+	
+	private void doMove(float deltaTime)
+	{
+		mMoveTimeAccum += deltaTime;
+		if(mMoveTimeAccum >= MOVE_TIME)
+		{
+			mCamera.position.x = mMoveDestX;
+			mCamera.position.y = mMoveDestY;
+			mbInMove = false;
+		}
+		else
+		{
+			float x = GameMath.lerp(mMoveStartX, mMoveDestX, mMoveTimeAccum / MOVE_TIME);
+			float y = GameMath.lerp(mMoveStartY, mMoveDestY, mMoveTimeAccum / MOVE_TIME);
+			mCamera.position.x = x;
+			mCamera.position.y = y;
+		}
+		
 	}
 	
 	public void reset()

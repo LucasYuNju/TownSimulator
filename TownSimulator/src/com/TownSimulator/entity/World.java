@@ -8,6 +8,7 @@ import com.TownSimulator.driver.DriverListenerBaseImpl;
 import com.TownSimulator.entity.building.School;
 import com.TownSimulator.utility.Settings;
 import com.TownSimulator.utility.Singleton;
+import com.TownSimulator.utility.VoicePlayer;
 import com.TownSimulator.utility.particle.ParticleControl;
 
 public class World extends Singleton implements Serializable{
@@ -53,6 +54,9 @@ public class World extends Singleton implements Serializable{
 					ParticleControl.getInstance(ParticleControl.class).reset();
 					curSeasonType=getCurSeason();
 					setGroundColor();
+					
+					if(curSeasonType == SeasonType.Summer)
+						VoicePlayer.getInstance(VoicePlayer.class).playMusicForDuringTime("rain.mp3", SecondPerYear / 4.0f);
 				}
 			}
 		});

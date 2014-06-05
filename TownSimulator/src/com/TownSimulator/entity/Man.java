@@ -278,6 +278,8 @@ public class Man extends Entity{
 		
 		if(message != null)
 			UIManager.getInstance(UIManager.class).getGameUI().getMessageBoard().showMessage(message);
+		
+		Driver.getInstance(Driver.class).checkGameOver();
 	}
 
 	public void setBehavior(BehaviorTreeNode behavior)

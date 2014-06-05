@@ -19,6 +19,7 @@ import com.TownSimulator.ui.building.construction.ConstructionWindowListener;
 import com.TownSimulator.ui.building.view.UndockedWindow;
 import com.TownSimulator.ui.building.view.UndockedWindow.UndockedWindowListener;
 import com.TownSimulator.ui.building.view.WorkerGroupListener;
+import com.TownSimulator.utility.VoicePlayer;
 import com.TownSimulator.utility.quadtree.QuadTreeType;
 import com.badlogic.gdx.graphics.Texture.TextureFilter;
 
@@ -89,11 +90,16 @@ public abstract class Building extends Entity
 			undockedWindow.setShowDynamiteButton(v);
 	}
 	
+	public boolean isDestroyable()
+	{
+		return bDestroyable;
+	}
+	
 	@Override
 	public void destroy()
 	{
-		if(bDestroyable == false)
-			return;
+//		if(bDestroyable == false)
+//			return;
 		
 		super.destroy();
 		
@@ -242,13 +248,19 @@ public abstract class Building extends Entity
 		
 		if(buildingState == State.UnderConstruction) {
 			if(constructionWindow != null)
+			{
 				constructionWindow.setVisible(true);
+				
+				VoicePlayer.getInstance(VoicePlayer.class).playSound("build.mp3");
+			}
 		}
 		if(buildingState == State.Constructed) {
 			if(undockedWindow != null)
 			{
 				undockedWindow.setBuildingPosWorld(getPositionXWorld(), getPositionYWorld());
 				undockedWindow.setVisible(true);
+				
+				VoicePlayer.getInstance(VoicePlayer.class).playSound("click.mp3");
 			}
 		}
 	}
