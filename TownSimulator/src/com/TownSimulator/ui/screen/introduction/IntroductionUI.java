@@ -98,8 +98,6 @@ public class IntroductionUI extends ScreenUIBase{
 	}
 	
 	public void initWindowPages(){
-		windowPages.add(new IntroButtonWindow());
-		windowPages.add(new IntroStoryWindow());
 		windowPages.add(new IntroStoryWindow());
 		windowPages.add(new IntroButtonWindow());
 		
