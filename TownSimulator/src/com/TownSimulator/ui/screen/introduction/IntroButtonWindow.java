@@ -6,6 +6,7 @@ import aurelienribon.tweenengine.equations.Quint;
 
 import com.TownSimulator.ui.base.IconButton;
 import com.TownSimulator.utility.ResourceManager;
+import com.TownSimulator.utility.Settings;
 import com.TownSimulator.utility.animation.ActorAccessor;
 import com.TownSimulator.utility.animation.AnimationManager;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
@@ -20,6 +21,7 @@ public class IntroButtonWindow extends BaseIntroductionWindow{
 	private IconButton livingBuildingImage;
 	private IconButton mpbuildingImage;
 	private float IconMargin=ButtonMargin*1.4f;
+	private float height=0.0f;
 	
 	private Image speedTextImage;
 	private Image manWorkTextImage;
@@ -45,13 +47,17 @@ public class IntroButtonWindow extends BaseIntroductionWindow{
 		iconButtonLocate(mpbuildingImage, "button_build_mp",mpbuildingTextImage,"textMP",maxTextWidth/21*14, 1);
 		iconButtonLocate(speedImage, "speed_x1",speedTextImage,"textSpeed", maxTextWidth/21*18,0);
 		
+//		totalImage=new IconButton("crop_mimosa");
+//		totalImage.setBounds(ButtonWidth, ButtonHeight, ButtonWidth, ButtonHeight);
+//		addActor(totalImage);
 	}
 	/**
 	 * 
 	 * yIndex 从0开始index
 	 */
 	public void iconButtonLocate(IconButton iconButton,String textureName,Image textImage,String textName,float textWidth,float yIndex){
-		float height=yIndex*(ButtonHeight+IconMargin)+IconMargin;
+		height=yIndex*(ButtonHeight+IconMargin)+IconMargin;
+		
 		iconButton=new IconButton(textureName);
 		iconButton.setSize(ButtonWidth, ButtonHeight);
 		iconButton.setPosition(2.0f*ButtonWidth,height);
@@ -64,13 +70,17 @@ public class IntroButtonWindow extends BaseIntroductionWindow{
 	
 	
 	public void startPlay() {
+		//System.out.println(totalImage.toString()+"-"+totalImage.getX()/Settings.UNIT);
+		if(totalImage==null){
+			System.out.println("111");
+		}
 		Tween.registerAccessor(Image.class, new ActorAccessor());
 		Tween.registerAccessor(IconButton.class, new ActorAccessor());
 		
 		Timeline.createSequence().beginSequence()
 //             .push(Tween.to(totalTextImage, ActorAccessor.SCALE_XY, 2.0f).ease(Bounce.INOUT)
 //					   .target(5f,5f).repeat(3, 0.0f))
-   		     .push(Tween.to(totalTextImage, ActorAccessor.POS_XY, 10.0f).ease(Quint.IN)
+   		     .push(Tween.to(totalImage, ActorAccessor.POS_XY, 10.0f).ease(Quint.IN)
 	                   .target(5*ButtonWidth,5*ButtonHeight))
 		   
 		   .end()
