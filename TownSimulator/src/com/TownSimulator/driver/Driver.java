@@ -156,7 +156,7 @@ public class Driver extends SingletonPublisher<DriverListener> implements Applic
 //		Renderer.getInstance(Renderer.class).attachDrawScissor(mpStore);
 		
 		Warehouse wareHouse = (Warehouse) EntityFactory.createBuilding(BuildingType.Warehouse);
-		wareHouse.addStoredResource(ResourceType.Wood, 2300);
+		wareHouse.addStoredResource(ResourceType.Wood, 10000);
 //		wareHouse.addStoredResource(ResourceType.Coat, 400);
 		wareHouse.addStoredResource(ResourceType.Wheat, 20000);
 		wareHouse.setState(Building.State.Constructed);

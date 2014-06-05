@@ -277,10 +277,13 @@ public class ResourceManager extends Singleton implements Serializable{
 	}
 
 	private void preLoadSounds(){
-		loadSound("voice/sound/cave3.wav");
+		loadSound("voice/sound/bar.mp3");
+		loadSound("voice/sound/build.mp3");
+		loadSound("voice/sound/bull.mp3");
+		loadSound("voice/sound/click.mp3");
 		loadSound("voice/sound/game.mp3");
-		//loadSound("voice/sound/rain.mp3");
-		loadSound("voice/sound/loop01.wav");
+		loadSound("voice/sound/school.mp3");
+		loadSound("voice/sound/tree.mp3");
 	}
 	
 	private void loadSound(String soundName){
