@@ -46,6 +46,7 @@ public class Driver extends SingletonPublisher<DriverListener> implements Applic
 	private int frameRemain = 0;
 	private ArrayList<BufferredTask> bufferTasks;
 	private Vector2 initOriginPos;
+	private boolean isGameOver = false;
 	
 	private Driver()
 	{
@@ -369,7 +370,8 @@ public class Driver extends SingletonPublisher<DriverListener> implements Applic
 	
 	private void gameOver()
 	{
-//		Settings.gameSpeed = 0;
+		Settings.gameSpeed = 0;
+		isGameOver = true;
 		UIManager.getInstance(UIManager.class).getGameUI().showGameOverWindow();
 	}
 	
@@ -381,6 +383,8 @@ public class Driver extends SingletonPublisher<DriverListener> implements Applic
 		Singleton.getInstance(ResourceInfoCollector.class).clear();
 		Singleton.getInstance(ParticleControl.class).clear();
 		Singleton.getInstance(World.class).clear();
+		ParticleManager.clear();
+		TipsBillborad.clear();
 	}
 	
 	public void returnToStartUI()

@@ -21,7 +21,7 @@ import com.badlogic.gdx.math.Vector2;
  */
 public class TipsBillborad {
 	private static List<TipsBillborad> tipsActiveList;
-	private static List<TipsBillborad> tipsInActiveList;
+	private static List<TipsBillborad> tipsFreeList;
 	private static BitmapFont font;
 	private static SpriteBatch spriteBatch;
 	private static HashMap<String, TextureRegionAllocContainer> textureMap = new HashMap<String, TipsBillborad.TextureRegionAllocContainer>();
@@ -87,7 +87,7 @@ public class TipsBillborad {
 	public static void initStatic()
 	{
 		tipsActiveList = new ArrayList<TipsBillborad>();
-		tipsInActiveList = new ArrayList<TipsBillborad>();
+		tipsFreeList = new ArrayList<TipsBillborad>();
 		font = ResourceManager.getInstance(ResourceManager.class).getFont( (int)(Settings.UNIT * 0.6f) );
 		spriteBatch = new SpriteBatch();
 		textureMap.clear();
@@ -105,7 +105,7 @@ public class TipsBillborad {
 			public void dispose() {
 				spriteBatch.dispose();
 				tipsActiveList.clear();
-				tipsInActiveList.clear();
+				tipsFreeList.clear();
 			}
 		});
 		
@@ -127,6 +127,17 @@ public class TipsBillborad {
 				
 			}
 		});
+	}
+	
+	public static void clear()
+	{
+//		ArrayList<TipsBillborad> activeListCpy = new ArrayList<TipsBillborad>(tipsActiveList);
+//		for (TipsBillborad t : activeListCpy) {
+//			tipsFreeList.add(t);
+//			tipsActiveList.remove(t);
+//		}
+		tipsFreeList.addAll(tipsActiveList);
+		tipsActiveList.clear();
 	}
 	
 	private static void updateTips(float deltaTime)
@@ -162,10 +173,10 @@ public class TipsBillborad {
 	
 	private static TipsBillborad allocTipsBillboard()
 	{
-		if (tipsInActiveList.size() == 0)
-			tipsInActiveList.add(new TipsBillborad());
+		if (tipsFreeList.size() == 0)
+			tipsFreeList.add(new TipsBillborad());
 
-		TipsBillborad tip = tipsInActiveList.remove(tipsInActiveList.size() - 1);
+		TipsBillborad tip = tipsFreeList.remove(tipsFreeList.size() - 1);
 		tipsActiveList.add(tip);
 
 		return tip;
@@ -205,7 +216,7 @@ public class TipsBillborad {
 		
 		if(life > livingTime)
 		{
-			tipsInActiveList.add(this);
+			tipsFreeList.add(this);
 			tipsActiveList.remove(this);
 			return;
 		}

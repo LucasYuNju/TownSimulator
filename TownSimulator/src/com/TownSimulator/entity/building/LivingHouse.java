@@ -20,7 +20,7 @@ import com.TownSimulator.ui.building.view.UndockedWindow;
 
 public class LivingHouse extends Building {
 	private static final long serialVersionUID = 6577679479943487313L;
-	private static final float MAN_INCREASE_PROBABILITY = 0.02f;
+	private static final float MAN_INCREASE_PROBABILITY = 0.015f;
 	protected List<ManInfo> residents;
 	protected int capacity;
 	protected transient ScrollViewWindow scrollWindow;

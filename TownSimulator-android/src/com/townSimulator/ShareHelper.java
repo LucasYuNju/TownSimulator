@@ -41,15 +41,15 @@ public class ShareHelper implements ShareUtil{
 //		mController.getConfig().setSsoHandler( new QZoneSsoHandler(this.activity, "101108120","d8cb84c5bc7bfea83dcbdafd804a49b4") );
 //		mController.getConfig().setSsoHandler(new TencentWBSsoHandler());
 		
-		String appID = "wx967daebe835fbeac";
+		String appID = "wxa08434ea403aa1d6";
 		// 微信图文分享必须设置一个url 
 		String contentUrl = "http://www.umeng.com/social";
 		// 添加微信平台，参数1为当前Activity, 参数2为用户申请的AppID, 参数3为点击分享内容跳转到的目标url
 		UMWXHandler wxHandler = mController.getConfig().supportWXPlatform(this.activity, appID, contentUrl);
-		wxHandler.setWXTitle("Hello");
+		wxHandler.setWXTitle("TownSimulator");
 		// 支持微信朋友圈
 		UMWXHandler circleHandler = mController.getConfig().supportWXCirclePlatform(this.activity, appID, contentUrl) ;
-		circleHandler.setCircleTitle("Hello");
+		circleHandler.setCircleTitle("TownSimulator");
 	}
 	
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -108,7 +108,7 @@ public class ShareHelper implements ShareUtil{
 			scaledBm.compress(CompressFormat.PNG, 0, bos);
 			bos.flush();
 			
-			mController.setShareContent("Hello World!");
+			mController.setShareContent("TownSimulator");
 			mController.setShareMedia( new UMImage(this.activity, bos.toByteArray()) );
 			
 			activity.runOnUiThread(new Runnable() {

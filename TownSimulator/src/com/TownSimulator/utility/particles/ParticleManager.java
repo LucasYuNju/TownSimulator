@@ -18,6 +18,19 @@ public class ParticleManager extends AllocManaged{
 		return ParticleManager.class;
 	}
 	
+	public static void clear()
+	{
+		for (Class<? extends Particle> c : classTypes) {
+			List<? extends Particle> array = getAllocedList(c);
+			if(array == null)
+				continue;
+			
+			for (AllocManaged a : getAllocedList(c)) {
+				a.release();
+			}
+		}
+	}
+	
 	public static void initStatic()
 	{
 		Particle.initStatic();
