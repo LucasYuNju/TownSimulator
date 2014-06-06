@@ -23,4 +23,8 @@ public abstract class BaseIntroductionWindow extends Group{
 	public void dispose(){
 		this.dispose();
 	}
+	
+	public void reset(){
+		
+	}
 }

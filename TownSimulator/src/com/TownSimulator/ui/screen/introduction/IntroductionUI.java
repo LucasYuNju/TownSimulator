@@ -21,7 +21,7 @@ public class IntroductionUI extends ScreenUIBase{
 
 //	private SpriteBatch spriteBatch;
 	private ArrayList<BaseIntroductionWindow> windowPages;
-	private int currentIndex=0;
+	private int currentIndex;
 	
 	public IntroductionUI(){
 //		spriteBatch=new SpriteBatch();
@@ -32,6 +32,8 @@ public class IntroductionUI extends ScreenUIBase{
 	}
 	
 	public void initComponents(){
+		currentIndex=0;
+		
 		previousButton=new IconButton("animal_caonima");
 		previousButton.setSize(ButtonWidth, ButtonHeight);
 		previousButton.setPosition(ButtonMargin, ButtonMargin);
@@ -133,6 +135,17 @@ public class IntroductionUI extends ScreenUIBase{
 	public void update(float deltaTime) {
 		// TODO Auto-generated method stub
 		super.update(deltaTime);
+	}
+	
+	public void reset(){
+//		windowPages.get(0).reset();
+//		windowPages.get(currentIndex).setVisible(false);
+//		currentIndex=0;
+//		windowPages.get(0).setVisible(true);
+		mStage.clear();
+		initComponents();
+		windowPages.clear();
+		initWindowPages();
 	}
 	
 	

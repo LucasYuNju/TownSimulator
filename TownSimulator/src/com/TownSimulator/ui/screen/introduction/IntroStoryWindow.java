@@ -116,4 +116,10 @@ public class IntroStoryWindow extends BaseIntroductionWindow{
 		super.dispose();
 		
 	}
+	
+	@Override
+	public void reset(){
+	 this.clearChildren();
+	 this.initComponents();
+	}
 }
