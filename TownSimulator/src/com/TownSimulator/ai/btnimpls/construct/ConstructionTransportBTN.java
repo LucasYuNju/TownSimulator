@@ -7,7 +7,6 @@ import com.TownSimulator.entity.EntityInfoCollector.WareHouseFindResult;
 import com.TownSimulator.entity.Man;
 import com.TownSimulator.entity.ManAnimeType;
 import com.TownSimulator.entity.ManStateType;
-import com.TownSimulator.entity.ResourceInfoCollector;
 import com.TownSimulator.entity.building.Building;
 import com.TownSimulator.entity.building.Warehouse;
 
@@ -36,8 +35,8 @@ public class ConstructionTransportBTN extends ActionNode{
 		mMan.getInfo().constructionInfo.transportWareHouse.addStoredResource(mMan.getInfo().constructionInfo.transportRSType, -takeAmount);
 		mMan.getInfo().constructionInfo.curRSAmount += takeAmount;
 		
-		ResourceInfoCollector.getInstance(ResourceInfoCollector.class)
-		.addResourceAmount(mMan.getInfo().constructionInfo.transportRSType, -takeAmount);
+//		ResourceInfoCollector.getInstance(ResourceInfoCollector.class)
+//		.addResourceAmount(mMan.getInfo().constructionInfo.transportRSType, -takeAmount);
 	}
 	
 	private void addResourceToBuilding()

@@ -105,6 +105,7 @@ public class UIManager extends Singleton {
 	public void returnToStartUI()
 	{
 		mCurScreenUI = mStartUI;
+		mGameUI.clear();
 	}
 
 	public void render()

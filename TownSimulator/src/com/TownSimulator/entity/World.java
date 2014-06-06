@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.Calendar;
 
 import com.TownSimulator.driver.Driver;
+import com.TownSimulator.driver.DriverListener;
 import com.TownSimulator.driver.DriverListenerBaseImpl;
 import com.TownSimulator.entity.building.School;
 import com.TownSimulator.utility.Settings;
@@ -23,6 +24,7 @@ public class World extends Singleton implements Serializable{
 //	private int currentStudentNum;
 	
 	private int[] startSeasonMonth={2,5,8,11};
+	private DriverListener driverListener;
 	
 	private World(){
 		
@@ -30,15 +32,9 @@ public class World extends Singleton implements Serializable{
 	
 	public void init()
 	{
-		calendar=Calendar.getInstance();
-		calendar.set(2014, 1, 29);//设置初始日期
-		curSeasonType=getCurSeason();
-		secondPerDay = SecondPerYear / 365.0f;
-		secondDuringLastDay = 0f;
+		initData();
 		
-		maxStudentAmount=0;
-		
-		Driver.getInstance(Driver.class).addListener(new DriverListenerBaseImpl(){
+		driverListener = new DriverListenerBaseImpl(){
 			private static final long serialVersionUID = 422688476183877241L;
 
 			@Override
@@ -59,7 +55,24 @@ public class World extends Singleton implements Serializable{
 						VoicePlayer.getInstance(VoicePlayer.class).playMusicForDuringTime("rain.mp3", SecondPerYear / 4.0f);
 				}
 			}
-		});
+		};
+		Driver.getInstance(Driver.class).addListener(driverListener);
+	}
+	
+	public void initData()
+	{
+		calendar=Calendar.getInstance();
+		calendar.set(2014, 1, 29);//设置初始日期
+		curSeasonType=getCurSeason();
+		secondPerDay = SecondPerYear / 365.0f;
+		secondDuringLastDay = 0f;
+		
+		maxStudentAmount=0;
+	}
+	
+	public void clear()
+	{
+		Driver.getInstance(Driver.class).removeListener(driverListener);
 	}
 	
 	public int getLivedDays()

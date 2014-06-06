@@ -34,6 +34,11 @@ public class SpeedSettingUI extends Group{
 		this.listener = l;
 	}
 	
+	public void reset()
+	{
+		changeSpeed(0);
+	}
+	
 	private void init()
 	{
 		setSize(GameScreen.BUTTON_WIDTH, GameScreen.BUTTON_HEIGHT);

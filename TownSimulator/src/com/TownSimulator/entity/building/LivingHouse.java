@@ -46,6 +46,8 @@ public class LivingHouse extends Building {
 					doLottery();
 					time = 0;
 				}
+				
+				updateViewWindow();
 			}
 		};
 	}

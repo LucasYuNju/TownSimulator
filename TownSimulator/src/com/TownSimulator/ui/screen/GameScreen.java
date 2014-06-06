@@ -286,4 +286,8 @@ public class GameScreen extends ScreenUIBase{
 		super.update(deltaTime);
 		stateBoard.update();
 	}
+
+	public void clear() {
+		
+	}
 }

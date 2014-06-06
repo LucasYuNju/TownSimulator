@@ -6,7 +6,6 @@ import aurelienribon.tweenengine.equations.Elastic;
 
 import com.TownSimulator.ui.base.IconButton;
 import com.TownSimulator.utility.ResourceManager;
-import com.TownSimulator.utility.Settings;
 import com.TownSimulator.utility.animation.ActorAccessor;
 import com.TownSimulator.utility.animation.AnimationManager;
 import com.badlogic.gdx.Gdx;

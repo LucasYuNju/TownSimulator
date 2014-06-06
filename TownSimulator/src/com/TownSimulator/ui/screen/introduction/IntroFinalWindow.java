@@ -2,11 +2,8 @@ package com.TownSimulator.ui.screen.introduction;
 
 import aurelienribon.tweenengine.Timeline;
 import aurelienribon.tweenengine.Tween;
-import aurelienribon.tweenengine.equations.Bounce;
 import aurelienribon.tweenengine.equations.Elastic;
-import aurelienribon.tweenengine.equations.Quint;
 
-import com.TownSimulator.camera.CameraController;
 import com.TownSimulator.utility.ResourceManager;
 import com.TownSimulator.utility.animation.ActorAccessor;
 import com.TownSimulator.utility.animation.AnimationManager;
