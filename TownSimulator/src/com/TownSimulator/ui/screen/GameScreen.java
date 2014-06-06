@@ -288,6 +288,6 @@ public class GameScreen extends ScreenUIBase{
 	}
 
 	public void clear() {
-		
+		mSpeedSettingUI.reset();
 	}
 }
