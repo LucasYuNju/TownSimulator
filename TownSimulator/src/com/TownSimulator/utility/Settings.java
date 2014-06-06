@@ -2,6 +2,7 @@ package com.TownSimulator.utility;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 
 import com.TownSimulator.entity.Resource;
 import com.TownSimulator.entity.ResourceType;
@@ -117,6 +118,18 @@ public class Settings {
 	
 	public static HashMap<BuildingType, MPData> mpBuildingDataMap = new HashMap<BuildingType, Settings.MPData>();
 	
+	public static void resetMPData()
+	{
+		Iterator<BuildingType> itr = mpBuildingDataMap.keySet().iterator();
+		while(itr.hasNext())
+		{
+			BuildingType type = itr.next();
+			MPData data = mpBuildingDataMap.get(type);
+			data.cost = data.costInit;
+			data.costIncre = data.costIncreInit;
+		}
+	}
+	
 	public static class MPData
 	{
 		public int produceAmount;
@@ -172,7 +185,7 @@ public class Settings {
 		data.costIncre2 = 20;
 		data.textureName = "building_mp_mouse_wheel";
 		data.desc = ResourceManager.stringMap.get("mp_desc_mouseWheel");
-		data.maxJobCnt = 1;
+		data.maxJobCnt = 0;
 		mpBuildingDataMap.put(BuildingType.MP_MouseWheel, data);
 		
 		data = new MPData();
@@ -194,7 +207,7 @@ public class Settings {
 		data.costIncre2 = 1000;
 		data.textureName = "building_mp_storm";
 		data.desc = ResourceManager.stringMap.get("mp_desc_storm");
-		data.maxJobCnt = 2;
+		data.maxJobCnt = 1;
 		mpBuildingDataMap.put(BuildingType.MP_Storm, data);
 		
 		data = new MPData();
@@ -205,7 +218,7 @@ public class Settings {
 		data.costIncre2 = 10000;
 		data.textureName = "building_mp_vocalno";
 		data.desc = ResourceManager.stringMap.get("mp_desc_vocalno");
-		data.maxJobCnt = 2;
+		data.maxJobCnt = 1;
 		mpBuildingDataMap.put(BuildingType.MP_Vocalno, data);
 		
 		data = new MPData();
