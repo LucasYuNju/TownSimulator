@@ -35,6 +35,7 @@ import com.TownSimulator.utility.Settings;
 import com.TownSimulator.utility.Singleton;
 import com.TownSimulator.utility.SingletonPublisher;
 import com.TownSimulator.utility.TipsBillborad;
+import com.TownSimulator.utility.VoicePlayer;
 import com.TownSimulator.utility.particle.ParticleControl;
 import com.TownSimulator.utility.particles.ParticleManager;
 import com.badlogic.gdx.ApplicationListener;
@@ -368,6 +369,7 @@ public class Driver extends SingletonPublisher<DriverListener> implements Applic
 		Singleton.getInstance(ResourceInfoCollector.class).clear();
 		Singleton.getInstance(ParticleControl.class).clear();
 		Singleton.getInstance(World.class).clear();
+		Singleton.getInstance(VoicePlayer.class).clear();
 		ParticleManager.clear();
 		TipsBillborad.clear();
 	}

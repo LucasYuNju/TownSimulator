@@ -93,6 +93,16 @@ public class VoicePlayer extends Singleton{
 		}
 	}
 	
+	public void clear() {
+		for (MusicPlayItem musicPlayItem : musicsList) {
+			musicPlayItem.music.stop();
+			if (musicPlayItem.music != null) {
+				musicPlayItem.music.dispose();
+			}
+			musicsList.remove(musicPlayItem);
+		}
+	}
+	
 	private void dispose(){
 		if(bgmmusic!=null){
 			bgmmusic.dispose();
