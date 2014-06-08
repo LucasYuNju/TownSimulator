@@ -359,6 +359,7 @@ public class Driver extends SingletonPublisher<DriverListener> implements Applic
 		Settings.gameSpeed = 0;
 //		isGameOver = true;
 		UIManager.getInstance(UIManager.class).getGameUI().showGameWinWindow();
+		VoicePlayer.getInstance(VoicePlayer.class).playMusicOnce("gift.mp3");
 	}
 	
 	private void clear()

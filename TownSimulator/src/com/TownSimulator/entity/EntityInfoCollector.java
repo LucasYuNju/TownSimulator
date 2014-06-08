@@ -23,6 +23,7 @@ import com.TownSimulator.entity.building.Warehouse;
 import com.TownSimulator.render.Renderer;
 import com.TownSimulator.utility.Singleton;
 import com.TownSimulator.utility.SingletonPublisher;
+import com.TownSimulator.utility.VoicePlayer;
 import com.badlogic.gdx.Gdx;
 
 public class EntityInfoCollector extends SingletonPublisher<EntityInfoCollectorListener> 
@@ -141,8 +142,9 @@ public class EntityInfoCollector extends SingletonPublisher<EntityInfoCollectorL
 			l.newBuildingAdded(building);
 		}
 		
-		if(building.getType() == BuildingType.MP_BalckHole)
-			Driver.getInstance(Driver.class).gameWin();
+		if(building.getType() == BuildingType.MP_BalckHole){
+			Driver.getInstance(Driver.class).gameWin();			
+		}
 	}
 	
 	public void removeBuilding(Building building)
