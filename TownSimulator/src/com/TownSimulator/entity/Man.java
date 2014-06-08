@@ -190,7 +190,7 @@ public class Man extends Entity{
 		mInfo.hungerPoints -= GameMath.lerp(ManInfo.HUNGER_DECRE_SPEED_MIN, ManInfo.HUNGER_DECRE_SPEED_MAX, mInfo.getAge() / ManInfo.AGE_MAX) * deltaTime;
 		
 		if(mInfo.hungerPoints <= ManInfo.HUNGER_POINTS_MIN)
-			die(mInfo.getName() + " died : Hungry");
+			die(mInfo.getName() + " " + ResourceManager.stringMap.get("manDie_hungry"));
 	}
 	
 	private void updateTemparaturePoints(float deltaTime) {
@@ -199,7 +199,7 @@ public class Man extends Entity{
 			mInfo.temperature -= ManInfo.TEMPERATURE_DECRE_SPEED * deltaTime;
 		
 			if(mInfo.temperature <= ManInfo.TEMPERATURE_POINTS_MIN)
-				die(mInfo.getName() + " died : Cold");
+				die(mInfo.getName() + " " + ResourceManager.stringMap.get("manDie_cold"));
 		}
 		else
 			mInfo.temperature = ManInfo.TEMPERATURE_POINTS_MAX;
@@ -212,7 +212,7 @@ public class Man extends Entity{
 			mInfo.setAge(newAge);
 			checkAgeEvent(newAge);
 			if( mInfo.isOldEnough() )
-				die(mInfo.getName() + " died : Too Old");
+				die(mInfo.getName() + " " + ResourceManager.stringMap.get("manDie_old"));
 			
 			tempAcountTime -= World.SecondPerYear;
 		}
@@ -232,7 +232,13 @@ public class Man extends Entity{
 	
 	private void updateHealtyPoints(float deltaTime)
 	{
+		if(EntityInfoCollector.getInstance(EntityInfoCollector.class).getAllMan().size() <= 30)
+			return;
+		
 		mInfo.hpDrawHealthLottery(deltaTime);
+		
+		if(mInfo.getHealthPoints() <= 0.0f)
+			die(mInfo.getName() + " " + ResourceManager.stringMap.get("manDie_sick"));
 	}
 	
 	private void checkAgeEvent(int newAge) {

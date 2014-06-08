@@ -2,10 +2,11 @@ package com.TownSimulator.achivement;
 
 import com.TownSimulator.entity.EntityInfoCollector;
 import com.TownSimulator.entity.building.BuildingType;
+import com.TownSimulator.utility.ResourceManager;
 
 public class FirstMPBuildingAM extends Achievement{
-	private static final String TITLE = "Beginner";
-	private static final String DESC = "Build the first candy building";
+	private static final String TITLE = ResourceManager.stringMap.get("achivement_title_begginer");
+	private static final String DESC = ResourceManager.stringMap.get("achivement_desc_begginer");
 	
 	public FirstMPBuildingAM() {
 		super(TITLE, DESC, "achievement_icon_copper");

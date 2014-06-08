@@ -1,5 +1,8 @@
 package com.TownSimulator.entity.building;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
+
 import com.TownSimulator.entity.Entity;
 import com.TownSimulator.entity.World;
 import com.TownSimulator.utility.GameMath;
@@ -93,6 +96,12 @@ public class FarmLand extends Entity{
 		float size = GameMath.lerp(0.0f, 1.0f, curCropAmount / MAX_CROP_AMOUNT);
 		mSprite.setSize(size * mDrawAABBLocal.getWidth()*cropScale, size * mDrawAABBLocal.getHeight()*cropScale);
 		mSprite.setPosition(mDrawAABBWorld.getCenterX() - mSprite.getWidth() * 0.5f, mDrawAABBWorld.minY);
+	}
+	
+	private void readObject(ObjectInputStream s) throws ClassNotFoundException, IOException {
+		s.defaultReadObject();
+		soil.setSize(mDrawAABBLocal.getWidth(), mDrawAABBLocal.getHeight());
+		soil.setPosition(mDrawAABBWorld.minX, mDrawAABBWorld.minY);
 	}
 
 }

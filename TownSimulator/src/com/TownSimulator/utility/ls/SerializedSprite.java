@@ -11,6 +11,7 @@ public class SerializedSprite extends Sprite
 {
 	private static final long serialVersionUID = -5297772064416603821L;
 	private String textureName;
+	private boolean isFlip = false;
 
 	public SerializedSprite(Texture texture, String textureName) {
 		super(texture);
@@ -29,17 +30,31 @@ public class SerializedSprite extends Sprite
 		return textureName + " " + getTexture();
 	}
 	
+	
+	
+	@Override
+	public void setFlip(boolean x, boolean y) {
+		super.setFlip(x, y);
+		isFlip = x;
+	}
+
+
+
 	private static class SerializationProxy implements Serializable {
 		private static final long serialVersionUID = -1909611270389194363L;
 		private String textureName;
+		private boolean bFlip;
 		
 		SerializationProxy(SerializedSprite outer) {
 			textureName = outer.getTextureName();
+			bFlip = outer.isFlip;
 		}
 		
 		private Object readResolve() {
 			Texture texture = ResourceManager.getInstance(ResourceManager.class).getTexture(textureName);
-			return new SerializedSprite(texture, textureName);
+			SerializedSprite sp = new SerializedSprite(texture, textureName);
+			sp.setFlip(bFlip, false);
+			return sp;
 		}
 	}
 

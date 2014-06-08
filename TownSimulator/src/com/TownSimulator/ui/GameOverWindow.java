@@ -16,22 +16,23 @@ import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
+import com.badlogic.gdx.scenes.scene2d.utils.Align;
 
 public class GameOverWindow extends Group{
-	private static final float WINDOW_WIDTH = Gdx.graphics.getWidth() * 0.4f;
-	private static final float WINDOW_HEIGHT = Gdx.graphics.getHeight() * 0.4f;
-	private static final float MARGIN = Settings.MARGIN * 2.0f;
-	public static final float ICON_HEIGHT = Settings.UNIT * 0.8f;
-	private static final float LABEL_HEIGHT = WINDOW_HEIGHT * 0.1f;
-	private Label livedTimeValueLabel;
-	private Label maxManValueLabel;
-	private Label maxEnergyValueLabel;
-	private TextureRegion background;
-//	private ArrayList<FlipButton> shareButtons;
-//	private String[] shareIconsMap = new String[]{"share_sina", "share_weixin", "share_renren"};
-//	private ShareType[] shareTypesMap = new ShareType[]{ShareType.Sina, ShareType.WeiXin, ShareType.RenRen};
-	private Label returnLabel;
-	private ShareUIComs shareComs;
+	protected static final float WINDOW_WIDTH = Gdx.graphics.getWidth() * 0.4f;
+	protected static final float WINDOW_HEIGHT = Gdx.graphics.getHeight() * 0.5f;
+	protected static final float MARGIN = Settings.MARGIN * 2.0f;
+	public    static final float ICON_HEIGHT = Settings.UNIT * 0.8f;
+	protected static final float LABEL_HEIGHT = WINDOW_HEIGHT * 0.08f;
+	protected static final float HEADER_HEIGHT = LABEL_HEIGHT * 1.2f;
+	protected Group valuesGroup;
+	protected Label livedTimeValueLabel;
+	protected Label maxManValueLabel;
+	protected Label maxEnergyValueLabel;
+	protected TextureRegion background;
+	protected Label returnLabel;
+	protected ShareUIComs shareComs;
+	protected Label headerLabel;
 	
 	public GameOverWindow()
 	{
@@ -46,12 +47,30 @@ public class GameOverWindow extends Group{
 		setPosition(Gdx.graphics.getWidth() * 0.5f - WINDOW_WIDTH * 0.5f, Gdx.graphics.getHeight() * 0.5f - WINDOW_HEIGHT * 0.5f);
 		setVisible(false);
 		
+		valuesGroup = new Group();
+		valuesGroup.setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
+		addActor(valuesGroup);
+		
+		float x = 0.0f;
+		float y = getHeight() - MARGIN - HEADER_HEIGHT;
+		
 		LabelStyle labelStyle = new LabelStyle();
-		labelStyle.font = ResourceManager.getInstance(ResourceManager.class).getFont( (int)LABEL_HEIGHT );
+		labelStyle.font = ResourceManager.getInstance(ResourceManager.class).getFont( (int)HEADER_HEIGHT );
 		labelStyle.fontColor = Color.WHITE;
 		
-		float x = MARGIN;
-		float y = getHeight() - MARGIN - LABEL_HEIGHT; 
+		headerLabel = new Label("Game Over", labelStyle);
+		headerLabel.setSize(WINDOW_WIDTH, LABEL_HEIGHT);
+		headerLabel.setPosition(x, y);
+		headerLabel.setColor(Color.ORANGE);
+		headerLabel.setAlignment(Align.center);
+		addActor(headerLabel);
+		
+		x = MARGIN;
+		y -= MARGIN + LABEL_HEIGHT;
+		
+		labelStyle = new LabelStyle();
+		labelStyle.font = ResourceManager.getInstance(ResourceManager.class).getFont( (int)LABEL_HEIGHT );
+		labelStyle.fontColor = Color.WHITE;
 		
 		float labelWidth_0 = (WINDOW_WIDTH - MARGIN * 2.0f) * 0.4f;
 		float labelWidth_1 = (WINDOW_WIDTH - MARGIN * 2.0f) * 0.6f;
@@ -59,13 +78,13 @@ public class GameOverWindow extends Group{
 		livedTimeLabel.setSize(labelWidth_0, LABEL_HEIGHT);
 		livedTimeLabel.setPosition(x, y);
 		livedTimeLabel.setColor(Color.ORANGE);
-		addActor(livedTimeLabel);
+		valuesGroup.addActor(livedTimeLabel);
 		
 		x += labelWidth_0 + MARGIN;
 		livedTimeValueLabel = new Label("", labelStyle);
 		livedTimeValueLabel.setSize(labelWidth_1, LABEL_HEIGHT);
 		livedTimeValueLabel.setPosition(x, y);
-		addActor(livedTimeValueLabel);
+		valuesGroup.addActor(livedTimeValueLabel);
 		
 		x = MARGIN;
 		y -= MARGIN + LABEL_HEIGHT;
@@ -73,13 +92,13 @@ public class GameOverWindow extends Group{
 		maxManLabel.setSize(labelWidth_0, LABEL_HEIGHT);
 		maxManLabel.setPosition(x, y);
 		maxManLabel.setColor(Color.ORANGE);
-		addActor(maxManLabel);
+		valuesGroup.addActor(maxManLabel);
 		
 		x += labelWidth_0 + MARGIN;
 		maxManValueLabel = new Label("", labelStyle);
 		maxManValueLabel.setSize(labelWidth_1, LABEL_HEIGHT);
 		maxManValueLabel.setPosition(x, y);
-		addActor(maxManValueLabel);
+		valuesGroup.addActor(maxManValueLabel);
 		
 		x = MARGIN;
 		y -= MARGIN + LABEL_HEIGHT;
@@ -87,13 +106,13 @@ public class GameOverWindow extends Group{
 		maxEnergyLabel.setSize(labelWidth_0, LABEL_HEIGHT);
 		maxEnergyLabel.setPosition(x, y);
 		maxEnergyLabel.setColor(Color.ORANGE);
-		addActor(maxEnergyLabel);
+		valuesGroup.addActor(maxEnergyLabel);
 		
 		x += labelWidth_0 + MARGIN;
 		maxEnergyValueLabel = new Label("", labelStyle);
 		maxEnergyValueLabel.setSize(labelWidth_1, LABEL_HEIGHT);
 		maxEnergyValueLabel.setPosition(x, y);
-		addActor(maxEnergyValueLabel);
+		valuesGroup.addActor(maxEnergyValueLabel);
 		
 //		shareButtons = new ArrayList<FlipButton>();
 //		float iconsHPad = (WINDOW_WIDTH - shareIconsMap.length * ICON_HEIGHT) / (float)(shareIconsMap.length + 1);
@@ -123,7 +142,7 @@ public class GameOverWindow extends Group{
 		shareComs = new ShareUIComs();
 		shareComs.setSize(getWidth(), ICON_HEIGHT);
 		shareComs.setPosition(0.0f, MARGIN * 2.0f + LABEL_HEIGHT);
-		addActor(shareComs);
+		valuesGroup.addActor(shareComs);
 		
 		returnLabel = new Label(ResourceManager.stringMap.get("gameOverWindow_return"), labelStyle);
 		returnLabel.setSize(labelStyle.font.getBounds(returnLabel.getText()).width, LABEL_HEIGHT);
@@ -140,7 +159,7 @@ public class GameOverWindow extends Group{
 			}
 			
 		});
-		addActor(returnLabel);
+		valuesGroup.addActor(returnLabel);
 	}
 
 	@Override

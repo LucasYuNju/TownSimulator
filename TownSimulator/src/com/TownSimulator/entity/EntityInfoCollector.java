@@ -10,9 +10,14 @@ import java.util.Map;
 
 import com.TownSimulator.ai.btnimpls.construct.ConstructionProject;
 import com.TownSimulator.collision.CollisionDetector;
+import com.TownSimulator.driver.Driver;
 import com.TownSimulator.entity.EntityInfoCollector.EntityInfoCollectorListener;
 import com.TownSimulator.entity.building.Building;
 import com.TownSimulator.entity.building.BuildingType;
+import com.TownSimulator.entity.building.FarmHouse;
+import com.TownSimulator.entity.building.FarmLand;
+import com.TownSimulator.entity.building.Ranch;
+import com.TownSimulator.entity.building.RanchLand;
 import com.TownSimulator.entity.building.School;
 import com.TownSimulator.entity.building.Warehouse;
 import com.TownSimulator.render.Renderer;
@@ -135,6 +140,9 @@ public class EntityInfoCollector extends SingletonPublisher<EntityInfoCollectorL
 		for (EntityInfoCollectorListener l : mListeners) {
 			l.newBuildingAdded(building);
 		}
+		
+		if(building.getType() == BuildingType.MP_BalckHole)
+			Driver.getInstance(Driver.class).gameWin();
 	}
 	
 	public void removeBuilding(Building building)
@@ -302,6 +310,18 @@ public class EntityInfoCollector extends SingletonPublisher<EntityInfoCollectorL
 		for(Building building : buildingsList) {
 			Singleton.getInstance(Renderer.class).attachDrawScissor(building);
 			Singleton.getInstance(CollisionDetector.class).attachCollisionDetection(building);
+			
+			if(building.getType() == BuildingType.FarmHouse)
+				for (FarmLand land : ((FarmHouse)building).getFarmLands()) {
+					Singleton.getInstance(Renderer.class).attachDrawScissor(land);
+					Singleton.getInstance(CollisionDetector.class).attachCollisionDetection(land);
+				}
+			
+			if(building.getType() == BuildingType.Ranch)
+				for (RanchLand land : ((Ranch)building).getRanchLands()) {
+					Singleton.getInstance(Renderer.class).attachDrawScissor(land);
+					Singleton.getInstance(CollisionDetector.class).attachCollisionDetection(land);
+				}
 		}
 	}
 }

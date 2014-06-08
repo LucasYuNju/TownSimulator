@@ -5,6 +5,7 @@ import java.util.Locale;
 
 import com.TownSimulator.entity.EntityInfoCollector;
 import com.TownSimulator.entity.Man;
+import com.TownSimulator.entity.ManInfo;
 import com.TownSimulator.entity.ResourceInfoCollector;
 import com.TownSimulator.entity.ResourceType;
 import com.TownSimulator.entity.SeasonType;
@@ -26,11 +27,12 @@ import com.badlogic.gdx.scenes.scene2d.utils.Align;
  * labels:
  * 
  * season	| date
+ * wood		| numWood
+ * food		| numFood
+ * coat		| numCoat
  * adult	| numAdult
  * children	| numChildren
- * food		| numFood
- * wood		| numWood
- * money	| numMoney
+ * energy	| numEnergy
  *
  */
 public class StateBoard extends Group{
@@ -39,17 +41,18 @@ public class StateBoard extends Group{
 	private static final float LABEL_HEIGHT = Settings.LABEL_HEIGHT * 0.75f;
 	private static final float MARGIN = Settings.MARGIN * 0.7f;
 	
-	private int line = 6;
+	private int line = 7;
 	private int column = 2;
 	
 	private TextureRegion background;
 	private Label seasonLabel;
 	private Label dateLabel;
+	private Label numWoodLabel;
 	private Label numFoodLabel;
+	private Label numCoatLabel;
 	private Label numAdultLabel;
 	private Label numChildrenLabel;
-	private Label numWoodLabel;
-	private Label numMoneyLabel;
+	private Label numEnergyLabel;
 	
 	public StateBoard() {
 		super();
@@ -69,33 +72,18 @@ public class StateBoard extends Group{
 		float x = MARGIN;
 		float y = MARGIN;
 		
-		FlipButton candyIcon = new FlipButton("energy", "energy", null);
-		candyIcon.setSize(LABEL_HEIGHT, LABEL_HEIGHT);
-		candyIcon.setPosition(x, y);
-		addActor(candyIcon);
+		FlipButton energyIcon = new FlipButton("energy", "energy", null);
+		energyIcon.setSize(LABEL_HEIGHT, LABEL_HEIGHT);
+		energyIcon.setPosition(x, y);
+		addActor(energyIcon);
 		
 		x += LABEL_WIDTH_COL_0 + MARGIN;
-		numMoneyLabel = new Label("", labelStyle);
-		numMoneyLabel.setColor(Color.ORANGE);
-		numMoneyLabel.setSize(LABEL_WIDTH_COL_1, LABEL_HEIGHT);
-		numMoneyLabel.setPosition(x, y);
-		numMoneyLabel.setAlignment(Align.left);
-		addActor(numMoneyLabel);
-		
-		x = MARGIN;
-		y += LABEL_HEIGHT + MARGIN;
-		Label woodLabel = new Label(ResourceManager.stringMap.get("stateBar_wood"), labelStyle);
-		woodLabel.setSize(LABEL_WIDTH_COL_0, LABEL_HEIGHT);
-		woodLabel.setPosition(x, y);
-		woodLabel.setAlignment(Align.left);
-		addActor(woodLabel);
-		
-		x += LABEL_WIDTH_COL_0 + MARGIN;
-		numWoodLabel = new Label("", labelStyle);
-		numWoodLabel.setSize(LABEL_WIDTH_COL_1, LABEL_HEIGHT);
-		numWoodLabel.setPosition(x, y);
-		numWoodLabel.setAlignment(Align.left);
-		addActor(numWoodLabel);
+		numEnergyLabel = new Label("", labelStyle);
+		numEnergyLabel.setColor(Color.ORANGE);
+		numEnergyLabel.setSize(LABEL_WIDTH_COL_1, LABEL_HEIGHT);
+		numEnergyLabel.setPosition(x, y);
+		numEnergyLabel.setAlignment(Align.left);
+		addActor(numEnergyLabel);
 		
 		x = MARGIN;
 		y += LABEL_HEIGHT + MARGIN;
@@ -129,6 +117,21 @@ public class StateBoard extends Group{
 		
 		x = MARGIN;
 		y += LABEL_HEIGHT + MARGIN;
+		Label coatLabel = new Label(ResourceManager.stringMap.get("stateBar_coat"), labelStyle);
+		coatLabel.setSize(LABEL_WIDTH_COL_0, LABEL_HEIGHT);
+		coatLabel.setPosition(x, y);
+		coatLabel.setAlignment(Align.left);
+		addActor(coatLabel);
+		
+		x += LABEL_WIDTH_COL_0 + MARGIN;
+		numCoatLabel = new Label("", labelStyle);
+		numCoatLabel.setSize(LABEL_WIDTH_COL_1, LABEL_HEIGHT);
+		numCoatLabel.setPosition(x, y);
+		numCoatLabel.setAlignment(Align.left);
+		addActor(numCoatLabel);
+		
+		x = MARGIN;
+		y += LABEL_HEIGHT + MARGIN;
 		Label foodLabel = new Label(ResourceManager.stringMap.get("stateBar_food"), labelStyle);
 		foodLabel.setSize(LABEL_WIDTH_COL_0, LABEL_HEIGHT);
 		foodLabel.setPosition(x, y);
@@ -141,6 +144,21 @@ public class StateBoard extends Group{
 		numFoodLabel.setPosition(x, y);
 		numFoodLabel.setAlignment(Align.left);
 		addActor(numFoodLabel);
+		
+		x = MARGIN;
+		y += LABEL_HEIGHT + MARGIN;
+		Label woodLabel = new Label(ResourceManager.stringMap.get("stateBar_wood"), labelStyle);
+		woodLabel.setSize(LABEL_WIDTH_COL_0, LABEL_HEIGHT);
+		woodLabel.setPosition(x, y);
+		woodLabel.setAlignment(Align.left);
+		addActor(woodLabel);
+		
+		x += LABEL_WIDTH_COL_0 + MARGIN;
+		numWoodLabel = new Label("", labelStyle);
+		numWoodLabel.setSize(LABEL_WIDTH_COL_1, LABEL_HEIGHT);
+		numWoodLabel.setPosition(x, y);
+		numWoodLabel.setAlignment(Align.left);
+		addActor(numWoodLabel);
 		
 		x = MARGIN;
 		y += LABEL_HEIGHT + MARGIN;
@@ -193,13 +211,38 @@ public class StateBoard extends Group{
 		numChildrenLabel.setText(NumberFormat.getNumberInstance(Locale.US).format(numChildren));
 		
 		int numFood = ResourceInfoCollector.getInstance(ResourceInfoCollector.class).getFoodAmount();
+		if(isFoodSufficient(numFood))
+			numFoodLabel.setColor(Color.WHITE);
+		else
+			numFoodLabel.setColor(Color.RED);
 		numFoodLabel.setText(NumberFormat.getNumberInstance(Locale.US).format(numFood));
+		
+		int numCoat = ResourceInfoCollector.getInstance(ResourceInfoCollector.class).getResourceAmount(ResourceType.Coat);
+		if(isCoatSufficient(numCoat))
+			numCoatLabel.setColor(Color.WHITE);
+		else
+			numCoatLabel.setColor(Color.RED);
+		numCoatLabel.setText(NumberFormat.getNumberInstance(Locale.US).format(numCoat));
 		
 		int numWood = ResourceInfoCollector.getInstance(ResourceInfoCollector.class).getResourceAmount(ResourceType.Wood);
 		numWoodLabel.setText(NumberFormat.getNumberInstance(Locale.US).format(numWood));
 		
 		int numMoney = ResourceInfoCollector.getInstance(ResourceInfoCollector.class).getEnergyAmount();
-		numMoneyLabel.setText(NumberFormat.getNumberInstance(Locale.US).format(numMoney));
+		numEnergyLabel.setText(NumberFormat.getNumberInstance(Locale.US).format(numMoney));
+	}
+	
+	private boolean isFoodSufficient(int foodNum)
+	{
+		int foodNeed = (int) (ManInfo.HUNGER_DECRE_SPEED_MAX * World.SecondPerYear
+								* EntityInfoCollector.getInstance(EntityInfoCollector.class).getAllMan().size());
+		return foodNum >= foodNeed;
+	}
+	
+	private boolean isCoatSufficient(int coatNum)
+	{
+		int coatNeed = (int) (ManInfo.TEMPERATURE_DECRE_SPEED * World.SecondPerYear * 0.5f
+								* EntityInfoCollector.getInstance(EntityInfoCollector.class).getAllMan().size());
+		return coatNum >= coatNeed;
 	}
 
 	@Override

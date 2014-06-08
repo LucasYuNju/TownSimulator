@@ -117,8 +117,6 @@ public class Driver extends SingletonPublisher<DriverListener> implements Applic
 		
 		Random rand = new Random(System.currentTimeMillis());
 		int initPepleCnt = 5;
-//		float originPosX = CameraController.getInstance(CameraController.class).getX();
-//		float originPoxY = CameraController.getInstance(CameraController.class).getY();
 		int minAge = ManInfo.AGE_ADULT;
 		int maxAge = ManInfo.AGE_ADULT + 10;
 		float minHunger = (ManInfo.HUNGER_POINTS_FIND_FOOD + ManInfo.HUNGER_POINTS_MAX) * 0.5f;
@@ -139,29 +137,9 @@ public class Driver extends SingletonPublisher<DriverListener> implements Applic
 		
 		ResourceInfoCollector.getInstance(ResourceInfoCollector.class).addEnergy(100);
 		
-//		InputMgr.getInstance(InputMgr.class).addListener(new InputMgrListenerBaseImpl()
-//		{
-//
-//			@Override
-//			public boolean touchDown(float screenX, float screenY, int pointer,
-//					int button) {
-////				UMHelper.shareUtil.share(ShareType.Sina);
-//				UIManager.getInstance(UIManager.class).getGameUI().showGameOverWindow();
-//				return true;
-//			}
-//			
-//		});
-		
-//		MoneyProducingBuilding mpStore = (MoneyProducingBuilding) EntityFactory.createBuilding(BuildingType.MP_Store);
-//		mpStore.setState(Building.State.Constructed);
-//		mpStore.setPositionWorld(originPosX + 6 * Settings.UNIT, originPoxY - 8 * Settings.UNIT);
-//		EntityInfoCollector.getInstance(EntityInfoCollector.class).addBuilding(mpStore);
-//		CollisionDetector.getInstance(CollisionDetector.class).attachCollisionDetection(mpStore);
-//		Renderer.getInstance(Renderer.class).attachDrawScissor(mpStore);
-		
 		Warehouse wareHouse = (Warehouse) EntityFactory.createBuilding(BuildingType.Warehouse);
 		wareHouse.addStoredResource(ResourceType.Wood, 15000);
-//		wareHouse.addStoredResource(ResourceType.Coat, 1000);
+		wareHouse.addStoredResource(ResourceType.Coat, 1000);
 		wareHouse.addStoredResource(ResourceType.Wheat, 20000);
 		wareHouse.setState(Building.State.Constructed);
 		wareHouse.setPositionWorld(initOriginPos.x, initOriginPos.y - Settings.UNIT * 3.0f);
@@ -370,8 +348,16 @@ public class Driver extends SingletonPublisher<DriverListener> implements Applic
 	
 	private void gameOver()
 	{
-//		Settings.gameSpeed = 0;
+		Settings.gameSpeed = 0;
+//		isGameOver = true;
 		UIManager.getInstance(UIManager.class).getGameUI().showGameOverWindow();
+	}
+	
+	public void gameWin()
+	{
+		Settings.gameSpeed = 0;
+//		isGameOver = true;
+		UIManager.getInstance(UIManager.class).getGameUI().showGameWinWindow();
 	}
 	
 	private void clear()
@@ -382,6 +368,8 @@ public class Driver extends SingletonPublisher<DriverListener> implements Applic
 		Singleton.getInstance(ResourceInfoCollector.class).clear();
 		Singleton.getInstance(ParticleControl.class).clear();
 		Singleton.getInstance(World.class).clear();
+		ParticleManager.clear();
+		TipsBillborad.clear();
 	}
 	
 	public void returnToStartUI()
