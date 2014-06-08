@@ -47,6 +47,7 @@ public class ScrollViewWindow extends UndockedWindow {
 		updateLayout();
 	}
 	
+	
 	public void addLabels() {
 		labels = new ArrayList<Label>();
 		LabelStyle labelStyle = new LabelStyle();

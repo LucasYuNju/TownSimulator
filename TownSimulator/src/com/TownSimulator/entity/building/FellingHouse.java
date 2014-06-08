@@ -8,10 +8,12 @@ import com.TownSimulator.ai.btnimpls.lumerjack.LumerJackBTN;
 import com.TownSimulator.entity.JobType;
 import com.TownSimulator.entity.Man;
 import com.TownSimulator.entity.Tree;
+import com.TownSimulator.entity.building.Building.State;
 import com.TownSimulator.render.Grid;
 import com.TownSimulator.render.Renderer;
 import com.TownSimulator.render.RendererListener;
 import com.TownSimulator.utility.Settings;
+import com.TownSimulator.utility.VoicePlayer;
 
 public class FellingHouse extends WorkableBuilding {
 	private static final long serialVersionUID = -8892051075362272386L;
@@ -102,5 +104,18 @@ public class FellingHouse extends WorkableBuilding {
 	private void readObject(ObjectInputStream s) throws ClassNotFoundException, IOException {
 		s.defaultReadObject();
 		ListenToRenderer();
+	}
+	
+	@Override
+	public void detectTapped() {
+		// TODO Auto-generated method stub
+		super.detectTapped();
+		playSound();
+	}
+	
+	public void playSound(){
+		if(buildingState == State.Constructed) {
+			VoicePlayer.getInstance(VoicePlayer.class).playSound("felling.mp3");
+		}
 	}
 }

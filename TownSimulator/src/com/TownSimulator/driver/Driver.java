@@ -20,6 +20,7 @@ import com.TownSimulator.entity.building.BuildingType;
 import com.TownSimulator.entity.building.ConstructionCompany;
 import com.TownSimulator.entity.building.FarmHouse;
 import com.TownSimulator.entity.building.FarmLand;
+import com.TownSimulator.entity.building.Hospital;
 import com.TownSimulator.entity.building.Warehouse;
 import com.TownSimulator.io.InputMgr;
 import com.TownSimulator.map.Map;
@@ -222,7 +223,7 @@ public class Driver extends SingletonPublisher<DriverListener> implements Applic
 //		
 //		Hospital hospital = (Hospital)EntityFactory.createBuilding(BuildingType.Hospital);
 //		hospital.setState(Building.State.Constructed);
-//		hospital.setPositionWorld(originPosX - 16 * Settings.UNIT, originPoxY - 8 * Settings.UNIT);
+//		hospital.setPositionWorld(initOriginPos.x - 16 * Settings.UNIT, initOriginPos.y - 8 * Settings.UNIT);
 //		Singleton.getInstance(EntityInfoCollector.class).addBuilding(hospital);
 //		Singleton.getInstance(CollisionDetector.class).attachCollisionDetection(hospital);
 //		Singleton.getInstance(Renderer.class).attachDrawScissor(hospital);

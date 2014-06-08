@@ -34,7 +34,7 @@ public class IntroductionUI extends ScreenUIBase{
 	public void initComponents(){
 		currentIndex=0;
 		
-		previousButton=new IconButton("animal_caonima");
+		previousButton=new IconButton("left");
 		previousButton.setSize(ButtonWidth, ButtonHeight);
 		previousButton.setPosition(ButtonMargin, ButtonMargin);
 		previousButton.addListener(new InputListener(){
@@ -62,7 +62,7 @@ public class IntroductionUI extends ScreenUIBase{
 		});
 
 		
-		nextButton=new IconButton("crop_rose");
+		nextButton=new IconButton("right");
 		nextButton.setSize(ButtonWidth, ButtonHeight);
 		nextButton.setPosition(Gdx.graphics.getWidth()-ButtonWidth-ButtonMargin, ButtonMargin);
 		nextButton.addListener(new InputListener(){

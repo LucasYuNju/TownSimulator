@@ -63,10 +63,10 @@ public class VoicePlayer extends Singleton{
 	 */
 	public void playMusicForDuringTime(String musicName,float duringTime){
 		Music music=Gdx.audio.newMusic(Gdx.files.internal(musicPath+musicName));
-		MusicPlayItem musicPlayItem=new MusicPlayItem(music, duringTime);
-		musicsList.add(musicPlayItem);
 		music.setLooping(true);
 		music.play();
+		MusicPlayItem musicPlayItem=new MusicPlayItem(music, duringTime);
+		musicsList.add(musicPlayItem);
 	}
 	
 	public class MusicPlayItem{

@@ -16,6 +16,7 @@ import com.TownSimulator.entity.Man;
 import com.TownSimulator.entity.RanchAnimal;
 import com.TownSimulator.entity.RanchAnimalType;
 import com.TownSimulator.entity.ResourceType;
+import com.TownSimulator.entity.building.Building.State;
 import com.TownSimulator.render.Renderer;
 import com.TownSimulator.ui.UIManager;
 import com.TownSimulator.ui.building.view.RanchViewWindow;
@@ -25,6 +26,7 @@ import com.TownSimulator.utility.AxisAlignedBoundingBox;
 import com.TownSimulator.utility.ResourceManager;
 import com.TownSimulator.utility.Settings;
 import com.TownSimulator.utility.TipsBillborad;
+import com.TownSimulator.utility.VoicePlayer;
 import com.TownSimulator.utility.quadtree.QuadTreeType;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -260,6 +262,7 @@ public class Ranch extends WorkableBuilding{
 			@Override
 			public void selectBoxSelected(String selectedString) {
 				setType(RanchAnimalType.findWithViewName(selectedString));
+				playSound();
 				updateWarningMsg();
 			}
 		});
@@ -303,6 +306,40 @@ public class Ranch extends WorkableBuilding{
 			ranchWindow.reload(ranchAnimalType);
 		setState(buildingState);
 	}
+
+
+
+	@Override
+	public void detectTapped() {
+		// TODO Auto-generated method stub
+		super.detectTapped();
+		playSound();
+	}
+	public void playSound(){
+		if(buildingState == State.Constructed) {
+			if(ranchAnimalType==null){
+				return;
+			}
+			switch (ranchAnimalType) {
+			case Sheep:
+				VoicePlayer.getInstance(VoicePlayer.class).playSound("sheep.mp3");
+				break;
+			case Cow:
+				VoicePlayer.getInstance(VoicePlayer.class).playSound("bull.mp3");
+				break;
+			case Caonima:
+				VoicePlayer.getInstance(VoicePlayer.class).playSound("sheep.mp3");
+				VoicePlayer.getInstance(VoicePlayer.class).playSound("bull.mp3");
+				break;
+
+			default:
+				break;
+			}
+
+		}
+	}
+	
+	
 	
 //	@Override
 //	protected void reloadViewWindow() {
