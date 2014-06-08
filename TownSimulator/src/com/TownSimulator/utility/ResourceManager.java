@@ -38,6 +38,7 @@ public class ResourceManager extends Singleton implements Serializable{
 		stringMap.put("stateBar_children", "小孩");
 		stringMap.put("stateBar_adult", "成人");
 		stringMap.put("stateBar_food", "食物");
+		stringMap.put("stateBar_coat", "衣服");
 		
 		stringMap.put("stateBar_spring", "春天");
 		stringMap.put("stateBar_summer", "夏天");
@@ -128,7 +129,9 @@ public class ResourceManager extends Singleton implements Serializable{
 		stringMap.put("gameOverWindow_year", "年");
 		stringMap.put("gameOverWindow_maxMan", "最大人口");
 		stringMap.put("gameOverWindow_maxEnergy", "最大能量");
-		stringMap.put("gameOverWindow_return", "返回");
+		stringMap.put("gameOverWindow_return", "退出");
+		
+		stringMap.put("gameWinWindow_words", "你居然通关了，人生还是有很多美好的东西的，有这个时间和毅力不如去干点更有意义的事吧");
 		
 		stringMap.put("returnConfirm_text", "未保存的进度将会丢失，确定要退出吗？");
 		stringMap.put("returnConfirm_confirm", "确认");
@@ -176,6 +179,11 @@ public class ResourceManager extends Singleton implements Serializable{
 		stringMap.put("manInfo_cold", "居民的保暖度会在冬天随时间减少，过低居民会冻死");
 		stringMap.put("manInfo_health", "居民的偶尔会生病，健康度过低的居民会死去");
 		stringMap.put("manInfo_happiness", "居民的幸福度会随时间减少，过低会影响居民的工作效率");
+		
+		stringMap.put("manDie_hungry", "死于饥饿");
+		stringMap.put("manDie_cold", "死于寒冷");
+		stringMap.put("manDie_sick", "死于疾病");
+		stringMap.put("manDie_old", "老死了");
 		
 		Iterator<String> itr = stringMap.keySet().iterator();
 		StringBuilder strBuilder = new StringBuilder(FreeTypeFontGenerator.DEFAULT_CHARS);

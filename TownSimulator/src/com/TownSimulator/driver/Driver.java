@@ -46,7 +46,6 @@ public class Driver extends SingletonPublisher<DriverListener> implements Applic
 	private int frameRemain = 0;
 	private ArrayList<BufferredTask> bufferTasks;
 	private Vector2 initOriginPos;
-	private boolean isGameOver = false;
 	
 	private Driver()
 	{
@@ -117,8 +116,6 @@ public class Driver extends SingletonPublisher<DriverListener> implements Applic
 		
 		Random rand = new Random(System.currentTimeMillis());
 		int initPepleCnt = 5;
-//		float originPosX = CameraController.getInstance(CameraController.class).getX();
-//		float originPoxY = CameraController.getInstance(CameraController.class).getY();
 		int minAge = ManInfo.AGE_ADULT;
 		int maxAge = ManInfo.AGE_ADULT + 10;
 		float minHunger = (ManInfo.HUNGER_POINTS_FIND_FOOD + ManInfo.HUNGER_POINTS_MAX) * 0.5f;
@@ -139,29 +136,9 @@ public class Driver extends SingletonPublisher<DriverListener> implements Applic
 		
 		ResourceInfoCollector.getInstance(ResourceInfoCollector.class).addEnergy(100);
 		
-//		InputMgr.getInstance(InputMgr.class).addListener(new InputMgrListenerBaseImpl()
-//		{
-//
-//			@Override
-//			public boolean touchDown(float screenX, float screenY, int pointer,
-//					int button) {
-////				UMHelper.shareUtil.share(ShareType.Sina);
-//				UIManager.getInstance(UIManager.class).getGameUI().showGameOverWindow();
-//				return true;
-//			}
-//			
-//		});
-		
-//		MoneyProducingBuilding mpStore = (MoneyProducingBuilding) EntityFactory.createBuilding(BuildingType.MP_Store);
-//		mpStore.setState(Building.State.Constructed);
-//		mpStore.setPositionWorld(originPosX + 6 * Settings.UNIT, originPoxY - 8 * Settings.UNIT);
-//		EntityInfoCollector.getInstance(EntityInfoCollector.class).addBuilding(mpStore);
-//		CollisionDetector.getInstance(CollisionDetector.class).attachCollisionDetection(mpStore);
-//		Renderer.getInstance(Renderer.class).attachDrawScissor(mpStore);
-		
 		Warehouse wareHouse = (Warehouse) EntityFactory.createBuilding(BuildingType.Warehouse);
 		wareHouse.addStoredResource(ResourceType.Wood, 15000);
-//		wareHouse.addStoredResource(ResourceType.Coat, 1000);
+		wareHouse.addStoredResource(ResourceType.Coat, 1000);
 		wareHouse.addStoredResource(ResourceType.Wheat, 20000);
 		wareHouse.setState(Building.State.Constructed);
 		wareHouse.setPositionWorld(initOriginPos.x, initOriginPos.y - Settings.UNIT * 3.0f);
@@ -199,95 +176,6 @@ public class Driver extends SingletonPublisher<DriverListener> implements Applic
 		}
 		
 		CameraController.getInstance(CameraController.class).setPosition(initOriginPos.x, initOriginPos.y);
-		
-//		lowCostHouse = EntityFactory.createBuilding(BuildingType.LowCostHouse);
-//		lowCostHouse.setState(Building.State.Constructed);
-//		lowCostHouse.setPositionWorld(originPosX + 5 * Settings.UNIT, originPoxY);
-//		EntityInfoCollector.getInstance(EntityInfoCollector.class).addBuilding(lowCostHouse);
-//		CollisionDetector.getInstance(CollisionDetector.class).attachCollisionDetection(lowCostHouse);
-//		Renderer.getInstance(Renderer.class).attachDrawScissor(lowCostHouse);
-//		
-//		Building apartmentHouse = EntityFactory.createBuilding(BuildingType.Apartment);
-//		apartmentHouse.setState(Building.State.Constructed);
-//		apartmentHouse.setPositionWorld(originPosX + 8 * Settings.UNIT, originPoxY);
-//		EntityInfoCollector.getInstance(EntityInfoCollector.class).addBuilding(apartmentHouse);
-//		CollisionDetector.getInstance(CollisionDetector.class).attachCollisionDetection(apartmentHouse);
-//		Renderer.getInstance(Renderer.class).attachDrawScissor(apartmentHouse);
-//		
-//		FellingHouse fellingHouse = (FellingHouse)EntityFactory.createBuilding(BuildingType.FellingHouse);
-//		fellingHouse.setState(Building.State.Constructed);
-//		fellingHouse.setPositionWorld(originPosX - 12 * Settings.UNIT, originPoxY - 12 * Settings.UNIT);
-//		EntityInfoCollector.getInstance(EntityInfoCollector.class).addBuilding(fellingHouse);
-//		CollisionDetector.getInstance(CollisionDetector.class).attachCollisionDetection(fellingHouse);
-//		Renderer.getInstance(Renderer.class).attachDrawScissor(fellingHouse);
-//		
-//		Hospital hospital = (Hospital)EntityFactory.createBuilding(BuildingType.Hospital);
-//		hospital.setState(Building.State.Constructed);
-//		hospital.setPositionWorld(originPosX - 16 * Settings.UNIT, originPoxY - 8 * Settings.UNIT);
-//		Singleton.getInstance(EntityInfoCollector.class).addBuilding(hospital);
-//		Singleton.getInstance(CollisionDetector.class).attachCollisionDetection(hospital);
-//		Singleton.getInstance(Renderer.class).attachDrawScissor(hospital);
-//
-//		Bar bar = (Bar)EntityFactory.createBuilding(BuildingType.Bar);
-//		bar.setState(Building.State.Constructed);
-//		bar.setPositionWorld(originPosX - 20 * Settings.UNIT, originPoxY - 8 * Settings.UNIT);
-//		Singleton.getInstance(EntityInfoCollector.class).addBuilding(bar);
-//		Singleton.getInstance(CollisionDetector.class).attachCollisionDetection(bar);
-//		Singleton.getInstance(Renderer.class).attachDrawScissor(bar);
-//		
-//		School school=(School)EntityFactory.createBuilding(BuildingType.School);
-//		//school.setState(Building.State.Constructed);
-//		school.setPositionWorld(originPosX - 25 * Settings.UNIT, originPoxY - 8 * Settings.UNIT);
-//		Singleton.getInstance(EntityInfoCollector.class).addBuilding(school);
-//		Singleton.getInstance(CollisionDetector.class).attachCollisionDetection(school);
-//		Singleton.getInstance(Renderer.class).attachDrawScissor(school);
-//		
-//		Well well=(Well)EntityFactory.createBuilding(BuildingType.Well);
-//		well.setState(Building.State.Constructed);
-//		well.setPositionWorld(originPosX - 30 * Settings.UNIT, originPoxY - 8 * Settings.UNIT);
-//		Singleton.getInstance(EntityInfoCollector.class).addBuilding(well);
-//		Singleton.getInstance(CollisionDetector.class).attachCollisionDetection(well);
-//		Singleton.getInstance(Renderer.class).attachDrawScissor(well);
-//		
-//		
-//		CoatFactory coatFactory = (CoatFactory)EntityFactory.createBuilding(BuildingType.CoatFactory);
-//		coatFactory.setState(Building.State.Constructed);
-//		coatFactory.setPositionWorld(originPosX - 8 * Settings.UNIT, originPoxY - 8 * Settings.UNIT);
-//		EntityInfoCollector.getInstance(EntityInfoCollector.class).addBuilding(coatFactory);
-//		CollisionDetector.getInstance(CollisionDetector.class).attachCollisionDetection(coatFactory);
-//		Renderer.getInstance(Renderer.class).attachDrawScissor(coatFactory);
-//		
-//
-//		PowerStation powerStation = (PowerStation)EntityFactory.createBuilding(BuildingType.PowerStation);
-//		powerStation.setState(Building.State.Constructed);
-//		powerStation.setPositionWorld(originPosX + 5 * Settings.UNIT, originPoxY - 5 * Settings.UNIT);
-//		EntityInfoCollector.getInstance(EntityInfoCollector.class).addBuilding(powerStation);
-//		CollisionDetector.getInstance(CollisionDetector.class).attachCollisionDetection(powerStation);
-//		Renderer.getInstance(Renderer.class).attachDrawScissor(powerStation);
-//
-//		FarmHouse farmHouse=(FarmHouse)EntityFactory.createBuilding(BuildingType.FarmHouse);
-//		farmHouse.setState(Building.State.Constructed);
-//		farmHouse.setPositionWorld(originPosX, originPoxY - 3 * Settings.UNIT);
-//		EntityInfoCollector.getInstance(EntityInfoCollector.class).addBuilding(farmHouse);
-//		CollisionDetector.getInstance(CollisionDetector.class).attachCollisionDetection(farmHouse);
-//		Renderer.getInstance(Renderer.class).attachDrawScissor(farmHouse);
-//		
-//		for (FarmLand land : ((FarmHouse)farmHouse).getFarmLands()) {
-//			Renderer.getInstance(Renderer.class).attachDrawScissor(land);
-//			CollisionDetector.getInstance(CollisionDetector.class).attachCollisionDetection(land);
-//		}
-//		
-//		Ranch ranch = (Ranch)EntityFactory.createBuilding(BuildingType.Ranch);
-//		ranch.setPositionWorld(originPosX - 8 * Settings.UNIT, originPoxY + 2 * Settings.UNIT);
-//		ranch.setState(Building.State.Constructed);
-//		EntityInfoCollector.getInstance(EntityInfoCollector.class).addBuilding(ranch);
-//		CollisionDetector.getInstance(CollisionDetector.class).attachCollisionDetection(ranch);
-//		Renderer.getInstance(Renderer.class).attachDrawScissor(ranch);
-//		for (RanchLand land : ranch.getRanchLands()) {
-//			Renderer.getInstance(Renderer.class).attachDrawScissor(land);
-//			CollisionDetector.getInstance(CollisionDetector.class).attachCollisionDetection(land);
-//		}
-//		school.setState(Building.State.Constructed);//测试时，学校需要在初始的人确定之后，初始化学生列表
 	}
 	
 	@Override
@@ -371,8 +259,15 @@ public class Driver extends SingletonPublisher<DriverListener> implements Applic
 	private void gameOver()
 	{
 		Settings.gameSpeed = 0;
-		isGameOver = true;
+//		isGameOver = true;
 		UIManager.getInstance(UIManager.class).getGameUI().showGameOverWindow();
+	}
+	
+	public void gameWin()
+	{
+		Settings.gameSpeed = 0;
+//		isGameOver = true;
+		UIManager.getInstance(UIManager.class).getGameUI().showGameWinWindow();
 	}
 	
 	private void clear()

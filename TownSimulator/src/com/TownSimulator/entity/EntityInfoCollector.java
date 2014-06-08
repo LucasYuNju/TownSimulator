@@ -10,6 +10,7 @@ import java.util.Map;
 
 import com.TownSimulator.ai.btnimpls.construct.ConstructionProject;
 import com.TownSimulator.collision.CollisionDetector;
+import com.TownSimulator.driver.Driver;
 import com.TownSimulator.entity.EntityInfoCollector.EntityInfoCollectorListener;
 import com.TownSimulator.entity.building.Building;
 import com.TownSimulator.entity.building.BuildingType;
@@ -139,6 +140,9 @@ public class EntityInfoCollector extends SingletonPublisher<EntityInfoCollectorL
 		for (EntityInfoCollectorListener l : mListeners) {
 			l.newBuildingAdded(building);
 		}
+		
+		if(building.getType() == BuildingType.MP_BalckHole)
+			Driver.getInstance(Driver.class).gameWin();
 	}
 	
 	public void removeBuilding(Building building)

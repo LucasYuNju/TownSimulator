@@ -37,19 +37,29 @@ public class FindJobBTN extends ActionNode{
 		}
 		
 		WorkableBuilding result = null;
-		double dstMin = -1.0f;
+		int workersCntMin = Integer.MAX_VALUE;
+//		double dstMin = -1.0f;
 		for (Building buidling : EntityInfoCollector.getInstance(EntityInfoCollector.class).getAllBuildings()) {
 			if(buidling instanceof WorkableBuilding)
 			{
 				WorkableBuilding workingBuilding = (WorkableBuilding)buidling;
-				if(workingBuilding.getState() == Building.State.Constructed 
+//				if(workingBuilding.getState() == Building.State.Constructed 
+//						&& workingBuilding.getCurWorkerCnt() < workingBuilding.getOpenJobCnt())
+//				{
+//					double dst = 	Math.pow(workingBuilding.getPositionXWorld(), x)
+//								+	Math.pow(workingBuilding.getPositionYWorld(), y);
+//					if(dstMin == -1.0f || dst < dstMin)
+//					{
+//						dstMin = dst;
+//						result = workingBuilding;
+//					}
+//				}
+				if(workingBuilding.getState() == Building.State.Constructed
 						&& workingBuilding.getCurWorkerCnt() < workingBuilding.getOpenJobCnt())
 				{
-					double dst = 	Math.pow(workingBuilding.getPositionXWorld(), x)
-								+	Math.pow(workingBuilding.getPositionYWorld(), y);
-					if(dstMin == -1.0f || dst < dstMin)
+					if(workingBuilding.getCurWorkerCnt() < workersCntMin)
 					{
-						dstMin = dst;
+						workersCntMin = workingBuilding.getCurWorkerCnt();
 						result = workingBuilding;
 					}
 				}

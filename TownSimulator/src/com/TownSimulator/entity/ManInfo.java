@@ -285,11 +285,12 @@ public class ManInfo implements Serializable{
 	 * 每个月一次抽奖，生病的概率为1/24 
 	 */
 	private float healthLotteryTime = 0;
+	private static final float SICK_PROBILITY = 1.0f / 24.0f;
 	public void hpDrawHealthLottery(float deltaTime) {
 		healthLotteryTime += deltaTime;
-		if(healthLotteryTime > World.SecondPerYear / 24) {
+		if(healthLotteryTime > World.SecondPerYear / 12.0f) {
 			healthLotteryTime = 0;
-			if(Math.random() < 1/24f && isHealthy()) {
+			if(Math.random() < SICK_PROBILITY) {
 				healthPoints -= (HEALTH_POINTS_MAX - HEALTH_POINTS_SICK)/2;
 				if(healthPoints < 0)
 					healthPoints = 0;

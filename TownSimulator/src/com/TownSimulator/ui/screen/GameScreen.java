@@ -6,6 +6,7 @@ import java.util.List;
 import com.TownSimulator.entity.Resource;
 import com.TownSimulator.entity.building.BuildingType;
 import com.TownSimulator.ui.GameOverWindow;
+import com.TownSimulator.ui.GameWinWindow;
 import com.TownSimulator.ui.MessageBoard;
 import com.TownSimulator.ui.StateBoard;
 import com.TownSimulator.ui.TipsWindow;
@@ -56,6 +57,7 @@ public class GameScreen extends ScreenUIBase{
 	private MessageBoard messageBoard;
 	private AchievementUI achievementUI;
 	private GameOverWindow gameOverWindow;
+	private GameWinWindow gameWinWindow;
 	private ReturnConfirmWindow returnConfirmWindow;
 	private ShareWindow	shareWindow;
 	private TipsWindow tipsWindow;
@@ -128,6 +130,9 @@ public class GameScreen extends ScreenUIBase{
 		gameOverWindow = new GameOverWindow();
 		mStage.addActor(gameOverWindow);
 		
+		gameWinWindow = new GameWinWindow();
+		mStage.addActor(gameWinWindow);
+		
 		returnConfirmWindow = new ReturnConfirmWindow();
 		mStage.addActor(returnConfirmWindow);
 		
@@ -145,6 +150,11 @@ public class GameScreen extends ScreenUIBase{
 	{
 		gameOverWindow.updateValues();
 		gameOverWindow.setVisible(true);
+	}
+	
+	public void showGameWinWindow() {
+		gameWinWindow.reset();
+		gameWinWindow.setVisible(true);
 	}
 	
 	public void showInfoWindow()
@@ -290,4 +300,6 @@ public class GameScreen extends ScreenUIBase{
 	public void clear() {
 		mSpeedSettingUI.reset();
 	}
+
+	
 }
