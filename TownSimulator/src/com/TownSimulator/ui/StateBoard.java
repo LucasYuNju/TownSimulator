@@ -3,6 +3,7 @@ package com.TownSimulator.ui;
 import java.text.NumberFormat;
 import java.util.Locale;
 
+import com.TownSimulator.ai.btnimpls.general.FindCoatBTN;
 import com.TownSimulator.entity.EntityInfoCollector;
 import com.TownSimulator.entity.Man;
 import com.TownSimulator.entity.ManInfo;
@@ -240,7 +241,7 @@ public class StateBoard extends Group{
 	
 	private boolean isCoatSufficient(int coatNum)
 	{
-		int coatNeed = (int) (ManInfo.TEMPERATURE_DECRE_SPEED * World.SecondPerYear * 0.5f
+		int coatNeed = (int) (ManInfo.TEMPERATURE_DECRE_SPEED * World.SecondPerYear * 0.5f / FindCoatBTN.COAT_TO_TEMPERATURE
 								* EntityInfoCollector.getInstance(EntityInfoCollector.class).getAllMan().size());
 		return coatNum >= coatNeed;
 	}
