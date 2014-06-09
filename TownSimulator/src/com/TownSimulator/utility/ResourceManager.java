@@ -133,6 +133,11 @@ public class ResourceManager extends Singleton implements Serializable{
 		
 		stringMap.put("gameWinWindow_words", "你居然通关了，人生还是有很多美好的东西的，有这个时间和毅力不如去干点更有意义的事吧");
 		
+		stringMap.put("NameMenu","姓名");
+		stringMap.put("GenderMenu","性别");
+		stringMap.put("AgeMenu","年龄");
+		stringMap.put("HealthPointMenu","健康值");
+		
 		stringMap.put("returnConfirm_text", "未保存的进度将会丢失，确定要退出吗？");
 		stringMap.put("returnConfirm_confirm", "确认");
 		stringMap.put("returnConfirm_cancel", "取消");
@@ -289,9 +294,9 @@ public class ResourceManager extends Singleton implements Serializable{
 		loadSound("voice/sound/build.mp3");
 		loadSound("voice/sound/bull.mp3");
 		loadSound("voice/sound/click.mp3");
-		loadSound("voice/sound/game.mp3");
 		loadSound("voice/sound/school.mp3");
-		loadSound("voice/sound/tree.mp3");
+		loadSound("voice/sound/sheep.mp3");
+		loadSound("voice/sound/felling.mp3");
 	}
 	
 	private void loadSound(String soundName){

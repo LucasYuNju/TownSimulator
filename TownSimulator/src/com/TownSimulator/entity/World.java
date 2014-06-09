@@ -53,6 +53,8 @@ public class World extends Singleton implements Serializable{
 					
 					if(curSeasonType == SeasonType.Summer)
 						VoicePlayer.getInstance(VoicePlayer.class).playMusicForDuringTime("rain.mp3", SecondPerYear / 4.0f);
+					if(curSeasonType == SeasonType.Winter)
+						VoicePlayer.getInstance(VoicePlayer.class).playMusicForDuringTime("wind.mp3", SecondPerYear / 4.0f);
 				}
 			}
 		};
@@ -62,7 +64,7 @@ public class World extends Singleton implements Serializable{
 	public void initData()
 	{
 		calendar=Calendar.getInstance();
-		calendar.set(2014, 4, 1);//设置初始日期
+		calendar.set(2014, 1, 1);//设置初始日期
 		curSeasonType=getCurSeason();
 		secondPerDay = SecondPerYear / 365.0f;
 		secondDuringLastDay = 0f;

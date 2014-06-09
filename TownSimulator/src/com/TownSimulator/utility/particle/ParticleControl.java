@@ -102,6 +102,7 @@ public class ParticleControl extends Singleton{
 	public void clear()
 	{
 		this.isRenderWeather = false;
+		clearWeatherList();
 	}
 	
 	public void moved(float deltaX, float deltaY){

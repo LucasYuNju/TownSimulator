@@ -7,10 +7,12 @@ import com.TownSimulator.ai.btnimpls.bartender.BarTenderBTN;
 import com.TownSimulator.entity.EntityInfoCollector;
 import com.TownSimulator.entity.JobType;
 import com.TownSimulator.entity.Man;
+import com.TownSimulator.entity.building.Building.State;
 import com.TownSimulator.ui.UIManager;
 import com.TownSimulator.ui.building.view.BarViewWindow;
 import com.TownSimulator.ui.building.view.WorkableViewWindow;
 import com.TownSimulator.utility.Singleton;
+import com.TownSimulator.utility.VoicePlayer;
 
 public class Bar extends WorkableBuilding{
 	private static final long serialVersionUID = 4094024332249625038L;
@@ -89,6 +91,19 @@ public class Bar extends WorkableBuilding{
 	@Override
 	protected BehaviorTreeNode createBehavior(Man man) {
 		return new BarTenderBTN(man);
+	}
+	
+	@Override
+	public void detectTapped() {
+		// TODO Auto-generated method stub
+		super.detectTapped();
+		playSound();
+	}
+	
+	public void playSound(){
+		if(buildingState == State.Constructed) {
+			VoicePlayer.getInstance(VoicePlayer.class).playSound("bar.mp3");
+		}
 	}
 	
 //	@Override

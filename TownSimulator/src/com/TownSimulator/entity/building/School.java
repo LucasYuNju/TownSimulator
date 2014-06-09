@@ -11,9 +11,11 @@ import com.TownSimulator.entity.JobType;
 import com.TownSimulator.entity.Man;
 import com.TownSimulator.entity.ManInfo;
 import com.TownSimulator.entity.World;
+import com.TownSimulator.entity.building.Building.State;
 import com.TownSimulator.ui.UIManager;
 import com.TownSimulator.ui.building.view.SchoolViewWindow;
 import com.TownSimulator.ui.building.view.WorkableViewWindow;
+import com.TownSimulator.utility.VoicePlayer;
 
 public class School extends WorkableBuilding{
 	private static final long serialVersionUID = 5070279529268945444L;
@@ -150,6 +152,19 @@ public class School extends WorkableBuilding{
 		s.defaultReadObject();
 		updateViewWindow();
 		setState(buildingState);
+	}
+	
+	@Override
+	public void detectTapped() {
+		// TODO Auto-generated method stub
+		super.detectTapped();
+		playSound();
+	}
+	
+	public void playSound(){
+		if(buildingState == State.Constructed) {
+			VoicePlayer.getInstance(VoicePlayer.class).playSound("school.mp3");
+		}
 	}
 
 //	

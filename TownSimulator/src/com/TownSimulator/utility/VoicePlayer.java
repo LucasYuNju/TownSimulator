@@ -63,9 +63,21 @@ public class VoicePlayer extends Singleton{
 	 */
 	public void playMusicForDuringTime(String musicName,float duringTime){
 		Music music=Gdx.audio.newMusic(Gdx.files.internal(musicPath+musicName));
+		music.setLooping(true);
+		music.play();
 		MusicPlayItem musicPlayItem=new MusicPlayItem(music, duringTime);
 		musicsList.add(musicPlayItem);
-		music.setLooping(true);
+	}
+	
+	
+	public void playMusicOnce(String musicName){
+		Music music=Gdx.audio.newMusic(Gdx.files.internal(musicPath+musicName));
+		music.play();
+	}
+	
+	public void playMusicOnce(String musicName,float voiceNum){
+		Music music=Gdx.audio.newMusic(Gdx.files.internal(musicPath+musicName));
+		music.setVolume(voiceNum);
 		music.play();
 	}
 	
@@ -90,6 +102,16 @@ public class VoicePlayer extends Singleton{
 				}
 				musicsList.remove(musicPlayItem);
 			}
+		}
+	}
+	
+	public void clear() {
+		for (MusicPlayItem musicPlayItem : musicsList) {
+			musicPlayItem.music.stop();
+			if (musicPlayItem.music != null) {
+				musicPlayItem.music.dispose();
+			}
+			musicsList.remove(musicPlayItem);
 		}
 	}
 	

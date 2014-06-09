@@ -20,6 +20,7 @@ import com.TownSimulator.entity.building.BuildingType;
 import com.TownSimulator.entity.building.ConstructionCompany;
 import com.TownSimulator.entity.building.FarmHouse;
 import com.TownSimulator.entity.building.FarmLand;
+import com.TownSimulator.entity.building.Hospital;
 import com.TownSimulator.entity.building.Warehouse;
 import com.TownSimulator.io.InputMgr;
 import com.TownSimulator.map.Map;
@@ -34,6 +35,7 @@ import com.TownSimulator.utility.Settings;
 import com.TownSimulator.utility.Singleton;
 import com.TownSimulator.utility.SingletonPublisher;
 import com.TownSimulator.utility.TipsBillborad;
+import com.TownSimulator.utility.VoicePlayer;
 import com.TownSimulator.utility.particle.ParticleControl;
 import com.TownSimulator.utility.particles.ParticleManager;
 import com.badlogic.gdx.ApplicationListener;
@@ -176,6 +178,95 @@ public class Driver extends SingletonPublisher<DriverListener> implements Applic
 		}
 		
 		CameraController.getInstance(CameraController.class).setPosition(initOriginPos.x, initOriginPos.y);
+		
+//		lowCostHouse = EntityFactory.createBuilding(BuildingType.LowCostHouse);
+//		lowCostHouse.setState(Building.State.Constructed);
+//		lowCostHouse.setPositionWorld(originPosX + 5 * Settings.UNIT, originPoxY);
+//		EntityInfoCollector.getInstance(EntityInfoCollector.class).addBuilding(lowCostHouse);
+//		CollisionDetector.getInstance(CollisionDetector.class).attachCollisionDetection(lowCostHouse);
+//		Renderer.getInstance(Renderer.class).attachDrawScissor(lowCostHouse);
+//		
+//		Building apartmentHouse = EntityFactory.createBuilding(BuildingType.Apartment);
+//		apartmentHouse.setState(Building.State.Constructed);
+//		apartmentHouse.setPositionWorld(originPosX + 8 * Settings.UNIT, originPoxY);
+//		EntityInfoCollector.getInstance(EntityInfoCollector.class).addBuilding(apartmentHouse);
+//		CollisionDetector.getInstance(CollisionDetector.class).attachCollisionDetection(apartmentHouse);
+//		Renderer.getInstance(Renderer.class).attachDrawScissor(apartmentHouse);
+//		
+//		FellingHouse fellingHouse = (FellingHouse)EntityFactory.createBuilding(BuildingType.FellingHouse);
+//		fellingHouse.setState(Building.State.Constructed);
+//		fellingHouse.setPositionWorld(originPosX - 12 * Settings.UNIT, originPoxY - 12 * Settings.UNIT);
+//		EntityInfoCollector.getInstance(EntityInfoCollector.class).addBuilding(fellingHouse);
+//		CollisionDetector.getInstance(CollisionDetector.class).attachCollisionDetection(fellingHouse);
+//		Renderer.getInstance(Renderer.class).attachDrawScissor(fellingHouse);
+//		
+//		Hospital hospital = (Hospital)EntityFactory.createBuilding(BuildingType.Hospital);
+//		hospital.setState(Building.State.Constructed);
+//		hospital.setPositionWorld(initOriginPos.x - 16 * Settings.UNIT, initOriginPos.y - 8 * Settings.UNIT);
+//		Singleton.getInstance(EntityInfoCollector.class).addBuilding(hospital);
+//		Singleton.getInstance(CollisionDetector.class).attachCollisionDetection(hospital);
+//		Singleton.getInstance(Renderer.class).attachDrawScissor(hospital);
+//
+//		Bar bar = (Bar)EntityFactory.createBuilding(BuildingType.Bar);
+//		bar.setState(Building.State.Constructed);
+//		bar.setPositionWorld(originPosX - 20 * Settings.UNIT, originPoxY - 8 * Settings.UNIT);
+//		Singleton.getInstance(EntityInfoCollector.class).addBuilding(bar);
+//		Singleton.getInstance(CollisionDetector.class).attachCollisionDetection(bar);
+//		Singleton.getInstance(Renderer.class).attachDrawScissor(bar);
+//		
+//		School school=(School)EntityFactory.createBuilding(BuildingType.School);
+//		//school.setState(Building.State.Constructed);
+//		school.setPositionWorld(originPosX - 25 * Settings.UNIT, originPoxY - 8 * Settings.UNIT);
+//		Singleton.getInstance(EntityInfoCollector.class).addBuilding(school);
+//		Singleton.getInstance(CollisionDetector.class).attachCollisionDetection(school);
+//		Singleton.getInstance(Renderer.class).attachDrawScissor(school);
+//		
+//		Well well=(Well)EntityFactory.createBuilding(BuildingType.Well);
+//		well.setState(Building.State.Constructed);
+//		well.setPositionWorld(originPosX - 30 * Settings.UNIT, originPoxY - 8 * Settings.UNIT);
+//		Singleton.getInstance(EntityInfoCollector.class).addBuilding(well);
+//		Singleton.getInstance(CollisionDetector.class).attachCollisionDetection(well);
+//		Singleton.getInstance(Renderer.class).attachDrawScissor(well);
+//		
+//		
+//		CoatFactory coatFactory = (CoatFactory)EntityFactory.createBuilding(BuildingType.CoatFactory);
+//		coatFactory.setState(Building.State.Constructed);
+//		coatFactory.setPositionWorld(originPosX - 8 * Settings.UNIT, originPoxY - 8 * Settings.UNIT);
+//		EntityInfoCollector.getInstance(EntityInfoCollector.class).addBuilding(coatFactory);
+//		CollisionDetector.getInstance(CollisionDetector.class).attachCollisionDetection(coatFactory);
+//		Renderer.getInstance(Renderer.class).attachDrawScissor(coatFactory);
+//		
+//
+//		PowerStation powerStation = (PowerStation)EntityFactory.createBuilding(BuildingType.PowerStation);
+//		powerStation.setState(Building.State.Constructed);
+//		powerStation.setPositionWorld(originPosX + 5 * Settings.UNIT, originPoxY - 5 * Settings.UNIT);
+//		EntityInfoCollector.getInstance(EntityInfoCollector.class).addBuilding(powerStation);
+//		CollisionDetector.getInstance(CollisionDetector.class).attachCollisionDetection(powerStation);
+//		Renderer.getInstance(Renderer.class).attachDrawScissor(powerStation);
+//
+//		FarmHouse farmHouse=(FarmHouse)EntityFactory.createBuilding(BuildingType.FarmHouse);
+//		farmHouse.setState(Building.State.Constructed);
+//		farmHouse.setPositionWorld(originPosX, originPoxY - 3 * Settings.UNIT);
+//		EntityInfoCollector.getInstance(EntityInfoCollector.class).addBuilding(farmHouse);
+//		CollisionDetector.getInstance(CollisionDetector.class).attachCollisionDetection(farmHouse);
+//		Renderer.getInstance(Renderer.class).attachDrawScissor(farmHouse);
+//		
+//		for (FarmLand land : ((FarmHouse)farmHouse).getFarmLands()) {
+//			Renderer.getInstance(Renderer.class).attachDrawScissor(land);
+//			CollisionDetector.getInstance(CollisionDetector.class).attachCollisionDetection(land);
+//		}
+//		
+//		Ranch ranch = (Ranch)EntityFactory.createBuilding(BuildingType.Ranch);
+//		ranch.setPositionWorld(originPosX - 8 * Settings.UNIT, originPoxY + 2 * Settings.UNIT);
+//		ranch.setState(Building.State.Constructed);
+//		EntityInfoCollector.getInstance(EntityInfoCollector.class).addBuilding(ranch);
+//		CollisionDetector.getInstance(CollisionDetector.class).attachCollisionDetection(ranch);
+//		Renderer.getInstance(Renderer.class).attachDrawScissor(ranch);
+//		for (RanchLand land : ranch.getRanchLands()) {
+//			Renderer.getInstance(Renderer.class).attachDrawScissor(land);
+//			CollisionDetector.getInstance(CollisionDetector.class).attachCollisionDetection(land);
+//		}
+//		school.setState(Building.State.Constructed);//测试时，学校需要在初始的人确定之后，初始化学生列表
 	}
 	
 	@Override
@@ -268,6 +359,7 @@ public class Driver extends SingletonPublisher<DriverListener> implements Applic
 		Settings.gameSpeed = 0;
 //		isGameOver = true;
 		UIManager.getInstance(UIManager.class).getGameUI().showGameWinWindow();
+		VoicePlayer.getInstance(VoicePlayer.class).playMusicOnce("gift.mp3");
 	}
 	
 	private void clear()
@@ -278,6 +370,7 @@ public class Driver extends SingletonPublisher<DriverListener> implements Applic
 		Singleton.getInstance(ResourceInfoCollector.class).clear();
 		Singleton.getInstance(ParticleControl.class).clear();
 		Singleton.getInstance(World.class).clear();
+		Singleton.getInstance(VoicePlayer.class).clear();
 		ParticleManager.clear();
 		TipsBillborad.clear();
 	}
