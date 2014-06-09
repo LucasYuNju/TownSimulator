@@ -23,7 +23,7 @@ public class FindCoatBTN extends SequenceNode{
 //	private static final float EAT_TIME_INTERVAL = 2.0f;
 //	private static final float EAT_HUNGER_INCRE = ManInfo.HUNGER_POINTS_MAX / 3.0f; // points per eat
 //	private static final int   EAT_FOOD_RESOURCE_AMOUNT = 100;
-	private static final int   COAT_TO_TEMPERATURE = 5;
+	public static final int   COAT_TO_TEMPERATURE = 5;
 //	private float eatTimeAccum = 0.0f;
 //	private boolean eatStart = false;
 	
