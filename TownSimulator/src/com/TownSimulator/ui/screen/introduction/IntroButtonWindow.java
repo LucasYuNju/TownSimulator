@@ -48,7 +48,7 @@ public class IntroButtonWindow extends BaseIntroductionWindow{
 //		iconButtonLocate(speedImage, "speed_x1",speedTextImage,"textSpeed", maxTextWidth/21*18,0);
 		
 		height=6*(ButtonHeight+IconMargin)+IconMargin;
-		totalImage=new IconButton("crop_mimosa");
+		totalImage=new IconButton("button_options");
 		totalImage.setBounds(2.0f*ButtonWidth, height, ButtonWidth, ButtonHeight);
 		addActor(totalImage);
 		
