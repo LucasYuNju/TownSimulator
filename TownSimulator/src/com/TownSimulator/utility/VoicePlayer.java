@@ -46,6 +46,7 @@ public class VoicePlayer extends Singleton{
 		bgmmusic=Gdx.audio.newMusic(Gdx.files.internal(musicPath+musicName));
 		bgmmusic.setLooping(true);
 		bgmmusic.play();
+		
 	}
 	
 	/**

@@ -57,8 +57,9 @@ public class IntroStoryWindow extends BaseIntroductionWindow{
 			addActor(manImage);
 		}
 		
+		float blackholeR=Math.min(blackholeHeight, blackholeWidth);
 		blackholeImage=new Image(ResourceManager.getInstance(ResourceManager.class).createSprite("button_build_mp_black_hole"));
-		blackholeImage.setBounds(10.5f*ButtonWidth, -0.3f*ButtonHeight, blackholeWidth, blackholeHeight);
+		blackholeImage.setBounds(10.5f*ButtonWidth, -0.3f*ButtonHeight, blackholeR, blackholeR);
 		blackholeCenterX=blackholeImage.getX()+blackholeWidth*0.5f;
 		blackholeCenterY=blackholeImage.getY()+blackholeHeight*0.5f;
 		blackholeImage.setOrigin(blackholeWidth*0.5f, blackholeHeight*0.5f);
