@@ -38,6 +38,7 @@ public abstract class Building extends Entity
 	private	  transient ConstructionProgressBar	constructionProgressBar;
 	private   int 								numAllowedBuilder = 3;
 	private   boolean							bDestroyable = true;
+	private int hashCode;
 	
 	public enum State
 	{
@@ -51,6 +52,7 @@ public abstract class Building extends Entity
 		init();
 		
 		mSprite.getTexture().setFilter(TextureFilter.Linear, TextureFilter.Linear);
+		hashCode = hashCode();
 	}
 		
 	private void init()
@@ -343,5 +345,9 @@ public abstract class Building extends Entity
 		if(undockedWindow != null)
 			undockedWindow.setVisible(false);
 		reload();
+	}
+	
+	public int getHashCode() {
+		return hashCode;
 	}
 }
