@@ -29,7 +29,7 @@ public class IntroFinalWindow extends BaseIntroductionWindow{
 		textMainImage=new Image(ResourceManager.getInstance(ResourceManager.class).createSprite("textMain"));
 		textMainImage.setSize(getWidth()*3/5, getHeight()/5);
 		textMainloX=originPosX-textMainImage.getWidth()/2;
-		textMainloY=originPoxY-textMainImage.getHeight()/2;
+		textMainloY=originPoxY-textMainImage.getHeight();
 		textMainImage.setPosition(textMainloX, textMainloY);
 		addActor(textMainImage);
 		
