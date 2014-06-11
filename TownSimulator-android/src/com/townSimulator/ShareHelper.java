@@ -149,7 +149,13 @@ public class ShareHelper implements ShareUtil{
 	public boolean share(ShareType type) {
 		final SHARE_MEDIA shareMedia = typeToMedia(type);
 		
-		System.out.println(OauthHelper.isAuthenticated(activity, shareMedia));
+//		System.out.println(OauthHelper.isAuthenticated(activity, shareMedia));
+		if(type == ShareType.WeiXin)
+		{
+			doShare(shareMedia);
+			return true;
+		}
+		
 		if( !OauthHelper.isAuthenticated(activity, shareMedia) )
 		{
 			activity.runOnUiThread(new Runnable() {
@@ -177,12 +183,14 @@ public class ShareHelper implements ShareUtil{
 							
 						}
 					});
+					
+					if( !OauthHelper.isAuthenticated(activity, shareMedia) )
+						return;
+					else
+						doShare(shareMedia);
 				}
 			});
 		}
-		
-		if( !OauthHelper.isAuthenticated(activity, shareMedia) )
-			return false;
 		else
 			doShare(shareMedia);
 		
