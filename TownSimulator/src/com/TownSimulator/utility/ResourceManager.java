@@ -190,6 +190,8 @@ public class ResourceManager extends Singleton implements Serializable{
 		stringMap.put("manDie_sick", "死于疾病");
 		stringMap.put("manDie_old", "老死了");
 		
+		stringMap.put("ShareContent", "游戏测试");
+		
 		Iterator<String> itr = stringMap.keySet().iterator();
 		StringBuilder strBuilder = new StringBuilder(FreeTypeFontGenerator.DEFAULT_CHARS);
 		while(itr.hasNext())

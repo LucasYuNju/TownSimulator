@@ -11,6 +11,7 @@ import android.graphics.Bitmap.CompressFormat;
 import android.graphics.Color;
 import android.os.Bundle;
 
+import com.TownSimulator.utility.ResourceManager;
 import com.TownSimulator.utility.share.ShareType;
 import com.TownSimulator.utility.share.ShareUtil;
 import com.badlogic.gdx.Gdx;
@@ -108,7 +109,7 @@ public class ShareHelper implements ShareUtil{
 			scaledBm.compress(CompressFormat.PNG, 0, bos);
 			bos.flush();
 			
-			mController.setShareContent("TownSimulator");
+			mController.setShareContent(ResourceManager.getInstance(ResourceManager.class).stringMap.get("ShareContent"));
 			mController.setShareMedia( new UMImage(this.activity, bos.toByteArray()) );
 			
 			activity.runOnUiThread(new Runnable() {
