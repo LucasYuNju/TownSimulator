@@ -113,6 +113,11 @@ public class SpeedSettingUI extends Group{
 			b.setVisible(v);
 		}
 	}
+	
+	public void resetSpeed(){
+		Settings.gameSpeed = speedMap[0];
+		initButton.setIcon("speed_x" + speedMap[0]);
+	}
 
 //	@Override
 //	public void setPosition(float x, float y) {
