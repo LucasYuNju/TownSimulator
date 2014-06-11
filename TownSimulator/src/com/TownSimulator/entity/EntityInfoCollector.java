@@ -2,6 +2,7 @@ package com.TownSimulator.entity;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -23,17 +24,17 @@ import com.TownSimulator.entity.building.Warehouse;
 import com.TownSimulator.render.Renderer;
 import com.TownSimulator.utility.Singleton;
 import com.TownSimulator.utility.SingletonPublisher;
-import com.TownSimulator.utility.VoicePlayer;
 import com.badlogic.gdx.Gdx;
 
 public class EntityInfoCollector extends SingletonPublisher<EntityInfoCollectorListener> 
 	implements Serializable
 {
 	private static final long serialVersionUID = -3062222237607985005L;
-	private List<Man> 							manList;
 	private List<Building>						buildingsList;
 	private List<ConstructionProject> 			constructProjsList;
 	private Map<BuildingType, List<Building>> 	buildingsMap;
+	//manList必须在buildingsList之后反序列化
+	private List<Man> 							manList;
 	private int 								maxManCnt = 0;
 	
 	public interface EntityInfoCollectorListener extends Serializable
@@ -303,6 +304,16 @@ public class EntityInfoCollector extends SingletonPublisher<EntityInfoCollectorL
 		return school;
 	}
 	
+	private void writeObject(ObjectOutputStream oos) throws IOException {
+//		manList = new ArrayList<Man>();
+//		buildingsList = new ArrayList<Building>();
+//		buildingsMap = new HashMap<BuildingType, List<Building>>();
+//		constructProjsList = new ArrayList<ConstructionProject>();
+		oos.defaultWriteObject();
+		Gdx.app.log("L/S", "entityInfoCollector size: " + manList.size() + ":" + buildingsList.size() + ":" + buildingsList.size());
+		
+	}
+	
 	private void readObject(ObjectInputStream s) throws ClassNotFoundException, IOException {
 		s.defaultReadObject();
 		Gdx.app.log("L/S", "entityInfoCollector size: " + manList.size() + ":" + buildingsList.size());
@@ -324,6 +335,10 @@ public class EntityInfoCollector extends SingletonPublisher<EntityInfoCollectorL
 					Singleton.getInstance(Renderer.class).attachDrawScissor(land);
 					Singleton.getInstance(CollisionDetector.class).attachCollisionDetection(land);
 				}
+		}
+		for(Man man : manList) {
+			ManInfo minfo = man.getInfo();
+			minfo.interpretBuildingHashCode(buildingsList);
 		}
 	}
 }

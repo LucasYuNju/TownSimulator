@@ -1,5 +1,8 @@
 package com.TownSimulator.entity;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -8,9 +11,11 @@ import java.util.Set;
 
 import com.TownSimulator.ai.btnimpls.construct.ConstructionInfo;
 import com.TownSimulator.entity.building.Bar;
+import com.TownSimulator.entity.building.Building;
 import com.TownSimulator.entity.building.LivingHouse;
 import com.TownSimulator.entity.building.School;
 import com.TownSimulator.entity.building.WorkableBuilding;
+import com.TownSimulator.utility.Singleton;
 import com.badlogic.gdx.Gdx;
 
 public class ManInfo implements Serializable{
@@ -20,9 +25,12 @@ public class ManInfo implements Serializable{
 	public 	Set<ManStateType>	manStates = new HashSet<ManStateType>();
 	public 	ConstructionInfo 	constructionInfo = new ConstructionInfo();
 	public 	JobType 			job;
-	public 	WorkableBuilding 	workingBuilding;
-	private School         		school; 
-	public 	LivingHouse 		home;
+	public 	transient WorkableBuilding 	workingBuilding;
+	private transient School         		school; 
+	public 	transient LivingHouse 		home;
+	private int wbHashCode;
+	private int schoolHashCode;
+	private int homeHashCode;
 	public float 				workEfficency = WORKEFFICIENCY_BASE;
 	public static final float 	WORKEFFICIENCY_BASE = 1.0f;
 	public static final float 	WORKEFFICENCY_MAX = 2.0f;
@@ -302,4 +310,39 @@ public class ManInfo implements Serializable{
 	static {
 		initNamePool();
 	}
+	
+	private void writeObject(ObjectOutputStream oos) throws IOException {
+		if(workingBuilding != null)
+			wbHashCode = workingBuilding.getHashCode();
+		if(home != null)
+			homeHashCode = home.getHashCode();
+		if(school != null)
+			schoolHashCode = school.getHashCode();
+		oos.defaultWriteObject();
+	}
+	
+	public void interpretBuildingHashCode(List<Building> buildings) {
+		for(Building b : buildings) {
+			if(b.getHashCode() == wbHashCode)
+				workingBuilding = (WorkableBuilding) b;
+			else if(b.getHashCode() == homeHashCode)
+				home = (LivingHouse) b;
+			else if(b.getHashCode() == schoolHashCode)
+				school = (School) b;
+		}
+	}
+	
+//	private void readObject(ObjectInputStream ois) throws ClassNotFoundException, IOException {
+//		ois.defaultReadObject();
+//		List<Building> buildings = Singleton.getInstance(EntityInfoCollector.class).getAllBuildings();
+//		Gdx.app.log("L/S", "ManInfo building size:" + buildings.size());
+//		for(Building b : buildings) {
+//			if(b.getHashCode() == wbHashCode)
+//				workingBuilding = (WorkableBuilding) b;
+//			else if(b.getHashCode() == homeHashCode)
+//				home = (LivingHouse) b;
+//			else if(b.getHashCode() == schoolHashCode)
+//				school = (School) b;
+//		}
+//	}
 }
