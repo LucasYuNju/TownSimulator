@@ -22,7 +22,8 @@ import com.badlogic.gdx.Gdx;
  * Renderer, CollisionDector
  */
 public class LoadSave {
-	private String dataPath = "/mnt/sdcard/ts.dat";
+	private String dataPath0 = "/mnt/sdcard/ts0.dat";
+//	private String dataPath1 = "/mnt/sdcard/ts1.dat";
 	private static LoadSave intance = new LoadSave();
 	
 	private LoadSave() {
@@ -33,8 +34,8 @@ public class LoadSave {
 	}
 	
 	public void save() {
+		File file = new File(dataPath0);
 		try {
-			File file = new File(dataPath);
 			file.delete();
 			file.createNewFile();
 			ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(file));
@@ -43,6 +44,13 @@ public class LoadSave {
 			oos.writeObject(Singleton.getInstance(ResourceInfoCollector.class));
 			oos.writeObject(Singleton.getInstance(EntityInfoCollector.class));
 			oos.close();
+			
+//			file = new File(dataPath1);
+//			file.delete();
+//			file.createNewFile();
+//			oos = new ObjectOutputStream(new FileOutputStream(file));
+//			oos.writeObject(Singleton.getInstance(EntityInfoCollector.class));
+//			oos.close();
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -56,8 +64,9 @@ public class LoadSave {
 	 * @return true if succeed to loading
 	 */
 	public boolean load() {
-		File file = new File(dataPath);
+		File file;
 		try {
+			file = new File(dataPath0);
 			ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file));
 			Map map = (Map) ois.readObject();
 			Singleton.loadInstance(Map.class, map);
@@ -71,22 +80,28 @@ public class LoadSave {
 			EntityInfoCollector eis = (EntityInfoCollector) ois.readObject();
 			Singleton.loadInstance(EntityInfoCollector.class, eis);
 			Gdx.app.log("L/S", "EntityInfoCollector read");
-			
 			Singleton.getInstance(EntityInfoCollector.class).printBuilding();
 			Singleton.getInstance(EntityInfoCollector.class).printMan();
 			ois.close();
+			
+//			System.gc();
+//			file = new File(dataPath1);
+//			ois = new ObjectInputStream(new FileInputStream(file));
+//			EntityInfoCollector eis = (EntityInfoCollector) ois.readObject();
+//			Singleton.loadInstance(EntityInfoCollector.class, eis);
+//			Gdx.app.log("L/S", "EntityInfoCollector read");
+//			Singleton.getInstance(EntityInfoCollector.class).printBuilding();
+//			Singleton.getInstance(EntityInfoCollector.class).printMan();
+//			ois.close();
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 			System.exit(1);
-			return false;
 		} catch (IOException e) {
 			e.printStackTrace();
 			System.exit(1);
-			return false;
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 			System.exit(1);
-			return false;
 		}
 		return true;
 	}
