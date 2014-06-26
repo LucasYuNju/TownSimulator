@@ -28,7 +28,6 @@ public class UIManager extends Singleton {
 	{
 		mStartUI = new StartScreen();
 		
-
 		mIntroductionUI=new IntroductionUI();
 		mIntroductionUI.setListener(new IntroductionListener() {
 			
