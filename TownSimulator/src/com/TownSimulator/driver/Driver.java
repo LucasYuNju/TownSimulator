@@ -290,6 +290,7 @@ public class Driver extends SingletonPublisher<DriverListener> implements Applic
 			mListeners.get(i).dispose();
 		}
 		Singleton.clearInstanceMap();
+		Settings.gameSpeed=1;
 	}
 
 	@Override
@@ -381,6 +382,7 @@ public class Driver extends SingletonPublisher<DriverListener> implements Applic
 		UIManager.getInstance(UIManager.class).returnToStartUI();
 		Renderer.getInstance(Renderer.class).setRenderScene(false);
 		Settings.backgroundColor = Settings.gameNormalGroundColor.cpy();
+		Settings.gameSpeed=1;
 	}
 
 	@Override
